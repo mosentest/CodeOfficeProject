@@ -1,0 +1,14 @@
+#vote-form {
+	width: 800px;
+	margin: 0px auto;
+}
+#vote-form .title, #vote-form .option {
+	line-height: 50px;
+	border-bottom: 1px solid #205081;
+}
+#vote-form .title {
+	font-size: 26px;
+}
+#vote-form .option {
+	font-size: 20px;
+}

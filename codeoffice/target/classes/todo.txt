@@ -1,0 +1,16 @@
+features:
+	only 3 submitions per day for probject euler
+	
+
+	
+bugfix:
+	enter on submitting comment is bugged
+	
+bankett:
+
+vote:
+	ip-restriction
+	password requirement(private votes)
+	expiration configuration
+	
+integrate jira:

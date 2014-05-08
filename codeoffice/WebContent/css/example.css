@@ -1,0 +1,455 @@
+/* header */
+#header {
+	width: 100%;
+	height: 60px;
+	background-color: #205081;
+	border-bottom-color: #2e3d54;
+}
+#header a {
+	display: block;
+	color: white;
+	margin: 0px 10px;
+}
+#header .site-title {
+	color: white;
+	font-size: 26px;
+}
+#header .link {
+	float: left;
+	text-align: center;
+	padding: 3px 15px;
+}
+#header-main #top {
+	height: 38px;
+}
+#header .link:hover {
+	background-color: #3b73af;
+}
+#main-menu {
+	width: 1200px;
+	margin: 10px auto;
+}
+#header-site {
+	float: left;
+}
+
+/* middle */
+#middle {
+	width: 100%;
+	font-size: 14px;
+	text-align: center;	
+}
+.fatalMessage {
+	color: red;
+	margin: 5px;
+	padding: 5px;
+}
+.errorMessage {
+	color: red;
+	margin: 5px;
+	padding: 5px;
+}
+.warnMessage {
+	color: #FF3300;
+	margin: 5px;
+	padding: 5px;
+}
+.infoMessage {
+	color: green;
+	margin: 5px;
+	padding: 5px;
+}
+
+/* footer */
+#footer {
+	width: 100%;
+	margin: 15px auto;
+	border-top: 2px solid #E5E5E5;
+	clear: both;
+	height: 200px;
+}
+#copyright {
+	width: 400px;
+	text-align: center; 
+	color: #999999;
+	font-size: 16px;
+	margin: 5px auto 0px auto; 
+}
+/* general */
+#main {
+	width: 100%;
+	margin: 20px auto 0px auto;
+}
+/* holder div */
+.element-list {
+	
+}
+.element-list > .title {
+	font-weight: bold;
+	padding-left: 20px;
+}
+.element-list > .content {
+	
+}
+.mainelement {
+	border: none;
+}
+.mainelement > .title {
+	border: none;	
+	color: #333333;
+	width: 100%;
+}
+.mainelement > .content {
+	border: none;
+	width: 100%;
+}
+.subelement {
+	border: none;
+}
+.subelement > .title {
+	border: none;	
+	color: #333333;
+	width: 98%;
+	margin: 0px auto;
+	border-bottom: 1px solid #E5E5E5;
+}
+.subelement > .content {
+	border: none;
+	width: 98%;
+	margin: 0px auto;
+}
+.element {
+	border: 1px solid #E5E5E5;
+	background-color: #FDFDFD;
+}
+.element > .info {
+	background-color: #f5f5f5;
+	font-size: 14px;
+	width: 100%;
+	border-bottom: 1px solid #cccccc;
+	padding: 10px;
+}
+.element > .title {
+	color: #FFFFFF;
+	background-color: #3774B9;
+	font-size: 16px;
+}
+.element .content {
+}
+.main-holder {
+	width: 80%;
+	float: left;
+	height: 100%;
+	background-color: #FDFDFD;
+}
+.right-holder {
+	width: 20%;
+	float: left;
+}
+.leftmenu {
+	width: 16%;
+	float: left;
+	height: 100%;
+	padding: 5px;
+}
+.maincontent {
+	border-left: 1px solid #E5E5E5;
+	width: 82%;
+	float: left;
+	height: 100%;
+	padding: 5px;
+}
+table .odd { 
+	
+}
+table .even {
+	background-color: #F5F5EE;
+}
+.page-holder {
+	float: right;
+	font-size: 14px;
+}
+.imglink {
+	vertical-align: middle;
+	margin: 0px 5px;
+}/* main settings*/
+body {
+	font-family: Arial, sans-serif;
+	width: 100%;
+}
+body, div, span, p, ul, table, input, td, tr, a, li, dl, dt, button, textarea, thead, tbody, tfoot, fieldset{
+	margin: 0px;
+	padding: 0px;
+}
+table, tr, td {
+	border: none;
+	font-size: 14px;
+}
+ul {
+	list-style: none;
+}
+fieldset {
+	border: none;
+}
+textarea {
+	resize: none;
+}
+.codewrapper {
+	font-size: 14px;
+}
+
+.bg {
+	background-color: #FDFDFD;
+}
+/* font settings*/
+.fs-l {
+	font-size: 26px;
+}
+.fs-ml {
+	font-size: 24px;
+}
+.fs-m {
+	font-size: 20px;
+}
+.fs-s {
+	font-size: 16px;
+}
+.fs-ms {
+	font-size: 14px;
+}
+.fs-xs {
+	font-size: 12px;
+}
+.fw-b {
+	font-weight: bold;
+}
+.fc-hg {
+	color: #999999;
+}
+.fc-g {
+	color: #777777;
+}
+.fc-lg {
+	color: #666666;
+}
+.fc-bg {
+	color: #333333;
+}
+.fc-hb {
+	color: #205081;
+}
+.fc-b {
+	color: #3774B9;
+}
+.fc-lb {
+	color: #3b73af;;
+}
+.fc-w {
+	color: white;
+}
+
+.hidden {
+	display: none;
+}
+.border {
+	border: 1px solid #E5E5E5;
+}
+
+.center {
+	text-align: center;
+}
+.right {
+	text-align: right;
+}
+/*border separator*/
+.bb-lg-s {
+	border-bottom: 1px solid #E5E5E5;
+}
+
+/* floating */
+.fl-l {
+	display: block;
+	float: left;
+}
+.fl-r {
+	display: block;
+	float: right;
+}
+
+/* size */
+.w-100p {
+	width: 100%;
+}
+.w-50p {
+	width: 50%;
+}
+.w-75 {
+	width: 75px;
+}
+
+/* padding & margin*/
+.p-10 {
+	padding: 10px;
+}
+.m-10 {
+	margin: 10px;
+}
+
+/* others */
+.space {
+	width: 20px;
+	display: inline-block;
+}
+.minorspace {
+	width: 10px;
+	display: inline-block;
+}
+.sep-30 {
+	height: 30px;
+}
+.hidden {
+	display: none;
+}
+
+.clearfix {
+	clear: both;
+}
+.centerdiv {
+	margin: 0px auto;
+}
+
+/* component */
+
+a {
+	text-decoration: none;
+	font-size: 14px;
+}
+a:link {
+	color: #205081;
+}
+a:visited {
+	color: #205081;
+}
+a:active {
+	color: #205081;
+}
+a:hover {
+	color: #0B76F0;
+}
+
+.button, .button:hover, .button-current, .button-current:hover {
+	padding: 3px 16px;
+}
+.button {
+	background-color: #205081;
+	color: white;
+	border: 1px solid white;
+}
+.button-current {
+	background-color: white;
+	color: #205081;
+	border: 1px solid #205081;
+}
+.button:hover {
+	background-color: white;
+	color: #205081;
+	cursor: pointer;
+	border: 1px solid #205081;
+}
+.default-table {
+	border-spacing: 0px;
+    border-collapse: collapse;
+	font-size: 16px;
+	width: 100%;
+}
+.default-table tr {
+	height: 36px;
+}
+.default-table td {
+	border-spacing: 0px;
+}
+.info-table {
+	width: 100%;
+	border-spacing: 0px;
+    border-collapse: collapse;
+}
+.no-border, .no-border td, .no-border tr {
+	border: none !important;
+}
+.info-table {
+	line-height: 25px;
+}
+.default-table tr {
+	border-bottom: 1px solid #E5E5E5;
+}
+.left_header th {
+	text-align: left;
+}
+.icon-cell {
+	width: 20px;
+}
+.submenu {
+	margin-left: 20px;
+	display: none;
+}
+.removed_link {
+	text-decoration: line-through;
+}
+.vertical-tab li {
+	padding: 3px 10px 5px 10px;
+	line-height: 20px;
+}
+.vertical-tab li a {
+	display: block;
+}
+.vertical-tab li:hover {
+	background-color: #e6e6e6;
+	cursor: pointer;
+}
+.vertical-tab li:active {
+	background-color: #205081;
+	color: white !important;
+}
+.vertical-tab .active a {
+	color: black !important;
+	font-weight: bold;
+}
+.vertical-tab .active a:active {
+	color: white !important;
+	font-weight: bold;
+}
+.vertical-tab li a:hover, .vertical-tab li a:active, .vertical-tab .active a:hover, .vertical-tab .active a:active {
+	color: inherit !important;
+}
+.horizontal-tab {
+	list-style: none;
+}
+.horizontal-tab li {
+	display: inline;
+}
+.horizontal-tab li a, .horizontal-tab .active a {
+	display: block;
+	cursor: pointer;
+	border: 1px solid #cccccc;
+	float: left;
+	padding: 5px 12px;
+}
+.horizontal-tab .active a {
+	background-color: #205081 !important;
+	color: white !important;
+	border: 1px solid #205081;
+}
+.tab-content {
+	float: left;
+	border-top: 1px solid #cccccc;
+	width: 100%;
+	padding-top: 10px;
+	color: #333333;
+}
+.info-element {
+	font-size: 14px;
+	color: #333333;
+	border: 1px solid #8c9fb2;
+	background-color: #f6f7f9;
+	padding: 10px 6px;
+}

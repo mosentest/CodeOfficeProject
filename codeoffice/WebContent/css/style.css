@@ -1,0 +1,88 @@
+/* main settings*/
+body {
+	font-family: Arial, sans-serif;
+	width: 100%;
+}
+body, div, span, p, ul, table, input, td, tr, a, li, dl, dt, button, textarea, thead, tbody, tfoot, fieldset{
+	margin: 0px;
+	padding: 0px;
+}
+ul {
+	list-style: none;
+}
+fieldset {
+	border: none;
+}
+textarea {
+	resize: none;
+}
+.border {
+	border: 1px solid #E5E5E5;
+}
+.clearfix {
+	clear: both;
+}
+.center {
+	text-align: center;
+}
+.right {
+	text-align: right;
+}
+/* floating */
+.fl_l {
+	display: block;
+	float: left;
+}
+.fl_r {
+	display: block;
+	float: right;
+}
+.imglink *{
+	vertical-align: middle;
+}
+a {
+	text-decoration: none;
+	font-size: 14px;
+}
+a:link {
+	color: #205081;
+}
+a:visited {
+	color: #205081;
+}
+a:active {
+	color: #205081;
+}
+a:hover {
+	color: #0B76F0;
+}
+
+.button, .button:hover, .button-current, .button-current:hover {
+	padding: 3px 16px;
+}
+.largebutton {
+	font-size: 20px;
+}
+.button {
+	background-color: #205081;
+	color: white;
+	border: 1px solid white;
+}
+.button-current {
+	background-color: white;
+	color: #205081;
+	border: 1px solid #205081;
+}
+.button:hover {
+	background-color: white;
+	color: #205081;
+	cursor: pointer;
+	border: 1px solid #205081;
+}
+.non-decorated-input {
+	background: transparent;
+	border: none;
+}
+.separator-tr {
+	height: 20px;
+}

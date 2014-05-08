@@ -1,0 +1,15 @@
+standard:
+	Project euler: p
+		Home page: none
+		list	 : euler/list/{page}
+		object	 : euler/{object}
+		actions  : euler/{object}/action
+	Ask			 : a
+		Home page: ask/home
+		list	 : ask/list/{page}
+		object	 : ask/{object}
+		actions  : ask/{object}/action_param1_param2
+	Code share	 : c
+	Article		 : r
+	Forum		 : f
+	Contest		 : t

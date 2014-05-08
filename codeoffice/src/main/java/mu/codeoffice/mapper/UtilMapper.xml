@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="mu.codeoffice.mapper.UtilMapper">
+	
+	<resultMap id="tag" type="Tag">
+		<id property="id" column="id"/>
+		<result property="tag" column="tag"/>
+		<result property="countAsk" column="count_ask"/>
+		<result property="countArticle" column="count_article"/>
+		<result property="countForum" column="count_forum"/>
+		<result property="countCode" column="count_code"/>
+		<result property="count" column="count"/>
+		<result property="create" column="create_date"/>
+		<result property="update" column="update_date"/>
+	</resultMap>
+	
+	<sql id="tag_header">
+		SELECT 
+			id,
+			tag,
+			count_ask,
+			count_article,
+			count_forum,
+			count_code,
+			count,
+			create_date,
+			update_date
+		FROM
+			tag
+	</sql>
+	
+	<sql id="limit">
+		LIMIT #{offset}, #{size}
+	</sql>
+	
+	<select id="getTags" resultMap="tag">
+		<include refid="tag_header"/>
+		ORDER BY count DESC
+		<include refid="limit"/>
+	</select>
+	
+	<select id="searchTags" resultMap="tag">
+		<include refid="tag_header"/>
+		WHERE tag LIKE CONCAT('%', #{tag},'%')
+		ORDER BY count DESC
+		<include refid="limit"/>
+	</select>
+	
+	<select id="getTag" resultMap="tag">
+		<include refid="tag_header"/>
+		WHERE BINARY `tag` = #{tag}
+	</select>
+	
+	<insert id="createTag" parameterType="Tag">
+		INSERT INTO tag (tag, count_ask, count_article, count_forum, count_code, count, create_date, update_date) 
+		VALUES (#{tag}, #{counArticle}, #{countAsk}, #{countCode}, #{countForum} , 1, #{create}, #{create})
+	</insert>
+	
+	<select id="doesTagExist" parameterType="string">
+		SELECT COUNT(*) = 1 FROM `tag` WHERE BINARY `tag` = #{tag}
+	</select>
+	
+	<update id="increaseTagCount">
+		UPDATE tag SET count = count + 1, update_date=CURDATE() WHERE id = #{id}
+	</update>
+	
+</mapper> 

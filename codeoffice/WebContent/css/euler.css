@@ -1,0 +1,75 @@
+/* problem list*/
+#problemlist_table {
+	width: 760px;
+	border-spacing: 0px;
+    border-collapse: collapse;
+	margin: 30px auto;
+}
+#problemlist_table tr {
+	height: 36px;
+}
+#problemlist_table td {
+	border-spacing: 0px;
+}
+#problemlist_table .title {
+	width: 500px;
+}
+#problemlist_table .id {
+	width: 80px;
+}
+#problemlist_table .rating {
+	width: 80px;
+}
+#problemlist_table .success {
+	width: 100px;
+}
+/* problem */
+#problem_information {
+	width: 1000px;
+	margin: 10px auto;
+}
+#problem_information table td {
+	font-size: 60%;
+}
+#problem_information table .info_span {
+	color: #0551A7;
+	font-size: 16px;
+}
+#problem_information table .title_col {
+	width: 250px;
+}
+#problem_information table .info_col {
+	width: 300px;
+}
+#problem_content {
+	margin: 20px auto;
+	width: 1000px;
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-width: 1px;
+	font: 90% "Trebuchet MS", sans-serif;
+}
+#solution_content {
+	margin: 20px auto;
+	padding: 5px 50px;
+	width: 450px;
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-width: 1px;
+	font: 90% "Trebuchet MS", sans-serif;
+}
+#rating_content {
+	margin: 20px auto;
+	padding: 5px 50px;
+	width: 600px;
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-width: 1px;
+	font: 90% "Trebuchet MS", sans-serif;
+}
+#rating_content a {
+	font-size: 20px;
+}
+#rating_slider {
+	margin: 5px 0px 10px 0px;
+}

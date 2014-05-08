@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="mu.codeoffice.mapper.VoteMapper">
+	
+	<resultMap id="listVote" type="Vote">
+		<id property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="votes" column="votes"/>
+	</resultMap>
+	
+	<resultMap id="vote" type="Vote">
+		<id property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="create" column="create_date"/>
+		<result property="expire" column="expire_date"/>
+		<result property="votes" column="votes"/>
+		<result property="enableIpRestriction" column="enable_ip_restriction"/>
+		<result property="enableMultipleSelection" column="enable_multiple_selection"/>
+		<association property="creator" javaType="user" column="creator_id">
+			<id property="id" column="id"/>
+			<result property="account" column="account"/>
+			<result property="profilePath" column="profile_path"/>
+		</association>
+  		<collection property="voteOptions" ofType="VoteOption" resultMap="voteOption" columnPrefix="o_"/>
+	</resultMap>
+	
+	<resultMap id="voteOption" type="VoteOption">
+		<id property="id" column="id"/>
+		<result property="voteId" column="vote_id"/>
+		<result property="votes" column="votes"/>
+		<result property="option" column="option"/>
+		<result property="order" column="order"/>
+	</resultMap>
+	
+	<select id="getVote" resultMap="vote" parameterType="string">
+		SELECT
+			v.id,
+			v.title,
+			v.create_date,
+			v.expire_date,
+			v.votes,
+			v.enable_ip_restriction,
+			v.enable_multiple_selection,
+			o.id AS o_id,
+			o.vote_id AS o_vote_id,
+			o.votes AS o_votes,
+			o.vote_option AS o_option,
+			o.option_order AS o_order
+		FROM
+			vote v
+		INNER JOIN vote_option o ON o.vote_id = v.id
+		WHERE v.unique_id = #{uniqueId}
+	</select>
+	
+	<insert id="createVote" parameterType="Vote">
+		INSERT INTO vote (title, create_date, expire_date, votes, enable_ip_restriction, enable_multiple_selection) VALUES 
+		(#{title}, #{create}, #{expire}, 0, #{enableIpRestriction}, #{enableMultipleSelection})
+	</insert>
+	
+	<insert id="createVoteOption" parameterType="Vote">
+		INSERT INTO vote_option (vote_id, votes, vote_option, option_order) VALUES 
+		(#{voteId}, 0, #{option}, #{order})
+	</insert>
+	
+	<select id="getUniqueId" parameterType="long" resultType="string">
+		SELECT
+			unique_id
+		FROM
+			vote
+		WHERE id=#{vote};
+	</select>
+	
+</mapper> 

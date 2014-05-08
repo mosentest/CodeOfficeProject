@@ -1,0 +1,156 @@
+/* header */
+#header {
+	width: 100%;
+	height: 90px;
+	background-color: #205081;
+	border-bottom: 1px solid #2e3d54;
+	clear: both;
+	margin-top: -5px;
+}
+#header a {
+	display: block;
+	color: white;
+	width: 100%;
+}
+.current, .navigation {
+	background-color: #3774B9;
+	color: #205081;
+}
+#header-content {
+	width: 1200px;
+	margin: 0px auto 10px auto;
+}
+#header-menu {
+	height: 60px;
+	display: table;
+	font-size: 18px;
+	font-weight: bold;
+}
+#header-menu .link {
+	width: 120px;
+	height: 30px;
+	vertical-align: middle;
+	display: table-cell;
+	text-align: center;
+}
+#header-site {
+	width: 250px;
+	float: left;
+}
+#header-menu {
+	float: left;
+}
+#sub-menu {
+	float: left;
+	width: 100%;
+	height: 30px;
+	display: table;
+	background-color: #E5E5E5;
+	border-bottom: 1px solid #2e3d54;
+}
+#sub-menu .link {
+	width: 120px;
+	height: 30px;
+	vertical-align: middle;
+	display: table-cell;
+	text-align: center;
+}
+#sub-menu .link a {
+	color: black;
+}
+#login {
+	height: 24px;
+	width: 1200px;
+	margin: 5px auto 0px auto;
+	text-align: right;
+}
+#login a {
+	color: black;
+	padding: 0px 10px;
+}
+
+/* middle */
+#middle {
+	width: 1200px;
+	margin: 10px auto -10px auto;
+}
+#middle p {
+	font-size: 14px;
+	margin: 0px;
+	text-align: center;	
+}
+.errorMessage {
+	color: red;
+}
+.warnMessage {
+	color: #FF3300;
+}
+.noticeMessage {
+	color: green;
+}
+
+/* footer */
+#footer {
+	width: 1200px;
+	margin: 15px auto;
+	border-top: 2px solid #E5E5E5;
+	clear: both;
+	height: 200px;
+}
+#copyright {
+	width: 400px;
+	text-align: center; 
+	color: #999999;
+	font-size: 16px;
+	margin: 5px auto 0px auto; 
+}
+/* general */
+#main {
+	width: 1200px;
+	margin: 20px auto 0px auto;
+}
+.mainelement {
+	border: none;
+}
+.mainelement > .title {
+	border: none;	
+	color: #333333;
+	width: 100%;
+}
+.mainelement > .content {
+	border: none;
+	width: 100%;
+}
+.subelement {
+	border: none;
+}
+.subelement > .title {
+	border: none;	
+	color: #333333;
+	width: 98%;
+	margin: 0px auto;
+	border-bottom: 1px solid #E5E5E5;
+}
+.subelement > .content {
+	border: none;
+	width: 98%;
+	margin: 0px auto;
+}
+.element {
+	border: 1px solid #E5E5E5;
+	background-color: #FDFDFD;
+}
+.element > .info {
+	background-color: #f5f5f5;
+	font-size: 14px;
+	width: 100%;
+	border-bottom: 1px solid #cccccc;
+	padding: 10px;
+}
+.element > .title {
+	color: #FFFFFF;
+	background-color: #3774B9;
+	font-size: 16px;
+}
+.element .content {
+}
