@@ -90,7 +90,12 @@
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
 			<list>
-				<value>i18n/message/enterprisepage</value>
+				<value>i18n/message/common</value>
+				<value>i18n/message/euler</value>
+				<value>i18n/message/ask</value>
+				<value>i18n/message/vote</value>
+				<value>i18n/message/enums</value>
+				<value>i18n/message/problem</value>
 			</list>
 		</property>
 		<property name="defaultEncoding" value="UTF-8"/>

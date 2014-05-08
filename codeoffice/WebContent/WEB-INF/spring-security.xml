@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/security 
+			http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+	<security:http auto-config="true" use-expressions="true" access-denied-page="/enterprise/accessdenied" >
+		
+		<security:intercept-url pattern="/enterprise/" access="permitAll"/>
+		<security:intercept-url pattern="/enterprise/login" access="permitAll"/>
+		<security:intercept-url pattern="/enterprise/logout" access="permitAll"/>
+		<security:intercept-url pattern="/enterprise/accessdenied" access="permitAll"/>
+		<security:intercept-url pattern="/enterprise/**" access="hasRole('ROLE_USER')"/>
+		
+		<security:intercept-url pattern="/enterprise/sys/login" access="permitAll"/>
+		<security:intercept-url pattern="/enterprise/sys/logout" access="permitAll"/>
+		<security:intercept-url pattern="/enterprise/sys/accessdenied" access="permitAll"/>
+		<security:intercept-url pattern="/enterprise/sys/**" access="hasAnyRole('ROLE_SYS_DEVELOPER', 'ROLE_SYS_TESTER', 'ROLE_SYS_MANAGER', 'ROLE_SYS_ADMIN')"/>
+		
+		<security:form-login
+				login-page="/enterprise/login" 
+				authentication-failure-url="/enterprise/accessdenied" 
+				default-target-url="/enterprise/"/>
+			
+		<security:logout 
+				invalidate-session="true" 
+				logout-success-url="/enterprise/login" 
+				logout-url="/enterprise/logout"/>
+	
+	</security:http>
+	
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="enterpriseUserAuthorityService">
+	        <security:password-encoder ref="passwordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+	<bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
+
+	<bean id="enterpriseUserAuthorityService" class="mu.codeoffice.security.EnterpriseUserAuthorityService"/>
+	
+</beans>
+
