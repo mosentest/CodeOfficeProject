@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -35,13 +36,13 @@
 </script>
 </head>
 <body>
-	<c:if test="${currentUser != null}">
-		<div id="login">
-			<a href="${currentUser.id}">${currentUser.account}</a>
-			|<a href="settings"><spring:message code="page.settings" /></a>
-			|<a href="logout"><spring:message code="page.logout" /></a>
+	<security:authorize access="isAuthenticated()">
+		<div id="header-login">
+			<a href="enterprise/<security:authentication property="principal"/>"><security:authentication property="principal"/></a>
+			|<a href="enterprise/settings"><spring:message code="page.settings" /></a>
+			|<a href="enterprise/logout"><spring:message code="page.logout" /></a>
 		</div>
-	</c:if>
+	</security:authorize>
 	<div id="header">
 		<div id="header-content">
 			<div id="header-site">
@@ -49,55 +50,57 @@
 					<img src="img/codeoffice.png"/>
 				</a>
 			</div>
-			<div id="header-menu">
-				<span class="link <c:if test="${navigation == null or navigation eq 'home'}">navigation</c:if>">
-					<a href="/"><spring:message code="page.home" /></a>
-				</span>
-				<span class="link <c:if test="${navigation eq 'dashboard'}">navigation</c:if>">
-					<a href="enterprise"><spring:message code="page.dashboard" /></a>
-				</span>
-				<span class="link <c:if test="${navigation eq 'projects'}">navigation</c:if>">
-					<a href="ask/home"><spring:message code="page.projects" /></a>
-				</span>
-				<span class="link <c:if test="${navigation eq 'cases'}">navigation</c:if>">
-					<a href="#"><spring:message code="page.cases" /></a>
-				</span>
-				<span class="link <c:if test="${navigation eq 'contacts'}">navigation</c:if>">
-					<a href="#"><spring:message code="page.contacts" /></a>
-				</span>
-			</div>
-			<div id="sub-menu">
-				<span class="link"><a href="vhome">Vote</a></span>
-				<span class="link"><a href="#">Form</a></span>
-				<span class="link"><a href="vote">Create vote</a></span>
-				<span class="link"><a href="#">menu 1</a></span>
-				<span class="link"><a href="#">menu 1</a></span>
-				<span class="link"><a href="#">menu 1</a></span>
-				<span class="link"><a href="#">menu 1</a></span>
-				<span class="link"><a href="#">menu 1</a></span>
-				<span class="link"><a href="#">menu 1</a></span>
-			</div>
+			<security:authorize access="isAuthenticated()">
+				<div id="header-menu">
+					<span class="link <c:if test="${navigation == null or navigation eq 'home'}">navigation</c:if>">
+						<a href="enterprise/"><spring:message code="page.home" /></a>
+					</span>
+					<span class="link <c:if test="${navigation eq 'dashboard'}">navigation</c:if>">
+						<a href="enterprise/dashboard"><spring:message code="page.dashboard" /></a>
+					</span>
+					<span class="link <c:if test="${navigation eq 'projects'}">navigation</c:if>">
+						<a href="enterprise/projects"><spring:message code="page.projects" /></a>
+					</span>
+					<span class="link <c:if test="${navigation eq 'cases'}">navigation</c:if>">
+						<a href="enterprise/cases"><spring:message code="page.cases" /></a>
+					</span>
+					<span class="link <c:if test="${navigation eq 'messagecenter'}">navigation</c:if>">
+						<a href="enterprise/messagecenter"><spring:message code="page.messagecenter" /></a>
+					</span>
+				</div>
+				<div id="sub-menu">
+					<span class="link"><a href="vhome">Vote</a></span>
+					<span class="link"><a href="#">Form</a></span>
+					<span class="link"><a href="vote">Create vote</a></span>
+					<span class="link"><a href="#">menu 1</a></span>
+					<span class="link"><a href="#">menu 1</a></span>
+					<span class="link"><a href="#">menu 1</a></span>
+					<span class="link"><a href="#">menu 1</a></span>
+					<span class="link"><a href="#">menu 1</a></span>
+					<span class="link"><a href="#">menu 1</a></span>
+				</div>
+			</security:authorize>
 		</div>
 	</div>
 	<div id="middle">
 		<c:if test="${returnLink}">
 			<a href="javascript:window.history.back()"><spring:message code="page.back" /></a>
 		</c:if>
-		<div class="errorMessage">
+		<div class="error-message">
 			<c:if test="${errorMessages != null}">
 				<c:forEach items="${errorMessages}" var="message">
 					<p>${message}</p>
 				</c:forEach>
 			</c:if>
 		</div>
-		<div class="warnMessage">
+		<div class="warn-message">
 			<c:if test="${warnMessages != null}">
 				<c:forEach items="${warnMessages}" var="message">
 					<p>${message}</p>
 				</c:forEach>
 			</c:if>
 		</div>
-		<div class="noticeMessage">
+		<div class="notice-message">
 			<c:if test="${noticeMessages != null}">
 				<c:forEach items="${noticeMessages}" var="message">
 					<p>${message}</p>

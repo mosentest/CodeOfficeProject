@@ -17,10 +17,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-public class EnterpriseUserAuthorityService implements UserDetailsService {
+@Service
+public class EnterpriseUserDetailsService implements UserDetailsService {
 	
-	private static final Logger logger = Logger.getLogger(EnterpriseUserAuthorityService.class);
+	private static final Logger logger = Logger.getLogger(EnterpriseUser.class);
 
 	private static final String ROLE_USER = "ROLE_USER";
 	private static final String ROLE_DEVELOPER = "ROLE_DEVELOPER";
@@ -36,26 +38,26 @@ public class EnterpriseUserAuthorityService implements UserDetailsService {
 	private static final String ROLE_SYS_MANAGER = "ROLE_SYS_MANAGER";
 	private static final String ROLE_SYS_ADMIN = "ROLE_SYS_ADMIN";
 	
-	private static final int MAX_ROLE_OFFSET = 1 >> 11;
+	private static final int MAX_ROLE_OFFSET = 1 << 11;
 	
 	private static final Map<Integer, GrantedAuthority> roleMap;
 	
 	static {
 		roleMap = new HashMap<>();
 		roleMap.put(1, new SimpleGrantedAuthority(ROLE_USER));
-		roleMap.put(1 >> 1, new SimpleGrantedAuthority(ROLE_EMPLOYEE));
-		roleMap.put(1 >> 2, new SimpleGrantedAuthority(ROLE_TESTER));
-		roleMap.put(1 >> 3, new SimpleGrantedAuthority(ROLE_DEVELOPER));
-		roleMap.put(1 >> 4, new SimpleGrantedAuthority(ROLE_PROJECT_MANAGER));
-		roleMap.put(1 >> 5, new SimpleGrantedAuthority(ROLE_MANAGER));
-		roleMap.put(1 >> 6, new SimpleGrantedAuthority(ROLE_HR));
-		roleMap.put(1 >> 7, new SimpleGrantedAuthority(ROLE_ADMIN));
-		roleMap.put(1 >> 8, new SimpleGrantedAuthority(ROLE_SYS_DEVELOPER));
-		roleMap.put(1 >> 9, new SimpleGrantedAuthority(ROLE_SYS_TESTER));
-		roleMap.put(1 >> 10, new SimpleGrantedAuthority(ROLE_SYS_MANAGER));
-		roleMap.put(1 >> 11, new SimpleGrantedAuthority(ROLE_SYS_ADMIN));
+		roleMap.put(1 << 1, new SimpleGrantedAuthority(ROLE_EMPLOYEE));
+		roleMap.put(1 << 2, new SimpleGrantedAuthority(ROLE_TESTER));
+		roleMap.put(1 << 3, new SimpleGrantedAuthority(ROLE_DEVELOPER));
+		roleMap.put(1 << 4, new SimpleGrantedAuthority(ROLE_PROJECT_MANAGER));
+		roleMap.put(1 << 5, new SimpleGrantedAuthority(ROLE_MANAGER));
+		roleMap.put(1 << 6, new SimpleGrantedAuthority(ROLE_HR));
+		roleMap.put(1 << 7, new SimpleGrantedAuthority(ROLE_ADMIN));
+		roleMap.put(1 << 8, new SimpleGrantedAuthority(ROLE_SYS_DEVELOPER));
+		roleMap.put(1 << 9, new SimpleGrantedAuthority(ROLE_SYS_TESTER));
+		roleMap.put(1 << 10, new SimpleGrantedAuthority(ROLE_SYS_MANAGER));
+		roleMap.put(1 << 11, new SimpleGrantedAuthority(ROLE_SYS_ADMIN));
 	}
-	
+
 	@Resource
 	private EnterpriseUserRepository enterpriseUserRepository;
 	
@@ -63,9 +65,14 @@ public class EnterpriseUserAuthorityService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
 		UserDetails userDetails = null;
 		try {
-			EnterpriseUser enterpriseUser = enterpriseUserRepository.login(account, account, null);
+			EnterpriseUser enterpriseUser = enterpriseUserRepository.findByAccount(account, account);
+			if (enterpriseUser == null) {
+				throw new UsernameNotFoundException("User '" + account + "' doesn't exist");
+			}
 			userDetails = new User(enterpriseUser.getAccount(), enterpriseUser.getPassword(),
 					true, true, true, true, grantAuthorities(enterpriseUser.getAuthority()));
+		} catch (UsernameNotFoundException e) {
+			throw e;
 		} catch (Exception e) {
             logger.error("Error in retrieving user");  
             throw new UsernameNotFoundException("Error in retrieving user"); 
@@ -75,7 +82,7 @@ public class EnterpriseUserAuthorityService implements UserDetailsService {
 	
 	private List<GrantedAuthority> grantAuthorities(Integer authority) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (int i = 0; i <= MAX_ROLE_OFFSET; i *= 2) {
+		for (int i = 1; i <= MAX_ROLE_OFFSET; i *= 2) {
 			if ((authority & 1) == 1) {
 				authorities.add(roleMap.get(i));
 			}

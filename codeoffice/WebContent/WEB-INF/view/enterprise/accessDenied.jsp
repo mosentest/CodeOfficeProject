@@ -5,20 +5,34 @@
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp" />
 <style type="text/css">
 	.access-title {
-		
+		font-size: 32px;
+	}
+	#access-content {
+		width: 800px;
+		margin: 20px auto;
 	}
 </style>
 <div id="main">
 	<div class="element">
 		<div class="title">403 - access denied</div>
 		<div class="content">
-			<h1 class="access-title">Unauthorized access</h1>
-			<c:if test="${not empty error}">
-				<div class="errormessage">
-					<span>Login failed</span>
-				</div>
-			</c:if>
-			<a href="/enterprise/login">Go back to login page.</a>
+			<div id="access-content">
+				<table class="default-table center">
+					<tr>
+						<td><span class="access-title">Unauthorized access</span></td>
+					</tr>
+					<c:if test="${not empty error}">
+					<tr class="separator-tr"><td></td></tr>
+					<tr>
+						<td><span class="error-message" style="font-weight: bold; ">Error: </span><span>${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}</span></td>
+					</tr>
+					</c:if>
+					<tr class="separator-tr"><td></td></tr>
+					<tr>
+						<td><a href="/enterprise/login">Go back to login page.</a></td>
+					</tr>
+				</table>
+			</div>			
 		</div>
 	</div>
 </div>

@@ -11,6 +11,9 @@ public interface EnterpriseUserRepository extends JpaRepository<EnterpriseUser, 
 	@Query("SELECT eu FROM EnterpriseUser eu WHERE eu.password = :password AND (eu.account = :account OR eu.email = :email)")
 	public EnterpriseUser login(@Param("account") String account, @Param("email") String email, @Param("password") String password);
 
+	@Query("SELECT eu FROM EnterpriseUser eu WHERE eu.account = :account OR eu.email = :email")
+	public EnterpriseUser findByAccount(@Param("account") String account, @Param("email") String email);
+
 	@Query("SELECT COUNT(eu) > 0 FROM EnterpriseUser eu WHERE eu.email = :email")
 	public boolean isEmailAvailable(@Param("email") String email);
 

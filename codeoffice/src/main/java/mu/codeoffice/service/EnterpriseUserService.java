@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("enterpriseUserService")
+@Service
 public class EnterpriseUserService {
 	
 	private static final Logger logger = Logger.getLogger(EnterpriseUserService.class);
@@ -40,7 +40,8 @@ public class EnterpriseUserService {
 		}
 		return user;
 	}
-	
+
+	@Transactional
 	public ServiceResponse logout(EnterpriseUser user) {
 		user.setLogin(new Date());
 		enterpriseUserRepository.save(user);

@@ -58,15 +58,15 @@
 #sub-menu .link a {
 	color: black;
 }
-#header #login {
+#header-login {
 	height: 24px;
 	width: 1200px;
 	margin: 5px auto 0px auto;
 	text-align: right;
 }
-#header #login a {
-	color: black;
+#header-login a {
 	padding: 0px 10px;
+	width: 100px;
 }
 
 /* middle */
@@ -79,13 +79,13 @@
 	margin: 0px;
 	text-align: center;	
 }
-.errorMessage {
+.error-message {
 	color: red;
 }
-.warnMessage {
+.warn-message {
 	color: #FF3300;
 }
-.noticeMessage {
+.notice-message {
 	color: green;
 }
 
