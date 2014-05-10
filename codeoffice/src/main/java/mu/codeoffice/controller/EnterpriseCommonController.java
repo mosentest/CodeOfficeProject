@@ -1,8 +1,9 @@
 package mu.codeoffice.controller;
 
-import javax.servlet.http.HttpSession;
+import mu.codeoffice.service.TestService;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,9 @@ public class EnterpriseCommonController {
 	
 	private static final Logger logger = Logger.getLogger(EnterpriseCommonController.class);
 
+	@Autowired
+	private TestService testService;
+	
 	@RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
 	public ModelAndView defaultRequest() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -40,6 +44,8 @@ public class EnterpriseCommonController {
 	@RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
 	public String accessDenied(ModelMap model) {
 		model.addAttribute("error", true);
+		testService.createProject();
+		logger.debug("");
 		return "enterprise/accessDenied";
 	}
 	

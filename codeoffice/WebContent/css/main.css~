@@ -116,7 +116,6 @@
 	border: none;	
 	color: #333333;
 	width: 100%;
-	padding: 10px 6px;
 }
 .mainelement > .content {
 	border: none;
@@ -153,7 +152,6 @@
 	color: #FFFFFF;
 	background-color: #3774B9;
 	font-size: 16px;
-	padding: 10px 6px;
 }
 .element .content {
 }

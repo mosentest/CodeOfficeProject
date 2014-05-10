@@ -40,7 +40,7 @@ public class EnterpriseUserAuthenticationProvider implements AuthenticationProvi
 		if (!password.equals(user.getPassword())) {
 			throw new BadCredentialsException("Password is incorrect.");
 		}
-		return new UsernamePasswordAuthenticationToken(account, password, user.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(user, password, user.getAuthorities());
 	}
 
 	@Override

@@ -22,6 +22,9 @@
 						<td><span class="access-title">Unauthorized access</span></td>
 					</tr>
 					<c:if test="${not empty error}">
+					<tr>
+						<td><img src="img/accessdenied.png"/></td>
+					</tr>
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
 						<td><span class="error-message" style="font-weight: bold; ">Error: </span><span>${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}</span></td>

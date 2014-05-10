@@ -38,7 +38,8 @@
 <body>
 	<security:authorize access="isAuthenticated()">
 		<div id="header-login">
-			<a href="enterprise/<security:authentication property="principal"/>"><security:authentication property="principal"/></a>
+			<span><security:authentication property="principal.enterprise.name"/>,&nbsp;</span>
+			<a href="enterprise/<security:authentication property="principal.username"/>"><security:authentication property="principal.username"/></a>
 			|<a href="enterprise/settings"><spring:message code="page.settings" /></a>
 			|<a href="enterprise/logout"><spring:message code="page.logout" /></a>
 		</div>

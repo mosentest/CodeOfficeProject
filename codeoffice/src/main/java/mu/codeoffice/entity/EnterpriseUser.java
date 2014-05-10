@@ -2,14 +2,18 @@ package mu.codeoffice.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -66,6 +70,15 @@ public class EnterpriseUser implements Serializable {
 
     @Column(name = "authority")
     private int authority;
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "enterpriseUsers")
+	private List<EnterpriseUserGroup> groups;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "office_watcher_case", 
+ 			joinColumns = @JoinColumn(name = "enterprise_user_id", referencedColumnName = "id"), 
+ 			inverseJoinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"))
+	private List<Case> watching;
     
     public EnterpriseUser() {}
 
@@ -179,6 +192,22 @@ public class EnterpriseUser implements Serializable {
 
 	public void setProfilePath(String profilePath) {
 		this.profilePath = profilePath;
+	}
+
+	public List<EnterpriseUserGroup> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<EnterpriseUserGroup> groups) {
+		this.groups = groups;
+	}
+
+	public List<Case> getWatching() {
+		return watching;
+	}
+
+	public void setWatching(List<Case> watching) {
+		this.watching = watching;
 	}
 	
 }
