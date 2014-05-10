@@ -9,10 +9,6 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import mu.codeoffice.entity.EnterpriseUser;
 
 public class UserTag extends SimpleTagSupport {
-	
-	private static final int DEFAULT_WIDTH = 36;
-	
-	private static final int DEFAULT_HEIGHT = 36;
 
 	private EnterpriseUser user;
 	
@@ -22,9 +18,9 @@ public class UserTag extends SimpleTagSupport {
 	
 	private boolean showSpace = true;
 	
-	private int width = DEFAULT_WIDTH;
+	private int width = 36;
 	
-	private int height = DEFAULT_HEIGHT;
+	private int height = 36;
 	
 	@Override
 	public void doTag() throws JspException, IOException {

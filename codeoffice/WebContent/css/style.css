@@ -105,8 +105,6 @@ a:hover {
 .leftmenu {
 	width: 16%;
 	float: left;
-	height: 100%;
-	padding: 5px;
 }
 .maincontent {
 	border-left: 1px solid #E5E5E5;
@@ -166,10 +164,16 @@ a:hover {
 	border: none;
 	width: 100%;
 }
+.element-block {
+	border: none;
+	width: 48%;
+	float: left;
+	margin: 10px;
+}
 .subelement {
 	border: none;
 }
-.subelement > .title {
+.subelement > .title, .element-block > .title {
 	border: none;	
 	color: #333333;
 	width: 98%;
@@ -177,10 +181,8 @@ a:hover {
 	border-bottom: 1px solid #E5E5E5;
 	padding: 10px 6px;
 }
-.subelement > .content {
+.subelement > .content .element-block > .content {
 	border: none;
-	width: 98%;
-	margin: 0px auto;
 }
 .element {
 	border: 1px solid #E5E5E5;
@@ -227,4 +229,13 @@ a:hover {
 	border: 1px solid #8c9fb2;
 	background-color: #f6f7f9;
 	padding: 10px 6px;
+}
+.percent-key {
+	width: 45%;
+}
+.percent-value {
+	width: 5%;
+}
+.percent-percent {
+	width: 50%;
 }
