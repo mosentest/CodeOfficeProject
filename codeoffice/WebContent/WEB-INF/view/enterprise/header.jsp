@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -53,19 +53,19 @@
 			</div>
 			<security:authorize access="isAuthenticated()">
 				<div id="header-menu">
-					<span class="link <c:if test="${navigation == null or navigation eq 'home'}">navigation</c:if>">
-						<a href="enterprise/"><spring:message code="page.home" /></a>
+					<span class="link <c:if test="${param.navigation eq 'home'}">navigation</c:if>">
+						<a href="enterprise"><spring:message code="page.home" /></a>
 					</span>
-					<span class="link <c:if test="${navigation eq 'dashboard'}">navigation</c:if>">
+					<span class="link <c:if test="${param.navigation eq 'dashboard'}">navigation</c:if>">
 						<a href="enterprise/dashboard"><spring:message code="page.dashboard" /></a>
 					</span>
-					<span class="link <c:if test="${navigation eq 'projects'}">navigation</c:if>">
-						<a href="enterprise/projects"><spring:message code="page.projects" /></a>
+					<span class="link <c:if test="${param.navigation eq 'project'}">navigation</c:if>">
+						<a href="enterprise/project"><spring:message code="page.project" /></a>
 					</span>
-					<span class="link <c:if test="${navigation eq 'cases'}">navigation</c:if>">
-						<a href="enterprise/cases"><spring:message code="page.cases" /></a>
+					<span class="link <c:if test="${param.navigation eq 'case'}">navigation</c:if>">
+						<a href="enterprise/case"><spring:message code="page.case" /></a>
 					</span>
-					<span class="link <c:if test="${navigation eq 'messagecenter'}">navigation</c:if>">
+					<span class="link <c:if test="${param.navigation eq 'messagecenter'}">navigation</c:if>">
 						<a href="enterprise/messagecenter"><spring:message code="page.messagecenter" /></a>
 					</span>
 				</div>

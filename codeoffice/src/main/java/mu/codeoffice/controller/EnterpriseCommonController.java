@@ -44,7 +44,6 @@ public class EnterpriseCommonController {
 	@RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
 	public String accessDenied(ModelMap model) {
 		model.addAttribute("error", true);
-		testService.createProject();
 		logger.debug("");
 		return "enterprise/accessDenied";
 	}

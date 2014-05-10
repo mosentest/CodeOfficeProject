@@ -21,4 +21,24 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/projecthome", model);
 	}
 	
+	@RequestMapping(value = "/category", method = RequestMethod.GET)
+	public ModelAndView projectCategories(ModelMap model) {
+		return new ModelAndView("enterprise/project/projectcategories", model);
+	}
+
+	@RequestMapping(value = "/active", method = RequestMethod.GET) 
+	public ModelAndView activeProjects(ModelMap model) {
+		return new ModelAndView("enterprise/project/projectlist", model);
+	}
+
+	@RequestMapping(value = "/newcategory", method = RequestMethod.GET) 
+	public ModelAndView categoryReqeust(ModelMap model) {
+		return new ModelAndView("enterprise/project/categoryform", model);
+	}
+	
+	@RequestMapping(value = "/newproject", method = RequestMethod.GET) 
+	public ModelAndView projectRequest(ModelMap model) {
+		return new ModelAndView("enterprise/project/projectform", model);
+	}
+	
 }

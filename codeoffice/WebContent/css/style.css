@@ -28,6 +28,12 @@ textarea {
 .right {
 	text-align: right;
 }
+.w-50p {
+	width: 50%;
+}
+.sep-30 {
+	height: 30px;
+}
 /* floating */
 .fl_l {
 	display: block;
@@ -85,4 +91,112 @@ a:hover {
 }
 .separator-tr {
 	height: 20px;
+}
+.leftmenu {
+	width: 16%;
+	float: left;
+	height: 100%;
+	padding: 5px;
+}
+.maincontent {
+	border-left: 1px solid #E5E5E5;
+	width: 82%;
+	float: left;
+	height: 100%;
+	padding: 5px;
+}
+.vertical-tab li {
+	padding: 3px 10px 5px 10px;
+	line-height: 20px;
+}
+.vertical-tab li a {
+	display: block;
+}
+.vertical-tab li:hover {
+	background-color: #e6e6e6;
+	cursor: pointer;
+}
+.vertical-tab li:active {
+	background-color: #205081;
+	color: white !important;
+}
+.vertical-tab .active a {
+	color: black !important;
+	font-weight: bold;
+}
+.vertical-tab .active a:active {
+	color: white !important;
+	font-weight: bold;
+}
+.vertical-tab li a:hover, .vertical-tab li a:active, .vertical-tab .active a:hover, .vertical-tab .active a:active {
+	color: inherit !important;
+}
+#main {
+	width: 1200px;
+	margin: 20px auto 0px auto;
+}
+#content {
+	width: 100%;
+	margin: 10px auto 0px auto;
+}
+.mainelement {
+	border: none;
+}
+.mainelement > .title {
+	border: none;	
+	color: #333333;
+	width: 100%;
+	padding: 10px 6px;
+}
+.mainelement > .content {
+	border: none;
+	width: 100%;
+}
+.subelement {
+	border: none;
+}
+.subelement > .title {
+	border: none;	
+	color: #333333;
+	width: 98%;
+	margin: 0px auto;
+	border-bottom: 1px solid #E5E5E5;
+	padding: 10px 6px;
+}
+.subelement > .content {
+	border: none;
+	width: 98%;
+	margin: 0px auto;
+}
+.element {
+	border: 1px solid #E5E5E5;
+	background-color: #FDFDFD;
+}
+.element > .info {
+	background-color: #f5f5f5;
+	font-size: 14px;
+	width: 100%;
+	border-bottom: 1px solid #cccccc;
+	padding: 10px;
+}
+.element > .title {
+	color: #FFFFFF;
+	background-color: #3774B9;
+	font-size: 16px;
+	padding: 10px 6px;
+}
+.element .content {
+}
+
+.default-table {
+	border-spacing: 0px;
+    border-collapse: collapse;
+	font-size: 16px;
+	width: 100%;
+}
+.default-table tr {
+	height: 36px;
+}
+.default-table td {
+	border-spacing: 0px;
 }
