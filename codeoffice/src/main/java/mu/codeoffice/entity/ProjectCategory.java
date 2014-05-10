@@ -36,6 +36,13 @@ public class ProjectCategory implements Serializable {
 	private List<Project> projects;
 	
 	public ProjectCategory() {}
+	
+	public static ProjectCategory getEmptyCategory() {
+		ProjectCategory category = new ProjectCategory();
+		category.setId(0l);
+		category.setName("None-categorized");
+		return category;
+	}
 
 	public Long getId() {
 		return id;
@@ -68,6 +75,4 @@ public class ProjectCategory implements Serializable {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
-	
-
 }

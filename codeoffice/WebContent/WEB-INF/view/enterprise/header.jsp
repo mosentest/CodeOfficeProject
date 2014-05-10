@@ -32,6 +32,11 @@
 		$('.link').mouseout(function() {
 			$(this).removeClass('current');
 		});
+		if ($('.leftmenu')[0].offsetHeight >= $('.maincontent')[0].offsetHeight) {
+			$('.maincontent')[0].style.height = $('.leftmenu')[0].offsetHeight + "px";
+		} else {
+			$('.leftmenu')[0].style.height = $('.maincontent')[0].offsetHeight + "px";
+		}	
 	});
 </script>
 </head>

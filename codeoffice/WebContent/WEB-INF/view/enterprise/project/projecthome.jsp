@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
-<div id=content>
+<div id="content">
 	<div class="element">
 		<div class="info"><spring:message code="project.home"/></div>
 		<div class="content">

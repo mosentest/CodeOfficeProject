@@ -1,0 +1,103 @@
+package mu.codeoffice.tag;
+
+import java.io.IOException;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
+
+import mu.codeoffice.entity.EnterpriseUser;
+
+public class UserTag extends SimpleTagSupport {
+	
+	private static final int DEFAULT_WIDTH = 36;
+	
+	private static final int DEFAULT_HEIGHT = 36;
+
+	private EnterpriseUser user;
+	
+	private boolean showImage = true;
+	
+	private boolean showLink = true;
+	
+	private boolean showSpace = true;
+	
+	private int width = DEFAULT_WIDTH;
+	
+	private int height = DEFAULT_HEIGHT;
+	
+	@Override
+	public void doTag() throws JspException, IOException {
+		JspWriter out = getJspContext().getOut();
+		
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("<span class=\"imglink\">");
+		if (showImage) {
+			String imagePath = user.getProfilePath();
+			if (imagePath.equals("male.jpg") || imagePath.equals("")) {
+				imagePath = "img/" + imagePath;
+			}
+			buffer.append(String.format("<span><img src=\"%s\" width=\"%d\" height=\"%d\"></span>", imagePath, width, height));
+		}
+		if (showSpace) {
+			buffer.append("<span class=\"minorspace\">&nbsp;</span>");
+		}
+		if (showLink) {
+			buffer.append(String.format("<span><a href=\"enterprise/user/%s\">%s</a></span>", user.getNameLink(), user.getFullName()));
+		} else {
+			buffer.append(String.format("<span>%s</span>", user.getFullName()));
+		}
+		buffer.append("</span>");
+		
+		out.println(buffer.toString());
+	}
+
+	public EnterpriseUser getUser() {
+		return user;
+	}
+
+	public void setUser(EnterpriseUser user) {
+		this.user = user;
+	}
+
+	public boolean isShowImage() {
+		return showImage;
+	}
+
+	public void setShowImage(boolean showImage) {
+		this.showImage = showImage;
+	}
+
+	public boolean isShowLink() {
+		return showLink;
+	}
+
+	public void setShowLink(boolean showLink) {
+		this.showLink = showLink;
+	}
+
+	public boolean isShowSpace() {
+		return showSpace;
+	}
+
+	public void setShowSpace(boolean showSpace) {
+		this.showSpace = showSpace;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+}

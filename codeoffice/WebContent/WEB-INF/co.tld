@@ -6,7 +6,7 @@
 	<description>CodeOffice</description>
 	<tlib-version>1.0</tlib-version>
 	<short-name>CO</short-name>
-	<uri>http://www.codeoffice.com/chlib</uri>
+	<uri>http://www.codeoffice.com/colib</uri>
 	<tag>
 		<name>date</name>
 		<tag-class>mu.codeoffice.tag.DateTag</tag-class>
@@ -22,6 +22,52 @@
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	<tag>
+		<name>user</name>
+		<tag-class>mu.codeoffice.tag.UserTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>user</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>mu.office.entity.EnterpriseUser</type>
+		</attribute>
+		<attribute>
+			<name>showImage</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<default>true</default>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<name>showLink</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<default>true</default>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<name>showSpace</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<default>true</default>
+			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<name>width</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<default>36</default>
+			<type>java.lang.Integer</type>
+		</attribute>
+		<attribute>
+			<name>height</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<default>36</default>
+			<type>java.lang.Integer</type>
 		</attribute>
 	</tag>
 	<tag>

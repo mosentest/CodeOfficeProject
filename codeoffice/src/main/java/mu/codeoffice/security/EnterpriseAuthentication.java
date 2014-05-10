@@ -33,5 +33,18 @@ public class EnterpriseAuthentication extends User {
 	public EnterpriseUser getEnterpriseUser() {
 		return enterpriseUser;
 	}
+	
+	public boolean hasProjectAuthority() {
+		boolean authorized = false;
+		for (GrantedAuthority authority : getAuthorities()) {
+			if (authority.getAuthority().equals(EnterpriseAuthority.ROLE_ADMIN.getAuthority()) || 
+					authority.getAuthority().equals(EnterpriseAuthority.ROLE_MANAGER.getAuthority()) ||
+					authority.getAuthority().equals(EnterpriseAuthority.ROLE_PROJECT_MANAGER.getAuthority())) {
+				authorized = true;
+				break;
+			}
+		}
+		return authorized;
+	}
 
 }

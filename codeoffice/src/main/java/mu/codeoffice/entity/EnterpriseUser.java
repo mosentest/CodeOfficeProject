@@ -81,6 +81,14 @@ public class EnterpriseUser implements Serializable {
 	private List<Case> watching;
     
     public EnterpriseUser() {}
+    
+    public String getNameLink() {
+    	return lastName + "_" + firstName;
+    }
+    
+    public String getFullName() {
+    	return lastName + " " + firstName;
+    }
 
 	public Long getId() {
 		return id;

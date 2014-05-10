@@ -22,6 +22,9 @@ textarea {
 .clearfix {
 	clear: both;
 }
+.left {
+	text-align: left;
+}
 .center {
 	text-align: center;
 }
@@ -31,8 +34,15 @@ textarea {
 .w-50p {
 	width: 50%;
 }
+.w-100p {
+	width: 100%;
+}
 .sep-30 {
 	height: 30px;
+}
+.minorspace {
+	display: inline-block;
+	width: 15px;
 }
 /* floating */
 .fl_l {
@@ -100,23 +110,23 @@ a:hover {
 }
 .maincontent {
 	border-left: 1px solid #E5E5E5;
-	width: 82%;
 	float: left;
 	height: 100%;
 	padding: 5px;
+	width: 82%;
 }
-.vertical-tab li {
+.vertical-tab .tab {
 	padding: 3px 10px 5px 10px;
 	line-height: 20px;
 }
-.vertical-tab li a {
+.vertical-tab .tab a {
 	display: block;
 }
-.vertical-tab li:hover {
+.vertical-tab .tab:hover {
 	background-color: #e6e6e6;
 	cursor: pointer;
 }
-.vertical-tab li:active {
+.vertical-tab .tab:active {
 	background-color: #205081;
 	color: white !important;
 }
@@ -127,6 +137,9 @@ a:hover {
 .vertical-tab .active a:active {
 	color: white !important;
 	font-weight: bold;
+}
+.vertical-tab .empty-tab {
+	height: 20px;
 }
 .vertical-tab li a:hover, .vertical-tab li a:active, .vertical-tab .active a:hover, .vertical-tab .active a:active {
 	color: inherit !important;
@@ -146,6 +159,7 @@ a:hover {
 	border: none;	
 	color: #333333;
 	width: 100%;
+	font-size: 18px;
 	padding: 10px 6px;
 }
 .mainelement > .content {
@@ -187,16 +201,30 @@ a:hover {
 }
 .element .content {
 }
-
 .default-table {
 	border-spacing: 0px;
     border-collapse: collapse;
 	font-size: 16px;
 	width: 100%;
+	margin: 0px;
 }
 .default-table tr {
 	height: 36px;
 }
 .default-table td {
 	border-spacing: 0px;
+}
+.fit-cell {
+	width: 1%;
+	white-space: nowrap;
+}
+.left-header th {
+	text-align: left;
+}
+.info-element {
+	font-size: 14px;
+	color: #333333;
+	border: 1px solid #8c9fb2;
+	background-color: #f6f7f9;
+	padding: 10px 6px;
 }
