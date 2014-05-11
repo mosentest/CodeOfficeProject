@@ -44,6 +44,51 @@ textarea {
 	display: inline-block;
 	width: 15px;
 }
+.fs-l {
+	font-size: 26px;
+}
+.fs-ml {
+	font-size: 24px;
+}
+.fs-m {
+	font-size: 20px;
+}
+.fs-s {
+	font-size: 16px;
+}
+.fs-ms {
+	font-size: 14px;
+}
+.fs-xs {
+	font-size: 12px;
+}
+.fw-b {
+	font-weight: bold;
+}
+.fc-hg {
+	color: #999999;
+}
+.fc-g {
+	color: #777777;
+}
+.fc-lg {
+	color: #666666;
+}
+.fc-bg {
+	color: #333333;
+}
+.fc-hb {
+	color: #205081;
+}
+.fc-b {
+	color: #3774B9;
+}
+.fc-lb {
+	color: #3b73af;;
+}
+.fc-w {
+	color: white;
+}
 /* floating */
 .fl_l {
 	display: block;
@@ -55,6 +100,9 @@ textarea {
 }
 .imglink *{
 	vertical-align: middle;
+}
+.removed-link {
+	text-decoration: line-through;
 }
 a {
 	text-decoration: none;
@@ -105,6 +153,8 @@ a:hover {
 .leftmenu {
 	width: 16%;
 	float: left;
+	height: 100%;
+	padding: 5px;
 }
 .maincontent {
 	border-left: 1px solid #E5E5E5;
@@ -183,6 +233,8 @@ a:hover {
 }
 .subelement > .content .element-block > .content {
 	border: none;
+	width: 98%;
+	margin: 0px auto;
 }
 .element {
 	border: 1px solid #E5E5E5;
@@ -215,6 +267,20 @@ a:hover {
 }
 .default-table td {
 	border-spacing: 0px;
+}
+.info-table {
+	width: 100%;
+	border-spacing: 0px;
+    border-collapse: collapse;
+    line-height: 26px;
+}
+.info-title {
+	width: 25%;
+	color: #333333;
+}
+.info-value {
+	color: #205081;
+	width: 25%;
 }
 .fit-cell {
 	width: 1%;

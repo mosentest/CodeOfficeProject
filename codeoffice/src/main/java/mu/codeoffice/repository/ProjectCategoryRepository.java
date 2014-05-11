@@ -17,4 +17,7 @@ public interface ProjectCategoryRepository extends JpaRepository<ProjectCategory
 	@Query("SELECT pc FROM ProjectCategory pc WHERE pc.enterprise = :enterprise AND pc.id = :category")
 	public ProjectCategory getProjectCategory(@Param("category") Long category, @Param("enterprise") Enterprise enterprise);
 	
+	@Query("SELECT COUNT(pc) > 0 FROM ProjectCategory pc WHERE pc.enterprise = :enterprise AND pc.name = :name")
+	public boolean doesCategoryNameExist(@Param("name") String name, @Param("enterprise") Enterprise enterprise);
+	
 }

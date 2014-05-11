@@ -22,7 +22,10 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 	@Query("SELECT p FROM Project p WHERE p.category = :category")
 	public List<Project> getProjectByCategory(@Param("category") ProjectCategory category);
 	
-	@Query("Select p FROM Project p WHERE p.enterprise = :enterprise AND p.category IS NULL")
+	@Query("SELECT p FROM Project p WHERE p.enterprise = :enterprise AND p.category IS NULL")
 	public List<Project> getNoneCategorizedProjects(@Param("enterprise") Enterprise enterprise);
+
+	@Query("SELECT p FROM Project p WHERE p.code = :code AND p.enterprise = :enterprise AND p.lead = :user")
+	public Project getProject(@Param("code") String code, @Param("enterprise") Enterprise enterprise, @Param("user") EnterpriseUser user);
 	
 }

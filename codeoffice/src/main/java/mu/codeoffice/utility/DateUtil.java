@@ -33,6 +33,9 @@ public class DateUtil {
 	}
 	
 	public static boolean isSameDay(Date d1, Date d2) {
+		if (d1 == null || d2 == null) {
+			return false;
+		}
 		Calendar c1 = getCalendar(d1);
 		Calendar c2 = getCalendar(d2);
 		return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&

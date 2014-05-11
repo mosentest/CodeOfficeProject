@@ -17,16 +17,16 @@
 					<li class="tab"><a href="enterprise/project"><spring:message code="project.home"/></a></li>
 					<security:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_PROJECT_MANAGER', 'ROLE_ADMIN')">
 						<li class="tab ${param.menu eq 'newcategory' ? 'active' : ''}">
-							<a href="enterprise/project/newcategory"><spring:message code="project.createcategory"/></a>
+							<a href="enterprise/newpcategory"><spring:message code="project.createcategory"/></a>
 						</li>
 					</security:authorize>
 					<li class="empty-tab"></li>
 					<li class="tab ${empty projectCategoryId ? 'active' : ''}">
-						<a href="enterprise/project/category"><spring:message code="project.allcategory"/></a>
+						<a href="enterprise/pcategory"><spring:message code="project.allcategory"/></a>
 					</li>
 					<c:forEach items="${projectCategoryNames}" var="projectCategory">
 						<li class="tab ${projectCategoryId eq projectCategory.id ? 'active' : ''}">
-							<a href="enterprise/project/category/${projectCategory.id}">${projectCategory.name}</a>
+							<a href="enterprise/pcategory/${projectCategory.id}">${projectCategory.name}</a>
 						</li>
 					</c:forEach>
 				</ul>

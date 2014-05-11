@@ -77,7 +77,7 @@ public class Project implements Serializable {
 	private int visibility;
 
 	@Transient
-	private Visibility visibilitybType;
+	private Visibility visibilityType;
 	
 	@Column(name = "no_user")
 	private int noUser;
@@ -330,12 +330,12 @@ public class Project implements Serializable {
 		this.lead = lead;
 	}
 
-	public Visibility getVisibilitybType() {
-		return visibilitybType;
+	public Visibility getVisibilityType() {
+		return visibilityType;
 	}
 
-	public void setVisibilitybType(Visibility visibilitybType) {
-		this.visibilitybType = visibilitybType;
+	public void setVisibilityType(Visibility visibilityType) {
+		this.visibilityType = visibilityType;
 	}
 	
 }

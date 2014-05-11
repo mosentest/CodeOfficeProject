@@ -1,7 +1,10 @@
 package mu.codeoffice.controller;
 
-import java.util.Arrays;
+import java.util.List;
 
+import mu.codeoffice.entity.Project;
+import mu.codeoffice.entity.ProjectActivity;
+import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.ProjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,40 +18,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/enterprise/project")
+@RequestMapping("/enterprise/")
 public class ProjectController {
 
 	@Autowired
 	private ProjectService projectService;
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "project", method = RequestMethod.GET)
 	public ModelAndView main(ModelMap model) {
-		return new ModelAndView("enterprise/project/projecthome", model);
+		return new ModelAndView("enterprise/project/project_home", model);
 	}
 	
-	@RequestMapping(value = "/category", method = RequestMethod.GET)
-	public ModelAndView projectCategories(ModelMap model, @AuthenticationPrincipal User user) {
-		model.put("projectCategories", projectService.getProjectCategories(user));
-		model.put("projectCategoryNames", projectService.getProjectCategoryNames(user));
-		return new ModelAndView("enterprise/project/projectcategory", model);
+	@RequestMapping(value = "project/{code}", method = RequestMethod.GET)
+	public ModelAndView project(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) {
+		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
+		if (project == null) {
+			model.put("error", "You do not have access to this project.");
+			return new ModelAndView("enterprise/accessdenied", model);
+		}
+		model.put("monthlySummary", projectService.getProjectMonthlySummary(project));
+		model.put("weeklySummary", projectService.getProjectWeeklySummary(project));
+		model.put("unreleasedVersions", projectService.getUnreleasedVersions(project));
+		model.put("moreActivity", true);
+		return new ModelAndView("enterprise/project/project_summary", model);
 	}
 	
-	@RequestMapping(value = "/category/{id}", method = RequestMethod.GET)
-	public ModelAndView projectCategory(@PathVariable("id") Long id, ModelMap model, @AuthenticationPrincipal User user) {
-		model.put("projectCategories", Arrays.asList(projectService.getProjectCategory(id, user)));
-		model.put("projectCategoryNames", projectService.getProjectCategoryNames(user));
-		model.put("projectCategoryId", id);
-		return new ModelAndView("enterprise/project/projectcategory", model);
-	}
-
-	@RequestMapping(value = "/newcategory", method = RequestMethod.GET) 
-	public ModelAndView categoryReqeust(ModelMap model) {
-		return new ModelAndView("enterprise/project/categoryform", model);
+	public List<ProjectActivity> loadActivity() {
+		return null;
 	}
 	
-	@RequestMapping(value = "/newproject", method = RequestMethod.GET) 
+	@RequestMapping(value = "newproject", method = RequestMethod.GET) 
 	public ModelAndView projectRequest(ModelMap model) {
-		return new ModelAndView("enterprise/project/projectform", model);
+		return new ModelAndView("enterprise/project/project_form", model);
 	}
 	
 }

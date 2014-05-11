@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import mu.codeoffice.entity.Case;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.EnterpriseUser;
@@ -17,6 +18,11 @@ import mu.codeoffice.entity.ProjectCategory;
 import mu.codeoffice.entity.Role;
 import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Version;
+import mu.codeoffice.enums.CasePriority;
+import mu.codeoffice.enums.CaseResolution;
+import mu.codeoffice.enums.CaseStatus;
+import mu.codeoffice.enums.CaseType;
+import mu.codeoffice.repository.CaseRepository;
 import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.EnterpriseUserRepository;
 import mu.codeoffice.repository.ProjectCategoryRepository;
@@ -55,6 +61,191 @@ public class TestService {
 	
 	@Resource
 	private EnterpriseUserRepository enterpriseUserRepository;
+	
+	@Resource
+	private CaseRepository caseRepository;
+	
+	@Transactional
+	public void createUser() {
+		Enterprise enterprise = new Enterprise();
+		enterprise.setId(1l);
+
+		EnterpriseUser u1 = new EnterpriseUser();
+		u1.setEnterprise(enterprise);
+		u1.setAccount("account1");
+		u1.setFirstName("first1");
+		u1.setLastName("last1");
+		u1.setEmail("account1@codeoffice.com");
+		u1.setPassword("e10adc3949ba59abbe56e057f20f883e");
+		u1.setCreate(new Date());
+		u1.setLogin(new Date());
+		u1.setProfilePath("male.jpg");
+		u1.setGender(true);
+		EnterpriseUser u2 = new EnterpriseUser();
+		u2.setEnterprise(enterprise);
+		u2.setAccount("account2");
+		u2.setFirstName("first2");
+		u2.setLastName("last2");
+		u2.setEmail("account2@codeoffice.com");
+		u2.setPassword("e10adc3949ba59abbe56e057f20f883e");
+		u2.setCreate(new Date());
+		u2.setLogin(new Date());
+		u2.setProfilePath("female.jpg");
+		u2.setGender(false);
+		EnterpriseUser u3 = new EnterpriseUser();
+		u3.setEnterprise(enterprise);
+		u3.setAccount("account3");
+		u3.setFirstName("first3");
+		u3.setLastName("last3");
+		u3.setEmail("account3@codeoffice.com");
+		u3.setPassword("e10adc3949ba59abbe56e057f20f883e");
+		u3.setCreate(new Date());
+		u3.setLogin(new Date());
+		u3.setProfilePath("male.jpg");
+		u3.setGender(true);
+		EnterpriseUser u4 = new EnterpriseUser();
+		u4.setEnterprise(enterprise);
+		u4.setAccount("account4");
+		u4.setFirstName("first4");
+		u4.setLastName("last4");
+		u4.setEmail("account4@codeoffice.com");
+		u4.setPassword("e10adc3949ba59abbe56e057f20f883e");
+		u4.setCreate(new Date());
+		u4.setLogin(new Date());
+		u4.setProfilePath("female.jpg");
+		u4.setGender(false);
+		EnterpriseUser u5 = new EnterpriseUser();
+		u5.setEnterprise(enterprise);
+		u5.setAccount("account5");
+		u5.setFirstName("first5");
+		u5.setLastName("last5");
+		u5.setEmail("account5@codeoffice.com");
+		u5.setPassword("e10adc3949ba59abbe56e057f20f883e");
+		u5.setCreate(new Date());
+		u5.setLogin(new Date());
+		u5.setProfilePath("male.jpg");
+		u5.setGender(true);
+		EnterpriseUser u6 = new EnterpriseUser();
+		u6.setEnterprise(enterprise);
+		u6.setAccount("account6");
+		u6.setFirstName("first6");
+		u6.setLastName("last6");
+		u6.setEmail("account6@codeoffice.com");
+		u6.setPassword("e10adc3949ba59abbe56e057f20f883e");
+		u6.setCreate(new Date());
+		u6.setLogin(new Date());
+		u6.setProfilePath("female.jpg");
+		u6.setGender(false);
+
+		enterpriseUserRepository.save(u1);
+		enterpriseUserRepository.save(u2);
+		enterpriseUserRepository.save(u3);
+		enterpriseUserRepository.save(u4);
+		enterpriseUserRepository.save(u5);
+		enterpriseUserRepository.save(u6);
+	}
+	
+	@Transactional
+	public void createCases() {
+		List<Project> projects = projectRepository.findAll();
+		Enterprise enterprise = new Enterprise();
+		enterprise.setId(1l);
+		List<EnterpriseUser> user = enterpriseUserRepository.findAll();
+		Random random = new Random();
+		for (Project project : projects) {
+			List<Case> cases = new ArrayList<>();
+			int noCase = random.nextInt(20);
+			for (int i = 0; i < random.nextInt(); i++) {
+				project.getRoleGroups().size();
+				project.getRoleGroups().forEach(roleGroup -> roleGroup.getUsers().size());
+				project.getVersions().size();
+				project.getVersions().forEach(version -> version.getRelatedCases().size());
+				project.getVersions().forEach(version -> version.getReleaseCases().size());
+				project.getComponents().size();
+				Case c = new Case();
+				c.setEnterprise(enterprise);
+				c.setSummary("Case summary " + i + " for project" + project.getCode());
+				c.setDescription("Case description number " + i + " for project" + project.getName());
+				c.setCreate(DateUtil.getRandomDateInRange("2014-05-01", "2014-05-10"));
+				c.setUpdate(DateUtil.addRandomDate(c.getCreate(), DateUtil.DAY * 6));
+				if (c.getUpdate().after(new Date())) {
+					c.setUpdate(new Date());
+				}
+				EnterpriseUser assignee = user.get(random.nextInt(user.size()));
+				c.setAssignee(assignee);
+				EnterpriseUser reporter = user.get(random.nextInt(user.size()));
+				c.setReporter(reporter);
+				for (RoleGroup roleGroup : roleGroupRepository.getProjectRoleGroups(project)) {
+					if (!roleGroup.getUsers().contains(assignee)) {
+						roleGroup.getUsers().add(assignee);
+					}
+					if (!roleGroup.getUsers().contains(reporter)) {
+						roleGroup.getUsers().add(assignee);
+					}
+					roleGroupRepository.save(roleGroup);
+				}
+				if (i < 10) {
+					c.setCode(project.getCode() + "-" + "000" + i);
+				} else {
+					c.setCode(project.getCode() + "-" + "000" + i);
+				}
+				
+				CaseStatus status = CaseStatus.values()[random.nextInt(CaseStatus.values().length)];	
+				
+				c.setType(CaseType.values()[random.nextInt(CaseType.values().length)]);	
+				c.setPriority(CasePriority.values()[random.nextInt(CasePriority.values().length)]);
+				c.setStatus(status);
+				if (status != CaseStatus.CLO && status != CaseStatus.RES) {
+					c.setResolution(CaseResolution.values()[random.nextInt(CaseResolution.values().length)]);
+					c.setClose(DateUtil.addRandomDate(c.getUpdate(), DateUtil.DAY * 3));
+					if (c.getClose().after(new Date())) {
+						c.setClose(new Date());
+					}
+				}
+				
+				List<Component> cc = new ArrayList<>();
+				List<Version> cv = new ArrayList<>();
+				int nocc = random.nextInt(project.getComponents().size());
+				int nocv = random.nextInt(project.getVersions().size());
+				for (int j = 0; j < nocc; j++) {
+					Component t = project.getComponents().get(j);
+					if (t.getCases() == null) {
+						t.setCases(Arrays.asList(c));
+					} else {
+						t.getCases().add(c);
+					}
+					cc.add(t);
+				}
+				for (int j = 0; j < nocv; j++) {
+					Version v = project.getVersions().get(j);
+					if (v.getRelatedCases() == null) {
+						v.setRelatedCases(Arrays.asList(c));
+					} else {
+						v.getRelatedCases().add(c);
+					}
+					cv.add(v);
+				}
+				c.setComponents(cc);
+				c.setVersions(cv);
+				if (random.nextBoolean()) {
+					c.setReleaseVersion(project.getVersions().get(random.nextInt(project.getVersions().size())));
+					if (c.getReleaseVersion().getReleaseCases() == null) {
+						c.getReleaseVersion().setReleaseCases(Arrays.asList(c));
+					} else {
+						c.getReleaseVersion().getReleaseCases().add(c);
+					}
+				}
+				caseRepository.save(c);
+				if (c.getReleaseVersion() != null) {
+					versionRepository.save(c.getReleaseVersion());
+				}
+				cases.add(c);
+			}
+			project.setNoCase(noCase);
+			projectRepository.save(project);
+			
+		}
+	}
 	
 	@Transactional
 	public void createRoles() {

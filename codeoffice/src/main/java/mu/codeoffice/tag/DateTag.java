@@ -11,6 +11,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 public class DateTag extends SimpleTagSupport {
 	
 	private Date date;
+	
 	private String format = "yy-MM-dd HH:mm:ss";
 	
 	private static final int DIFF_M = 60000;
@@ -37,6 +38,10 @@ public class DateTag extends SimpleTagSupport {
 	public void doTag() throws JspException, IOException {
 		JspWriter out = getJspContext().getOut();
 		Date current = new Date();
+		if (date == null) {
+			out.println("None");
+			return ;
+		}
 		long diff = (current.getTime() - date.getTime()) / DIFF_M;
 		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		String stringFormat = "%d %s ago";

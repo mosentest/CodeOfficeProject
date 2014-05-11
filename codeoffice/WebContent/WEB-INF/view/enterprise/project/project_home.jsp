@@ -10,7 +10,7 @@
 	<div class="element">
 		<div class="info"><spring:message code="project.home"/></div>
 		<div class="content">
-			<jsp:include page="/WEB-INF/view/enterprise/project/projectmenu.jsp">
+			<jsp:include page="/WEB-INF/view/enterprise/project/projecthome_menu.jsp">
 				<jsp:param name="menu" value="home"/>
 			</jsp:include>
 			<div class="maincontent">
