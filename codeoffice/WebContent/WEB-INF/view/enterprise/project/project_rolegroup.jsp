@@ -15,7 +15,32 @@
 			<jsp:include page="/WEB-INF/view/enterprise/project/project_menu.jsp">
 				<jsp:param name="menu" value="rolegroup"/>
 			</jsp:include>
-			<div class="maincontent"></div>
+			<div class="maincontent">
+				<div class="mainelement">
+					<div class="title imglink"><img src="img/office/icon_group.png"/><span class="titlespan"><spring:message code="project.p_rolegroup"/></span></div>
+					<div class="content">
+					<table class="default-table left-header">
+						<tr>
+							<th class="role"><spring:message code="project.g_role"/></th>
+							<th class="role"><spring:message code="project.g_role_description"/></th>
+							<th class="users"><spring:message code="project.g_users"/></th>
+						</tr>
+						<c:forEach items="${roleGroups}" var="roleGroup">
+						<tr class="border-bottom">
+							<td class="role">${roleGroup.role.name}</td>
+							<td class="role">${roleGroup.role.description}</td>
+							<td class="users">
+								<c:forEach items="${roleGroup.users}" var="user">
+									<span class="rolegroup-user"><co:user user="${user}" width="30" height="30"/></span>
+									<span class="minorspace"></span><span class="minorspace"></span>
+								</c:forEach>
+							</td>
+						</tr>
+						</c:forEach>
+					</table>
+					</div>
+				</div>
+			</div>
 			<div class="clearfix"></div>
 		</div>
 	</div>

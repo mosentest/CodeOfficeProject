@@ -16,13 +16,17 @@ import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
+import mu.codeoffice.entity.ProjectNote;
+import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Summary;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.repository.CaseRepository;
 import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.LabelRepository;
 import mu.codeoffice.repository.ProjectActivityRepository;
+import mu.codeoffice.repository.ProjectNoteRepository;
 import mu.codeoffice.repository.ProjectRepository;
+import mu.codeoffice.repository.RoleGroupRepository;
 import mu.codeoffice.repository.VersionRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
@@ -53,6 +57,16 @@ public class ProjectService {
 	@Resource
 	private ProjectActivityRepository projectActivityRepository;
 	
+	@Resource
+	private RoleGroupRepository roleGroupRepository;
+	
+	@Resource
+	private ProjectNoteRepository projectNoteRepository;
+	
+	public List<ProjectNote> getProjectNote(Long project) {
+		return projectNoteRepository.getProjectNotes(project);
+	}
+	
 	public List<Version> getProjectVersions(Long project) {
 		return versionRepository.getProjectVersions(project);
 	}
@@ -61,8 +75,18 @@ public class ProjectService {
 		return componentRepository.getProjectComponents(project);
 	}
 	
-	public List<Label> getProjectLabel(Long project) {
+	public List<Label> getProjectLabels(Long project) {
 		return labelRepository.getProjectLabels(project);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<RoleGroup> getProjectRoleGroups(Long project) {
+		List<RoleGroup> roleGroups = roleGroupRepository.getProjectRoleGroups(project);
+		for (RoleGroup roleGroup : roleGroups) {
+			roleGroup.getRole().getId();
+			roleGroup.getUsers().size();
+		}
+		return roleGroups;
 	}
 	
 	@Transactional(readOnly = true)

@@ -17,7 +17,6 @@
 	color: #205081;
 }
 #header-content {
-	width: 1200px;
 	margin: 0px auto 10px auto;
 }
 #header-menu {
@@ -59,7 +58,6 @@
 	color: black;
 }
 #header-login {
-	width: 1200px;
 	margin: 5px auto 0px auto;
 	text-align: right;
 }

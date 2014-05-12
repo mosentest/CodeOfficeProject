@@ -34,10 +34,10 @@
 									</tr>
 									<c:forEach items="assignedCases" var="c">
 									<tr>
-										<td class="fit-cell"><img src="img/enterprise/office/${c.priority.code}.png"/></td>
+										<td class="fit-cell"><co:caseEnum value="${c.priority}" imageOnly="true"/></td>
 										<td class="fit-cell"><a href="enterprise/project/case/${c.code}">${c.code}</a></td>
 										<td>${c.summary}</td>
-										<td class="fit-cell"><img src="img/enterprise/office/${c.status.code}.png"/></td>
+										<td class="fit-cell"><co:caseEnum value="${c.status}" imageOnly="true"/></td>
 									</tr>
 									</c:forEach>
 								</table>

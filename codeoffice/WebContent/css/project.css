@@ -10,3 +10,57 @@
 	color: red;
 	font-weight: bold;
 }
+.role {
+	width: 20%;
+}
+.users {
+	width: 60%;
+}
+.rolegroup-user {
+	display: inline-block; 
+	white-space: nowrap;
+	margin: 5px 0px;
+}
+.activity-item-description {
+	background-color: #e0f0ff;
+	padding: 6px;
+	width: 100%;
+}
+.note-item, .history-item, .activity-item {
+	width: 100%;
+	padding: 6px;
+	border-bottom: 1px solid #E5E5E5;
+	font-size: 14px;
+}
+.activity-item-employee {
+	float: left;
+	width: 5%;
+}
+.activity-item-content {
+	width: 90%;
+	float: left;
+}
+.note-item-header, .note-item-date, .note-item-content, .history-item-content, .activity-item-header, .activity-item-employee, .activity-item-content,
+	.activity-item-date, .activity-item-multiple-element {
+	padding: 6px;
+}
+.history-element-header {
+	text-align: center;
+	font-weight: bold;
+}
+.history-item .field, .history-element-header .field {
+	width: 20%;
+	float: left;
+}
+.history-item .old, .history-element-header .old {
+	width: 40%;
+	float :left;
+}
+.history-item .new, .history-element-header .new {
+	width: 40%;
+	float: left;
+}
+.activity-item-element-list {
+	list-style-type: disc;
+	list-style-position:inside;
+}

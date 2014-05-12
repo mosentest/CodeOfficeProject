@@ -35,7 +35,7 @@ public class UserTag extends SimpleTagSupport {
 		buffer.append("<span class=\"imglink\">");
 		if (showImage) {
 			String imagePath = user.getProfilePath();
-			if (imagePath.equals("male.jpg") || imagePath.equals("")) {
+			if (imagePath.equals("male.jpg") || imagePath.equals("female.jpg")) {
 				imagePath = "img/" + imagePath;
 			}
 			buffer.append(String.format("<span><img src=\"%s\" width=\"%d\" height=\"%d\"></span>", imagePath, width, height));

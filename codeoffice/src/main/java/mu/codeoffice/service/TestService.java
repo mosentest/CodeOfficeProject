@@ -310,7 +310,7 @@ public class TestService {
 				c.setAssignee(assignee);
 				EnterpriseUser reporter = user.get(random.nextInt(user.size()));
 				c.setReporter(reporter);
-				for (RoleGroup roleGroup : roleGroupRepository.getProjectRoleGroups(project)) {
+				for (RoleGroup roleGroup : roleGroupRepository.getProjectRoleGroups(project.getId())) {
 					roleGroup.getUsers().size();
 					if (!roleGroup.getUsers().contains(assignee)) {
 						roleGroup.getUsers().add(assignee);

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -13,18 +14,31 @@
 				<jsp:param name="menu" value="labels"/>
 			</jsp:include>
 			<div class="maincontent">
-				<table class="default-table center">
-					<tr>
-						<th><spring:message code="project.l_label"/></th>
-						<th><spring:message code="project.l_nocase"/></th>
-					</tr>
-					<c:forEach items="${labels}" var="label">
-					<tr>
-						<td><a href="enterprise/project/${project.code}/label/${label.label}">${label.label}</a></td>
-						<td>${label.count}</td>
-					</tr>
-					</c:forEach>
-				</table>
+				<div class="mainelement">
+					<div class="title imglink"><img src="img/office/icon_label.png"/><span class="titlespan"><spring:message code="project.p_labels"/></span></div>
+					<div class="content">
+						<c:if test="${fn:length(labels) eq 0}">
+							<div class="info-element imglink">
+								<img src="img/info.png"/>
+								<span><spring:message code="project.nolabels"/></span>
+							</div>
+						</c:if>
+						<c:if test="${fn:length(labels) gt 0}">
+						<table class="default-table center">
+							<tr>
+								<th><spring:message code="project.l_label"/></th>
+								<th><spring:message code="project.l_nocase"/></th>
+							</tr>
+							<c:forEach items="${labels}" var="label">
+							<tr>
+								<td><a href="enterprise/project/${project.code}/label/${label.label}">${label.label}</a></td>
+								<td>${label.count}</td>
+							</tr>
+							</c:forEach>
+						</table>
+						</c:if>
+					</div>
+				</div>
 			</div>
 			<div class="clearfix"></div>
 		</div>

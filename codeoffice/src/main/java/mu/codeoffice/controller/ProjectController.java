@@ -65,6 +65,13 @@ public class ProjectController {
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
 		model.put("project", project);
+		model.put("statusMap", null);
+		model.put("priorityMap", null);
+		model.put("assigneeMap", null);
+		model.put("labelMap", null);
+		model.put("componentMap", null);
+		model.put("versionMap", null);
+		model.put("totalCase", null);
 		return new ModelAndView("enterprise/project/project_casesummary", model);
 	}
 
@@ -81,6 +88,7 @@ public class ProjectController {
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
 		model.put("project", project);
+		model.put("roleGroups", projectService.getProjectRoleGroups(project.getId()));
 		return new ModelAndView("enterprise/project/project_rolegroup", model);
 	}
 
@@ -98,7 +106,7 @@ public class ProjectController {
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
 		model.put("project", project);
-		model.put("labels", projectService.getProjectLabel(project.getId()));
+		model.put("labels", projectService.getProjectLabels(project.getId()));
 		return new ModelAndView("enterprise/project/project_labels", model);
 	}
 
@@ -107,6 +115,7 @@ public class ProjectController {
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
 		model.put("project", project);
+		model.put("notes", projectService.getProjectNote(project.getId()));
 		return new ModelAndView("enterprise/project/project_notes", model);
 	}
 
