@@ -26,6 +26,11 @@ public class UserTag extends SimpleTagSupport {
 	public void doTag() throws JspException, IOException {
 		JspWriter out = getJspContext().getOut();
 		
+		if (user == null) {
+			out.println("None");
+			return;
+		}
+		
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<span class=\"imglink\">");
 		if (showImage) {

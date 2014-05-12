@@ -15,7 +15,40 @@
 			<jsp:include page="/WEB-INF/view/enterprise/project/project_menu.jsp">
 				<jsp:param name="menu" value="versions"/>
 			</jsp:include>
-			<div class="maincontent"></div>
+			<div class="maincontent">
+				<table class="default-table center">
+					<tr>
+						<th></th>
+						<th><spring:message code="project.v_released"/></th>
+						<th><spring:message code="project.v_code"/></th>
+						<th><spring:message code="project.v_start"/></th>
+						<th><spring:message code="project.v_release"/></th>
+						<th><spring:message code="project.v_nocase"/></th>
+						<th><spring:message code="project.v_started"/></th>
+						<th><spring:message code="project.v_description"/></th>
+					</tr>
+					<c:forEach items="${versions}" var="version">
+					<tr>
+						<td>
+							<c:if test="${version.released}"><img src="img/office/icon_version_released.png"/></c:if>
+							<c:if test="${not version.released}"><img src="img/office/icon_version_unreleased.png"/></c:if>
+						</td>
+						<td><co:checkmark value="${version.released}" checkmarkOnly="false"/></td>
+						<td><a href="enterprise/project/${project.code}/version/${version.code}">${version.code}</a></td>
+						<td><co:date date="${version.start}"/></td>
+						<td>
+							<c:if test="${empty version.delay}"><co:date date="${version.release}"/></c:if>
+							<c:if test="${not empty version.delay}">
+								<span class="delayed-version"><spring:message code="project.v_delayedto"/>:&nbsp;<co:date date="${version.delay}"/></span>
+							</c:if>
+						</td>
+						<td>${version.noCase}</td>
+						<td><co:checkmark value="${version.started}" checkmarkOnly="false"/></td>
+						<td>${version.description}</td>
+					</tr>
+					</c:forEach>
+				</table>
+			</div>
 			<div class="clearfix"></div>
 		</div>
 	</div>

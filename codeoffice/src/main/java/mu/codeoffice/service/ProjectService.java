@@ -12,11 +12,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import mu.codeoffice.entity.Component;
+import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
 import mu.codeoffice.entity.Summary;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.repository.CaseRepository;
+import mu.codeoffice.repository.ComponentRepository;
+import mu.codeoffice.repository.LabelRepository;
 import mu.codeoffice.repository.ProjectActivityRepository;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.repository.VersionRepository;
@@ -38,10 +42,28 @@ public class ProjectService {
 	private VersionRepository versionRepository;
 	
 	@Resource
+	private LabelRepository labelRepository;
+	
+	@Resource
+	private ComponentRepository componentRepository;
+	
+	@Resource
 	private CaseRepository caseRepository;
 
 	@Resource
 	private ProjectActivityRepository projectActivityRepository;
+	
+	public List<Version> getProjectVersions(Long project) {
+		return versionRepository.getProjectVersions(project);
+	}
+	
+	public List<Component> getProjectComponents(Long project) {
+		return componentRepository.getProjectComponents(project);
+	}
+	
+	public List<Label> getProjectLabel(Long project) {
+		return labelRepository.getProjectLabels(project);
+	}
 	
 	@Transactional(readOnly = true)
 	@Cacheable(value = "projectInfoCache", key = "#code + '_' + #auth.enterpriseUser.id")
@@ -77,7 +99,7 @@ public class ProjectService {
 			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, null, null, null, null, null));
 			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), null, null, null, null, null, null, null, null));
 			Summary s = new Summary(date, noCount, noResolved);
-			setVersionMark(versionRepository.getProjectVersions(project), s, date);
+			setVersionMark(versionRepository.getProjectVersions(project.getId()), s, date);
 			summary.add(s);
 			calendar.add(Calendar.DATE, 1);
 		}
@@ -96,7 +118,7 @@ public class ProjectService {
 			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, null, null, null, null, null));
 			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), null, null, null, null, null, null, null, null));
 			Summary s = new Summary(date, noCount, noResolved);
-			setVersionMark(versionRepository.getProjectVersions(project), s, date);
+			setVersionMark(versionRepository.getProjectVersions(project.getId()), s, date);
 			summary.add(s);
 			calendar.add(Calendar.DATE, 1);
 		}

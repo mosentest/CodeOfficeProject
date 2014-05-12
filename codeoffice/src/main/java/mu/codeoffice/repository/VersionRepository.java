@@ -11,8 +11,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface VersionRepository extends JpaRepository<Version, Long> {
 
-	@Query("SELECT v FROM Version v WHERE v.project = :project")
-	public List<Version> getProjectVersions(@Param("project") Project project);
+	@Query("SELECT v FROM Version v WHERE v.project.id = :project")
+	public List<Version> getProjectVersions(@Param("project") Long project);
 
 	@Query("SELECT v FROM Version v WHERE v.project = :project AND v.released = TRUE")
 	public List<Version> getUnreleasedVersions(@Param("project") Project project);

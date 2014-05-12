@@ -14,6 +14,7 @@ import mu.codeoffice.entity.Case;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectCategory;
 import mu.codeoffice.entity.Role;
@@ -26,6 +27,7 @@ import mu.codeoffice.enums.CaseType;
 import mu.codeoffice.repository.CaseRepository;
 import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.EnterpriseUserRepository;
+import mu.codeoffice.repository.LabelRepository;
 import mu.codeoffice.repository.ProjectCategoryRepository;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.repository.RoleGroupRepository;
@@ -61,10 +63,110 @@ public class TestService {
 	private RoleGroupRepository roleGroupRepository;
 	
 	@Resource
+	private LabelRepository labelRepository;
+	
+	@Resource
 	private EnterpriseUserRepository enterpriseUserRepository;
 	
 	@Resource
 	private CaseRepository caseRepository;
+	
+	@Transactional
+	public void createLabels() {
+		Enterprise enterprise = new Enterprise();
+		enterprise.setId(1l);
+		Random random = new Random();
+		
+		List<Project> projects = projectRepository.findAll();
+		for (Project project : projects) {
+			project.setLabels(new ArrayList<>());
+			Label l1 = new Label();
+			l1.setEnterprise(enterprise);
+			l1.setLabel("Java");
+			l1.setProject(project);
+			l1.setCases(new ArrayList<>());
+			Label l2 = new Label();
+			l2.setEnterprise(enterprise);
+			l2.setLabel("Spring");
+			l2.setProject(project);
+			l2.setCases(new ArrayList<>());
+			Label l3 = new Label();
+			l3.setEnterprise(enterprise);
+			l3.setLabel("Spring Data JPA");
+			l3.setProject(project);
+			l3.setCases(new ArrayList<>());
+			Label l4 = new Label();
+			l4.setEnterprise(enterprise);
+			l4.setLabel("Spring Security");
+			l4.setProject(project);
+			l4.setCases(new ArrayList<>());
+			Label l5 = new Label();
+			l5.setEnterprise(enterprise);
+			l5.setLabel("Mysql");
+			l5.setProject(project);
+			l5.setCases(new ArrayList<>());
+			Label l6 = new Label();
+			l6.setEnterprise(enterprise);
+			l6.setLabel("EJB");
+			l6.setProject(project);
+			l6.setCases(new ArrayList<>());
+
+			labelRepository.save(l1);
+			labelRepository.save(l2);
+			labelRepository.save(l3);
+			labelRepository.save(l4);
+			labelRepository.save(l5);
+			labelRepository.save(l6);
+			project.getLabels().add(l1);
+			project.getLabels().add(l2);
+			project.getLabels().add(l3);
+			project.getLabels().add(l4);
+			project.getLabels().add(l5);
+			project.getLabels().add(l6);
+			projectRepository.save(project);
+			List<Case> cases = caseRepository.getCases(project.getId());
+			for (Case c : cases) {
+				c.setLabels(new ArrayList<>());
+				if (random.nextInt(6) == 0) {
+					c.getLabels().add(l1);
+					l1.getCases().add(c);
+					l1.setCount(l1.getCount() + 1);
+				}
+				if (random.nextInt(6) == 0) {
+					c.getLabels().add(l2);
+					l2.getCases().add(c);
+					l2.setCount(l2.getCount() + 1);
+				}
+				if (random.nextInt(6) == 0) {
+					c.getLabels().add(l3);
+					l3.getCases().add(c);
+					l3.setCount(l3.getCount() + 1);
+				}
+				if (random.nextInt(6) == 0) {
+					c.getLabels().add(l4);
+					l4.getCases().add(c);
+					l4.setCount(l4.getCount() + 1);
+				}
+				if (random.nextInt(6) == 0) {
+					c.getLabels().add(l5);
+					l5.getCases().add(c);
+					l5.setCount(l5.getCount() + 1);
+				}
+				if (random.nextInt(6) == 0) {
+					c.getLabels().add(l6);
+					l6.getCases().add(c);
+					l6.setCount(l6.getCount() + 1);
+				}
+				caseRepository.save(c);
+			}
+			labelRepository.save(l1);
+			labelRepository.save(l2);
+			labelRepository.save(l3);
+			labelRepository.save(l4);
+			labelRepository.save(l5);
+			labelRepository.save(l6);
+		}
+	}
 	
 	@Transactional
 	public void clearCase() {
@@ -399,6 +501,7 @@ public class TestService {
 				v.setRelease(DateUtil.addRandomDate(v.getStart(), DateUtil.WEEK_ * 1));
 				v.setDelay(v.getRelease().before(new Date()) ? DateUtil.addRandomDate(v.getRelease(), DateUtil.WEEK_ * 1) : null);
 				v.setCode("VER00" + j);
+				v.setDescription("Description for " + v.getCode());
 				versionRepository.save(v);
 				versions.add(v);
 			}
