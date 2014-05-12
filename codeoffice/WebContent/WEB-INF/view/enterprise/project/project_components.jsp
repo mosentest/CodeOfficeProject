@@ -17,7 +17,7 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_component.png"/><span class="titlespan"><spring:message code="project.p_components"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_components.png"/><span class="titlespan"><spring:message code="project.p_components"/></span></div>
 					<div class="content">
 						<c:if test="${fn:length(components) eq 0}">
 							<div class="info-element imglink">

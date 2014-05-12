@@ -17,7 +17,7 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_group.png"/><span class="titlespan"><spring:message code="project.p_rolegroup"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_rolegroups.png"/><span class="titlespan"><spring:message code="project.p_rolegroup"/></span></div>
 					<div class="content">
 					<table class="default-table left-header">
 						<tr>

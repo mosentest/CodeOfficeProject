@@ -15,7 +15,12 @@
 			<jsp:include page="/WEB-INF/view/enterprise/project/project_menu.jsp">
 				<jsp:param name="menu" value="reviews"/>
 			</jsp:include>
-			<div class="maincontent"></div>
+			<div class="maincontent">
+				<div class="mainelement">
+					<div class="title imglink"><img src="img/office/icon_reviews.png"/><span class="titlespan"><spring:message code="project.p_reviews"/></span></div>
+					<div class="content"></div>
+				</div>
+			</div>
 			<div class="clearfix"></div>
 		</div>
 	</div>
