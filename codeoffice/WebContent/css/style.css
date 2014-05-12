@@ -84,19 +84,26 @@ textarea {
 	color: #3774B9;
 }
 .fc-lb {
-	color: #3b73af;;
+	color: #3b73af;
 }
 .fc-w {
 	color: white;
 }
+.fc-default {
+	color: black;
+}
 /* floating */
-.fl_l {
+.fl-l {
 	display: block;
 	float: left;
 }
-.fl_r {
+.fl-r {
 	display: block;
 	float: right;
+}
+.info-span {
+	color: #777777;
+	margin-right: 6px;
 }
 .imglink *{
 	vertical-align: middle;

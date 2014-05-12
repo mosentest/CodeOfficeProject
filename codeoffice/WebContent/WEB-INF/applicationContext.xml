@@ -128,7 +128,6 @@
 	<!-- Spring Security start -->
 	
 	<security:http auto-config="true" use-expressions="true" access-denied-page="/enterprise/accessdenied" >
-		
 		<security:intercept-url pattern="/enterprise/" access="permitAll"/>
 		<security:intercept-url pattern="/enterprise/login" access="permitAll"/>
 		<security:intercept-url pattern="/enterprise/logout" access="permitAll"/>

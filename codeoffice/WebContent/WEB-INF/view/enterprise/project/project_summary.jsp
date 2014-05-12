@@ -63,7 +63,7 @@ function drawChart() {
 </script>
 <div id="content">
 	<div class="element">
-		<div class="info"><spring:message code="project.home"/></div>
+		<div class="info"><jsp:include page="/WEB-INF/view/enterprise/project/project_header.jsp"/></div>
 		<div class="content">
 			<jsp:include page="/WEB-INF/view/enterprise/project/project_menu.jsp">
 				<jsp:param name="menu" value="summary"/>

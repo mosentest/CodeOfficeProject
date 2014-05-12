@@ -21,6 +21,7 @@ import mu.codeoffice.repository.ProjectActivityRepository;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.repository.VersionRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
+import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.utility.DateUtil;
 
 import org.springframework.cache.annotation.Cacheable;
@@ -43,9 +44,17 @@ public class ProjectService {
 	private ProjectActivityRepository projectActivityRepository;
 	
 	@Transactional(readOnly = true)
-	@Cacheable(value = "projectInfoCache", key = "#code + #auth.enterprise.code")
-	public Project getProjectInfo(String code, EnterpriseAuthentication auth) {
-		Project project = projectRepository.getProject(code, auth.getEnterprise(), auth.getEnterpriseUser());
+	@Cacheable(value = "projectInfoCache", key = "#code + '_' + #auth.enterpriseUser.id")
+	public Project getProjectInfo(String code, EnterpriseAuthentication auth) throws EnterpriseAuthenticationException {
+		Project project = null;
+		if (auth.hasProjectAuthority()) {
+			project = projectRepository.getProject(code, auth.getEnterprise());
+		} else {
+			project = projectRepository.getProject(code, auth.getEnterprise(), auth.getEnterpriseUser());
+		}
+		if (project == null) {
+			throw new EnterpriseAuthenticationException("You have no access to this project.");
+		}
 		project.getCategory().getId();
 		project.getLead().getId();
 		return project;
