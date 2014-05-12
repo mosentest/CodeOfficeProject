@@ -65,13 +65,13 @@ public class ProjectController {
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
 		model.put("project", project);
-		model.put("statusMap", null);
-		model.put("priorityMap", null);
-		model.put("assigneeMap", null);
-		model.put("labelMap", null);
-		model.put("componentMap", null);
-		model.put("versionMap", null);
-		model.put("totalCase", null);
+		model.put("statusMap", projectService.getCaseStatusSummary(project));
+		model.put("priorityMap", projectService.getCasePrioritySummary(project));
+		model.put("assigneeMap", projectService.getAssigneeSummary(project));
+		model.put("labelMap", projectService.getLabelSummary(project));
+		model.put("componentMap", projectService.getComponentSummary(project));
+		model.put("versionMap", projectService.getVersionSummary(project));
+		model.put("totalCase", project.getNoCase());
 		return new ModelAndView("enterprise/project/project_casesummary", model);
 	}
 

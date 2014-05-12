@@ -41,6 +41,21 @@ public class CaseSpecifications {
 			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, component, label, assignee, reporter, status, type, priority);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
+				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.CLO));
+				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.RES));
+				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		};
+	}
+
+	public static Specification<Case> countResolved(Date date, Long project, Long version, Long component, Long label, 
+			Long assignee, Long reporter,  
+			CaseType type, CasePriority priority) {
+		return new Specification<Case>() {
+			@Override
+			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, component, label, assignee, reporter, null, type, priority);
+				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				predicates.add(builder.and(
 						builder.or(
 								builder.equal(root.get(Case_.status), CaseStatus.CLO),

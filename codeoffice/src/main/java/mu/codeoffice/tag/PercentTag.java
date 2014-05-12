@@ -18,8 +18,8 @@ public class PercentTag extends SimpleTagSupport {
 
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<div class=\"percent\">");
-		buffer.append(String.format("<div style=\"float: left; background-color: #3c78b5; width: %.1f; height: 16px;\"></div>", (float) number / total * 80));
-		buffer.append(String.format("<div style=\"float: left; margin-left: 5px; font-size: 14px; color: #3c78b5\">%.1f</div>", (float) number / total));
+		buffer.append(String.format("<div style=\"float: left; background-color: #3c78b5; width: %.1f%%; height: 16px;\"></div>", (float) number / total * 90));
+		buffer.append(String.format("<div style=\"float: left; margin-left: 10px; font-size: 14px; color: #3c78b5\">%.1f%%</div>", (float) number / total * 100));
 		buffer.append("</div>");
 		out.println(buffer.toString());
 	}

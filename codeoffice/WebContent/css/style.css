@@ -95,6 +95,9 @@ textarea {
 .fc-default {
 	color: black;
 }
+.nowrap {
+	white-space: nowrap;
+}
 /* floating */
 .fl-l {
 	display: block;
@@ -304,7 +307,7 @@ a:hover {
 	margin: 0px;
 }
 .default-table tr {
-	height: 36px;
+	height: 30px;
 }
 .default-table td {
 	border-spacing: 0px;
@@ -331,6 +334,9 @@ a:hover {
 .left-header th {
 	text-align: left;
 }
+.text {
+	margin-left: 5px;
+}
 .info-element {
 	font-size: 14px;
 	color: #333333;
@@ -339,11 +345,11 @@ a:hover {
 	padding: 10px 6px;
 }
 .percent-key {
-	width: 45%;
+	width: 40%;
 }
 .percent-value {
 	width: 5%;
 }
 .percent-percent {
-	width: 50%;
+	width: 55%;
 }
