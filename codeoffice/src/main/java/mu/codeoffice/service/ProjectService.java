@@ -47,6 +47,7 @@ public class ProjectService {
 	public Project getProjectInfo(String code, EnterpriseAuthentication auth) {
 		Project project = projectRepository.getProject(code, auth.getEnterprise(), auth.getEnterpriseUser());
 		project.getCategory().getId();
+		project.getLead().getId();
 		return project;
 	}
 
@@ -61,13 +62,13 @@ public class ProjectService {
 		List<Summary> summary = new ArrayList<Summary>();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
-		calendar.add(Calendar.DATE, -30);
+		calendar.add(Calendar.DATE, -29);
 		for (int i = 0; i < 30; i++) {
 			Date date = calendar.getTime();
-			int noCount = (int) caseRepository.count(countAll(date, project.getId(), 0l, 0l, 0l, 0l, 0l, null, null, null));
-			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), 0l, 0l, 0l, 0l, 0l, null, null, null));
+			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, null, null, null, null, null));
+			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), null, null, null, null, null, null, null, null));
 			Summary s = new Summary(date, noCount, noResolved);
-			setVersionMark(project.getVersions(), s, date);
+			setVersionMark(versionRepository.getProjectVersions(project), s, date);
 			summary.add(s);
 			calendar.add(Calendar.DATE, 1);
 		}
@@ -80,13 +81,13 @@ public class ProjectService {
 		List<Summary> summary = new ArrayList<Summary>();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
-		calendar.add(Calendar.DATE, -7);
+		calendar.add(Calendar.DATE, -6);
 		for (int i = 0; i < 7; i++) {
 			Date date = calendar.getTime();
-			int noCount = (int) caseRepository.count(countAll(date, project.getId(), 0l, 0l, 0l, 0l, 0l, null, null, null));
-			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), 0l, 0l, 0l, 0l, 0l, null, null, null));
+			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, null, null, null, null, null));
+			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), null, null, null, null, null, null, null, null));
 			Summary s = new Summary(date, noCount, noResolved);
-			setVersionMark(project.getVersions(), s, date);
+			setVersionMark(versionRepository.getProjectVersions(project), s, date);
 			summary.add(s);
 			calendar.add(Calendar.DATE, 1);
 		}

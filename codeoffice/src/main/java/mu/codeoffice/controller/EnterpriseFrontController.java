@@ -15,9 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/enterprise")
-public class EnterpriseCommonController {
+public class EnterpriseFrontController {
 	
-	private static final Logger logger = Logger.getLogger(EnterpriseCommonController.class);
+	private static final Logger logger = Logger.getLogger(EnterpriseFrontController.class);
 
 	@Autowired
 	private TestService testService;

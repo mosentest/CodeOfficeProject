@@ -192,6 +192,31 @@ a:hover {
 .vertical-tab li a:hover, .vertical-tab li a:active, .vertical-tab .active a:hover, .vertical-tab .active a:active {
 	color: inherit !important;
 }
+.horizontal-tab {
+	margin-left: 30px;
+}
+.horizontal-tab li {
+	display: inline;
+}
+.horizontal-tab li a, .horizontal-tab .active a {
+	display: block;
+	cursor: pointer;
+	border: 1px solid #cccccc;
+	float: left;
+	padding: 5px 12px;
+}
+.horizontal-tab .active a {
+	background-color: #205081 !important;
+	color: white !important;
+	border: 1px solid #205081;
+}
+.tab-content {
+	float: left;
+	border-top: 1px solid #cccccc;
+	width: 100%;
+	padding-top: 10px;
+	color: #333333;
+}
 #main {
 	width: 1200px;
 	margin: 20px auto 0px auto;
@@ -230,6 +255,7 @@ a:hover {
 	margin: 0px auto;
 	border-bottom: 1px solid #E5E5E5;
 	padding: 10px 6px;
+	font-size: 18px;
 }
 .subelement > .content .element-block > .content {
 	border: none;
@@ -275,6 +301,7 @@ a:hover {
     line-height: 26px;
 }
 .info-title {
+	font-size: 14px;
 	width: 25%;
 	color: #333333;
 }

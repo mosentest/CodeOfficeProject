@@ -36,9 +36,11 @@ public class ProjectController {
 			model.put("error", "You do not have access to this project.");
 			return new ModelAndView("enterprise/accessdenied", model);
 		}
+		model.put("project", project);
 		model.put("monthlySummary", projectService.getProjectMonthlySummary(project));
 		model.put("weeklySummary", projectService.getProjectWeeklySummary(project));
 		model.put("unreleasedVersions", projectService.getUnreleasedVersions(project));
+		model.put("activityStream", null);
 		model.put("moreActivity", true);
 		return new ModelAndView("enterprise/project/project_summary", model);
 	}

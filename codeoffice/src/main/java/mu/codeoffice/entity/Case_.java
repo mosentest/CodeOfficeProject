@@ -1,18 +1,11 @@
-package mu.codeoffice.metamodel;
+package mu.codeoffice.entity;
 
 import java.util.Date;
 
-import javax.persistence.metamodel.CollectionAttribute;
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import mu.codeoffice.entity.Case;
-import mu.codeoffice.entity.Component;
-import mu.codeoffice.entity.Enterprise;
-import mu.codeoffice.entity.EnterpriseUser;
-import mu.codeoffice.entity.Label;
-import mu.codeoffice.entity.Project;
-import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseStatus;
 import mu.codeoffice.enums.CaseType;
@@ -30,11 +23,11 @@ public class Case_ {
 	
 	public static volatile SingularAttribute<Case, Date> create; 
 	
-	public static volatile CollectionAttribute<Case, Version> versions;
+	public static volatile ListAttribute<Case, Version> versions;
 	
-	public static volatile CollectionAttribute<Case, Component> components;
+	public static volatile ListAttribute<Case, Component> components;
 	
-	public static volatile CollectionAttribute<Case, Label> labels;
+	public static volatile ListAttribute<Case, Label> labels;
 	
 	public static volatile SingularAttribute<Case, CaseStatus> status;
 	

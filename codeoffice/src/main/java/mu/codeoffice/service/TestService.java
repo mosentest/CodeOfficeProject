@@ -3,6 +3,7 @@ package mu.codeoffice.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -64,6 +65,37 @@ public class TestService {
 	
 	@Resource
 	private CaseRepository caseRepository;
+	
+	@Transactional
+	public void clearCase() {
+		List<RoleGroup> roleGroups = roleGroupRepository.findAll();
+		for (RoleGroup roleGroup : roleGroups) {
+			roleGroup.getUsers().size();
+			Iterator<EnterpriseUser> it = roleGroup.getUsers().iterator();
+			while (it.hasNext()) {
+				if (it.next().getId() == 1l) {
+					it.remove();
+				}
+			}
+			roleGroupRepository.save(roleGroup);
+		}
+		List<Version> versions = versionRepository.findAll();
+		for (Version version : versions) {
+			version.getRelatedCases().size();
+			version.getRelatedCases().size();
+			version.setReleaseCases(new ArrayList<>());
+			version.setRelatedCases(new ArrayList<>());
+			versionRepository.save(version);
+		}
+		List<Case> cases = caseRepository.findAll();
+		for (Case c : cases) {
+			c.setVersions(new ArrayList<>());
+			c.setReleaseVersion(null);
+			caseRepository.save(c);
+			caseRepository.delete(c);
+		}
+		System.out.println("removed");
+	}
 	
 	@Transactional
 	public void createUser() {
@@ -154,8 +186,8 @@ public class TestService {
 		Random random = new Random();
 		for (Project project : projects) {
 			List<Case> cases = new ArrayList<>();
-			int noCase = random.nextInt(20);
-			for (int i = 0; i < random.nextInt(); i++) {
+			int noCase = 20 + random.nextInt(30);
+			for (int i = 0; i < noCase; i++) {
 				project.getRoleGroups().size();
 				project.getRoleGroups().forEach(roleGroup -> roleGroup.getUsers().size());
 				project.getVersions().size();
@@ -163,11 +195,12 @@ public class TestService {
 				project.getVersions().forEach(version -> version.getReleaseCases().size());
 				project.getComponents().size();
 				Case c = new Case();
+				c.setProject(project);
 				c.setEnterprise(enterprise);
 				c.setSummary("Case summary " + i + " for project" + project.getCode());
 				c.setDescription("Case description number " + i + " for project" + project.getName());
 				c.setCreate(DateUtil.getRandomDateInRange("2014-05-01", "2014-05-10"));
-				c.setUpdate(DateUtil.addRandomDate(c.getCreate(), DateUtil.DAY * 6));
+				c.setUpdate(DateUtil.addRandomDate(c.getCreate(), DateUtil.DAY_ * 6));
 				if (c.getUpdate().after(new Date())) {
 					c.setUpdate(new Date());
 				}
@@ -176,11 +209,12 @@ public class TestService {
 				EnterpriseUser reporter = user.get(random.nextInt(user.size()));
 				c.setReporter(reporter);
 				for (RoleGroup roleGroup : roleGroupRepository.getProjectRoleGroups(project)) {
+					roleGroup.getUsers().size();
 					if (!roleGroup.getUsers().contains(assignee)) {
 						roleGroup.getUsers().add(assignee);
 					}
 					if (!roleGroup.getUsers().contains(reporter)) {
-						roleGroup.getUsers().add(assignee);
+						roleGroup.getUsers().add(reporter);
 					}
 					roleGroupRepository.save(roleGroup);
 				}
@@ -195,9 +229,9 @@ public class TestService {
 				c.setType(CaseType.values()[random.nextInt(CaseType.values().length)]);	
 				c.setPriority(CasePriority.values()[random.nextInt(CasePriority.values().length)]);
 				c.setStatus(status);
-				if (status != CaseStatus.CLO && status != CaseStatus.RES) {
+				if (status == CaseStatus.CLO || status == CaseStatus.RES) {
 					c.setResolution(CaseResolution.values()[random.nextInt(CaseResolution.values().length)]);
-					c.setClose(DateUtil.addRandomDate(c.getUpdate(), DateUtil.DAY * 3));
+					c.setClose(DateUtil.addRandomDate(c.getUpdate(), DateUtil.DAY_ * 3));
 					if (c.getClose().after(new Date())) {
 						c.setClose(new Date());
 					}
@@ -339,7 +373,7 @@ public class TestService {
 			p.setCategory(categories.get(random.nextInt(categories.size())));
 			p.setCreate(DateUtil.getRandomDateInRange("2014-05-01", "2014-05-10"));
 			p.setCompleted(random.nextInt(10) < 2);
-			p.setUpdate(DateUtil.addRandomDate(p.getCreate(), DateUtil.DAY * 5));
+			p.setUpdate(DateUtil.addRandomDate(p.getCreate(), DateUtil.DAY_ * 5));
 			p.setEnd(p.isCompleted() ?  DateUtil.getRandomDateInRange("2014-05-01", "2014-05-10"): DateUtil.getRandomDateInRange("2014-05-10", "2014-05-20"));
 			p.setRemoved(random.nextInt(10) == 0);
 			p.setName("Codeoffice project " + (i + 1));
@@ -360,10 +394,10 @@ public class TestService {
 				Version v = new Version();
 				v.setEnterprise(enterprise);
 				v.setProject(p);
-				v.setStart(DateUtil.addRandomDate(p.getCreate(), DateUtil.DAY * 2));
+				v.setStart(DateUtil.addRandomDate(p.getCreate(), DateUtil.DAY_ * 2));
 				v.setStarted(random.nextBoolean());
-				v.setRelease(DateUtil.addRandomDate(v.getStart(), DateUtil.WEEK * 1));
-				v.setDelay(v.getRelease().before(new Date()) ? DateUtil.addRandomDate(v.getRelease(), DateUtil.WEEK * 1) : null);
+				v.setRelease(DateUtil.addRandomDate(v.getStart(), DateUtil.WEEK_ * 1));
+				v.setDelay(v.getRelease().before(new Date()) ? DateUtil.addRandomDate(v.getRelease(), DateUtil.WEEK_ * 1) : null);
 				v.setCode("VER00" + j);
 				versionRepository.save(v);
 				versions.add(v);

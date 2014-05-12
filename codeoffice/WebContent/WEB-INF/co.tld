@@ -83,6 +83,17 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>jssummary</name>
+		<tag-class>mu.codeoffice.tag.JsSummaryTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>summary</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.util.Listr</type>
+		</attribute>
+	</tag>
+	<tag>
 		<name>checkmark</name>
 		<tag-class>mu.codeoffice.tag.CheckmarkTag</tag-class>
 		<body-content>scriptless</body-content>

@@ -33,10 +33,16 @@
 			$(this).removeClass('current');
 		});
 		if ($('.leftmenu')[0].offsetHeight >= $('.maincontent')[0].offsetHeight) {
-			$('.maincontent')[0].style.height = $('.leftmenu')[0].offsetHeight + "px";
+			$('.maincontent')[0].style.border = "none";
+			$('.leftmenu')[0].style.borderRight = "1px solid #E5E5E5";
 		} else {
-			$('.leftmenu')[0].style.height = $('.maincontent')[0].offsetHeight + "px";
+			$('.maincontent')[0].style.borderLeft = "1px solid #E5E5E5";
+			$('.leftmenu')[0].style.border = "none";
 		}	
+		$('.horizontal-tab li').click(function() {
+			$('.horizontal-tab li').removeClass('active');
+			$(this).addClass('active');
+		});
 	});
 </script>
 </head>

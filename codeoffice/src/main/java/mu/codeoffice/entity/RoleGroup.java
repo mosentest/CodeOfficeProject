@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -38,7 +39,9 @@ public class RoleGroup implements Serializable {
 	private Role role;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
+    @JoinTable(name = "office_rolegroup_users", 
+    	joinColumns = @JoinColumn(name = "rolegroup_id", referencedColumnName = "id"), 
+    	inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<EnterpriseUser> users;
 	
 	public RoleGroup() {}
