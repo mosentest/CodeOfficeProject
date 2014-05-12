@@ -67,8 +67,11 @@ public class Version implements Serializable {
 	@Column(name = "released")
 	private boolean released;
 
-	@Column(name = "no_case")
-	private int noCase;
+	@Column(name = "no_release")
+	private int noRelease;
+	
+	@Column(name = "no_related")
+	private int noRelated;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "versions")
 	private List<Case> relatedCases;
@@ -177,14 +180,6 @@ public class Version implements Serializable {
 		this.started = started;
 	}
 
-	public int getNoCase() {
-		return noCase;
-	}
-
-	public void setNoCase(int noCase) {
-		this.noCase = noCase;
-	}
-
 	public List<Summary> getSummary() {
 		return summary;
 	}
@@ -199,6 +194,22 @@ public class Version implements Serializable {
 
 	public void setReleaseCases(List<Case> releaseCases) {
 		this.releaseCases = releaseCases;
+	}
+
+	public int getNoRelease() {
+		return noRelease;
+	}
+
+	public void setNoRelease(int noRelease) {
+		this.noRelease = noRelease;
+	}
+
+	public int getNoRelated() {
+		return noRelated;
+	}
+
+	public void setNoRelated(int noRelated) {
+		this.noRelated = noRelated;
 	}
 	
 }

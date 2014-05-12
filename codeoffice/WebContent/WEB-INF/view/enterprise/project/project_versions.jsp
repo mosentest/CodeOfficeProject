@@ -33,7 +33,8 @@
 								<th><spring:message code="project.v_code"/></th>
 								<th><spring:message code="project.v_start"/></th>
 								<th><spring:message code="project.v_release"/></th>
-								<th><spring:message code="project.v_nocase"/></th>
+								<th><spring:message code="project.v_norelease"/></th>
+								<th><spring:message code="project.v_norelated"/></th>
 								<th><spring:message code="project.v_started"/></th>
 								<th><spring:message code="project.v_description"/></th>
 							</tr>
@@ -52,7 +53,8 @@
 										<span class="delayed-version"><spring:message code="project.v_delayedto"/>:&nbsp;<co:date date="${version.delay}"/></span>
 									</c:if>
 								</td>
-								<td>${version.noCase}</td>
+								<td>${version.noRelease}</td>
+								<td>${version.noRelated}</td>
 								<td><co:checkmark value="${version.started}" checkmarkOnly="false"/></td>
 								<td>${version.description}</td>
 							</tr>

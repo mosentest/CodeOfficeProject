@@ -20,26 +20,26 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class CaseSpecifications {
 
-	public static Specification<Case> countAll(Date date, Long project, Long version, Long component, Long label, 
+	public static Specification<Case> countAll(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  
 			CaseStatus status, CaseType type, CasePriority priority) {
 		return new Specification<Case>() {
 			@Override
 			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, component, label, assignee, reporter, status, type, priority);
+				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		};
 	}
 
-	public static Specification<Case> countUnresolved(Date date, Long project, Long version, Long component, Long label, 
+	public static Specification<Case> countUnresolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  
 			CaseStatus status, CaseType type, CasePriority priority) {
 		return new Specification<Case>() {
 			@Override
 			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, component, label, assignee, reporter, status, type, priority);
+				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.CLO));
 				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.RES));
@@ -48,13 +48,13 @@ public class CaseSpecifications {
 		};
 	}
 
-	public static Specification<Case> countResolved(Date date, Long project, Long version, Long component, Long label, 
+	public static Specification<Case> countResolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  
 			CaseType type, CasePriority priority) {
 		return new Specification<Case>() {
 			@Override
 			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, component, label, assignee, reporter, null, type, priority);
+				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, null, type, priority);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				predicates.add(builder.and(
 						builder.or(
@@ -68,7 +68,7 @@ public class CaseSpecifications {
 	}
 	
 	private static List<Predicate> toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder, 
-			Date date, Long project, Long version, Long component, Long label, 
+			Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter, 
 			CaseStatus status, CaseType type, CasePriority priority) {
 		List<Predicate> predicates = new ArrayList<>();
@@ -83,6 +83,9 @@ public class CaseSpecifications {
 		}
 		if (project != null) {
 			predicates.add(builder.equal(root.get(Case_.project).<Long>get("id"), project));
+		}
+		if (releaseVersion != null) {
+			predicates.add(builder.equal(root.get(Case_.releaseVersion).<Long>get("id"), releaseVersion));
 		}
 		if (assignee != null) {
 			predicates.add(builder.equal(root.get(Case_.assignee).<Long>get("id"), assignee));

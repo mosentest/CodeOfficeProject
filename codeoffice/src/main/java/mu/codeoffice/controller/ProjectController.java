@@ -57,6 +57,7 @@ public class ProjectController {
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
 		model.put("project", project);
+		model.put("roadMap", projectService.getRoadMap(project));
 		return new ModelAndView("enterprise/project/project_roadmap", model);
 	}
 

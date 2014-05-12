@@ -25,6 +25,8 @@ public class Case_ {
 	
 	public static volatile ListAttribute<Case, Version> versions;
 	
+	public static volatile SingularAttribute<Case, Version> releaseVersion;
+	
 	public static volatile ListAttribute<Case, Component> components;
 	
 	public static volatile ListAttribute<Case, Label> labels;

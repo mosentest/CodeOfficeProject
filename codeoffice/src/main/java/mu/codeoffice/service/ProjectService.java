@@ -130,8 +130,8 @@ public class ProjectService {
 		calendar.add(Calendar.DATE, -29);
 		for (int i = 0; i < 30; i++) {
 			Date date = calendar.getTime();
-			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, null, null, null, null, null));
-			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), null, null, null, null, null, null, null, null));
+			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, null, null, null, null, null, null));
+			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), null, null, null, null, null, null, null, null, null));
 			Summary s = new Summary(date, noCount, noResolved);
 			setVersionMark(versionRepository.getProjectVersions(project.getId()), s, date);
 			summary.add(s);
@@ -149,8 +149,8 @@ public class ProjectService {
 		calendar.add(Calendar.DATE, -6);
 		for (int i = 0; i < 7; i++) {
 			Date date = calendar.getTime();
-			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, null, null, null, null, null));
-			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), null, null, null, null, null, null, null, null));
+			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, null, null, null, null, null, null));
+			int noResolved = (int) caseRepository.count(countUnresolved(date, project.getId(), null, null, null, null, null, null, null, null, null));
 			Summary s = new Summary(date, noCount, noResolved);
 			setVersionMark(versionRepository.getProjectVersions(project.getId()), s, date);
 			summary.add(s);
@@ -167,8 +167,8 @@ public class ProjectService {
 		calendar.add(Calendar.DATE, -29);
 		for (int i = 0; i < 30; i++) {
 			Date date = calendar.getTime();
-			int noCount = (int) caseRepository.count(countAll(date, null, null, null, null, assignee.getId(), null, null, null, null));
-			int noResolved = (int) caseRepository.count(countResolved(date, null, null, null, null, assignee.getId(), null, null, null));
+			int noCount = (int) caseRepository.count(countAll(date, null, null, null, null, null, assignee.getId(), null, null, null, null));
+			int noResolved = (int) caseRepository.count(countResolved(date, null, null, null, null, null, assignee.getId(), null, null, null));
 			summary.add(new Summary(date, noCount, noResolved));
 			calendar.add(Calendar.DATE, 1);
 		}
@@ -183,8 +183,8 @@ public class ProjectService {
 		calendar.add(Calendar.DATE, -29);
 		for (int i = 0; i < 30; i++) {
 			Date date = calendar.getTime();
-			int noCount = (int) caseRepository.count(countAll(date, null, null, null, null, null, reporter.getId(), null, null, null));
-			int noResolved = (int) caseRepository.count(countResolved(date, null, null, null, null, null, reporter.getId(), null, null));
+			int noCount = (int) caseRepository.count(countAll(date, null, null, null, null, null, null, reporter.getId(), null, null, null));
+			int noResolved = (int) caseRepository.count(countResolved(date, null, null, null, null, null, null, reporter.getId(), null, null));
 			summary.add(new Summary(date, noCount, noResolved));
 			calendar.add(Calendar.DATE, 1);
 		}
@@ -198,8 +198,8 @@ public class ProjectService {
 		calendar.add(Calendar.DATE, -29);
 		for (int i = 0; i < 30; i++) {
 			Date date = calendar.getTime();
-			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, assignee.getId(), null, null, null, null));
-			int noResolved = (int) caseRepository.count(countResolved(date, project.getId(), null, null, null, assignee.getId(), null, null, null));
+			int noCount = (int) caseRepository.count(countAll(date, project.getId(), null, null, null, null, assignee.getId(), null, null, null, null));
+			int noResolved = (int) caseRepository.count(countResolved(date, project.getId(), null, null, null, null, assignee.getId(), null, null, null));
 			Summary s = new Summary(date, noCount, noResolved);
 			setVersionMark(project.getVersions(), s, date);
 			summary.add(s);
@@ -212,7 +212,7 @@ public class ProjectService {
 	public Map<Version, Integer> getVersionSummary(Project project) {
 		Map<Version, Integer> map = new LinkedHashMap<>();
 		for (Version version : versionRepository.getProjectVersions(project.getId())) {
-			map.put(version, (int) caseRepository.count(countUnresolved(null, project.getId(), version.getId(), null, null, null, null, null, null, null)));
+			map.put(version, (int) caseRepository.count(countUnresolved(null, project.getId(), version.getId(), null, null, null, null, null, null, null, null)));
 		}
 		clearZeroValues(map);
 		return map;
@@ -222,7 +222,7 @@ public class ProjectService {
 	public Map<Version, Integer> getRoadMap(Project project) {
 		Map<Version, Integer> map = new LinkedHashMap<>();
 		for (Version version : versionRepository.getProjectVersions(project.getId())) {
-			map.put(version, (int) caseRepository.count(countResolved(null, project.getId(), version.getId(), null, null, null, null, null, null)));
+			map.put(version, (int) caseRepository.count(countResolved(null, project.getId(), null, version.getId(), null, null, null, null, null, null)));
 		}
 		clearZeroValues(map);
 		return map;
@@ -232,7 +232,7 @@ public class ProjectService {
 	public Map<Component, Integer> getComponentSummary(Project project) {
 		Map<Component, Integer> map = new LinkedHashMap<>();
 		for (Component component : componentRepository.getProjectComponents(project.getId())) {
-			map.put(component, (int) caseRepository.count(countUnresolved(null, project.getId(), null, component.getId(), null, null, null, null, null, null)));
+			map.put(component, (int) caseRepository.count(countUnresolved(null, project.getId(), null, null, component.getId(), null, null, null, null, null, null)));
 		}
 		clearZeroValues(map);
 		return map;
@@ -242,7 +242,7 @@ public class ProjectService {
 	public Map<Label, Integer> getLabelSummary(Project project) {
 		Map<Label, Integer> map = new LinkedHashMap<>();
 		for (Label label : labelRepository.getProjectLabels(project.getId())) {
-			map.put(label, (int) caseRepository.count(countUnresolved(null, project.getId(), null, null, label.getId(), null, null, null, null, null)));
+			map.put(label, (int) caseRepository.count(countUnresolved(null, project.getId(), null, null, null, label.getId(), null, null, null, null, null)));
 		}
 		clearZeroValues(map);
 		return map;
@@ -252,7 +252,7 @@ public class ProjectService {
 	public Map<CaseStatus, Integer> getCaseStatusSummary(Project project) {
 		Map<CaseStatus, Integer> map = new LinkedHashMap<>();
 		for (CaseStatus status : CaseStatus.values()) {
-			map.put(status, (int) caseRepository.count(countAll(null, project.getId(), null, null, null, null, null, status, null, null)));
+			map.put(status, (int) caseRepository.count(countAll(null, project.getId(), null, null, null, null, null, null, status, null, null)));
 		}
 		clearZeroValues(map);
 		return map;
@@ -262,7 +262,7 @@ public class ProjectService {
 	public Map<CasePriority, Integer> getCasePrioritySummary(Project project) {
 		Map<CasePriority, Integer> map = new LinkedHashMap<>();
 		for (CasePriority priority : CasePriority.values()) {
-			map.put(priority, (int) caseRepository.count(countUnresolved(null, project.getId(), null, null, null, null, null, null, null, priority)));
+			map.put(priority, (int) caseRepository.count(countUnresolved(null, project.getId(), null, null, null, null, null, null, null, null, priority)));
 		}
 		clearZeroValues(map);
 		return map;
@@ -274,7 +274,7 @@ public class ProjectService {
 		for (RoleGroup roleGroup : roleGroupRepository.getProjectRoleGroups(project.getId())) {
 			for (EnterpriseUser user : roleGroup.getUsers()) {
 				if (map.get(user) == null) {
-					map.put(user, (int) caseRepository.count(countUnresolved(null, project.getId(), null, null, null, user.getId(), null, null, null, null)));
+					map.put(user, (int) caseRepository.count(countUnresolved(null, project.getId(), null, null, null, null, user.getId(), null, null, null, null)));
 				}
 			}
 		}

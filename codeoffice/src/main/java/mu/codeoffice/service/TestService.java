@@ -70,6 +70,18 @@ public class TestService {
 	
 	@Resource
 	private CaseRepository caseRepository;
+
+	@Transactional
+	public void test() {
+		List<Version> versions = versionRepository.findAll();
+		for (Version version : versions) {
+			version.getReleaseCases().size();
+			version.setNoRelease(version.getReleaseCases().size());
+			version.getRelatedCases().size();
+			version.setNoRelated(version.getRelatedCases().size());
+			versionRepository.save(version);
+		}
+	}
 	
 	@Transactional
 	public void createLabels() {
