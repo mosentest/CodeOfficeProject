@@ -1,9 +1,7 @@
 package mu.codeoffice.enums;
 
-public interface CaseEnum {
+public interface TextEnum {
 
 	public String getCode();
-	
-	public String getImagePath();
 	
 }

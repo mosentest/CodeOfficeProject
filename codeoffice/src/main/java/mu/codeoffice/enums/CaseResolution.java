@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum CaseResolution implements CaseEnum {
+public enum CaseResolution implements TextEnum {
 	
 	FIX("fixed"), WNF("will_not_fix"), DUP("duplicate"), 
 	INC("incomplete"), IMP("implemented"), RES("responded"), 
@@ -16,11 +16,6 @@ public enum CaseResolution implements CaseEnum {
 	@Override
 	public String getCode() {
 		return code;
-	}
-	
-	@Override
-	public String getImagePath() {
-		return null;
 	}
 
 }

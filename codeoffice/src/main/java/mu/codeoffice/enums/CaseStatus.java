@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum CaseStatus implements CaseEnum {
+public enum CaseStatus implements TextImageEnum {
 	
 	ASG("assigned"), DOC("document"), DOW("down"), EMA("email"), GEN("generic"),
 	INF("information"), INV("invisible"), NEI("needinfo"), TRA("trash"), UNA("unassigned"), _UP("up"), VIS("visible"),
@@ -20,7 +20,7 @@ public enum CaseStatus implements CaseEnum {
 	
 	@Override
 	public String getImagePath() {
-		return "status/" + code;
+		return "office/status/" + code;
 	}
 
 }

@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum CaseType implements CaseEnum {
+public enum CaseType implements TextImageEnum {
 	
 	BLA("blank"), BUG("bug"), DEF("defect"), DOC("documentation"), EPI("epic"), GEN("generic"), 
 	HEA("health"), REM("removefeature"), REQ("requirement"), SAL("sales"), STO("story"), 
@@ -21,7 +21,7 @@ public enum CaseType implements CaseEnum {
 
 	@Override
 	public String getImagePath() {
-		return "type/" + code;
+		return "office/type/" + code;
 	}
 
 }

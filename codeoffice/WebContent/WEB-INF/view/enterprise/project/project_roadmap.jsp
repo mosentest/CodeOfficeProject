@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
@@ -29,18 +29,18 @@
 									</div>
 									<div class="fs-ms p_3">${version.key.description}</div>
 									<div class="fc-g p_3">
-										<spring:message code="project.v_release"/>:&nbsp;<co:date date="${version.key.release}"/>
+										<spring:message code="project.v_release"/>:&nbsp;<code:date date="${version.key.release}"/>
 									</div>
 									<c:if test="${not empty version.key.delay}">
 										<div class="delayed-version p_3">
-											<spring:message code="project.v_delayedto"/>:&nbsp;<co:date date="${version.key.delay}"/>
+											<spring:message code="project.v_delayedto"/>:&nbsp;<code:date date="${version.key.delay}"/>
 										</div>
 									</c:if>
 									<div class="p_3"><a href="enterprise/pro_${project.code}/r_${version.key.code}"><spring:message code="project.v_releasenote"/></a>
 									</div>
 								</div>
 								<div class="fl-r p_3">
-									<co:percent number="${version.value}" total="${version.key.noRelease}" background="red" color="green" width="500" showPercentage="false"/>
+									<code:percent number="${version.value}" total="${version.key.noRelease}" background="red" color="green" width="500" showPercentage="false"/>
 									<div class="fs-ms fc-bg" style="margin-left: 10px;">
 										<a href="enterprise/pro_${project.code}/v_${version.key.code}">${version.value}</a>
 										&nbsp;of&nbsp;

@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -28,27 +28,15 @@
 						<table class="info-table">
 							<tr>
 								<td class="case-info-title"><spring:message code="project.c_type"/>:</td>
-								<td class="case-info-value">
-									<co:caseEnum value="${case.type}"/>
-									<span class="text"><spring:message code="${case.type.code}"/></span>
-								</td>
+								<td class="case-info-value"><code:enum value="${case.type}"/></td>
 								<td class="case-info-title"><spring:message code="project.c_status"/>:</td>
-								<td class="case-info-value">
-									<co:caseEnum value="${case.status}"/>
-									<span class="text"><spring:message code="${case.status.code}"/></span>
-								</td>
+								<td class="case-info-value"><code:enum value="${case.status}"/></td>
 							</tr>
 							<tr>
 								<td class="case-info-title"><spring:message code="project.c_priority"/>:</td>
-								<td class="case-info-value">
-									<co:caseEnum value="${case.priority}"/>
-									<span class="text"><spring:message code="${case.priority.code}"/></span>
-								</td>
+								<td class="case-info-value"><code:enum value="${case.priority}"/></td>
 								<td class="case-info-title"><spring:message code="project.c_resolution"/>:</td>
-								<td class="case-info-value">
-									<co:caseEnum value="${case.resolution}"/>
-									<span class="text"><spring:message code="${case.resolution.code}"/></span>
-								</td>
+								<td class="case-info-value"><code:enum text="${case.resolution}"/></td>
 							</tr>
 							<tr>
 								<td class="case-info-title"><spring:message code="project.c_releaseversion"/>:</td>
@@ -108,7 +96,7 @@
 									<div class="caselink-element">
 										<c:forEach items="${link.cases}" var="linkedCase">
 											<div style="height: 26px;" class="imglink">
-												<co:caseEnum value="${linkedCase.type}"/>
+												<code:enum value="${linkedCase.type}"/>
 												<div class="text">
 													<a href="enterprise/pro_${project.code}/case/${linkedCase.code}" style="${linkedCase.removed ? 'removed-link' : ''">${linkedCase.caseHeader}</a>
 												</div>
@@ -147,19 +135,19 @@
 					</div>
 					<div class="tab-content" id="tab-content">
 						<c:if test="${activity eq 'note'}">
-							<c:if test="${fn:length(notes) eq 0}"><<spring:message var="message" code="project.c_nonote"/><co:info message="${message}"/></c:if>
+							<c:if test="${fn:length(notes) eq 0}"><<spring:message var="message" code="project.c_nonote"/><code:info message="${message}"/></c:if>
 							<c:if test="${fn:length(notes) gt 0}"></c:if>
 						</c:if>
 						<c:if test="${activity eq 'worklog'}">
-							<c:if test="${fn:length(worklogs) eq 0}"><spring:message var="message" code="project.c_noworklog"/><co:info message="${message}"/></c:if>
+							<c:if test="${fn:length(worklogs) eq 0}"><spring:message var="message" code="project.c_noworklog"/><code:info message="${message}"/></c:if>
 							<c:if test="${fn:length(worklogs) gt 0}"></c:if>
 						</c:if>
 						<c:if test="${activity eq 'history'}">
-							<c:if test="${fn:length(histories) eq 0}"><spring:message var="message" code="project.c_nohistory"/><co:info message="${message}"/></c:if>
+							<c:if test="${fn:length(histories) eq 0}"><spring:message var="message" code="project.c_nohistory"/><code:info message="${message}"/></c:if>
 							<c:if test="${fn:length(histories) gt 0}"></c:if>
 						</c:if>
 						<c:if test="${activity eq 'activity'}">
-							<c:if test="${fn:length(activities) eq 0}"><spring:message var="message" code="project.c_noactivity"/><co:info message="${message}"/></c:if>
+							<c:if test="${fn:length(activities) eq 0}"><spring:message var="message" code="project.c_noactivity"/><code:info message="${message}"/></c:if>
 							<c:if test="${fn:length(activities) gt 0}"></c:if>
 						</c:if>
 						<div layout="block">
@@ -168,7 +156,7 @@
 									<div class="note-item-header" layout="block">
 										<util:employee employee="#{note.creator}" link="true" width="24" height="24"/>#{' '}
 										<h:outputText value="#{office.case_addednote}"/>#{' - '}
-										<co:date date="#{note.create}" recentForm="true" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/>
+										<code:date date="#{note.create}" recentForm="true" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/>
 									</div>
 									<div class="note-item-content" layout="block">
 										<h:outputText value="#{note.content}"/>
@@ -193,7 +181,7 @@
 											<div layout="block">
 												<util:employee employee="#{history.creator}" link="true" width="24" height="24"/>#{' '}
 												<h:outputText value="#{office.case_madechanges}"/>#{' - '}
-												<co:date date="#{history.create}" recentForm="true" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/>
+												<code:date date="#{history.create}" recentForm="true" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/>
 											</div>
 											<ui:repeat value="#{history.elements}" var="element">
 												<div class="history-item-content" layout="block">
@@ -246,13 +234,13 @@
 					<div class="content fs-ms" layout="block">
 						<h:panelGrid class="info-table" columns="2" columnClasses="case_finfo-title,case_finfo-value">
 							<div><h:outputText value="#{office.case_create}"/>:</div>
-							<div><co:date date="#{case.create}" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/></div>
+							<div><code:date date="#{case.create}" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/></div>
 							
 							<div><h:outputText value="#{office.case_update}"/>:</div>
-							<div><co:date date="#{case.update}" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/></div>
+							<div><code:date date="#{case.update}" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/></div>
 							
 							<div rendered="#{not empty case.close}"><h:outputText value="#{office.case_close}"/>:</div>
-							<div rendered="#{not empty case.close}"><co:date date="#{case.close}" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/></div>
+							<div rendered="#{not empty case.close}"><code:date date="#{case.close}" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/></div>
 						</h:panelGrid>
 					</div>
 				</div>

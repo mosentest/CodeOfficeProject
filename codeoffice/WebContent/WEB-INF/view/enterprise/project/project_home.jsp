@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -20,7 +20,7 @@
 						<div class="content">
 							<c:if test="${fn:length(assignedCases) eq 0}">
 								<spring:message var="message" code="project.nocases"/>
-								<co:info message="${message}"/>
+								<code:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(assignedCases) gt 0}">
 								<table class="default-table left">
@@ -32,10 +32,10 @@
 									</tr>
 									<c:forEach items="assignedCases" var="c">
 									<tr>
-										<td class="fit-cell"><co:caseEnum value="${c.priority}" imageOnly="true"/></td>
+										<td class="fit-cell"><code:enum image="${c.priority}" /></td>
 										<td class="fit-cell"><a href="enterprise/cas_${c.code}">${c.code}</a></td>
 										<td>${c.summary}</td>
-										<td class="fit-cell"><co:caseEnum value="${c.status}" imageOnly="true"/></td>
+										<td class="fit-cell"><code:enum image="${c.status}"/></td>
 									</tr>
 									</c:forEach>
 								</table>
@@ -48,7 +48,7 @@
 						<div class="content">
 							<c:if test="${fn:length(workNotes) eq 0}">
 								<spring:message var="message" code="project.noworknotes"/>
-								<co:info message="${message}"/>
+								<code:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(workNotes) gt 0}">
 								<table class="default-table left">
@@ -59,9 +59,9 @@
 									</tr>
 									<c:forEach items="${workNotes}" var="workNote">
 									<tr>
-										<td class="fit-cell"><co:date date="${workNote.update}" format="yy-MM-dd HH:mm"/></td>
+										<td class="fit-cell"><code:date date="${workNote.update}" format="yy-MM-dd HH:mm"/></td>
 										<td>${workNote.summary}</td>
-										<td class="fit-cell"><co:user user="${workNote.creator}"/></td>
+										<td class="fit-cell"><code:user user="${workNote.creator}"/></td>
 									</tr>
 									</c:forEach>
 								</table>
@@ -74,7 +74,7 @@
 						<div class="content">
 							<c:if test="${fn:length(statusSummary.keySet) eq 0}">
 								<spring:message var="message" code="project.nostatusavailable"/>
-								<co:info message="${message}"/>
+								<code:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(statusSummary.keySet) gt 0}">
 								<table class="default-table">
@@ -88,7 +88,7 @@
 										<td class="percent-key"><img src="img/enterprise/office/${key.code}.png"/></td>
 										<td class="percent-value">${statusSummary[key]}</td>
 										<td class="percent-percent">
-											<co:percent number="${statusSummary[key]}" total="${totalCaseCount}"/>
+											<code:percent number="${statusSummary[key]}" total="${totalCaseCount}"/>
 										</td>
 									</tr>
 									</c:forEach>
@@ -104,7 +104,7 @@
 						<div class="content">
 							<c:if test="${fn:length(allCases) eq 0}">
 								<spring:message var="message" code="project.nocases"/>
-								<co:info message="${message}"/>
+								<code:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(allCases) gt 0}">
 								<table class="default-table">
@@ -120,7 +120,7 @@
 										<td class="fit-cell"><img src="img/enterprise/office/${c.priority.code}.png"/></td>
 										<td class="fit-cell"><a href="enterprise/cas_${c.code}">${c.code}</a></td>
 										<td>${c.summary}</td>
-										<td class="fit-cell"><co:user user="${c.assignee}" showImage="false" showSpace="false"/></td>
+										<td class="fit-cell"><code:user user="${c.assignee}" showImage="false" showSpace="false"/></td>
 										<td class="fit-cell"><img src="img/enterprise/office/${c.status.code}.png"/></td>
 									</tr>
 									</c:forEach>				
@@ -134,7 +134,7 @@
 						<div class="content">
 							<c:if test="${fn:length(currentProjects) eq 0}">
 								<spring:message var="message" code="project.youarenotworkingonproject"/>
-								<co:info message="${message}"/>
+								<code:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(currentProjects) gt 0}">
 								<table class="default-table">

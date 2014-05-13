@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
@@ -21,7 +21,7 @@
 					<div class="content">
 						<c:if test="${fn:length(versions) eq 0}">
 							<spring:message var="message" code="project.noversions"/>
-							<co:info message="${message}"/>
+							<code:info message="${message}"/>
 						</c:if>
 						<c:if test="${fn:length(versions) gt 0}">
 						<table class="default-table center">
@@ -42,18 +42,18 @@
 									<c:if test="${version.released}"><img src="img/office/icon_version_released.png"/></c:if>
 									<c:if test="${not version.released}"><img src="img/office/icon_version_unreleased.png"/></c:if>
 								</td>
-								<td><co:checkmark value="${version.released}" checkmarkOnly="false"/></td>
+								<td><code:checkmark value="${version.released}" checkmarkOnly="false"/></td>
 								<td><a href="enterprise/pro_${project.code}/v_${version.code}">${version.code}</a></td>
-								<td><co:date date="${version.start}"/></td>
+								<td><code:date date="${version.start}"/></td>
 								<td>
-									<c:if test="${empty version.delay}"><co:date date="${version.release}"/></c:if>
+									<c:if test="${empty version.delay}"><code:date date="${version.release}"/></c:if>
 									<c:if test="${not empty version.delay}">
-										<span class="delayed-version"><spring:message code="project.v_delayedto"/>:&nbsp;<co:date date="${version.delay}"/></span>
+										<span class="delayed-version"><spring:message code="project.v_delayedto"/>:&nbsp;<code:date date="${version.delay}"/></span>
 									</c:if>
 								</td>
 								<td>${version.noRelease}</td>
 								<td>${version.noRelated}</td>
-								<td><co:checkmark value="${version.started}" checkmarkOnly="false"/></td>
+								<td><code:checkmark value="${version.started}" checkmarkOnly="false"/></td>
 								<td>${version.description}</td>
 							</tr>
 							</c:forEach>

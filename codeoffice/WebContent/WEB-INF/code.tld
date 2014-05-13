@@ -6,7 +6,7 @@
 	<description>CodeOffice</description>
 	<tlib-version>1.0</tlib-version>
 	<short-name>CO</short-name>
-	<uri>http://www.codeoffice.com/colib</uri>
+	<uri>http://www.codeoffice.com/codelib</uri>
 	<tag>
 		<name>info</name>
 		<tag-class>mu.codeoffice.tag.InfoTag</tag-class>
@@ -158,26 +158,43 @@
 		</attribute>
 	</tag>
 	<tag>
-		<name>caseEnum</name>
-		<tag-class>mu.codeoffice.tag.CaseEnumTag</tag-class>
+		<name>enum</name>
+		<tag-class>mu.codeoffice.tag.EnumTag</tag-class>
 		<body-content>scriptless</body-content>
-		<attribute>
-			<name>value</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<type>mu.codeoffice.enums.CaseEnum</type>
-		</attribute>
 		<attribute>
 			<name>text</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<type>java.lang.String</type>
+			<type>mu.codeoffice.enums.TextEnum</type>
 		</attribute>
 		<attribute>
-			<name>imageOnly</name>
+			<name>image</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
-			<type>java.lang.Boolean</type>
+			<type>mu.codeoffice.enums.ImageEnum</type>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>mu.codeoffice.enums.TextImageEnum</type>
+		</attribute>
+	</tag>
+	<tag>
+		<name>page</name>
+		<tag-class>mu.codeoffice.tag.PageTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>page</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>org.springframework.data.domain.Page</type>
+		</attribute>
+		<attribute>
+			<name>url</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
 		</attribute>
 	</tag>
 </taglib>  

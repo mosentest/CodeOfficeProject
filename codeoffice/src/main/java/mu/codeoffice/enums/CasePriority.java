@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum CasePriority implements CaseEnum {
+public enum CasePriority implements TextImageEnum {
 	
 	BLO("blocker"), CRI("critical"), MAJ("major"), 
 	MIN("minor"), TRI("trivial");
@@ -18,7 +18,7 @@ public enum CasePriority implements CaseEnum {
 
 	@Override
 	public String getImagePath() {
-		return "priority/" + code;
+		return "office/priority/" + code;
 	}
 
 }

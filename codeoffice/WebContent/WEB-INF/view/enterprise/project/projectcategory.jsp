@@ -4,7 +4,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -38,7 +38,7 @@
 						<div class="content">
 							<c:if test="${fn:length(projectCategory.projects) eq 0}">
 								<spring:message var="message" code="project.noprojectsforcategory" arguments="${projectCategory.name}"/>
-								<co:info message="${message}"/>
+								<code:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(projectCategory.projects) gt 0}">
 							<table class="default-table center">
@@ -55,7 +55,7 @@
 										<td class="fit-cell"><img src="${project.iconPath == null ? 'img/office/project_icon.png' : project.iconPath}"/></td>
 										<td class="fit-cell center"><a href="enterprise/pro_${project.code}">${project.code}</a></td>
 										<td>${project.name}</td>
-										<td class="left"><co:user user="${project.lead}"/></td>
+										<td class="left"><code:user user="${project.lead}"/></td>
 										<td>${project.noCase}</td>
 										<td>${project.noUser}</td>
 									</tr>

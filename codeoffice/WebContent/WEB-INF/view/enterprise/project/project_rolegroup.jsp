@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
@@ -31,7 +31,7 @@
 							<td class="role">${roleGroup.role.description}</td>
 							<td class="users">
 								<c:forEach items="${roleGroup.users}" var="user">
-									<span class="rolegroup-user"><co:user user="${user}" width="30" height="30"/></span>
+									<span class="rolegroup-user"><code:user user="${user}" width="30" height="30"/></span>
 									<span class="minorspace"></span><span class="minorspace"></span>
 								</c:forEach>
 							</td>

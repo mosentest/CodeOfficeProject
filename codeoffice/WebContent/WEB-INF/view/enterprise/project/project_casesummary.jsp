@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
@@ -25,18 +25,15 @@
 								<div class="content">
 									<c:if test="${fn:length(statusMap) eq 0}">
 										<spring:message var="message" code="project.nocases"/>
-										<co:info message="${message}"/>
+										<code:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(statusMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${statusMap}" var="status">
 										<tr>
-											<td class="percent-key imglink">
-												<co:caseEnum value="${status.key}"/>
-												<span class="text"><spring:message code="${status.key.code}"/></span>
-											</td>
+											<td class="percent-key imglink"><code:enum value="${status.key}"/></td>
 											<td class="percent-value">${status.value}</td>
-											<td class="percent-percent"><co:percent number="${status.value}" total="${totalCase}"/></td>
+											<td class="percent-percent"><code:percent number="${status.value}" total="${totalCase}"/></td>
 										</tr>
 										</c:forEach>
 									</table>
@@ -49,18 +46,15 @@
 								<div class="content">
 									<c:if test="${fn:length(priorityMap) eq 0}">
 										<spring:message var="message" code="project.nocases"/>
-										<co:info message="${message}"/>
+										<code:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(priorityMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${priorityMap}" var="priority">
 										<tr>
-											<td class="percent-key imglink">
-												<spring:message var="message" code="${priority.key.code}"/>
-												<co:caseEnum value="${priority.key}" text="message"/>
-											</td>
+											<td class="percent-key imglink"><code:enum value="${priority.key}"/></td>
 											<td class="percent-value">${priority.value}</td>
-											<td class="percent-percent"><co:percent number="${priority.value}" total="${totalCase}"/></td>
+											<td class="percent-percent"><code:percent number="${priority.value}" total="${totalCase}"/></td>
 										</tr>
 										</c:forEach>
 									</table>
@@ -73,15 +67,15 @@
 								<div class="content">
 									<c:if test="${fn:length(assigneeMap) eq 0}">
 										<spring:message var="message" code="project.nocases"/>
-										<co:info message="${message}"/>
+										<code:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(assigneeMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${assigneeMap}" var="assignee">
 										<tr>
-											<td class="percent-key"><co:user user="${assignee.key}" width="30" height="30"/></td>
+											<td class="percent-key"><code:user user="${assignee.key}" width="30" height="30"/></td>
 											<td class="percent-value">${assignee.value}</td>
-											<td class="percent-percent"><co:percent number="${assignee.value}" total="${totalCase}"/></td>
+											<td class="percent-percent"><code:percent number="${assignee.value}" total="${totalCase}"/></td>
 										</tr>
 										</c:forEach>
 									</table>
@@ -96,7 +90,7 @@
 								<div class="content">
 									<c:if test="${fn:length(versionMap) eq 0}">
 										<spring:message var="message" code="project.nocases"/>
-										<co:info message="${message}"/>
+										<code:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(versionMap) gt 0}">
 									<table class="default-table nowrap">
@@ -108,7 +102,7 @@
 												<a class="text" href="enterprise/project/${project.code}/version/${version.key.code}">${version.key.code}</a>
 											</td>
 											<td class="percent-value">${version.value}</td>
-											<td class="percent-percent"><co:percent number="${version.value}" total="${totalCase}"/></td>
+											<td class="percent-percent"><code:percent number="${version.value}" total="${totalCase}"/></td>
 										</tr>
 										</c:forEach>
 									</table>
@@ -121,7 +115,7 @@
 								<div class="content">
 									<c:if test="${fn:length(componentMap) eq 0}">
 										<spring:message var="message" code="project.nocases"/>
-										<co:info message="${message}"/>
+										<code:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(componentMap) gt 0}">
 									<table class="default-table nowrap">
@@ -132,7 +126,7 @@
 												<a class="text" href="enterprise/project/${project.code}/component/${component.key.id}">${component.key.name}</a>
 											</td>
 											<td class="percent-value">${component.value}</td>
-											<td class="percent-percent"><co:percent number="${component.value}" total="${totalCase}"/></td>
+											<td class="percent-percent"><code:percent number="${component.value}" total="${totalCase}"/></td>
 										</tr>
 										</c:forEach>
 									</table>
@@ -145,7 +139,7 @@
 								<div class="content">
 									<c:if test="${fn:length(labelMap) eq 0}">
 										<spring:message code="project.nocases"/>
-										<co:info message="${message}"/>
+										<code:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(labelMap) gt 0}">
 									<table class="default-table nowrap">
@@ -156,7 +150,7 @@
 												<a class="text" href="enterprise/project/${project.code}/label/${label.key.label}">${label.key.label}</a>
 											</td>
 											<td class="percent-value">${label.value}</td>
-											<td class="percent-percent"><co:percent number="${label.value}" total="${totalCase}"/></td>
+											<td class="percent-percent"><code:percent number="${label.value}" total="${totalCase}"/></td>
 										</tr>
 										</c:forEach>
 									</table>

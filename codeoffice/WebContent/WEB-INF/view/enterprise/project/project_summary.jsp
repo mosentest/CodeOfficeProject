@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
@@ -32,7 +32,7 @@ function drawChart() {
 	weeklyDataTable.addColumn({type: 'string', role: 'annotation'});
     weeklyDataTable.addColumn('number', 'Total');
     weeklyDataTable.addColumn('number', 'Resolved');
-    weeklyDataTable.addRows([<co:jssummary summary="${weeklySummary}"/>
+    weeklyDataTable.addRows([<code:jssummary summary="${weeklySummary}"/>
 	]);
 	
 	var monthlyDataTable = new google.visualization.DataTable();
@@ -40,7 +40,7 @@ function drawChart() {
 	monthlyDataTable.addColumn({type: 'string', role: 'annotation'});
 	monthlyDataTable.addColumn('number', 'Total');
 	monthlyDataTable.addColumn('number', 'Resolved');
-	monthlyDataTable.addRows([<co:jssummary summary="${monthlySummary}"/>
+	monthlyDataTable.addRows([<code:jssummary summary="${monthlySummary}"/>
 	]);
 	
 	var options = { 
@@ -85,25 +85,25 @@ function drawChart() {
 										<td class="info-title"><spring:message code="project.p_name"/></td>
 										<td class="info-value"><span>${project.name}</span></td>
 										<td class="info-title"><spring:message code="project.p_lead"/></td>
-										<td class="info-value"><co:user user="${project.lead}"/></td>
+										<td class="info-value"><code:user user="${project.lead}"/></td>
 									</tr>
 									<tr>
 										<td class="info-title"><spring:message code="project.p_completed"/></td>
-										<td class="info-value"><span class="imglink"><co:checkmark value="${project.completed}"/></span></td>
+										<td class="info-value"><span class="imglink"><code:checkmark value="${project.completed}"/></span></td>
 										<td class="info-title"><spring:message code="project.p_created"/></td>
-										<td class="info-value"><co:date date="${project.create}"/></td>
+										<td class="info-value"><code:date date="${project.create}"/></td>
 									</tr>
 									<tr>
 										<td class="info-title"><spring:message code="project.p_nouser"/></td>
 										<td class="info-value"><span>${project.noUser}</span></td>
 										<td class="info-title"><spring:message code="project.p_updated"/></td>
-										<td class="info-value"><co:date date="${project.update}"/></td>
+										<td class="info-value"><code:date date="${project.update}"/></td>
 									</tr>
 									<tr>
 										<td class="info-title"><spring:message code="project.p_nocase"/></td>
 										<td class="info-value"><span>${project.noCase}</span></td>
 										<td class="info-title"><spring:message code="project.p_estend"/></td>
-										<td class="info-value"><co:date date="${project.end}"/></td>
+										<td class="info-value"><code:date date="${project.end}"/></td>
 									</tr>
 									<tr>
 										<td class="info-title"><spring:message code="project.p_visibility"/></td>
@@ -144,7 +144,7 @@ function drawChart() {
 							<div class="content">
 								<c:if test="${fn:length(unreleasedVersions) eq 0}">
 									<spring:message var="message" code="project.noreleasedversions"/>
-									<co:info message="${message}"/>
+									<code:info message="${message}"/>
 								</c:if>
 								<c:if test="${fn:length(unreleasedVersions) gt 0}">
 								<table class="default-table">
@@ -157,11 +157,11 @@ function drawChart() {
 										<td class="fit-cell"><a href="enterprise/version/${version.code}">${version.name}</a></td>
 										<td>
 										<c:if test="${empty version.delay}">
-											<co:date date="${v.release}"/>
+											<code:date date="${v.release}"/>
 										</c:if>
 										<c:if test="${not empty version.delay}">
 											<span class="delayed-version"><spring:message code="project.v_delayedto"/>&nbsp;
-											<co:date date="${v.delay}"/></span>
+											<code:date date="${v.delay}"/></span>
 										</c:if>
 										</td>
 									</tr>
@@ -179,7 +179,7 @@ function drawChart() {
 							<div class="content" id="activity-stream">
 								<c:if test="${empty activityStream}">
 									<spring:message var="message" code="project.noprojectactivity"/>
-									<co:info message="${message}"/>
+									<code:info message="${message}"/>
 								</c:if>
 								<c:forEach var="activity" items="${activityStream}">
 									...

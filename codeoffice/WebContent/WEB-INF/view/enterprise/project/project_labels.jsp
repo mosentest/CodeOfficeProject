@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -20,7 +20,7 @@
 					<div class="content">
 						<c:if test="${fn:length(labels) eq 0}">
 							<spring:message var="message" code="project.nolabels"/>
-							<co:info message="${message}"/>
+							<code:info message="${message}"/>
 						</c:if>
 						<c:if test="${fn:length(labels) gt 0}">
 						<table class="default-table center">
