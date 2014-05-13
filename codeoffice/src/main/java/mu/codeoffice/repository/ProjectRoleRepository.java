@@ -4,6 +4,6 @@ import mu.codeoffice.entity.ProjectRole;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoleRepository extends JpaRepository<ProjectRole, Long> {
-
+public interface ProjectRoleRepository extends JpaRepository<ProjectRole, Long> {
+	
 }

@@ -20,10 +20,8 @@
 					<div class="title imglink"><img src="img/office/icon_versions.png"/><span class="titlespan"><spring:message code="project.p_versions"/></span></div>
 					<div class="content">
 						<c:if test="${fn:length(versions) eq 0}">
-							<div class="info-element imglink">
-								<img src="img/info.png"/>
-								<span><spring:message code="project.noversions"/></span>
-							</div>
+							<spring:message var="message" code="project.noversions"/>
+							<co:info message="${message}"/>
 						</c:if>
 						<c:if test="${fn:length(versions) gt 0}">
 						<table class="default-table center">
@@ -45,7 +43,7 @@
 									<c:if test="${not version.released}"><img src="img/office/icon_version_unreleased.png"/></c:if>
 								</td>
 								<td><co:checkmark value="${version.released}" checkmarkOnly="false"/></td>
-								<td><a href="enterprise/project/${project.code}/version/${version.code}">${version.code}</a></td>
+								<td><a href="enterprise/pro_${project.code}/v_${version.code}">${version.code}</a></td>
 								<td><co:date date="${version.start}"/></td>
 								<td>
 									<c:if test="${empty version.delay}"><co:date date="${version.release}"/></c:if>

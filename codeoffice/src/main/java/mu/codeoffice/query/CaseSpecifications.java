@@ -16,13 +16,15 @@ import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseStatus;
 import mu.codeoffice.enums.CaseType;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class CaseSpecifications {
 
-	public static Specification<Case> countAll(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
-			Long assignee, Long reporter,  
-			CaseStatus status, CaseType type, CasePriority priority) {
+	public static Specification<Case> all(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
+			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority) {
 		return new Specification<Case>() {
 			@Override
 			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
@@ -33,7 +35,7 @@ public class CaseSpecifications {
 		};
 	}
 
-	public static Specification<Case> countUnresolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
+	public static Specification<Case> unresolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  
 			CaseStatus status, CaseType type, CasePriority priority) {
 		return new Specification<Case>() {
@@ -65,6 +67,14 @@ public class CaseSpecifications {
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		};
+	}
+	
+	public static Pageable pageSpecification(int pageIndex, int size, Sort sort) {
+		return new PageRequest(pageIndex, size, sort);
+	}
+	
+	public static Sort sort(boolean ascending, String column) {
+		return new Sort(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, column);
 	}
 	
 	private static List<Predicate> toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder, 

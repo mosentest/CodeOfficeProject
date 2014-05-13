@@ -6,6 +6,7 @@ import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
+import mu.codeoffice.service.CaseService;
 import mu.codeoffice.service.ProjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +23,20 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/enterprise/")
 public class ProjectController {
 
+	private static final int LIST_ITEMS = 15;
+	
 	@Autowired
 	private ProjectService projectService;
+	
+	@Autowired
+	private CaseService caseService;
 	
 	@RequestMapping(value = "project", method = RequestMethod.GET)
 	public ModelAndView main(ModelMap model) {
 		return new ModelAndView("enterprise/project/project_home", model);
 	}
 	
-	@RequestMapping(value = "project/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}", method = RequestMethod.GET)
 	public ModelAndView project(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -43,7 +49,7 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_summary", model);
 	}
 
-	@RequestMapping(value = "project/{code}/versions", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/versions", method = RequestMethod.GET)
 	public ModelAndView versions(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -52,7 +58,7 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_versions", model);
 	}
 
-	@RequestMapping(value = "project/{code}/roadmap", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/roadmap", method = RequestMethod.GET)
 	public ModelAndView roadmap(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -61,7 +67,7 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_roadmap", model);
 	}
 
-	@RequestMapping(value = "project/{code}/summary", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/summary", method = RequestMethod.GET)
 	public ModelAndView summary(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -76,15 +82,30 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_casesummary", model);
 	}
 
-	@RequestMapping(value = "project/{code}/case", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/case", method = RequestMethod.GET)
 	public ModelAndView cases(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
-		model.put("project", project);
+			Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
+			model.put("project", project);
+			model.put("casePage", caseService.getCasePage((EnterpriseAuthentication) user, project.getId(), 
+					null, null, null, null, null, null, null, null, null, 0, LIST_ITEMS, "code", true));
 		return new ModelAndView("enterprise/project/project_cases", model);
 	}
 
-	@RequestMapping(value = "project/{code}/rolegroup", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/case/{page}", method = RequestMethod.GET)
+	public ModelAndView casesPage(@PathVariable("page") int page, @PathVariable("code") String code,
+		@AuthenticationPrincipal User user, ModelMap model) throws EnterpriseAuthenticationException {
+			Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
+			model.put("project", project);
+			if (page <= 0) {
+				page = 1;
+			}
+			model.put("casePage", caseService.getCasePage((EnterpriseAuthentication) user, project.getId(), 
+					null, null, null, null, null, null, null, null, null, (page - 1), LIST_ITEMS, "code", true));
+			return new ModelAndView("enterprise/project/project_cases", model);
+		}
+
+	@RequestMapping(value = "pro_{code}/rolegroup", method = RequestMethod.GET)
 	public ModelAndView rolegroup(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -93,7 +114,7 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_rolegroup", model);
 	}
 
-	@RequestMapping(value = "project/{code}/components", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/components", method = RequestMethod.GET)
 	public ModelAndView components(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -102,7 +123,7 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_components", model);
 	}
 
-	@RequestMapping(value = "project/{code}/labels", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/labels", method = RequestMethod.GET)
 	public ModelAndView labels(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -111,7 +132,7 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_labels", model);
 	}
 
-	@RequestMapping(value = "project/{code}/notes", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/notes", method = RequestMethod.GET)
 	public ModelAndView notes(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -120,7 +141,7 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_notes", model);
 	}
 
-	@RequestMapping(value = "project/{code}/changelog", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/changelog", method = RequestMethod.GET)
 	public ModelAndView changelog(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -128,7 +149,7 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_changelog", model);
 	}
 
-	@RequestMapping(value = "project/{code}/source", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/source", method = RequestMethod.GET)
 	public ModelAndView source(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -136,7 +157,7 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_source", model);
 	}
 
-	@RequestMapping(value = "project/{code}/reviews", method = RequestMethod.GET)
+	@RequestMapping(value = "pro_{code}/reviews", method = RequestMethod.GET)
 	public ModelAndView reviews(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
@@ -148,7 +169,7 @@ public class ProjectController {
 		return null;
 	}
 	
-	@RequestMapping(value = "newproject", method = RequestMethod.GET) 
+	@RequestMapping(value = "project/new", method = RequestMethod.GET) 
 	public ModelAndView projectRequest(ModelMap model) {
 		return new ModelAndView("enterprise/project/project_form", model);
 	}

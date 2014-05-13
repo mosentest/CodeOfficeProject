@@ -17,7 +17,7 @@ import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectCategory;
-import mu.codeoffice.entity.Role;
+import mu.codeoffice.entity.ProjectRole;
 import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.CasePriority;
@@ -333,7 +333,7 @@ public class TestService {
 					roleGroupRepository.save(roleGroup);
 				}
 				if (i < 10) {
-					c.setCode(project.getCode() + "-" + "000" + i);
+					c.setCode(project.getCode() + "-" + "0000" + i);
 				} else {
 					c.setCode(project.getCode() + "-" + "000" + i);
 				}
@@ -400,35 +400,35 @@ public class TestService {
 		Enterprise enterprise = new Enterprise();
 		enterprise.setId(1l);
 		
-		Role r1 = new Role();
+		ProjectRole r1 = new ProjectRole();
 		r1.setEnterprise(enterprise);
 		r1.setName("Developer");
-		r1.setValue(1);
+		r1.setValue(2 + 1);
 		r1.setDescription("System developer");
-		Role r2 = new Role();
+		ProjectRole r2 = new ProjectRole();
 		r2.setEnterprise(enterprise);
 		r2.setName("Designer");
-		r2.setValue(2);
+		r2.setValue(8 + 4 + 2 + 1);
 		r2.setDescription("Front-end/Back-end designer");
-		Role r3 = new Role();
+		ProjectRole r3 = new ProjectRole();
 		r3.setEnterprise(enterprise);
 		r3.setName("Project manager");
-		r3.setValue(4);
+		r3.setValue(64 + 32 + 16 + 8 + 4 + 2 + 1);
 		r3.setDescription("Project manager");
-		Role r4 = new Role();
+		ProjectRole r4 = new ProjectRole();
 		r4.setEnterprise(enterprise);
 		r4.setName("Manager");
-		r4.setValue(8);
+		r4.setValue(128 + 64 + 32 + 16 + 8 + 4 + 2 + 1);
 		r4.setDescription("Enterprise manager");
-		Role r5 = new Role();
+		ProjectRole r5 = new ProjectRole();
 		r5.setEnterprise(enterprise);
 		r5.setName("Analyst");
-		r5.setValue(16);
+		r5.setValue(64 + 16  + 4 + 1);
 		r5.setDescription("Project analyst");
-		Role r6 = new Role();
+		ProjectRole r6 = new ProjectRole();
 		r6.setEnterprise(enterprise);
 		r6.setName("Administrator");
-		r6.setValue(32);
+		r6.setValue(256 + 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1);
 		r6.setDescription("System Administrator");
 
 		roleRepository.save(r1);
@@ -532,9 +532,9 @@ public class TestService {
 				componentRepository.save(c);
 			}
 			
-			List<Role> roles = roleRepository.findAll();
+			List<ProjectRole> roles = roleRepository.findAll();
 			
-			for (Role role : roles) {
+			for (ProjectRole role : roles) {
 				RoleGroup g = new RoleGroup();
 				g.setEnterprise(enterprise);
 				g.setProject(p);

@@ -139,6 +139,7 @@ a:hover {
 
 .button, .button:hover, .button-current, .button-current:hover {
 	padding: 3px 16px;
+	text-align: center;
 }
 .largebutton {
 	font-size: 20px;
@@ -309,6 +310,9 @@ a:hover {
 	width: 100%;
 	margin: 0px;
 }
+.table-border-bottom tr {
+	border-bottom: 1px solid #E5E5E5;
+}
 .default-table tr {
 	height: 30px;
 }
@@ -355,4 +359,8 @@ a:hover {
 }
 .percent-percent {
 	width: 55%;
+}
+.page-holder {
+	float: right;
+	font-size: 14px;
 }

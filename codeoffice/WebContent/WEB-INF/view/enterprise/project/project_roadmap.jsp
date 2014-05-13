@@ -25,7 +25,7 @@
 									<div class="fw-b imglink p_3">
 										<c:if test="${version.key.released}"><img src="img/office/icon_version_released.png"/></c:if>
 										<c:if test="${not version.key.released}"><img src="img/office/icon_version_unreleased.png"/></c:if>
-										<a href="enterprise/project/${project.code}/version/${version.key.code}">${version.key.code}</a>
+										<a href="enterprise/pro_${project.code}/v_${version.key.code}">${version.key.code}</a>
 									</div>
 									<div class="fs-ms p_3">${version.key.description}</div>
 									<div class="fc-g p_3">
@@ -36,15 +36,15 @@
 											<spring:message code="project.v_delayedto"/>:&nbsp;<co:date date="${version.key.delay}"/>
 										</div>
 									</c:if>
-									<div class="p_3"><a href="enterprise/project/${project.code}/release/${version.key.code}"><spring:message code="project.v_releasenote"/></a>
+									<div class="p_3"><a href="enterprise/pro_${project.code}/r_${version.key.code}"><spring:message code="project.v_releasenote"/></a>
 									</div>
 								</div>
 								<div class="fl-r p_3">
 									<co:percent number="${version.value}" total="${version.key.noRelease}" background="red" color="green" width="500" showPercentage="false"/>
 									<div class="fs-ms fc-bg" style="margin-left: 10px;">
-										<a href="enterprise/project/${project.code}/version/${version.key.code}">${version.value}</a>
+										<a href="enterprise/pro_${project.code}/v_${version.key.code}">${version.value}</a>
 										&nbsp;of&nbsp;
-										<a href="enterprise/project/${project.code}/version/${version.key.code}">${version.key.noRelease}</a>
+										<a href="enterprise/pro_${project.code}/v_${version.key.code}">${version.key.noRelease}</a>
 										&nbsp;<spring:message code="project.v_casesresolved"/>
 									</div>
 								</div>

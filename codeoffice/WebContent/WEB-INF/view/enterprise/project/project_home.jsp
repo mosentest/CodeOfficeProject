@@ -19,10 +19,8 @@
 						<div class="title"><spring:message code="project.c_assignedtome"/></div>
 						<div class="content">
 							<c:if test="${fn:length(assignedCases) eq 0}">
-								<div class="info-element imglink">
-									<img src="img/info.png"/>
-									<span><spring:message code="project.nocases"/></span>
-								</div>
+								<spring:message var="message" code="project.nocases"/>
+								<co:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(assignedCases) gt 0}">
 								<table class="default-table left">
@@ -35,7 +33,7 @@
 									<c:forEach items="assignedCases" var="c">
 									<tr>
 										<td class="fit-cell"><co:caseEnum value="${c.priority}" imageOnly="true"/></td>
-										<td class="fit-cell"><a href="enterprise/project/case/${c.code}">${c.code}</a></td>
+										<td class="fit-cell"><a href="enterprise/cas_${c.code}">${c.code}</a></td>
 										<td>${c.summary}</td>
 										<td class="fit-cell"><co:caseEnum value="${c.status}" imageOnly="true"/></td>
 									</tr>
@@ -49,10 +47,8 @@
 						<div class="title"><spring:message code="project.worknotes"/></div>
 						<div class="content">
 							<c:if test="${fn:length(workNotes) eq 0}">
-								<div class="info-element imglink">
-									<img src="img/info.png"/>
-									<span><spring:message code="project.noworknotes"/></span>
-								</div>
+								<spring:message var="message" code="project.noworknotes"/>
+								<co:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(workNotes) gt 0}">
 								<table class="default-table left">
@@ -77,10 +73,8 @@
 						<div class="title"><spring:message code="project.statussummary"/></div>
 						<div class="content">
 							<c:if test="${fn:length(statusSummary.keySet) eq 0}">
-								<div class="info-element imglink">
-									<img src="img/info.png"/>
-									<span><spring:message code="project.nostatusavailable"/></span>
-								</div>
+								<spring:message var="message" code="project.nostatusavailable"/>
+								<co:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(statusSummary.keySet) gt 0}">
 								<table class="default-table">
@@ -109,10 +103,8 @@
 						<div class="title"><spring:message code="project.allcase"/></div>
 						<div class="content">
 							<c:if test="${fn:length(allCases) eq 0}">
-								<div class="info-element imglink">
-									<img src="img/info.png"/>
-									<span><spring:message code="project.nocases"/></span>
-								</div>
+								<spring:message var="message" code="project.nocases"/>
+								<co:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(allCases) gt 0}">
 								<table class="default-table">
@@ -126,7 +118,7 @@
 									<c:forEach items="${allCases}" var="c">
 									<tr>
 										<td class="fit-cell"><img src="img/enterprise/office/${c.priority.code}.png"/></td>
-										<td class="fit-cell"><a href="enterprise/project/case/${c.code}">${c.code}</a></td>
+										<td class="fit-cell"><a href="enterprise/cas_${c.code}">${c.code}</a></td>
 										<td>${c.summary}</td>
 										<td class="fit-cell"><co:user user="${c.assignee}" showImage="false" showSpace="false"/></td>
 										<td class="fit-cell"><img src="img/enterprise/office/${c.status.code}.png"/></td>
@@ -141,10 +133,8 @@
 						<div class="title"><spring:message code="project.currentprojects"/></div>
 						<div class="content">
 							<c:if test="${fn:length(currentProjects) eq 0}">
-								<div class="info-element imglink">
-									<img src="img/info.png"/>
-									<span><spring:message code="project.youarenotworkingonproject"/></span>
-								</div>
+								<spring:message var="message" code="project.youarenotworkingonproject"/>
+								<co:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(currentProjects) gt 0}">
 								<table class="default-table">
@@ -154,7 +144,7 @@
 									</tr>
 									<c:forEach items="${currentProjects}" var="project">
 										<tr>
-											<td class="fit-cell"><a href="enterprise/project/${project.code}">${project.code}</a></td>
+											<td class="fit-cell"><a href="enterprise/pro_${project.code}">${project.code}</a></td>
 											<td>${project.name}</td>
 										</tr>
 									</c:forEach>

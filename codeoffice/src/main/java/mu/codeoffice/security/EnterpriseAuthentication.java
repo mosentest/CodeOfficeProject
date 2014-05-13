@@ -38,6 +38,10 @@ public class EnterpriseAuthentication extends User {
 		return enterprise != null && this.enterprise.getId().equals(enterprise.getId());
 	}
 	
+	public boolean authorized(GrantedAuthority authority) {
+		return getAuthorities().contains(authority);
+	}
+	
 	public boolean hasProjectAuthority() {
 		boolean authorized = false;
 		for (GrantedAuthority authority : getAuthorities()) {

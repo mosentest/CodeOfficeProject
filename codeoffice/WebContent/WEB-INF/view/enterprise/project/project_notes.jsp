@@ -19,10 +19,8 @@
 					<div class="title imglink"><img src="img/office/icon_notes.png"/><span class="titlespan"><spring:message code="project.p_notes"/></span></div>
 					<div class="content">
 						<c:if test="${fn:length(notes) eq 0}">
-							<div class="info-element imglink">
-								<img src="img/info.png"/>
-								<span><spring:message code="project.nonotes"/></span>
-							</div>
+							<spring:message var="message" code="project.nonotes"/>
+							<co:info message="${message}"/>
 						</c:if>
 						<c:if test="${fn:length(notes) gt 0}">
 						<c:forEach items="notes" var="note">

@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="co" uri="http://www.codeoffice.com/colib"%>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -18,10 +19,8 @@
 					<div class="title imglink"><img src="img/office/icon_labels.png"/><span class="titlespan"><spring:message code="project.p_labels"/></span></div>
 					<div class="content">
 						<c:if test="${fn:length(labels) eq 0}">
-							<div class="info-element imglink">
-								<img src="img/info.png"/>
-								<span><spring:message code="project.nolabels"/></span>
-							</div>
+							<spring:message var="message" code="project.nolabels"/>
+							<co:info message="${message}"/>
 						</c:if>
 						<c:if test="${fn:length(labels) gt 0}">
 						<table class="default-table center">
@@ -31,7 +30,7 @@
 							</tr>
 							<c:forEach items="${labels}" var="label">
 							<tr>
-								<td><a href="enterprise/project/${project.code}/label/${label.label}">${label.label}</a></td>
+								<td><a href="enterprise/pro_${project.code}/l_${label.label}">${label.label}</a></td>
 								<td>${label.count}</td>
 							</tr>
 							</c:forEach>

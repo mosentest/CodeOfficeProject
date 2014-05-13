@@ -50,6 +50,5 @@ public class CaseEnumTag extends SimpleTagSupport {
 
 	public void setText(String text) {
 		this.text = text;
-		System.out.println("setting text: " + text);
 	}
 }

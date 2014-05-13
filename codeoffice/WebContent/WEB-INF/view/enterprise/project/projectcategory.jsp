@@ -17,16 +17,16 @@
 					<li class="tab"><a href="enterprise/project"><spring:message code="project.home"/></a></li>
 					<security:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_PROJECT_MANAGER', 'ROLE_ADMIN')">
 						<li class="tab ${param.menu eq 'newcategory' ? 'active' : ''}">
-							<a href="enterprise/newpcategory"><spring:message code="project.createcategory"/></a>
+							<a href="enterprise/category/new"><spring:message code="project.createcategory"/></a>
 						</li>
 					</security:authorize>
 					<li class="empty-tab"></li>
 					<li class="tab ${empty projectCategoryId ? 'active' : ''}">
-						<a href="enterprise/pcategory"><spring:message code="project.allcategory"/></a>
+						<a href="enterprise/category"><spring:message code="project.allcategory"/></a>
 					</li>
 					<c:forEach items="${projectCategoryNames}" var="projectCategory">
 						<li class="tab ${projectCategoryId eq projectCategory.id ? 'active' : ''}">
-							<a href="enterprise/pcategory/${projectCategory.id}">${projectCategory.name}</a>
+							<a href="enterprise/category/${projectCategory.id}">${projectCategory.name}</a>
 						</li>
 					</c:forEach>
 				</ul>
@@ -37,25 +37,27 @@
 						<div class="title">${projectCategory.name}</div>
 						<div class="content">
 							<c:if test="${fn:length(projectCategory.projects) eq 0}">
-								<div class="info-element imglink">
-									<img src="img/info.png"/>
-									<span><spring:message code="project.noprojectsforcategory" arguments="${projectCategory.name}"/></span>
-								</div>
+								<spring:message var="message" code="project.noprojectsforcategory" arguments="${projectCategory.name}"/>
+								<co:info message="${message}"/>
 							</c:if>
 							<c:if test="${fn:length(projectCategory.projects) gt 0}">
-							<table class="default-table">
+							<table class="default-table center">
 								<tr>
 									<th class="fit-cell left"></th>
 									<th class="fit-cell left"><spring:message code="project.p_code"/></th>
-									<th class="center"><spring:message code="project.p_name"/></th>
+									<th><spring:message code="project.p_name"/></th>
 									<th class="left"><spring:message code="project.p_lead"/></th>
+									<th><spring:message code="project.p_nocase"/></th>
+									<th><spring:message code="project.p_nouser"/></th>
 								</tr>
 								<c:forEach items="${projectCategory.projects}" var="project">
 									<tr>
 										<td class="fit-cell"><img src="${project.iconPath == null ? 'img/office/project_icon.png' : project.iconPath}"/></td>
-										<td class="fit-cell center"><a href="enterprise/project/${project.code}">${project.code}</a></td>
-										<td class="center">${project.name}</td>
-										<td><co:user user="${project.lead}"/></td>
+										<td class="fit-cell center"><a href="enterprise/pro_${project.code}">${project.code}</a></td>
+										<td>${project.name}</td>
+										<td class="left"><co:user user="${project.lead}"/></td>
+										<td>${project.noCase}</td>
+										<td>${project.noUser}</td>
 									</tr>
 								</c:forEach>
 							</table>

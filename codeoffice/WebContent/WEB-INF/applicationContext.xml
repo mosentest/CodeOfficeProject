@@ -78,6 +78,11 @@
 	        <bean class="org.springframework.security.web.bind.support.AuthenticationPrincipalArgumentResolver"/>
 	    </mvc:argument-resolvers>
 	</mvc:annotation-driven>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="defaultHandler" ref="defaultMappingController"/>
+	</bean>
+	
     <mvc:default-servlet-handler/>
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -172,6 +177,7 @@
 				<bean p:name="projectCategoryCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 				<bean p:name="projectCategoryNameCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 				<bean p:name="unreleasedVersionCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
+				<bean p:name="projectRoleAuth" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 			</set>
 		</property>
 	</bean>

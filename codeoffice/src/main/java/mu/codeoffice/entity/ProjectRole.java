@@ -14,10 +14,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "project_role")
-public class Role implements Serializable {
+public class ProjectRole implements Serializable {
 
 	private static final long serialVersionUID = -5165106324296216206L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -35,7 +35,7 @@ public class Role implements Serializable {
 	@Column(name = "role_value")
 	private int value;
 	
-	public Role() {}
+	public ProjectRole() {}
 
 	public Long getId() {
 		return id;

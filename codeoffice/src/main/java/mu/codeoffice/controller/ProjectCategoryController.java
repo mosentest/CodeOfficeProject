@@ -22,14 +22,14 @@ public class ProjectCategoryController {
 	@Autowired
 	private ProjectCategoryService projectCategoryService;
 	
-	@RequestMapping(value = "pcategory", method = RequestMethod.GET)
+	@RequestMapping(value = "category", method = RequestMethod.GET)
 	public ModelAndView projectCategories(ModelMap model, @AuthenticationPrincipal User user) {
 		model.put("projectCategories", projectCategoryService.getProjectCategories((EnterpriseAuthentication)user));
 		model.put("projectCategoryNames", projectCategoryService.getProjectCategoryNames((EnterpriseAuthentication)user));
 		return new ModelAndView("enterprise/project/projectcategory", model);
 	}
 	
-	@RequestMapping(value = "pcategory/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "category/{id}", method = RequestMethod.GET)
 	public ModelAndView projectCategory(@PathVariable("id") Long id, ModelMap model, @AuthenticationPrincipal User user) {
 		model.put("projectCategories", Arrays.asList(projectCategoryService.getProjectCategory(id, (EnterpriseAuthentication) user)));
 		model.put("projectCategoryNames", projectCategoryService.getProjectCategoryNames((EnterpriseAuthentication) user));
@@ -37,7 +37,7 @@ public class ProjectCategoryController {
 		return new ModelAndView("enterprise/project/projectcategory", model);
 	}
 
-	@RequestMapping(value = "newpcategory", method = RequestMethod.GET) 
+	@RequestMapping(value = "category/new", method = RequestMethod.GET) 
 	public ModelAndView categoryReqeust(ModelMap model) {
 		return new ModelAndView("enterprise/project/category_form", model);
 	}

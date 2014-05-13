@@ -8,6 +8,29 @@
 	<short-name>CO</short-name>
 	<uri>http://www.codeoffice.com/colib</uri>
 	<tag>
+		<name>info</name>
+		<tag-class>mu.codeoffice.tag.InfoTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>type</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<name>message</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<name>code</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	<tag>
 		<name>date</name>
 		<tag-class>mu.codeoffice.tag.DateTag</tag-class>
 		<body-content>scriptless</body-content>
@@ -152,35 +175,6 @@
 		</attribute>
 		<attribute>
 			<name>imageOnly</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<type>java.lang.Boolean</type>
-		</attribute>
-	</tag>
-	<tag>
-		<name>page</name>
-		<tag-class>mu.codeoffice.tag.PageTag</tag-class>
-		<body-content>scriptless</body-content>
-		<attribute>
-			<name>link</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<type>java.lang.String</type>
-		</attribute>
-		<attribute>
-			<name>limit</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<type>java.lang.Integer</type>
-		</attribute>
-		<attribute>
-			<name>page</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<type>mu.codeoffice.utility.Page</type>
-		</attribute>
-		<attribute>
-			<name>hideOnSingle</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>java.lang.Boolean</type>

@@ -36,7 +36,7 @@ public class RoleGroup implements Serializable {
 
 	@ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id")
-	private Role role;
+	private ProjectRole role;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "office_rolegroup_users", 
@@ -78,11 +78,11 @@ public class RoleGroup implements Serializable {
 		this.project = project;
 	}
 
-	public Role getRole() {
+	public ProjectRole getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(ProjectRole role) {
 		this.role = role;
 	}
 

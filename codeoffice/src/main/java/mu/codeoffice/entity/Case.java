@@ -34,6 +34,12 @@ import mu.codeoffice.enums.CaseType;
 public class Case implements Serializable {
 
 	private static final long serialVersionUID = 410952237049468161L;
+	
+	private static final String[] SORTABLE_COLUMNS =  {
+		"code", "summary", "create", "update", "close", "project"
+	};
+	
+	private static final String DEFAULT_COLUMN = "code";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -160,6 +166,15 @@ public class Case implements Serializable {
 	private List<Label> labels;
 	
 	public Case() {}
+	
+	public static String getSortColumn(String column) {
+		for (String c : SORTABLE_COLUMNS) {
+			if (c.equals(column)) {
+				return c;
+			}
+		}
+		return DEFAULT_COLUMN;
+	}
 	
 	public String getCaseHeader() {
 		return String.format("[%s] - %s", code, summary);

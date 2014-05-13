@@ -1,3 +1,12 @@
+.case-table {
+	line-height: 36px;
+}
+.case-table tr {
+	border-bottom: 1px solid #E5E5E5;
+}
+.case-table th {
+	text-align: left;
+}
 .delayed-version {
 	color: red;
 	font-weight: bold;

@@ -143,10 +143,8 @@ function drawChart() {
 							<div class="title"><spring:message code="project.p_unreleasedversions"/></div>
 							<div class="content">
 								<c:if test="${fn:length(unreleasedVersions) eq 0}">
-									<div class="info-element imglink">
-										<img src="img/info.png"/>
-										<span><spring:message code="project.noreleasedversions"/></span>
-									</div>
+									<spring:message var="message" code="project.noreleasedversions"/>
+									<co:info message="${message}"/>
 								</c:if>
 								<c:if test="${fn:length(unreleasedVersions) gt 0}">
 								<table class="default-table">
@@ -180,10 +178,8 @@ function drawChart() {
 							<div class="title"><spring:message code="project.activitystream"/></div>
 							<div class="content" id="activity-stream">
 								<c:if test="${empty activityStream}">
-									<div class="info-element imglink">
-										<img src="img/info.png"/>
-										<span><spring:message code="project.noprojectactivity"/></span>
-									</div>
+									<spring:message var="message" code="project.noprojectactivity"/>
+									<co:info message="${message}"/>
 								</c:if>
 								<c:forEach var="activity" items="${activityStream}">
 									...

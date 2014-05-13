@@ -1,5 +1,9 @@
 package mu.codeoffice.security;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class EnterpriseAuthority {
@@ -17,4 +21,27 @@ public class EnterpriseAuthority {
 	public static final SimpleGrantedAuthority ROLE_SYS_TESTER = new SimpleGrantedAuthority("ROLE_SYS_TESTER");
 	public static final SimpleGrantedAuthority ROLE_SYS_MANAGER = new SimpleGrantedAuthority("ROLE_SYS_MANAGER");
 	public static final SimpleGrantedAuthority ROLE_SYS_ADMIN = new SimpleGrantedAuthority("ROLE_SYS_ADMIN");
+	
+	private static final Map<Integer, GrantedAuthority> roleMap;
+	
+	static {
+		roleMap = new HashMap<>();
+		roleMap.put(1, EnterpriseAuthority.ROLE_USER);
+		roleMap.put(1 << 1, EnterpriseAuthority.ROLE_EMPLOYEE);
+		roleMap.put(1 << 2, EnterpriseAuthority.ROLE_DESIGNER);
+		roleMap.put(1 << 3, EnterpriseAuthority.ROLE_DEVELOPER);
+		roleMap.put(1 << 4, EnterpriseAuthority.ROLE_PROJECT_MANAGER);
+		roleMap.put(1 << 5, EnterpriseAuthority.ROLE_MANAGER);
+		roleMap.put(1 << 6, EnterpriseAuthority.ROLE_HR);
+		roleMap.put(1 << 7, EnterpriseAuthority.ROLE_ADMIN);
+		roleMap.put(1 << 8, EnterpriseAuthority.ROLE_SYS_DEVELOPER);
+		roleMap.put(1 << 9, EnterpriseAuthority.ROLE_SYS_TESTER);
+		roleMap.put(1 << 10, EnterpriseAuthority.ROLE_SYS_MANAGER);
+		roleMap.put(1 << 11, EnterpriseAuthority.ROLE_SYS_ADMIN);
+	}
+	
+	public static GrantedAuthority getAuthority(int authority) {
+		return roleMap.get(authority);
+	}
+	
 }

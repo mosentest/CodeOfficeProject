@@ -24,10 +24,8 @@
 								<div class="title"><spring:message code="project.statussummary"/></div>
 								<div class="content">
 									<c:if test="${fn:length(statusMap) eq 0}">
-										<div class="info-element imglink">
-											<img src="img/info.png"/>
-											<span><spring:message code="project.nocases"/></span>
-										</div>
+										<spring:message var="message" code="project.nocases"/>
+										<co:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(statusMap) gt 0}">
 									<table class="default-table nowrap">
@@ -50,19 +48,16 @@
 								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.bypriority"/></div>
 								<div class="content">
 									<c:if test="${fn:length(priorityMap) eq 0}">
-										<div class="info-element imglink">
-											<img src="img/info.png"/>
-											<span><spring:message code="project.nocases"/></span>
-										</div>
+										<spring:message var="message" code="project.nocases"/>
+										<co:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(priorityMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${priorityMap}" var="priority">
 										<tr>
-											<c:set var="keycode"></c:set>
 											<td class="percent-key imglink">
-												<co:caseEnum value="${priority.key}"/>
-												<span class="text"><spring:message code="${priority.key.code}"/></span>
+												<spring:message var="message" code="${priority.key.code}"/>
+												<co:caseEnum value="${priority.key}" text="message"/>
 											</td>
 											<td class="percent-value">${priority.value}</td>
 											<td class="percent-percent"><co:percent number="${priority.value}" total="${totalCase}"/></td>
@@ -77,10 +72,8 @@
 								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.byassignee"/></div>
 								<div class="content">
 									<c:if test="${fn:length(assigneeMap) eq 0}">
-										<div class="info-element imglink">
-											<img src="img/info.png"/>
-											<span><spring:message code="project.nocases"/></span>
-										</div>
+										<spring:message var="message" code="project.nocases"/>
+										<co:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(assigneeMap) gt 0}">
 									<table class="default-table nowrap">
@@ -102,10 +95,8 @@
 								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.byversion"/></div>
 								<div class="content">
 									<c:if test="${fn:length(versionMap) eq 0}">
-										<div class="info-element imglink">
-											<img src="img/info.png"/>
-											<span><spring:message code="project.nocases"/></span>
-										</div>
+										<spring:message var="message" code="project.nocases"/>
+										<co:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(versionMap) gt 0}">
 									<table class="default-table nowrap">
@@ -129,10 +120,8 @@
 								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.bycomponent"/></div>
 								<div class="content">
 									<c:if test="${fn:length(componentMap) eq 0}">
-										<div class="info-element imglink">
-											<img src="img/info.png"/>
-											<span><spring:message code="project.nocases"/></span>
-										</div>
+										<spring:message var="message" code="project.nocases"/>
+										<co:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(componentMap) gt 0}">
 									<table class="default-table nowrap">
@@ -155,10 +144,8 @@
 								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.bylabel"/></div>
 								<div class="content">
 									<c:if test="${fn:length(labelMap) eq 0}">
-										<div class="info-element imglink">
-											<img src="img/info.png"/>
-											<span><spring:message code="project.nocases"/></span>
-										</div>
+										<spring:message code="project.nocases"/>
+										<co:info message="${message}"/>
 									</c:if>
 									<c:if test="${fn:length(labelMap) gt 0}">
 									<table class="default-table nowrap">

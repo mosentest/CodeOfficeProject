@@ -20,10 +20,8 @@
 					<div class="title imglink"><img src="img/office/icon_components.png"/><span class="titlespan"><spring:message code="project.p_components"/></span></div>
 					<div class="content">
 						<c:if test="${fn:length(components) eq 0}">
-							<div class="info-element imglink">
-								<img src="img/info.png"/>
-								<span><spring:message code="project.nocomponents"/></span>
-							</div>
+							<spring:message var="message" code="project.nocomponents"/>
+							<co:info message="${message}"/>
 						</c:if>
 						<c:if test="${fn:length(components) gt 0}">
 						<table class="default-table left-header">
@@ -39,7 +37,7 @@
 						<c:forEach items="${components}" var="component">
 						<tr>
 							<td><img src="img/office/icon_component.png" width="20" height="20"/></td>
-							<td><a href="enterprise/project/${project.code}/component/${component.id}">${component.name}</a></td>
+							<td><a href="enterprise/pro_${project.code}/m_${component.id}">${component.name}</a></td>
 							<td><co:user user="${component.lead}"/></td>
 							<td><co:user user="${component.defaultReporter}"/></td>
 							<td><co:user user="${component.defaultAssignee}"/></td>
