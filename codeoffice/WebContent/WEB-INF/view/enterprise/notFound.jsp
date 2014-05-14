@@ -20,18 +20,15 @@
 					<tr>
 						<td><span class="access-title">Unauthorized access</span></td>
 					</tr>
+					<c:if test="${not empty error}">
 					<tr>
 						<td><img src="img/accessdenied.png"/></td>
 					</tr>
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
-						<td>
-							<span class="error-message" style="font-weight: bold; ">Error: </span>
-							<span>
-								<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}"> ${SPRING_SECURITY_LAST_EXCEPTION.message}</c:if>
-								<c:if test="${empty SPRING_SECURITY_LAST_EXCEPTION.message}"><spring:message code="accessdenied"/></c:if></span>
-						</td>
+						<td><span class="error-message" style="font-weight: bold; ">Error: </span><span>${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}</span></td>
 					</tr>
+					</c:if>
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
 						<td><a href="/enterprise/login">Go back to login page.</a></td>
