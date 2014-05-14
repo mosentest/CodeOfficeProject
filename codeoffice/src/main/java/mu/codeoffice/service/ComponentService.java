@@ -23,6 +23,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ComponentService extends ProjectStatisticService {
+	
+	@Transactional(readOnly = true)
+	public Component getProjectComponentInfo(Project project, String componentCode) {
+		Component component = componentRepository.getProjectComponent(project.getId(), componentCode);
+		component.getDefaultAssignee().getId();
+		component.getDefaultReporter().getId();
+		component.getLead().getId();
+		return component;
+	}
 
 	public Component getProjectComponent(Project project, String component) {
 		return componentRepository.getProjectComponent(project.getId(), component);

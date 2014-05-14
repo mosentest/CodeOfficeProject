@@ -14,10 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-
-import mu.codeoffice.data.Summary;
 
 @Entity
 @Table(name = "office_project_component", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "office_project_id"}))
@@ -49,23 +46,20 @@ public class Component implements Serializable {
 	@Column(name = "no_case")
 	private int noCase;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "office_component_lead_id")
 	private EnterpriseUser lead;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "office_component_reporter_id")
 	private EnterpriseUser defaultReporter;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "office_component_assignee_id")
 	private EnterpriseUser defaultAssignee;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "components")
 	private List<Case> cases;
-	
-	@Transient
-	private List<Summary> summary;
 	
 	public Component() {}
 
@@ -147,14 +141,6 @@ public class Component implements Serializable {
 
 	public void setProject(Project project) {
 		this.project = project;
-	}
-
-	public List<Summary> getSummary() {
-		return summary;
-	}
-
-	public void setSummary(List<Summary> summary) {
-		this.summary = summary;
 	}
 
 	public Enterprise getEnterprise() {

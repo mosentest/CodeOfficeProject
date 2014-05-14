@@ -39,7 +39,7 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.bypriority"/></div>
+								<div class="title"><spring:message code="project.prioritysummary"/></div>
 								<div class="content">
 									<c:if test="${fn:length(priorityMap) eq 0}"><code:info message="project.nocases"/></c:if>
 									<c:if test="${fn:length(priorityMap) gt 0}">
@@ -57,7 +57,7 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.byassignee"/></div>
+								<div class="title"><spring:message code="project.assigneesummary"/></div>
 								<div class="content">
 									<c:if test="${fn:length(assigneeMap) eq 0}"><code:info message="project.nocases"/></c:if>
 									<c:if test="${fn:length(assigneeMap) gt 0}">
@@ -77,7 +77,7 @@
 						
 						<div class="element-block">
 							<div class="subelement">
-								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.byversion"/></div>
+								<div class="title"><spring:message code="project.versionsummary"/></div>
 								<div class="content">
 									<c:if test="${fn:length(versionMap) eq 0}"><code:info message="project.nocases"/></c:if>
 									<c:if test="${fn:length(versionMap) gt 0}">
@@ -99,7 +99,7 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.bycomponent"/></div>
+								<div class="title"><spring:message code="project.componentsummary"/></div>
 								<div class="content">
 									<c:if test="${fn:length(componentMap) eq 0}">
 										<spring:message var="message" code="project.nocases"/>
@@ -123,7 +123,7 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.bylabel"/></div>
+								<div class="title"><spring:message code="project.labelsummary"/></div>
 								<div class="content">
 									<c:if test="${fn:length(labelMap) eq 0}">
 										<spring:message code="project.nocases"/>

@@ -49,46 +49,34 @@ function drawChart() {
 			</jsp:include>
 			<div class="maincontent">
 				<div class="subelement">
-					<div class="title"><spring:message code="project.v_info"/></div>
+					<div class="title"><spring:message code="project.m_info"/></div>
 					<div class="content" style="padding: 15px;">
 						<table class="info-table">
 							<tr>
-								<td class="info-title"><spring:message code="project.v_code"/></td>
-								<td class="info-value">${version.code}</td>
-								<td class="info-title">&nbsp;</td>
-								<td class="info-value">&nbsp;</td>
+								<td class="info-title"><spring:message code="project.m_code"/></td>
+								<td class="info-value">${component.code}</td>
+								<td class="info-title"><spring:message code="project.m_name"/></td>
+								<td class="info-value">${component.name}</td>
 							</tr>
 							<tr>
-								<td class="info-title"><spring:message code="project.v_started"/></td>
-								<td class="info-value"><code:checkmark value="${version.started}"/></td>
-								<td class="info-title"><spring:message code="project.v_released"/></td>
-								<td class="info-value"><code:checkmark value="${version.released}"/></td>
+								<td class="info-title"><spring:message code="project.m_lead"/></td>
+								<td class="info-value"><code:user user="${component.lead}" showImage="false" showSpace="false"/></td>
+								<td class="info-title"><spring:message code="project.m_cases"/></td>
+								<td class="info-value">${component.noCase}</td>
 							</tr>
 							<tr>
-								<td class="info-title"><spring:message code="project.v_start"/></td>
-								<td class="info-value"><fmt:formatDate value="${version.start}" pattern="yy-MM-dd"/></td>
-								<td class="info-title"><spring:message code="project.v_update"/></td>
-								<td class="info-value"><fmt:formatDate value="${version.update}" pattern="yy-MM-dd HH:mm:ss"/></td>
-							</tr>
-							<tr>
-								<td class="info-title"><spring:message code="project.v_release"/></td>
-								<td class="info-value"><fmt:formatDate value="${version.release}" pattern="yy-MM-dd HH:mm:ss"/></td>
-								<td class="info-title delayed-version"><c:if test="${not empty version.delay}"><spring:message code="project.v_delayedto"/></c:if></td>
-								<td class="info-value delayed-version"><c:if test="${not empty version.delay}"><fmt:formatDate value="${version.delay}" pattern="yy-MM-dd"/></c:if></td>
-							</tr>
-							<tr>
-								<td class="info-title"><spring:message code="project.v_norelease"/></td>
-								<td class="info-value">${version.noRelease}</td>
-								<td class="info-title"><spring:message code="project.v_norelated"/></td>
-								<td class="info-value">${version.noRelease}</td>
+								<td class="info-title"><spring:message code="project.m_default_reporter"/></td>
+								<td class="info-value"><code:user user="${component.defaultReporter}" showImage="false" showSpace="false"/></td>
+								<td class="info-title"><spring:message code="project.m_default_assignee"/></td>
+								<td class="info-value"><code:user user="${component.defaultAssignee}" showImage="false" showSpace="false"/></td>
 							</tr>
 						</table>
 					</div>
 				</div>
 				<div class="sep-30"></div>
 				<div class="subelement">
-					<div class="title"><spring:message code="project.v_description"/></div>
-					<div class="content fs-ms" style="padding: 15px;">${version.description}</div>
+					<div class="title"><spring:message code="project.m_description"/></div>
+					<div class="content fs-ms" style="padding: 15px;">${component.description}</div>
 				</div>
 				<div class="sep-30"></div>
 				<div class="subelement" style="height: 300px;">

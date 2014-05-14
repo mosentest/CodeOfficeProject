@@ -18,10 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-
-import mu.codeoffice.data.Summary;
 
 @Entity
 @Table(name = "office_project_version", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "office_project_id"}))
@@ -80,9 +77,6 @@ public class Version implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "releaseVersion")
 	private List<Case> releaseCases;
-	
-	@Transient
-	private List<Summary> summary;
 	
 	public Version() {}
 
@@ -180,14 +174,6 @@ public class Version implements Serializable {
 
 	public void setStarted(boolean started) {
 		this.started = started;
-	}
-
-	public List<Summary> getSummary() {
-		return summary;
-	}
-
-	public void setSummary(List<Summary> summary) {
-		this.summary = summary;
 	}
 
 	public List<Case> getReleaseCases() {

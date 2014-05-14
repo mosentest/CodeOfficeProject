@@ -35,7 +35,7 @@
 						<c:if test="${relatedCase.totalElements eq 0}"><code:info message="project.v_release"/></c:if>
 						<c:if test="${relatedCase.totalElements gt 0}">
 							<div class="element">
-								<div class="title">&nbsp;</div>
+								<div class="title"><spring:message code="project.m_nocase"/></div>
 								<div class="content">
 								<table class="default-table case-table">
 									<tr>

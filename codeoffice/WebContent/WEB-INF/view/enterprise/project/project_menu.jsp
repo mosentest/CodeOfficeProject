@@ -4,9 +4,9 @@
 <div class="leftmenu">
 	<ul class="vertical-tab">
 		<li class="tab ${param.menu eq 'dashboard' ? 'active' : ''}"><a href="enterprise/pro_${project.code}"><spring:message code="project.p_dashboard"/></a></li>
-		<li class="tab ${param.menu eq 'summary' ? 'active' : ''}"><a href="enterprise/pro_${project.code}"><spring:message code="project.p_summary"/></a></li>
+		<li class="tab ${param.menu eq 'summary' ? 'active' : ''}"><a href="enterprise/pro_${project.code}/summary"><spring:message code="project.p_summary"/></a></li>
 		<li class="tab ${param.menu eq 'roadmap' ? 'active' : ''}"><a href="enterprise/pro_${project.code}/roadmap"><spring:message code="project.p_roadmap"/></a></li>
-		<li class="tab ${param.menu eq 'casesummary' ? 'active' : ''}"><a href="enterprise/pro_${project.code}/summary"><spring:message code="project.p_casesummary"/></a></li>
+		<li class="tab ${param.menu eq 'casesummary' ? 'active' : ''}"><a href="enterprise/pro_${project.code}/casesummary"><spring:message code="project.p_casesummary"/></a></li>
 		<li class="tab ${param.menu eq 'cases' ? 'active' : ''}"><a href="enterprise/pro_${project.code}/case"><spring:message code="project.p_cases"/></a></li>
 		<li class="tab ${param.menu eq 'rolegroup' ? 'active' : ''}"><a href="enterprise/pro_${project.code}/rolegroup"><spring:message code="project.p_rolegroup"/></a></li>
 		<li class="tab ${param.menu eq 'versions' ? 'active' : ''}"><a href="enterprise/pro_${project.code}/versions"><spring:message code="project.p_versions"/></a></li>

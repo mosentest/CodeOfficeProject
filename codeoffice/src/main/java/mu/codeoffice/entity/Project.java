@@ -21,8 +21,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
-import mu.codeoffice.data.Summary;
-
 @Entity
 @Table(name = "office_project", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
 public class Project implements Serializable {
@@ -71,7 +69,7 @@ public class Project implements Serializable {
 	@Column(name = "completed")
 	private boolean completed;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "lead_id")	
 	private EnterpriseUser lead;
 	
@@ -114,9 +112,6 @@ public class Project implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectObject")
 	@OrderBy("create DESC")
 	private List<ProjectActivity> activities;
-
-	@Transient
-	private List<Summary> summary;
 	
 	public Project() {}
 	
@@ -290,14 +285,6 @@ public class Project implements Serializable {
 
 	public void setLabels(List<Label> labels) {
 		this.labels = labels;
-	}
-	
-	public List<Summary> getSummary() {
-		return summary;
-	}
-
-	public void setSummary(List<Summary> summary) {
-		this.summary = summary;
 	}
 
 	public String getIconPath() {

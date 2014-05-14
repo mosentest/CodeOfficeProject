@@ -69,6 +69,7 @@ public class ProjectCategoryService {
 		categories.add(emptyCategory);
 		categories.forEach(category -> category.getProjects().size());
 		if (auth.hasProjectAuthority()) {
+			categories.forEach(category -> category.getProjects().forEach(project -> project.getLead().getId()));
 			return categories;
 		}
 		categories.forEach(category -> category.setProjects(category.getProjects()
@@ -88,7 +89,7 @@ public class ProjectCategoryService {
 		} else {
 			projectCategory = projectCategoryRepository.getProjectCategory(category, auth.getEnterprise());
 		}
-		projectCategory.getProjects().size();
+		projectCategory.getProjects().forEach(project -> project.getLead().getId());
 		if (auth.hasProjectAuthority()) {
 			return projectCategory;
 		}

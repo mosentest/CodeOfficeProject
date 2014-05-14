@@ -62,8 +62,15 @@ public class ProjectService extends ProjectStatisticService {
 		return versionRepository.getProjectVersions(project);
 	}
 	
+	@Transactional(readOnly = true)
 	public List<Component> getProjectComponents(Long project) {
-		return componentRepository.getProjectComponents(project);
+		List<Component> components = componentRepository.getProjectComponents(project);
+		components.forEach(component -> {
+			component.getLead().getId();
+			component.getDefaultAssignee().getId();
+			component.getDefaultReporter().getId();
+		});
+		return components;
 	}
 	
 	public List<Label> getProjectLabels(Long project) {

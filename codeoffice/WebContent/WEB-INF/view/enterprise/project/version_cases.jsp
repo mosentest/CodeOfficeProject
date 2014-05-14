@@ -32,11 +32,11 @@
 				<div class="mainelement">
 					<div class="title imglink"><img src="img/office/icon_cases.png"/><span class="titlespan"><spring:message code="project.p_cases"/></span></div>
 					<div class="content">
-						<c:if test="${releaseCase.totalElements eq 0}"><code:info message="project.v_release"/></c:if>
-						<c:if test="${releaseCase.totalElements gt 0}">
-							<div class="element">
-								<div class="title">&nbsp;</div>
-								<div class="content">
+						<div class="element">
+							<div class="title"><spring:message code="project.v_release"/></div>
+							<div class="content">
+								<c:if test="${releaseCase.totalElements eq 0}"><code:info message="project.v_release"/></c:if>
+								<c:if test="${releaseCase.totalElements gt 0}">
 								<table class="default-table case-table">
 									<tr>
 										<th class="fit-cell"></th>
@@ -58,20 +58,15 @@
 									</c:forEach>
 									<tr><td colspan="6"><code:page page="${releaseCase}" url="enterprise/pro_${project.code}/case"/></td></tr>
 								</table>
-								</div>
+								</c:if>
 							</div>
-						</c:if>
-					</div>
-				</div>
-				<div class="sep-30"></div>
-				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_cases.png"/><span class="titlespan"><spring:message code="project.p_cases"/></span></div>
-					<div class="content">
-						<c:if test="${relatedCase.totalElements eq 0}"><code:info message="project.v_related"/></c:if>
-						<c:if test="${relatedCase.totalElements gt 0}">
-							<div class="element">
-								<div class="title">&nbsp;</div>
-								<div class="content">
+						</div>
+						<div class="sep-30"></div>
+						<div class="element">
+							<div class="title"><spring:message code="project.v_related"/></div>
+							<div class="content">
+								<c:if test="${relatedCase.totalElements eq 0}"><code:info message="project.v_related"/></c:if>
+								<c:if test="${relatedCase.totalElements gt 0}">
 								<table class="default-table case-table">
 									<tr>
 										<th class="fit-cell"></th>
@@ -93,9 +88,9 @@
 									</c:forEach>
 									<tr><td colspan="6"><code:page page="${relatedCase}" url="enterprise/pro_${project.code}/case"/></td></tr>
 								</table>
-								</div>
+								</c:if>
 							</div>
-						</c:if>
+						</div>
 					</div>
 				</div>
 			</div>
