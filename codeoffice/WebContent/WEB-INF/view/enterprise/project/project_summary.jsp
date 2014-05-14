@@ -123,9 +123,17 @@ function drawChart() {
 						<div class="subelement" style="height: 420px;">
 							<div class="title"><spring:message code="project.p_summarymap"/></div>
 							<div class="content">
+								<c:set var="weekdata" value="${fn:length(weeklySummary) gt 0}"/>
+								<c:set var="monthdata" value="${fn:length(weeklySummary) gt 0}"/>
+								<c:if test="${not weekdata and not monthdata}"><code:info message="project.nosummary"/></c:if>
+								<c:if test="${weekdata or monthdata}">
 								<ul class="horizontal-tab">
+									<c:if test="${weekdata}">
 									<li class="active"><a href="javascript:toggleWeek()"><spring:message code="project.weeklysummary"/></a></li>
+									</c:if>
+									<c:if test="${monthdata}">
 									<li><a href="javascript:toggleMonth()"><spring:message code="project.monthlysummary"/></a></li>
+									</c:if>
 								</ul>
 								<div id="project-weekly-summary-chart" class="tab-content"></div>
 								<div id="project-monthly-summary-chart" class="tab-content"></div>
@@ -136,6 +144,7 @@ function drawChart() {
 									<span style="color: green; font-weight: bold;">${weeklySummary[fn:length(weeklySummary) - 1].noResolved}</span>
 									<span class="fc-bg">&nbsp;resolved</span>
 								</div>
+								</c:if>
 							</div>
 						</div>
 						<div class="sep-30"></div>

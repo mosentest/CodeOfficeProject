@@ -28,8 +28,8 @@
 								<th><spring:message code="project.v_code"/></th>
 								<th><spring:message code="project.v_start"/></th>
 								<th><spring:message code="project.v_release"/></th>
-								<th><spring:message code="project.v_norelease"/></th>
-								<th><spring:message code="project.v_norelated"/></th>
+								<th><spring:message code="project.v_release"/></th>
+								<th><spring:message code="project.v_related"/></th>
 								<th><spring:message code="project.v_started"/></th>
 								<th><spring:message code="project.v_description"/></th>
 							</tr>

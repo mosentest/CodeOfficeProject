@@ -19,8 +19,8 @@ public enum ProjectRoleType {
 		this.value = value;
 	}
 	
-	public static boolean authenticate(int value, ProjectRoleType...roles) {
-		List<ProjectRoleType> auths = getRoles(value);
+	public static boolean authenticate(int authority, ProjectRoleType...roles) {
+		List<ProjectRoleType> auths = getRoles(authority);
 		for (ProjectRoleType roleType : roles) {
 			if (auths.contains(roleType)) {
 				return true;

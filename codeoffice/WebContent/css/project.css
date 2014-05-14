@@ -78,3 +78,13 @@
 	padding: 10px;
 	font-size: 16px;
 }
+
+.releasenote .title {
+	padding: 10px 0px;
+}
+.releasenote ul {
+	margin-left: 30px;
+}
+.releasenote li {
+	list-style-type: disc;
+}

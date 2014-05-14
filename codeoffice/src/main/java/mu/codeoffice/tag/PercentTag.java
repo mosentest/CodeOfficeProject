@@ -28,7 +28,7 @@ public class PercentTag extends SimpleTagSupport {
 		float percentage = total == 0 ? 0f : (float) number / total;
 		if (width == 0) {
 			buffer.append("<div class=\"percent imglink\" style=\"background-color: " + background + "; height: 16px;\">");
-			buffer.append(String.format("<div style=\"float: left; background-color: %s; width: %.1f%%; height: 16px;\"></div>", color, percentage * 90));
+			buffer.append(String.format("<div style=\"float: left; background-color: %s; width: %.1f%%; height: 16px;\"></div>", color, percentage * 80));
 		} else {
 			buffer.append(String.format("<div class=\"percent\" style=\"background-color: %s; width: %dpx;\">", background, width));
 			buffer.append(String.format("<div style=\"float: left; background-color: %s; width: %.1fpx; height: 16px;\"></div>", color, percentage * width));

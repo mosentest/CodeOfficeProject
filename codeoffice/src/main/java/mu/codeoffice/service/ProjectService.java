@@ -12,6 +12,7 @@ import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
 import mu.codeoffice.entity.ProjectNote;
+import mu.codeoffice.entity.ProjectRole;
 import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.CasePriority;
@@ -41,6 +42,17 @@ public class ProjectService extends VersionStatisticService {
 	
 	@Resource
 	private ProjectNoteRepository projectNoteRepository;
+	
+	@Transactional(readOnly = true)
+	@Cacheable(value = "projectRoleCache", key = "#project + '_' + #user.id")
+	public int getProjectAuthority(EnterpriseUser user, String project) throws EnterpriseAuthenticationException {
+		try {
+			ProjectRole role = roleGroupRepository.getProjectRole(user, project);
+			return role.getValue();
+		} catch (Exception e) {
+			throw new EnterpriseAuthenticationException("Access denied.");
+		}
+	}
 	
 	public List<ProjectNote> getProjectNote(Long project) {
 		return projectNoteRepository.getProjectNotes(project);

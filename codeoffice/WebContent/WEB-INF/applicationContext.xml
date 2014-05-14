@@ -30,8 +30,6 @@
 	<context:component-scan base-package="mu.codeoffice.**" />
 	<aop:aspectj-autoproxy/>
 	<cache:annotation-driven />
-	
-	<bean id="navigationAdvice" class="mu.codeoffice.handler.NavigationAdvice"/>
 			
 	<!-- database configurations -->
 	
@@ -178,6 +176,7 @@
 				<bean p:name="projectCategoryNameCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 				<bean p:name="unreleasedVersionCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 				<bean p:name="projectRoleAuth" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
+				<bean p:name="projectRoleCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 			</set>
 		</property>
 	</bean>

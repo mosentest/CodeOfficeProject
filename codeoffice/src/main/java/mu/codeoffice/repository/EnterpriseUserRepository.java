@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface EnterpriseUserRepository extends JpaRepository<EnterpriseUser, Long> {
-
+	
 	@Query("SELECT eu FROM EnterpriseUser eu WHERE eu.password = :password AND (eu.account = :account OR eu.email = :email)")
 	public EnterpriseUser login(@Param("account") String account, @Param("email") String email, @Param("password") String password);
 
