@@ -23,10 +23,7 @@
 							<div class="subelement">
 								<div class="title"><spring:message code="project.statussummary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(statusMap) eq 0}">
-										<spring:message var="message" code="project.nocases"/>
-										<code:info message="${message}"/>
-									</c:if>
+									<c:if test="${fn:length(statusMap) eq 0}"><code:info message="project.nocases"/></c:if>
 									<c:if test="${fn:length(statusMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${statusMap}" var="status">
@@ -44,10 +41,7 @@
 							<div class="subelement">
 								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.bypriority"/></div>
 								<div class="content">
-									<c:if test="${fn:length(priorityMap) eq 0}">
-										<spring:message var="message" code="project.nocases"/>
-										<code:info message="${message}"/>
-									</c:if>
+									<c:if test="${fn:length(priorityMap) eq 0}"><code:info message="project.nocases"/></c:if>
 									<c:if test="${fn:length(priorityMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${priorityMap}" var="priority">
@@ -65,10 +59,7 @@
 							<div class="subelement">
 								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.byassignee"/></div>
 								<div class="content">
-									<c:if test="${fn:length(assigneeMap) eq 0}">
-										<spring:message var="message" code="project.nocases"/>
-										<code:info message="${message}"/>
-									</c:if>
+									<c:if test="${fn:length(assigneeMap) eq 0}"><code:info message="project.nocases"/></c:if>
 									<c:if test="${fn:length(assigneeMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${assigneeMap}" var="assignee">

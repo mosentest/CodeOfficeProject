@@ -32,7 +32,9 @@ public class UserTag extends SimpleTagSupport {
 		}
 		
 		StringBuilder buffer = new StringBuilder();
-		buffer.append("<span class=\"imglink\">");
+		if (showImage) {
+			buffer.append("<span class=\"imglink\">");
+		}
 		if (showImage) {
 			String imagePath = user.getProfilePath();
 			if (imagePath.equals("male.jpg") || imagePath.equals("female.jpg")) {
@@ -44,11 +46,13 @@ public class UserTag extends SimpleTagSupport {
 			buffer.append("<span class=\"minorspace\">&nbsp;</span>");
 		}
 		if (showLink) {
-			buffer.append(String.format("<span><a href=\"enterprise/user/%s\">%s</a></span>", user.getNameLink(), user.getFullName()));
+			buffer.append(String.format("<a href=\"enterprise/user/%s\">%s</a>", user.getNameLink(), user.getFullName()));
 		} else {
 			buffer.append(String.format("<span>%s</span>", user.getFullName()));
 		}
-		buffer.append("</span>");
+		if (showImage) {
+			buffer.append("</span>");
+		}
 		
 		out.println(buffer.toString());
 	}

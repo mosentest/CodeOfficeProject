@@ -1,159 +1,33 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
+<link rel="stylesheet" type="text/css" href="css/project.css">
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <div id="content">
 	<div class="element">
-		<div class="info"><spring:message code="project.home"/></div>
+		<div class="info"><jsp:include page="/WEB-INF/view/enterprise/project/project_header.jsp"/></div>
 		<div class="content">
-			<jsp:include page="/WEB-INF/view/enterprise/project/projecthome_menu.jsp">
-				<jsp:param name="menu" value="home"/>
+			<jsp:include page="/WEB-INF/view/enterprise/project/project_menu.jsp">
+				<jsp:param name="menu" value="dashboard"/>
 			</jsp:include>
 			<div class="maincontent">
-				<div class="element-block">
-					<div class="subelement">
-						<div class="title"><spring:message code="project.c_assignedtome"/></div>
-						<div class="content">
-							<c:if test="${fn:length(assignedCases) eq 0}">
-								<spring:message var="message" code="project.nocases"/>
-								<code:info message="${message}"/>
-							</c:if>
-							<c:if test="${fn:length(assignedCases) gt 0}">
-								<table class="default-table left">
-									<tr>
-										<th class="fit-cell"></th>
-										<th class="fit-cell"><spring:message code="project.c_code"/></th>
-										<th><spring:message code="project.c_summary"/></th>
-										<th class="fit-cell"><spring:message code="project.c_status"/></th>
-									</tr>
-									<c:forEach items="assignedCases" var="c">
-									<tr>
-										<td class="fit-cell"><code:enum image="${c.priority}" /></td>
-										<td class="fit-cell"><a href="enterprise/cas_${c.code}">${c.code}</a></td>
-										<td>${c.summary}</td>
-										<td class="fit-cell"><code:enum image="${c.status}"/></td>
-									</tr>
-									</c:forEach>
-								</table>
-							</c:if>
+				<div class="mainelement">
+					<div class="title imglink"><img src="img/office/icon_dashboard.png"/><span class="titlespan"><spring:message code="project.p_dashboard"/></span></div>
+					<div class="content">
+						<div class="element-block">
+							<div class="content"></div>
 						</div>
-					</div>
-					<div class="sep-30"></div>
-					<div class="subelement">
-						<div class="title"><spring:message code="project.worknotes"/></div>
-						<div class="content">
-							<c:if test="${fn:length(workNotes) eq 0}">
-								<spring:message var="message" code="project.noworknotes"/>
-								<code:info message="${message}"/>
-							</c:if>
-							<c:if test="${fn:length(workNotes) gt 0}">
-								<table class="default-table left">
-									<tr>
-										<th class="fit-cell"><spring:message code="project.w_updated"/></th>
-										<th><spring:message code="project.w_summary"/></th>
-										<th class="fit-cell"><spring:message code="project.w_creator"/></th>
-									</tr>
-									<c:forEach items="${workNotes}" var="workNote">
-									<tr>
-										<td class="fit-cell"><code:date date="${workNote.update}" format="yy-MM-dd HH:mm"/></td>
-										<td>${workNote.summary}</td>
-										<td class="fit-cell"><code:user user="${workNote.creator}"/></td>
-									</tr>
-									</c:forEach>
-								</table>
-							</c:if>
+						<div class="element-block">
+							<div class="content"></div>
 						</div>
-					</div>
-					<div class="sep-30"></div>
-					<div class="subelement">
-						<div class="title"><spring:message code="project.statussummary"/></div>
-						<div class="content">
-							<c:if test="${fn:length(statusSummary.keySet) eq 0}">
-								<spring:message var="message" code="project.nostatusavailable"/>
-								<code:info message="${message}"/>
-							</c:if>
-							<c:if test="${fn:length(statusSummary.keySet) gt 0}">
-								<table class="default-table">
-									<tr>
-										<th class="percent-key"></th>
-										<th class="percent-value"></th>
-										<th class="percent-percent"></th>
-									</tr>
-									<c:forEach items="${statusSummary.keySet}" var="key">
-									<tr>
-										<td class="percent-key"><img src="img/enterprise/office/${key.code}.png"/></td>
-										<td class="percent-value">${statusSummary[key]}</td>
-										<td class="percent-percent">
-											<code:percent number="${statusSummary[key]}" total="${totalCaseCount}"/>
-										</td>
-									</tr>
-									</c:forEach>
-								</table>
-							</c:if>
-						</div>
+						<div class="clearfix"></div>
 					</div>
 				</div>
-			
-				<div class="element-block">
-					<div class="subelement">
-						<div class="title"><spring:message code="project.allcase"/></div>
-						<div class="content">
-							<c:if test="${fn:length(allCases) eq 0}">
-								<spring:message var="message" code="project.nocases"/>
-								<code:info message="${message}"/>
-							</c:if>
-							<c:if test="${fn:length(allCases) gt 0}">
-								<table class="default-table">
-									<tr>
-										<th class="fit-cell"></th>
-										<th class="fit-cell"><spring:message code="project.c_code"/></th>
-										<th><spring:message code="project.c_summary"/></th>
-										<th class="fit-cell"><spring:message code="project.c_assignee"/></th>
-										<th class="fit-cell"><spring:message code="project.c_status"/></th>
-									</tr>					
-									<c:forEach items="${allCases}" var="c">
-									<tr>
-										<td class="fit-cell"><img src="img/enterprise/office/${c.priority.code}.png"/></td>
-										<td class="fit-cell"><a href="enterprise/cas_${c.code}">${c.code}</a></td>
-										<td>${c.summary}</td>
-										<td class="fit-cell"><code:user user="${c.assignee}" showImage="false" showSpace="false"/></td>
-										<td class="fit-cell"><img src="img/enterprise/office/${c.status.code}.png"/></td>
-									</tr>
-									</c:forEach>				
-								</table>
-							</c:if>
-						</div>
-					</div>
-					<div class="sep-30"></div>
-					<div class="subelement">
-						<div class="title"><spring:message code="project.currentprojects"/></div>
-						<div class="content">
-							<c:if test="${fn:length(currentProjects) eq 0}">
-								<spring:message var="message" code="project.youarenotworkingonproject"/>
-								<code:info message="${message}"/>
-							</c:if>
-							<c:if test="${fn:length(currentProjects) gt 0}">
-								<table class="default-table">
-									<tr>
-										<th class="fit-cell"><spring:message code="project.p_code"/></th>
-										<th><spring:message code="project.p_name"/></th>
-									</tr>
-									<c:forEach items="${currentProjects}" var="project">
-										<tr>
-											<td class="fit-cell"><a href="enterprise/pro_${project.code}">${project.code}</a></td>
-											<td>${project.name}</td>
-										</tr>
-									</c:forEach>
-								</table>
-							</c:if>
-						</div>
-					</div>
-				</div>
-				<div class="clearfix"></div>
 			</div>
 			<div class="clearfix"></div>
 		</div>

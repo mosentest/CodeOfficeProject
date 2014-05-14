@@ -19,10 +19,7 @@
 				<div class="mainelement">
 					<div class="title imglink"><img src="img/office/icon_components.png"/><span class="titlespan"><spring:message code="project.p_components"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(components) eq 0}">
-							<spring:message var="message" code="project.nocomponents"/>
-							<code:info message="${message}"/>
-						</c:if>
+						<c:if test="${fn:length(components) eq 0}"><code:info message="project.nocomponents"/></c:if>
 						<c:if test="${fn:length(components) gt 0}">
 						<table class="default-table left-header">
 						<tr>

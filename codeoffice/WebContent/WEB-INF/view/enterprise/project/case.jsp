@@ -135,19 +135,19 @@
 					</div>
 					<div class="tab-content" id="tab-content">
 						<c:if test="${activity eq 'note'}">
-							<c:if test="${fn:length(notes) eq 0}"><<spring:message var="message" code="project.c_nonote"/><code:info message="${message}"/></c:if>
+							<c:if test="${fn:length(notes) eq 0}"><code:info message="project.c_nonote"/></c:if>
 							<c:if test="${fn:length(notes) gt 0}"></c:if>
 						</c:if>
 						<c:if test="${activity eq 'worklog'}">
-							<c:if test="${fn:length(worklogs) eq 0}"><spring:message var="message" code="project.c_noworklog"/><code:info message="${message}"/></c:if>
+							<c:if test="${fn:length(worklogs) eq 0}"><code:info message="project.c_noworklog"/></c:if>
 							<c:if test="${fn:length(worklogs) gt 0}"></c:if>
 						</c:if>
 						<c:if test="${activity eq 'history'}">
-							<c:if test="${fn:length(histories) eq 0}"><spring:message var="message" code="project.c_nohistory"/><code:info message="${message}"/></c:if>
+							<c:if test="${fn:length(histories) eq 0}"><code:info message="project.c_nohistory"/></c:if>
 							<c:if test="${fn:length(histories) gt 0}"></c:if>
 						</c:if>
 						<c:if test="${activity eq 'activity'}">
-							<c:if test="${fn:length(activities) eq 0}"><spring:message var="message" code="project.c_noactivity"/><code:info message="${message}"/></c:if>
+							<c:if test="${fn:length(activities) eq 0}"><code:info message="project.c_noactivity"/></c:if>
 							<c:if test="${fn:length(activities) gt 0}"></c:if>
 						</c:if>
 						<div layout="block">

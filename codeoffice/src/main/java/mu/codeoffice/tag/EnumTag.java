@@ -18,14 +18,14 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class EnumTag extends SimpleTagSupport {
+	
+	private MessageSource messageSource;
 
 	private TextEnum text;
 
 	private ImageEnum image;
 
 	private TextImageEnum value;
-	
-	private MessageSource messageSource;
 	
 	public EnumTag() {
 		super();

@@ -33,11 +33,18 @@ public class ProjectController {
 	
 	@RequestMapping(value = "project", method = RequestMethod.GET)
 	public ModelAndView main(ModelMap model) {
+		return new ModelAndView("enterprise/project/projecthome", model);
+	}
+	@RequestMapping(value = "pro_{code}", method = RequestMethod.GET)
+	public ModelAndView project(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
+			throws EnterpriseAuthenticationException {
+		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
+		model.put("project", project);
 		return new ModelAndView("enterprise/project/project_home", model);
 	}
 	
-	@RequestMapping(value = "pro_{code}", method = RequestMethod.GET)
-	public ModelAndView project(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
+	@RequestMapping(value = "pro_{code}/summary", method = RequestMethod.GET)
+	public ModelAndView summary(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
 		model.put("project", project);
@@ -48,7 +55,7 @@ public class ProjectController {
 		model.put("moreActivity", true);
 		return new ModelAndView("enterprise/project/project_summary", model);
 	}
-
+	
 	@RequestMapping(value = "pro_{code}/versions", method = RequestMethod.GET)
 	public ModelAndView versions(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
@@ -67,8 +74,8 @@ public class ProjectController {
 		return new ModelAndView("enterprise/project/project_roadmap", model);
 	}
 
-	@RequestMapping(value = "pro_{code}/summary", method = RequestMethod.GET)
-	public ModelAndView summary(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
+	@RequestMapping(value = "pro_{code}/casesummary", method = RequestMethod.GET)
+	public ModelAndView caseSummary(@PathVariable("code") String code, @AuthenticationPrincipal User user, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
 		model.put("project", project);

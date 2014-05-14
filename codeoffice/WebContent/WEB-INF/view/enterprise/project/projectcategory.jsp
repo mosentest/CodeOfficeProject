@@ -37,8 +37,7 @@
 						<div class="title">${projectCategory.name}</div>
 						<div class="content">
 							<c:if test="${fn:length(projectCategory.projects) eq 0}">
-								<spring:message var="message" code="project.noprojectsforcategory" arguments="${projectCategory.name}"/>
-								<code:info message="${message}"/>
+								<code:info message="project.noprojectsforcategory" arguments="${projectCategory.name}"/>
 							</c:if>
 							<c:if test="${fn:length(projectCategory.projects) gt 0}">
 							<table class="default-table center">

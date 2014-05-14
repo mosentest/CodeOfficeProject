@@ -3,6 +3,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <div class="leftmenu">
 	<ul class="vertical-tab">
+		<li class="tab ${param.menu eq 'dashboard' ? 'active' : ''}"><a href="enterprise/pro_${project.code}"><spring:message code="project.p_dashboard"/></a></li>
 		<li class="tab ${param.menu eq 'summary' ? 'active' : ''}"><a href="enterprise/pro_${project.code}"><spring:message code="project.p_summary"/></a></li>
 		<li class="tab ${param.menu eq 'roadmap' ? 'active' : ''}"><a href="enterprise/pro_${project.code}/roadmap"><spring:message code="project.p_roadmap"/></a></li>
 		<li class="tab ${param.menu eq 'casesummary' ? 'active' : ''}"><a href="enterprise/pro_${project.code}/summary"><spring:message code="project.p_casesummary"/></a></li>
