@@ -50,7 +50,7 @@ public class CaseSpecifications {
 		};
 	}
 
-	public static Specification<Case> countResolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
+	public static Specification<Case> resolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  
 			CaseType type, CasePriority priority) {
 		return new Specification<Case>() {

@@ -19,5 +19,8 @@ public interface RoleGroupRepository extends JpaRepository<RoleGroup, Long> {
 	@Query("SELECT r.role FROM RoleGroup r WHERE r.project.id = :project AND :user MEMBER OF r.users")
 	@Cacheable(value = "projectRole", key = "#project + '_' + #user.id")
 	public Role getRole(@Param("project") Long project, @Param("user") EnterpriseUser user);
+
+	@Query("SELECT DISTINCT u FROM RoleGroup r JOIN r.users u WHERE r.project.id = :project")
+	public List<EnterpriseUser> getUsers(@Param("project") Long project);
 	
 }
