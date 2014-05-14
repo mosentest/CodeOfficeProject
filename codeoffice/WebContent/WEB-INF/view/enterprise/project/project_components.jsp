@@ -34,7 +34,7 @@
 						<c:forEach items="${components}" var="component">
 						<tr>
 							<td><img src="img/office/icon_component.png" width="20" height="20"/></td>
-							<td><a href="enterprise/pro_${project.code}/m_${component.id}">${component.name}</a></td>
+							<td><a href="enterprise/pro_${project.code}/m_${component.code}">${component.name}</a></td>
 							<td><code:user user="${component.lead}"/></td>
 							<td><code:user user="${component.defaultReporter}"/></td>
 							<td><code:user user="${component.defaultAssignee}"/></td>

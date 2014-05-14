@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -41,11 +42,11 @@
 								</td>
 								<td><code:checkmark value="${version.released}" checkmarkOnly="false"/></td>
 								<td><a href="enterprise/pro_${project.code}/v_${version.code}">${version.code}</a></td>
-								<td><code:date date="${version.start}"/></td>
+								<td><fmt:formatDate value="${version.start}" pattern="yy-MM-dd HH:mm:ss"/></td>
 								<td>
 									<c:if test="${empty version.delay}"><code:date date="${version.release}"/></c:if>
 									<c:if test="${not empty version.delay}">
-										<span class="delayed-version"><spring:message code="project.v_delayedto"/>:&nbsp;<code:date date="${version.delay}"/></span>
+										<span class="delayed-version"><spring:message code="project.v_delayedto"/>:&nbsp;<fmt:formatDate value="${version.release}" pattern="yy-MM-dd"/></span>
 									</c:if>
 								</td>
 								<td>${version.noRelease}</td>

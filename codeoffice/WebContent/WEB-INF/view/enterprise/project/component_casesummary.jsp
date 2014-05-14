@@ -12,12 +12,12 @@
 	<div class="element">
 		<div class="info"><jsp:include page="/WEB-INF/view/enterprise/project/project_header.jsp"/></div>
 		<div class="content">
-			<jsp:include page="/WEB-INF/view/enterprise/project/project_menu.jsp">
+			<jsp:include page="/WEB-INF/view/enterprise/project/component_menu.jsp">
 				<jsp:param name="menu" value="casesummary"/>
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_statistic.png"/><span class="titlespan"><spring:message code="project.p_casesummary"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_statistic.png"/><span class="titlespan"><spring:message code="project.m_casesummary"/></span></div>
 					<div class="content">
 						<div class="element-block">
 							<div class="subelement">
@@ -99,36 +99,9 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.bycomponent"/></div>
-								<div class="content">
-									<c:if test="${fn:length(componentMap) eq 0}">
-										<spring:message var="message" code="project.nocases"/>
-										<code:info message="${message}"/>
-									</c:if>
-									<c:if test="${fn:length(componentMap) gt 0}">
-									<table class="default-table nowrap">
-										<c:forEach items="${componentMap}" var="component">
-										<tr>
-											<td class="percent-key imglink">
-												<img src="img/office/icon_component.png" width="20" height="20"/>
-												<a class="text" href="enterprise/pro_${project.code}/m_${component.key.code}">${component.key.name}</a>
-											</td>
-											<td class="percent-value">${component.value}</td>
-											<td class="percent-percent"><code:percent number="${component.value}" total="${totalCase}"/></td>
-										</tr>
-										</c:forEach>
-									</table>
-									</c:if>
-								</div>
-							</div>
-							<div class="sep-30"></div>
-							<div class="subelement">
 								<div class="title"><spring:message code="project.unresolved"/>:&nbsp;<spring:message code="project.bylabel"/></div>
 								<div class="content">
-									<c:if test="${fn:length(labelMap) eq 0}">
-										<spring:message code="project.nocases"/>
-										<code:info message="${message}"/>
-									</c:if>
+									<c:if test="${fn:length(labelMap) eq 0}"><code:info message="project.nocases"/></c:if>
 									<c:if test="${fn:length(labelMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${labelMap}" var="label">

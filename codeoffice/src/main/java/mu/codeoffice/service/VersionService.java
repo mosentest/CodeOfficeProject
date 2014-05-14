@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class VersionService extends VersionStatisticService {
+public class VersionService extends ProjectStatisticService {
 
 	public Version getProjectVersion(Project project, String version) {
 		return versionRepository.getProjectVersion(project, version);

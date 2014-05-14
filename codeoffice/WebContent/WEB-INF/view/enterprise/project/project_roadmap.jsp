@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -29,11 +30,11 @@
 									</div>
 									<div class="fs-ms p_3">${version.key.description}</div>
 									<div class="fc-g p_3">
-										<spring:message code="project.v_release"/>:&nbsp;<code:date date="${version.key.release}"/>
+										<spring:message code="project.v_release"/>:&nbsp;<fmt:formatDate value="${version.key.release}" pattern="yy-MM-dd HH:mm:ss"/>
 									</div>
 									<c:if test="${not empty version.key.delay}">
 										<div class="delayed-version p_3">
-											<spring:message code="project.v_delayedto"/>:&nbsp;<code:date date="${version.key.delay}"/>
+											<spring:message code="project.v_delayedto"/>:&nbsp;<fmt:formatDate value="${version.delay}" pattern="yy-MM-dd"/>
 										</div>
 									</c:if>
 									<div class="p_3"><a href="enterprise/pro_${project.code}/r_${version.key.code}"><spring:message code="project.v_releasenote"/></a>

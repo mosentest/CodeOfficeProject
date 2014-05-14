@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -91,19 +92,19 @@ function drawChart() {
 										<td class="info-title"><spring:message code="project.p_completed"/></td>
 										<td class="info-value"><span class="imglink"><code:checkmark value="${project.completed}"/></span></td>
 										<td class="info-title"><spring:message code="project.p_created"/></td>
-										<td class="info-value"><code:date date="${project.create}"/></td>
+										<td class="info-value"><fmt:formatDate value="${project.create}" pattern="yy-MM-dd HH:mm:ss"/></td>
 									</tr>
 									<tr>
 										<td class="info-title"><spring:message code="project.p_nouser"/></td>
 										<td class="info-value"><span>${project.noUser}</span></td>
 										<td class="info-title"><spring:message code="project.p_updated"/></td>
-										<td class="info-value"><code:date date="${project.update}"/></td>
+										<td class="info-value"><fmt:formatDate value="${project.update}" pattern="yy-MM-dd HH:mm:ss"/></td>
 									</tr>
 									<tr>
 										<td class="info-title"><spring:message code="project.p_nocase"/></td>
 										<td class="info-value"><span>${project.noCase}</span></td>
 										<td class="info-title"><spring:message code="project.p_estend"/></td>
-										<td class="info-value"><code:date date="${project.end}"/></td>
+										<td class="info-value"><fmt:formatDate value="${project.end}" pattern="yy-MM-dd HH:mm:ss"/></td>
 									</tr>
 									<tr>
 										<td class="info-title"><spring:message code="project.p_visibility"/></td>
@@ -163,11 +164,11 @@ function drawChart() {
 										<td class="fit-cell"><a href="enterprise/version/${version.code}">${version.name}</a></td>
 										<td>
 										<c:if test="${empty version.delay}">
-											<code:date date="${v.release}"/>
+											<fmt:formatDate value="${v.release}" pattern="yy-MM-dd HH:mm:ss"/>
 										</c:if>
 										<c:if test="${not empty version.delay}">
 											<span class="delayed-version"><spring:message code="project.v_delayedto"/>&nbsp;
-											<code:date date="${v.delay}"/></span>
+											<fmt:formatDate value="${v.delay}" pattern="yy-MM-dd HH:mm:ss"/></span>
 										</c:if>
 										</td>
 									</tr>

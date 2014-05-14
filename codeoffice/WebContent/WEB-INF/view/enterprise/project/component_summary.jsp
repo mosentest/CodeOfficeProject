@@ -44,7 +44,7 @@ function drawChart() {
 	<div class="element">
 		<div class="info"><jsp:include page="/WEB-INF/view/enterprise/project/project_header.jsp"/></div>
 		<div class="content">
-			<jsp:include page="/WEB-INF/view/enterprise/project/version_menu.jsp">
+			<jsp:include page="/WEB-INF/view/enterprise/project/component_menu.jsp">
 				<jsp:param name="menu" value="summary"/>
 			</jsp:include>
 			<div class="maincontent">

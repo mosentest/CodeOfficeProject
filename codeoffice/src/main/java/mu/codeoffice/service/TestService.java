@@ -73,13 +73,11 @@ public class TestService {
 
 	@Transactional
 	public void test() {
-		List<Version> versions = versionRepository.findAll();
-		for (Version version : versions) {
-			version.getReleaseCases().size();
-			version.setNoRelease(version.getReleaseCases().size());
-			version.getRelatedCases().size();
-			version.setNoRelated(version.getRelatedCases().size());
-			versionRepository.save(version);
+		List<Component> components = componentRepository.findAll();
+		for (Component component : components) {
+			component.getCases().size();
+			component.setNoCase(component.getCases().size());
+			componentRepository.save(component);
 		}
 	}
 	

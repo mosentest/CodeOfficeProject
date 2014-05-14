@@ -1,0 +1,5 @@
+project: enterprise/pro_{code}
+component: enterprise/pro_{code}/m_{code}
+version: enterprise/pro_{code}/v_{code}
+label: enterprise/pro_{code}/l_{label}
+case: enterprise/pro_{code}/c_{code}

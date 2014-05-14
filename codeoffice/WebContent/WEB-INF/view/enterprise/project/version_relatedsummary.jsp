@@ -86,7 +86,7 @@
 										<tr>
 											<td class="percent-key imglink">
 												<img src="img/office/icon_component.png" width="20" height="20"/>
-												<a class="text" href="enterprise/project/${project.code}/component/${component.key.id}">${component.key.name}</a>
+												<a class="text" href="enterprise/pro_${project.code}/m_${component.key.code}">${component.key.name}</a>
 											</td>
 											<td class="percent-value">${component.value}</td>
 											<td class="percent-percent"><code:percent number="${component.value}" total="${totalCase}"/></td>
@@ -107,7 +107,7 @@
 										<tr>
 											<td class="percent-key imglink">
 												<img src="img/office/icon_label.png" width="20" height="20"/>
-												<a class="text" href="enterprise/project/${project.code}/label/${label.key.label}">${label.key.label}</a>
+												<a class="text" href="enterprise/pro_${project.code}/l_${label.key.label}">${label.key.label}</a>
 											</td>
 											<td class="percent-value">${label.value}</td>
 											<td class="percent-percent"><code:percent number="${label.value}" total="${totalCase}"/></td>

@@ -31,7 +31,7 @@ import mu.codeoffice.utility.DateUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class VersionStatisticService {
+public abstract class ProjectStatisticService {
 
 	@Autowired
 	protected VersionRepository versionRepository;
@@ -116,6 +116,16 @@ public abstract class VersionStatisticService {
 		Map<Label, Integer> map = new LinkedHashMap<>();
 		labels.forEach(l -> map.put(l, (int) caseRepository.count(
 				all(null, project, version, releaseVersion, component, l.getId(), assignee, reporter, status, type, priority))));
+		clearZeroValues(map);
+		return map;
+	}
+
+	public Map<CaseType, Integer> getCaseTypeSummary(Long project, Long version, Long releaseVersion, Long component, Long label, 
+			Long assignee, Long reporter, CaseStatus status, CasePriority priority) {
+		Map<CaseType, Integer> map = new LinkedHashMap<>();
+		for (CaseType type : CaseType.values()) {
+			map.put(type, (int) caseRepository.count(all(null, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority)));
+		}
 		clearZeroValues(map);
 		return map;
 	}
