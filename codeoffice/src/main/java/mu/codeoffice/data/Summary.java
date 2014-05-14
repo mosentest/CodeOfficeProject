@@ -1,4 +1,4 @@
-package mu.codeoffice.entity;
+package mu.codeoffice.data;
 
 import java.util.Date;
 

@@ -34,6 +34,44 @@ public class CaseSpecifications {
 			}
 		};
 	}
+	
+	public static Specification<Case> inProgress(Long project, Long assignee, Long reporter) {
+		return new Specification<Case>() {
+			@Override
+			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
+				predicates.add(builder.isFalse(root.get(Case_.removed)));
+				predicates.add(builder.isTrue(root.get(Case_.inProgress)));
+				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		};
+	}
+	
+	public static Specification<Case> closed(Long project, Long assignee, Long reporter) {
+		return new Specification<Case>() {
+			@Override
+			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
+				predicates.add(builder.isFalse(root.get(Case_.removed)));
+				predicates.add(builder.isNotNull(root.get(Case_.close)));
+				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		};
+	}
+
+	public static Specification<Case> assigned(Long project, Long assignee, Long reporter) {
+		return new Specification<Case>() {
+			@Override
+			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
+				predicates.add(builder.isFalse(root.get(Case_.removed)));
+				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.CLO));
+				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.RES));
+				predicates.add(builder.isFalse(root.get(Case_.inProgress)));
+				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		};
+	}
 
 	public static Specification<Case> unresolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  

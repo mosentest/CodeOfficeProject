@@ -20,8 +20,10 @@ public class Case_ {
 	public static volatile SingularAttribute<Case, EnterpriseUser> assignee;
 	
 	public static volatile SingularAttribute<Case, EnterpriseUser> reporter;
-	
+
 	public static volatile SingularAttribute<Case, Date> create; 
+	
+	public static volatile SingularAttribute<Case, Date> close; 
 	
 	public static volatile ListAttribute<Case, Version> versions;
 	
@@ -30,6 +32,8 @@ public class Case_ {
 	public static volatile ListAttribute<Case, Component> components;
 	
 	public static volatile ListAttribute<Case, Label> labels;
+	
+	public static volatile SingularAttribute<Case, Boolean> inProgress;
 	
 	public static volatile SingularAttribute<Case, CaseStatus> status;
 	

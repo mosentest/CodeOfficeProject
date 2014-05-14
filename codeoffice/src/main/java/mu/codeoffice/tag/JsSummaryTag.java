@@ -8,7 +8,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import mu.codeoffice.entity.Summary;
+import mu.codeoffice.data.Summary;
 
 public class JsSummaryTag extends SimpleTagSupport {
 	

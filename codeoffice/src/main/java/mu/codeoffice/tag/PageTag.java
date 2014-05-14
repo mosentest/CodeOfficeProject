@@ -22,21 +22,23 @@ public class PageTag extends SimpleTagSupport {
 		
 		buffer.append("<div class=\"page-holder\">");
 		buffer.append("<span>Total <span class=\"fc-hb fw-b\">" + page.getTotalElements() + "</span> items</span><span class=\"minorspace\"></span>");
-		buffer.append("<span><a href=\"" + url + "\">First</span><span class=\"minorspace\"></span>");
-		if (page.isFirstPage()) {
-			buffer.append("<span>Previous</span><span class=\"minorspace\"></span>");
-		} else {
-			buffer.append(String.format("<span><a href=\"%s/%d\">Previous</a></span><span class=\"minorspace\"></span>", url, page.getNumber()));
+		if (page.getTotalPages() > 1) {
+			buffer.append("<span><a href=\"" + url + "\">First</span><span class=\"minorspace\"></span>");
+			if (page.isFirstPage()) {
+				buffer.append("<span>Previous</span><span class=\"minorspace\"></span>");
+			} else {
+				buffer.append(String.format("<span><a href=\"%s/%d\">Previous</a></span><span class=\"minorspace\"></span>", url, page.getNumber()));
+			}
+			buffer.append(String.format("<span>%d / %d</span><span class=\"minorspace\"></span>", (page.getNumber() + 1), page.getTotalPages()));
+			if (page.isLastPage()) {
+				buffer.append("<span>Next</span>");
+			} else {
+				buffer.append(String.format("<span><a href=\"%s/%d\">Next</a></span><span class=\"minorspace\"></span>", url, page.getNumber()));
+			}
+			buffer.append(String.format("<span><a href=\"%s/%d\">Last</a></span><span class=\"minorspace\"></span>", url, page.getTotalPages()));
+			buffer.append("<span><span>Goto</span><span class=\"minorspace\"></span><input type=\"text\" id=\"goto\" style=\"width: 36px;\" maxlength=\"3\"/>");
+			buffer.append("<span class=\"minorspace\"></span><input class=\"button\" value=\"Go\" style=\"width: 50px;\" onclick=\"submitGoto();\">");
 		}
-		buffer.append(String.format("<span>%d / %d</span><span class=\"minorspace\"></span>", (page.getNumber() + 1), page.getTotalPages()));
-		if (page.isLastPage()) {
-			buffer.append("<span>Next</span>");
-		} else {
-			buffer.append(String.format("<span><a href=\"%s/%d\">Next</a></span><span class=\"minorspace\"></span>", url, page.getNumber()));
-		}
-		buffer.append(String.format("<span><a href=\"%s/%d\">Last</a></span><span class=\"minorspace\"></span>", url, page.getTotalPages()));
-		buffer.append("<span><span>Goto</span><span class=\"minorspace\"></span><input type=\"text\" id=\"goto\" style=\"width: 36px;\" maxlength=\"3\"/>");
-		buffer.append("<span class=\"minorspace\"></span><input class=\"button\" value=\"Go\" style=\"width: 50px;\" onclick=\"submitGoto();\">");
 		buffer.append("</div>");
 		out.println(buffer.toString());
 	}

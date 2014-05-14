@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import mu.codeoffice.data.Summary;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.Label;
@@ -12,7 +13,6 @@ import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
 import mu.codeoffice.entity.ProjectNote;
 import mu.codeoffice.entity.RoleGroup;
-import mu.codeoffice.entity.Summary;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseStatus;

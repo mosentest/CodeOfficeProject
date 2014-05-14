@@ -21,6 +21,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import mu.codeoffice.data.Summary;
+
 @Entity
 @Table(name = "office_project", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
 public class Project implements Serializable {

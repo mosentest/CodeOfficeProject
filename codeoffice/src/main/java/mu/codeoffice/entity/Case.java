@@ -69,6 +69,9 @@ public class Case implements Serializable {
 	@Column(name = "close_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date close;
+	
+	@Column(name = "in_progress")
+	private boolean inProgress;
 
 	@Column(name = "estimation")
 	private long estimation;
@@ -434,6 +437,14 @@ public class Case implements Serializable {
 
 	public void setAssignee(EnterpriseUser assignee) {
 		this.assignee = assignee;
+	}
+
+	public boolean isInProgress() {
+		return inProgress;
+	}
+
+	public void setInProgress(boolean inProgress) {
+		this.inProgress = inProgress;
 	}
 	
 }

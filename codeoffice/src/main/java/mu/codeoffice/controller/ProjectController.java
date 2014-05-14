@@ -40,6 +40,12 @@ public class ProjectController {
 			throws EnterpriseAuthenticationException {
 		Project project = projectService.getProjectInfo(code, (EnterpriseAuthentication) user);
 		model.put("project", project);
+		model.put("caseStream", caseService.getProjectCaseStream((EnterpriseAuthentication) user, project.getId(), 0, LIST_ITEMS));
+		model.put("activityStream", null);
+		model.put("caseInProgress", caseService.getCaseInProgress((EnterpriseAuthentication) user, project.getId(), 0, LIST_ITEMS));
+		model.put("assignedCase", caseService.getAssignedCase((EnterpriseAuthentication) user, project.getId(), 0, LIST_ITEMS));
+		model.put("assigneeStatus", caseService.getAssigneeStatus(project.getId()));
+		model.put("statusMap", projectService.getCaseStatusSummary(project));
 		return new ModelAndView("enterprise/project/project_home", model);
 	}
 	
