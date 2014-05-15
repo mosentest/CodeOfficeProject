@@ -14,11 +14,11 @@
 </style>
 <div id="main">
 	<div class="element">
-		<div class="title"><spring:message code="page.login"/></div>
+		<div class="title"><spring:message code="application.login"/></div>
 		<div class="content">
 			<div id="login" class="border">
 				<form action="<c:url value='j_spring_security_check'/>" method="POST">
-					<table class="default-table">
+					<table class="default-table form-table">
 						<tr>
 							<td colspan="2" class="errorMessage">${error}</td>
 						</tr>
@@ -32,8 +32,8 @@
 						</tr>
 						<tr>
 							<td colspan="2" style="vertical-align: middle;">
-								<div style="float: left; "><input type="checkbox" name="rememberme" /><span><spring:message code="page.rememberme"/></span></div>
-								<div style="float: right; margin-right: 82px;"><input class="button" type="submit" value="<spring:message code="page.login"/>"/></div>
+								<div style="float: left; "><input type="checkbox" name="rememberme" /><span><spring:message code="application.rememberme"/></span></div>
+								<div style="float: right; margin-right: 82px;"><input class="button" type="submit" value="<spring:message code="application.login"/>"/></div>
 							</td>
 						</tr>
 					</table>

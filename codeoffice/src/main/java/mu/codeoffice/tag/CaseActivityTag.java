@@ -54,11 +54,6 @@ public class CaseActivityTag extends SimpleTagSupport {
 		return messageSource.getMessage(code, arguments, LocaleContextHolder.getLocale());
 	}
 
-	
-	private String getMessage(String code) {
-		return getMessage(code, null);
-	} 
-
 //	<ui:param name="activityObject" value="#{cc.attrs.activityObject}"/>
 //	<ui:param name="singleElement" value="#{activityObject.elements[0]}"/>
 //	<h:panelGroup styleClass="activity-item" layout="block">

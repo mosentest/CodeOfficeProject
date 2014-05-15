@@ -13,7 +13,7 @@
 %>
 <base href="<%=basePath%>" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><spring:message code="page.title" /></title>
+<title><spring:message code="application.title" /></title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.10.3.custom.css">
@@ -50,9 +50,9 @@
 	<security:authorize access="isAuthenticated()">
 		<div id="header-login">
 			<span><security:authentication property="principal.enterprise.name"/>,&nbsp;</span>
-			<a href="enterprise/<security:authentication property="principal.username"/>"><security:authentication property="principal.username"/></a>
-			|<a href="enterprise/settings"><spring:message code="page.settings" /></a>
-			|<a href="enterprise/logout"><spring:message code="page.logout" /></a>
+			<a href="enterprise/user/<security:authentication property="principal.username"/>"><security:authentication property="principal.username"/></a>
+			|<a href="enterprise/user/settings"><spring:message code="application.settings" /></a>
+			|<a href="enterprise/logout"><spring:message code="application.logout" /></a>
 		</div>
 	</security:authorize>
 	<div id="header">
@@ -65,19 +65,19 @@
 			<security:authorize access="isAuthenticated()">
 				<div id="header-menu">
 					<span class="link <c:if test="${param.navigation eq 'home'}">navigation</c:if>">
-						<a href="enterprise"><spring:message code="page.home" /></a>
+						<a href="enterprise"><spring:message code="application.home" /></a>
 					</span>
 					<span class="link <c:if test="${param.navigation eq 'dashboard'}">navigation</c:if>">
-						<a href="enterprise/dashboard"><spring:message code="page.dashboard" /></a>
+						<a href="enterprise/dashboard"><spring:message code="application.dashboard" /></a>
 					</span>
 					<span class="link <c:if test="${param.navigation eq 'project'}">navigation</c:if>">
-						<a href="enterprise/project"><spring:message code="page.project" /></a>
+						<a href="enterprise/project"><spring:message code="application.project" /></a>
 					</span>
 					<span class="link <c:if test="${param.navigation eq 'case'}">navigation</c:if>">
-						<a href="enterprise/case"><spring:message code="page.case" /></a>
+						<a href="enterprise/case"><spring:message code="application.case" /></a>
 					</span>
 					<span class="link <c:if test="${param.navigation eq 'messagecenter'}">navigation</c:if>">
-						<a href="enterprise/messagecenter"><spring:message code="page.messagecenter" /></a>
+						<a href="enterprise/messagecenter"><spring:message code="application.messagecenter" /></a>
 					</span>
 				</div>
 				<div id="sub-menu">
@@ -90,7 +90,7 @@
 	</div>
 	<div id="middle">
 		<c:if test="${returnLink}">
-			<a href="javascript:window.history.back()"><spring:message code="page.back" /></a>
+			<a href="javascript:window.history.back()"><spring:message code="application.back" /></a>
 		</c:if>
 		<div class="error-message">
 			<c:if test="${not empty sessionScope.ERROR_MESSAGE}">

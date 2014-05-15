@@ -17,13 +17,13 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_rolegroups.png"/><span class="titlespan"><spring:message code="project.p_rolegroup"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_rolegroups.png"/><span class="titlespan"><spring:message code="project.rolegroup"/></span></div>
 					<div class="content">
 					<table class="default-table left-header">
 						<tr>
-							<th class="role"><spring:message code="project.g_role"/></th>
-							<th class="role"><spring:message code="project.g_role_description"/></th>
-							<th class="users"><spring:message code="project.g_users"/></th>
+							<th class="role"><spring:message code="rolegroup.role"/></th>
+							<th class="role"><spring:message code="rolegroup.role_description"/></th>
+							<th class="users"><spring:message code="rolegroup.users"/></th>
 						</tr>
 						<c:forEach items="${roleGroups}" var="roleGroup">
 						<tr class="border-bottom">

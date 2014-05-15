@@ -17,19 +17,19 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_components.png"/><span class="titlespan"><spring:message code="project.p_components"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_components.png"/><span class="titlespan"><spring:message code="project.components"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(components) eq 0}"><code:info message="project.nocomponents"/></c:if>
+						<c:if test="${fn:length(components) eq 0}"><code:info message="project.no_components"/></c:if>
 						<c:if test="${fn:length(components) gt 0}">
 						<table class="default-table left-header">
 						<tr>
 							<th></th>
-							<th><spring:message code="project.m_name"/></th>
-							<th><spring:message code="project.m_lead"/></th>
-							<th><spring:message code="project.m_default_reporter"/></th>
-							<th><spring:message code="project.m_default_assignee"/></th>
-							<th><spring:message code="project.m_nocase"/></th>
-							<th><spring:message code="project.m_description"/></th>
+							<th><spring:message code="component.name"/></th>
+							<th><spring:message code="component.lead"/></th>
+							<th><spring:message code="component.default_reporter"/></th>
+							<th><spring:message code="component.default_assignee"/></th>
+							<th><spring:message code="component.case_count"/></th>
+							<th><spring:message code="component.description"/></th>
 						</tr>
 						<c:forEach items="${components}" var="component">
 						<tr>

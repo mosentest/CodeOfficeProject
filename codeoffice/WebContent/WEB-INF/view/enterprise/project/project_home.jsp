@@ -18,21 +18,21 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_dashboard.png"/><span class="titlespan"><spring:message code="project.p_dashboard"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_dashboard.png"/><span class="titlespan"><spring:message code="project.dashboard"/></span></div>
 					<div class="content">
 						<div class="element-block">
 							<div class="content">
 							<div class="element">
-								<div class="title"><spring:message code="project.casestream"/></div>
+								<div class="title"><spring:message code="project.case_stream"/></div>
 								<div class="content">
-								<c:if test="${caseStream.totalElements eq 0}"><code:info message="project.nocases"/></c:if>
+								<c:if test="${caseStream.totalElements eq 0}"><code:info message="project.no_case"/></c:if>
 								<c:if test="${caseStream.totalElements gt 0}">
 									<table class="default-table case-table">
 										<tr>
 											<th class="fit-cell"></th>
-											<th style="text-align: center;"><spring:message code="project.c_code"/></th>
-											<th><spring:message code="project.c_summary"/></th>
-											<th><spring:message code="project.c_status"/></th>
+											<th style="text-align: center;"><spring:message code="case.code"/></th>
+											<th><spring:message code="case.summary"/></th>
+											<th><spring:message code="case.status"/></th>
 										</tr>
 										<c:forEach items="${caseStream.content}" var="c">
 										<tr>
@@ -49,9 +49,9 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.activitystream"/></div>
+								<div class="title"><spring:message code="project.activity_stream"/></div>
 								<div class="content">
-								<c:if test="${activityStream.totalElements eq 0}"><code:info message="project.noactivity"/></c:if>
+								<c:if test="${activityStream.totalElements eq 0}"><code:info message="project.no_activity_stream"/></c:if>
 								<c:if test="${activityStream.totalElements gt 0}">
 								</c:if>
 								</div>
@@ -61,16 +61,16 @@
 						<div class="element-block">
 							<div class="content">
 							<div class="element">
-								<div class="title"><spring:message code="project.caseinprogress"/></div>
+								<div class="title"><spring:message code="project.case_inprogress"/></div>
 								<div class="content">
-								<c:if test="${caseInProgress.totalElements eq 0}"><code:info message="project.nocases"/></c:if>
+								<c:if test="${caseInProgress.totalElements eq 0}"><code:info message="project.no_case"/></c:if>
 								<c:if test="${caseInProgress.totalElements gt 0}">
 									<table class="default-table case-table">
 										<tr>
 											<th class="fit-cell"></th>
-											<th style="text-align: center;"><spring:message code="project.c_code"/></th>
-											<th><spring:message code="project.c_summary"/></th>
-											<th><spring:message code="project.c_status"/></th>
+											<th style="text-align: center;"><spring:message code="case.code"/></th>
+											<th><spring:message code="case.summary"/></th>
+											<th><spring:message code="case.status"/></th>
 										</tr>
 										<c:forEach items="${caseInProgress.content}" var="c">
 										<tr>
@@ -87,16 +87,16 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="element">
-								<div class="title"><spring:message code="project.assignedtome"/></div>
+								<div class="title"><spring:message code="project.assigned_to_me"/></div>
 								<div class="content">
-								<c:if test="${assignedCase.totalElements eq 0}"><code:info message="project.nocases"/></c:if>
+								<c:if test="${assignedCase.totalElements eq 0}"><code:info message="project.no_case"/></c:if>
 								<c:if test="${assignedCase.totalElements gt 0}">
 									<table class="default-table case-table">
 										<tr>
 											<th class="fit-cell"></th>
-											<th style="text-align: center;"><spring:message code="project.c_code"/></th>
-											<th><spring:message code="project.c_summary"/></th>
-											<th><spring:message code="project.c_status"/></th>
+											<th style="text-align: center;"><spring:message code="case.code"/></th>
+											<th><spring:message code="case.summary"/></th>
+											<th><spring:message code="case.status"/></th>
 										</tr>
 										<c:forEach items="${assignedCase.content}" var="c">
 										<tr>
@@ -113,17 +113,17 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="element">
-								<div class="title"><spring:message code="project.assigneestatus"/></div>
+								<div class="title"><spring:message code="project.assignee_status"/></div>
 								<div class="content">
-								<c:if test="${fn:length(assigneeStatus) eq 0}"><code:info message="project.noassigneestatus"/></c:if>
+								<c:if test="${fn:length(assigneeStatus) eq 0}"><code:info message="project.no_assignee_status"/></c:if>
 								<c:if test="${fn:length(assigneeStatus) gt 0}">
 									<table class="default-table center table-border-bottom">
 										<tr>
-											<th><spring:message code="project.c_assignee"/></th>
-											<th><spring:message code="project.c_inprogress"/></th>
-											<th><spring:message code="project.c_resolved"/></th>
-											<th><spring:message code="project.c_closed"/></th>
-											<th><spring:message code="project.c_total"/></th>
+											<th><spring:message code="case.assignee"/></th>
+											<th><spring:message code="case.inprogress"/></th>
+											<th><spring:message code="case.resolved"/></th>
+											<th><spring:message code="case.closed"/></th>
+											<th><spring:message code="case.total"/></th>
 										</tr>
 										<c:forEach items="${assigneeStatus}" var="status">
 										<tr>
@@ -140,9 +140,9 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.statussummary"/></div>
+								<div class="title"><spring:message code="project.status_summary"/></div>
 								<div class="content">
-								<c:if test="${fn:length(statusMap) eq 0}"><code:info message="project.nostatus"/></c:if>
+								<c:if test="${fn:length(statusMap) eq 0}"><code:info message="project.no_status_summary"/></c:if>
 								<c:if test="${fn:length(statusMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${statusMap}" var="status">

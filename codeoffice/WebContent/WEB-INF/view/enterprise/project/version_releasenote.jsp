@@ -30,9 +30,9 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_notes.png"/><span class="titlespan"><spring:message code="project.v_releasenote"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_notes.png"/><span class="titlespan"><spring:message code="version.releasenote"/></span></div>
 					<div class="content">
-						<c:if test="${empty releaseNote}"><code:info message="project.noreleasenote"/></c:if>
+						<c:if test="${empty releaseNote}"><code:info message="version.no_releasenote"/></c:if>
 						<c:if test="${not empty releaseNote}">
 							<c:forEach items="${releaseNote}" var="note">
 								<div class="releasenote">

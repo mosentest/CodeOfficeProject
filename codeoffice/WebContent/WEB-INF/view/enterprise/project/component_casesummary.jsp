@@ -17,13 +17,13 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_statistic.png"/><span class="titlespan"><spring:message code="project.m_casesummary"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_statistic.png"/><span class="titlespan"><spring:message code="component.case_summary"/></span></div>
 					<div class="content">
 						<div class="element-block">
 							<div class="subelement">
-								<div class="title"><spring:message code="project.statussummary"/></div>
+								<div class="title"><spring:message code="component.status_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(statusMap) eq 0}"><code:info message="project.nocases"/></c:if>
+									<c:if test="${fn:length(statusMap) eq 0}"><code:info message="component.no_status_summary"/></c:if>
 									<c:if test="${fn:length(statusMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${statusMap}" var="status">
@@ -39,9 +39,9 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.prioritysummary"/></div>
+								<div class="title"><spring:message code="component.priority_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(priorityMap) eq 0}"><code:info message="project.nocases"/></c:if>
+									<c:if test="${fn:length(priorityMap) eq 0}"><code:info message="component.no_priority_summary"/></c:if>
 									<c:if test="${fn:length(priorityMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${priorityMap}" var="priority">
@@ -57,9 +57,9 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.assigneesummary"/></div>
+								<div class="title"><spring:message code="component.assignee_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(assigneeMap) eq 0}"><code:info message="project.nocases"/></c:if>
+									<c:if test="${fn:length(assigneeMap) eq 0}"><code:info message="component.no_assignee_summary"/></c:if>
 									<c:if test="${fn:length(assigneeMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${assigneeMap}" var="assignee">
@@ -77,9 +77,9 @@
 						
 						<div class="element-block">
 							<div class="subelement">
-								<div class="title"><spring:message code="project.versionsummary"/></div>
+								<div class="title"><spring:message code="component.version_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(versionMap) eq 0}"><code:info message="project.nocases"/></c:if>
+									<c:if test="${fn:length(versionMap) eq 0}"><code:info message="component.no_version_summary"/></c:if>
 									<c:if test="${fn:length(versionMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${versionMap}" var="version">
@@ -99,9 +99,9 @@
 							</div>
 							<div class="sep-30"></div>
 							<div class="subelement">
-								<div class="title"><spring:message code="project.labelsummary"/></div>
+								<div class="title"><spring:message code="component.label_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(labelMap) eq 0}"><code:info message="project.nocases"/></c:if>
+									<c:if test="${fn:length(labelMap) eq 0}"><code:info message="component.no_label_summary"/></c:if>
 									<c:if test="${fn:length(labelMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${labelMap}" var="label">

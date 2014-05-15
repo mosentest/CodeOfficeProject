@@ -18,21 +18,21 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_versions.png"/><span class="titlespan"><spring:message code="project.p_versions"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_versions.png"/><span class="titlespan"><spring:message code="project.versions"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(versions) eq 0}"><code:info message="project.noversions"/></c:if>
+						<c:if test="${fn:length(versions) eq 0}"><code:info message="project.no_versions"/></c:if>
 						<c:if test="${fn:length(versions) gt 0}">
 						<table class="default-table center">
 							<tr>
 								<th></th>
-								<th><spring:message code="project.v_released"/></th>
-								<th><spring:message code="project.v_code"/></th>
-								<th><spring:message code="project.v_start"/></th>
-								<th><spring:message code="project.v_release"/></th>
-								<th><spring:message code="project.v_release"/></th>
-								<th><spring:message code="project.v_related"/></th>
-								<th><spring:message code="project.v_started"/></th>
-								<th><spring:message code="project.v_description"/></th>
+								<th><spring:message code="version.released"/></th>
+								<th><spring:message code="version.code"/></th>
+								<th><spring:message code="version.start_date"/></th>
+								<th><spring:message code="version.release_date"/></th>
+								<th><spring:message code="version.release_count"/></th>
+								<th><spring:message code="version.related_count"/></th>
+								<th><spring:message code="version.started"/></th>
+								<th><spring:message code="version.description"/></th>
 							</tr>
 							<c:forEach items="${versions}" var="version">
 							<tr>
@@ -46,7 +46,7 @@
 								<td>
 									<c:if test="${empty version.delay}"><code:date date="${version.release}"/></c:if>
 									<c:if test="${not empty version.delay}">
-										<span class="delayed-version"><spring:message code="project.v_delayedto"/>:&nbsp;<fmt:formatDate value="${version.release}" pattern="yy-MM-dd"/></span>
+										<span class="delayed-version"><spring:message code="version.delayed_to"/>:&nbsp;<fmt:formatDate value="${version.release}" pattern="yy-MM-dd"/></span>
 									</c:if>
 								</td>
 								<td>${version.noRelease}</td>

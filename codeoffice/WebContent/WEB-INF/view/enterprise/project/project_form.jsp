@@ -14,7 +14,7 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="element">
-					<div class="title"><spring:message code="project.p_new"/></div>
+					<div class="title">lol</div>
 					<div class="content">
 						<form:form action="enterprise/project/new" method="POST" modelAttribute="project">
 						</form:form>

@@ -16,14 +16,14 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_notes.png"/><span class="titlespan"><spring:message code="project.p_notes"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_notes.png"/><span class="titlespan"><spring:message code="project.notes"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(notes) eq 0}"><code:info message="project.nonotes"/></c:if>
+						<c:if test="${fn:length(notes) eq 0}"><code:info message="project.no_notes"/></c:if>
 						<c:if test="${fn:length(notes) gt 0}">
 						<c:forEach items="notes" var="note">
 							<div class="note-item">
 								<div class="note-item-header">
-									<code:user user="${note.creator}" width="24" height="24"/>&nbsp;<spring:message code="project.n_addednote"/>
+									<code:user user="${note.creator}" width="24" height="24"/>&nbsp;<spring:message code="project.added_note"/>
 									&nbsp;-&nbsp;<code:date date="${note.create}"/>
 								</div>
 								<div class="note-item-content activity-item-description">${note.content}</div>

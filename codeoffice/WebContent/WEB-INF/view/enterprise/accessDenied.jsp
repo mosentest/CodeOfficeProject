@@ -19,7 +19,7 @@
 			<div id="access-content">
 				<table class="default-table center">
 					<tr>
-						<td><span class="access-title">Unauthorized access</span></td>
+						<td><span class="access-title"><spring:message code="application.unauthorized_access"/></span></td>
 					</tr>
 					<tr>
 						<td><img src="img/accessdenied.png"/></td>
@@ -27,19 +27,20 @@
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
 						<td>
-							<span class="error-message" style="font-weight: bold; ">Error: </span>
+							<span class="error-message" style="font-weight: bold; "><spring:message code="application.error"/>: </span>
 							<span>
-								<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}"> ${SPRING_SECURITY_LAST_EXCEPTION.message}</c:if>
-								<c:if test="${empty SPRING_SECURITY_LAST_EXCEPTION.message}"><spring:message code="accessdenied"/></c:if></span>
+								<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">${SPRING_SECURITY_LAST_EXCEPTION.message}</c:if>
+								<c:if test="${empty SPRING_SECURITY_LAST_EXCEPTION.message}"><spring:message code="application.access_denied"/></c:if>
+							</span>
 						</td>
 					</tr>
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
 						<security:authorize access="isAuthenticated()">
-						<td><a href="/enterprise">Go back home page</a></td>
+						<td><a href="/enterprise"><spring:message code="application.goto_home_page"/></a></td>
 						</security:authorize>
 						<security:authorize access="isAnonymous()">
-						<td><a href="/enterprise/login">Go back to login page</a></td>
+						<td><a href="/enterprise/login"><spring:message code="application.goto_login_page"/></a></td>
 						</security:authorize>
 					</tr>
 				</table>

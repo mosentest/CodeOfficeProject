@@ -49,37 +49,37 @@ function drawChart() {
 			</jsp:include>
 			<div class="maincontent">
 				<div class="subelement">
-					<div class="title"><spring:message code="project.v_info"/></div>
+					<div class="title"><spring:message code="version.info"/></div>
 					<div class="content" style="padding: 15px;">
 						<table class="info-table">
 							<tr>
-								<td class="info-title"><spring:message code="project.v_code"/></td>
+								<td class="info-title"><spring:message code="version.code"/></td>
 								<td class="info-value">${version.code}</td>
 								<td class="info-title">&nbsp;</td>
 								<td class="info-value">&nbsp;</td>
 							</tr>
 							<tr>
-								<td class="info-title"><spring:message code="project.v_started"/></td>
+								<td class="info-title"><spring:message code="version.started"/></td>
 								<td class="info-value"><code:checkmark value="${version.started}"/></td>
-								<td class="info-title"><spring:message code="project.v_released"/></td>
+								<td class="info-title"><spring:message code="version.released"/></td>
 								<td class="info-value"><code:checkmark value="${version.released}"/></td>
 							</tr>
 							<tr>
-								<td class="info-title"><spring:message code="project.v_start"/></td>
+								<td class="info-title"><spring:message code="version.start_date"/></td>
 								<td class="info-value"><fmt:formatDate value="${version.start}" pattern="yy-MM-dd"/></td>
-								<td class="info-title"><spring:message code="project.v_update"/></td>
+								<td class="info-title"><spring:message code="version.update_date"/></td>
 								<td class="info-value"><fmt:formatDate value="${version.update}" pattern="yy-MM-dd HH:mm:ss"/></td>
 							</tr>
 							<tr>
-								<td class="info-title"><spring:message code="project.v_release"/></td>
+								<td class="info-title"><spring:message code="version.release_date"/></td>
 								<td class="info-value"><fmt:formatDate value="${version.release}" pattern="yy-MM-dd HH:mm:ss"/></td>
-								<td class="info-title delayed-version"><c:if test="${not empty version.delay}"><spring:message code="project.v_delayedto"/></c:if></td>
+								<td class="info-title delayed-version"><c:if test="${not empty version.delay}"><spring:message code="version.delayed_to"/></c:if></td>
 								<td class="info-value delayed-version"><c:if test="${not empty version.delay}"><fmt:formatDate value="${version.delay}" pattern="yy-MM-dd"/></c:if></td>
 							</tr>
 							<tr>
-								<td class="info-title"><spring:message code="project.v_norelease"/></td>
+								<td class="info-title"><spring:message code="version.release_count"/></td>
 								<td class="info-value">${version.noRelease}</td>
-								<td class="info-title"><spring:message code="project.v_norelated"/></td>
+								<td class="info-title"><spring:message code="version.related_count"/></td>
 								<td class="info-value">${version.noRelease}</td>
 							</tr>
 						</table>
@@ -87,18 +87,18 @@ function drawChart() {
 				</div>
 				<div class="sep-30"></div>
 				<div class="subelement">
-					<div class="title"><spring:message code="project.v_description"/></div>
+					<div class="title"><spring:message code="version.description"/></div>
 					<div class="content fs-ms" style="padding: 15px;">${version.description}</div>
 				</div>
 				<div class="sep-30"></div>
 				<div class="subelement" style="height: 300px;">
-					<div class="title"><spring:message code="project.p_summarymap"/></div>
+					<div class="title"><spring:message code="version.summary_map"/></div>
 					<div class="content">
-						<c:if test="${fn:length(monthlySummary) eq 0}"><code:info message="project.nosummary"/></c:if>
+						<c:if test="${fn:length(monthlySummary) eq 0}"><code:info message="version.no_summary"/></c:if>
 						<c:if test="${fn:length(monthlySummary) gt 0}">
 							<div id="monthly-summary-chart" class="tab-content"></div>
 							<div class="tab-content">
-								<span class="fc-bg"><spring:message code="project.p_cases"/>:</span>
+								<span class="fc-bg"><spring:message code="version.cases"/>:</span>
 								<span style="color: red; font-weight: bold;">${monthlySummary[fn:length(monthlySummary) - 1].noCount}</span>
 								<span class="fc-bg">&nbsp;created and&nbsp;</span>
 								<span style="color: green; font-weight: bold;">${monthlySummary[fn:length(monthlySummary) - 1].noResolved}</span>
@@ -109,15 +109,15 @@ function drawChart() {
 				</div>
 				<div class="sep-30"></div>
 				<div class="subelement">
-					<div class="title"><spring:message code="project.activitystream"/></div>
+					<div class="title"><spring:message code="version.activity_stream"/></div>
 					<div class="content" id="activity-stream">
-						<c:if test="${empty activityStream}"><code:info message="project.noprojectactivity"/></c:if>
+						<c:if test="${empty activityStream}"><code:info message="version.no_activity_stream"/></c:if>
 						<c:forEach var="activity" items="${activityStream}">
 							...
 						</c:forEach>
 						<c:if test="${moreActivity}">
 						<div class="show-more">
-							<a href="javascript:loadActivity();"><spring:message code="project.showmoreactivity"/></a>
+							<a href="javascript:loadActivity();"><spring:message code="version.show_more_activity"/></a>
 						</div>
 						</c:if>
 					</div>

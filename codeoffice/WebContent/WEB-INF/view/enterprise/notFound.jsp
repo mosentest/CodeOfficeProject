@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp" />
 <style type="text/css">
 	.access-title {
@@ -13,12 +14,12 @@
 </style>
 <div id="main">
 	<div class="element">
-		<div class="title">403 - access denied</div>
+		<div class="title">404 - Not found</div>
 		<div class="content">
 			<div id="access-content">
 				<table class="default-table center">
 					<tr>
-						<td><span class="access-title">Unauthorized access</span></td>
+						<td><span class="access-title"><spring:message code="application.not_found"/></span></td>
 					</tr>
 					<c:if test="${not empty error}">
 					<tr>
@@ -26,12 +27,15 @@
 					</tr>
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
-						<td><span class="error-message" style="font-weight: bold; ">Error: </span><span>${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}</span></td>
+						<td><span class="error-message" style="font-weight: bold; "><spring:message code="application.error"/>: </span>
+						<span>${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}</span></td>
 					</tr>
 					</c:if>
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
-						<td><a href="/enterprise/login">Go back to login page.</a></td>
+						<security:authorize access="isAuthenticated()">
+						<td><a href="/enterprise"><spring:message code="application.goto_home_page"/></a></td>
+						</security:authorize>
 					</tr>
 				</table>
 			</div>			

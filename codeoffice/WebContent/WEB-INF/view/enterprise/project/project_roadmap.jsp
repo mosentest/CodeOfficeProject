@@ -18,8 +18,10 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_roadmap.png"/><span class="titlespan"><spring:message code="project.p_roadmap"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_roadmap.png"/><span class="titlespan"><spring:message code="project.roadmap"/></span></div>
 					<div class="content">
+						<c:if test="${fn:length(roadMap) eq 0}"><code:info message="project.no_roadmap"/></c:if>
+						<c:if test="${fn:length(roadMap) gt 0}">
 						<c:forEach items="${roadMap}" var="version">
 							<div class="roadmap-item">
 								<div class="fl-l p_3">
@@ -30,14 +32,14 @@
 									</div>
 									<div class="fs-ms p_3">${version.key.description}</div>
 									<div class="fc-g p_3">
-										<spring:message code="project.v_release"/>:&nbsp;<fmt:formatDate value="${version.key.release}" pattern="yy-MM-dd HH:mm:ss"/>
+										<spring:message code="version.release_date"/>:&nbsp;<fmt:formatDate value="${version.key.release}" pattern="yy-MM-dd HH:mm:ss"/>
 									</div>
 									<c:if test="${not empty version.key.delay}">
 										<div class="delayed-version p_3">
-											<spring:message code="project.v_delayedto"/>:&nbsp;<fmt:formatDate value="${version.delay}" pattern="yy-MM-dd"/>
+											<spring:message code="version.delayed_to"/>:&nbsp;<fmt:formatDate value="${version.delay}" pattern="yy-MM-dd"/>
 										</div>
 									</c:if>
-									<div class="p_3"><a href="enterprise/pro_${project.code}/r_${version.key.code}"><spring:message code="project.v_releasenote"/></a>
+									<div class="p_3"><a href="enterprise/pro_${project.code}/r_${version.key.code}"><spring:message code="version.releasenote"/></a>
 									</div>
 								</div>
 								<div class="fl-r p_3">
@@ -46,15 +48,16 @@
 										<a href="enterprise/pro_${project.code}/v_${version.key.code}">${version.value}</a>
 										&nbsp;of&nbsp;
 										<a href="enterprise/pro_${project.code}/v_${version.key.code}">${version.key.noRelease}</a>
-										&nbsp;<spring:message code="project.v_casesresolved"/>
+										&nbsp;<spring:message code="version.cases_resolved"/>
 									</div>
 								</div>
 								<div class="clearfix"></div>
 							</div>
 						</c:forEach>
+						</c:if>
 					</div>
-				</div></div>
-			
+				</div>
+			</div>
 			<div class="clearfix"></div>
 		</div>
 	</div>

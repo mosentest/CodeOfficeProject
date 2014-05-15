@@ -16,14 +16,14 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_labels.png"/><span class="titlespan"><spring:message code="project.p_labels"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_labels.png"/><span class="titlespan"><spring:message code="project.labels"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(labels) eq 0}"><code:info message="project.nolabels"/></c:if>
+						<c:if test="${fn:length(labels) eq 0}"><code:info message="project.no_labels"/></c:if>
 						<c:if test="${fn:length(labels) gt 0}">
 						<table class="default-table center">
 							<tr>
-								<th><spring:message code="project.l_label"/></th>
-								<th><spring:message code="project.l_nocase"/></th>
+								<th><spring:message code="label.label"/></th>
+								<th><spring:message code="label.case_count"/></th>
 							</tr>
 							<c:forEach items="${labels}" var="label">
 							<tr>

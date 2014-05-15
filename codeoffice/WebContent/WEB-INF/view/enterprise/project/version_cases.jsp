@@ -30,21 +30,21 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_cases.png"/><span class="titlespan"><spring:message code="project.p_cases"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_cases.png"/><span class="titlespan"><spring:message code="version.cases"/></span></div>
 					<div class="content">
 						<div class="element">
-							<div class="title"><spring:message code="project.v_release"/></div>
+							<div class="title"><spring:message code="version.release_cases"/></div>
 							<div class="content">
-								<c:if test="${releaseCase.totalElements eq 0}"><code:info message="project.v_release"/></c:if>
+								<c:if test="${releaseCase.totalElements eq 0}"><code:info message="version.no_release_cases"/></c:if>
 								<c:if test="${releaseCase.totalElements gt 0}">
 								<table class="default-table case-table">
 									<tr>
 										<th class="fit-cell"></th>
-										<th style="text-align: center;"><spring:message code="project.c_code"/></th>
-										<th><spring:message code="project.c_summary"/></th>
-										<th><spring:message code="project.c_updated"/></th>
-										<th><spring:message code="project.c_assignee"/></th>
-										<th><spring:message code="project.c_status"/></th>
+										<th style="text-align: center;"><spring:message code="case.code"/></th>
+										<th><spring:message code="case.summary"/></th>
+										<th><spring:message code="case.updated"/></th>
+										<th><spring:message code="case.assignee"/></th>
+										<th><spring:message code="case.status"/></th>
 									</tr>
 									<c:forEach items="${releaseCase.content}" var="c">
 									<tr>
@@ -63,18 +63,18 @@
 						</div>
 						<div class="sep-30"></div>
 						<div class="element">
-							<div class="title"><spring:message code="project.v_related"/></div>
+							<div class="title"><spring:message code="version.related_cases"/></div>
 							<div class="content">
-								<c:if test="${relatedCase.totalElements eq 0}"><code:info message="project.v_related"/></c:if>
+								<c:if test="${relatedCase.totalElements eq 0}"><code:info message="version.no_related_cases"/></c:if>
 								<c:if test="${relatedCase.totalElements gt 0}">
 								<table class="default-table case-table">
 									<tr>
 										<th class="fit-cell"></th>
-										<th style="text-align: center;"><spring:message code="project.c_code"/></th>
-										<th><spring:message code="project.c_summary"/></th>
-										<th><spring:message code="project.c_updated"/></th>
-										<th><spring:message code="project.c_assignee"/></th>
-										<th><spring:message code="project.c_status"/></th>
+										<th style="text-align: center;"><spring:message code="case.code"/></th>
+										<th><spring:message code="case.summary"/></th>
+										<th><spring:message code="case.updated"/></th>
+										<th><spring:message code="case.assignee"/></th>
+										<th><spring:message code="case.status"/></th>
 									</tr>
 									<c:forEach items="${relatedCase.content}" var="c">
 									<tr>

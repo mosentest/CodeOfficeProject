@@ -17,7 +17,7 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_reviews.png"/><span class="titlespan"><spring:message code="project.p_reviews"/></span></div>
+					<div class="title imglink"><img src="img/office/icon_reviews.png"/><span class="titlespan"><spring:message code="project.reviews"/></span></div>
 					<div class="content"></div>
 				</div>
 			</div>

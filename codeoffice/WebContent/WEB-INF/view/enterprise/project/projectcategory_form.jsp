@@ -8,11 +8,6 @@
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
-<spring:message var="text_nocase" code="project.p_nocase"/>
-<spring:message var="text_p_name" code="project.p_name"/>
-<spring:message var="text_p_code" code="project.p_code"/>
-<spring:message var="text_p_nouser" code="project.p_nouser"/>
-<spring:message var="text_p_lead" code="project.p_lead"/>
 <div id="content">
 	<div class="element">
 		<div class="info"><spring:message code="project.home"/></div>
@@ -22,12 +17,12 @@
 					<li class="tab"><a href="enterprise/project"><spring:message code="project.home"/></a></li>
 					<security:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_PROJECT_MANAGER', 'ROLE_ADMIN')">
 						<li class="tab ${edit ? '' : 'active'}">
-							<a href="enterprise/category/create"><spring:message code="project.createcategory"/></a>
+							<a href="enterprise/category/create"><spring:message code="category.create_category"/></a>
 						</li>
 					</security:authorize>
 					<li class="empty-tab"></li>
 					<li class="tab">
-						<a href="enterprise/category"><spring:message code="project.allcategory"/></a>
+						<a href="enterprise/category"><spring:message code="category.all_categories"/></a>
 					</li>
 					<c:forEach items="${projectCategoryNames}" var="projectCategory">
 						<li class="tab ${projectCategoryId eq projectCategory.id ? 'active' : ''}">
@@ -38,7 +33,7 @@
 			</div>
 			<div class="maincontent">
 				<div class="element">
-					<div class="title"><spring:message code="${edit ? 'project.pc_update' : 'project.pc_new'}"/></div>
+					<div class="title"><spring:message code="${edit ? 'category.update_category' : 'category.create_category'}"/></div>
 					<div class="content">
 						<c:set var="url">
 							<c:if test="${edit}">${projectCategoryId}/edit</c:if>
@@ -47,28 +42,28 @@
 						<form:form action="enterprise/category/${url}" method="POST" modelAttribute="projectCategory">
 						<table class="form-table">
 							<tr>
-								<td><spring:message code="project.pc_name"/>:</td>
+								<td><spring:message code="category.name"/>:</td>
 								<td><form:input path="name"/></td>
 							</tr>
 							<tr>
 								<td colspan="2">
-									<input type="submit" class="button" value="<spring:message code="${edit ? 'project.pc_edit' : 'project.pc_create'}"/>"/>
+									<input type="submit" class="button" value="<spring:message code="${edit ? 'category.update_category' : 'category.create_category'}"/>"/>
 								</td>
 							</tr>
 						</table>
 						</form:form>
 						<c:if test="${fn:length(projectCategory.projects) gt 0}">
 						<div class="subelement">
-							<div class="title"><spring:message code="project.relatedprojects"/>:</div>
+							<div class="title"><spring:message code="category.related_projects"/>:</div>
 							<div class="content">
 								<table class="default-table center">
 									<tr>
 										<th class="fit-cell left"></th>
-										<th>${text_p_code}</th>
-										<th>${text_p_name}</th>
-										<th class="left">${text_p_lead}</th>
-										<th>${text_p_nocase}</th>
-										<th>${text_p_nouser}</th>
+										<th><spring:message code="project.code"/></th>
+										<th><spring:message code="project.name"/></th>
+										<th class="left"><spring:message code="project.lead"/></th>
+										<th><spring:message code="project.case_count"/></th>
+										<th><spring:message code="project.user_count"/></th>
 									</tr>
 									<c:forEach items="${projectCategory.projects}" var="project">
 										<tr>

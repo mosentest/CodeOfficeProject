@@ -1,13 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 </body>
 <footer>
 <div id="footer">
 	<div id="copyright">
-	<spring:message code="page.copyright"/>
+	<spring:message code="application.copyright"/>
 	<br />
-	<spring:message code="page.mail"/> <a href="mailto:<spring:message code="page.email"/>">:<spring:message code="page.email"/></a>
+	<spring:message code="application.mail"/> <a href="mailto:<spring:message code="application.email"/>">:<spring:message code="application.email"/></a>
 	</div>
 </div>
 </footer>
