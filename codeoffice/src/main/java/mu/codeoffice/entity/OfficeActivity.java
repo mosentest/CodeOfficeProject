@@ -37,11 +37,11 @@ public class OfficeActivity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected Long id;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "enterprise_user_id")
 	protected EnterpriseUser user;
 

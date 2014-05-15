@@ -26,7 +26,7 @@ public class RoleGroup implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
@@ -34,7 +34,7 @@ public class RoleGroup implements Serializable {
 	@JoinColumn(name = "project_id")
 	private Project project;
 
-	@ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, optional = false)
 	@JoinColumn(name = "role_id")
 	private ProjectRole role;
 

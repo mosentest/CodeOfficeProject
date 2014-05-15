@@ -1,6 +1,5 @@
 package mu.codeoffice.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +12,7 @@ public class ProjectNote extends Note {
 
 	private static final long serialVersionUID = -727167430656648892L;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "office_project_note_id")
 	private Project projectObject;
 

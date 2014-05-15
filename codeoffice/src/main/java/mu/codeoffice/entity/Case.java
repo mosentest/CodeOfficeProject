@@ -45,7 +45,7 @@ public class Case implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 	
@@ -82,7 +82,7 @@ public class Case implements Serializable {
 	@Column(name = "time_spent")
 	private long timeSpent;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "office_project_id")
 	private Project project;
 
@@ -98,11 +98,11 @@ public class Case implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private CasePriority priority;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "office_case_reporter_id")
 	private EnterpriseUser reporter;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "office_case_asignee_id")
 	private EnterpriseUser assignee;
 
@@ -116,7 +116,7 @@ public class Case implements Serializable {
 	@Column(name = "removed")
 	private boolean removed;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "office_release_version_id", nullable = true)
 	private Version releaseVersion;
 	

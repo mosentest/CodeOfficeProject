@@ -1,8 +1,8 @@
 package mu.codeoffice.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -12,7 +12,7 @@ public class CaseActivity extends OfficeActivity {
 
 	private static final long serialVersionUID = -1376441281378278590L;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "office_case_activity_id")
 	private Case caseObject;
 

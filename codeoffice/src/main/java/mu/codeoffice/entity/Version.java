@@ -30,7 +30,7 @@ public class Version implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 

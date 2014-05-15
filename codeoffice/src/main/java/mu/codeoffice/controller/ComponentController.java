@@ -42,7 +42,7 @@ public class ComponentController {
 			@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws EnterpriseAuthenticationException {
 		authorizeView(auth, projectCode);
 		Project project = projectService.getProjectInfo(projectCode, auth);
-		Component component = componentService.getProjectComponentInfo(project, componentCode);
+		Component component = componentService.getProjectComponent(project, componentCode);
 		model.put("project", project);
 		model.put("component", component);
 		model.put("monthlySummary", componentService.getComponentMonthlySummary(project, component));

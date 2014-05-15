@@ -3,7 +3,6 @@ package mu.codeoffice.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -30,11 +29,11 @@ public class CaseLink implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
-	
-	@ManyToOne(cascade = CascadeType.REFRESH, optional = false, fetch = FetchType.LAZY)
+
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "case_id")
 	private Case caseObject;
 
@@ -47,7 +46,7 @@ public class CaseLink implements Serializable {
 			name="office_case_link_caselink",
 			joinColumns = { @JoinColumn(name="holder_id", referencedColumnName="id") },
 			inverseJoinColumns = { @JoinColumn(name="case_id", referencedColumnName="id")
-			})
+	})
 	private List<Case> cases;
 	
 	public CaseLink() {}

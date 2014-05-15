@@ -1,8 +1,8 @@
 package mu.codeoffice.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -12,7 +12,7 @@ public class ProjectHistory extends OfficeHistory {
 
 	private static final long serialVersionUID = 3492615518200114251L;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "office_project_history_id")
 	private Project projectObject;
 

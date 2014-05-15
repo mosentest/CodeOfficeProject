@@ -37,7 +37,7 @@ public class Note implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected Long id;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 	
@@ -45,7 +45,7 @@ public class Note implements Serializable {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	protected Date create;
 
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "enterprise_user_id")
 	private EnterpriseUser creator;
 	

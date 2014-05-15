@@ -69,7 +69,7 @@
 /* middle */
 #middle {
 	width: 1200px;
-	margin: 3px auto 3px auto;
+	margin: 3px auto -10px auto;
 }
 #middle p {
 	font-size: 16px;
