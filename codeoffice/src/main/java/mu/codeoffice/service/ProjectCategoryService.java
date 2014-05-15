@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import mu.codeoffice.common.ServiceResponse;
+import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectCategory;
 import mu.codeoffice.entity.RoleGroup;
@@ -27,31 +27,33 @@ public class ProjectCategoryService {
 	
 	@Resource
 	private ProjectCategoryRepository projectCategoryRepository;
+	
+	public boolean isNameAvailable(String name, EnterpriseAuthentication auth) {
+		return projectCategoryRepository.isNameAvailable(name, auth.getEnterprise());
+	}
 
 	@Transactional
 	@CacheEvict(value = {"projectCategoryCache", "projectCategoryNameCache"}, allEntries = true, beforeInvocation = false)
-	public ServiceResponse deleteProjectCategory(Long category, EnterpriseAuthentication auth) throws Exception {
-		ProjectCategory projectCategory = projectCategoryRepository.getProjectCategory(category, auth.getEnterprise());
-		if (!auth.hasEnterpriseAuthority(projectCategory.getEnterprise())) {
-			throw new EnterpriseAuthenticationException("You have no access to this project category.");
+	public ProjectCategory update(ProjectCategory category, EnterpriseAuthentication auth) throws InformationException {
+		if (!projectCategoryRepository.isNameAvailable(category.getName(), auth.getEnterprise())) {
+			throw new InformationException("Category with same name already exist.");
 		}
-		projectCategoryRepository.delete(category);
-		return ServiceResponse.SUCCESS;
+		category.setEnterprise(auth.getEnterprise());
+		projectCategoryRepository.save(category);
+		return category;
 	}
 	
 	@Transactional
 	@CacheEvict(value = {"projectCategoryCache", "projectCategoryNameCache"}, allEntries = true, beforeInvocation = false)
-	public ServiceResponse updateProjectCategory(Long category, String name, EnterpriseAuthentication auth) throws Exception {
+	public void remove(Long category, EnterpriseAuthentication auth) throws EnterpriseAuthenticationException, InformationException {
 		ProjectCategory projectCategory = projectCategoryRepository.getProjectCategory(category, auth.getEnterprise());
-		if (!auth.hasEnterpriseAuthority(projectCategory.getEnterprise())) {
-			throw new EnterpriseAuthenticationException("You have no access to this project category.");
+		if (projectCategory == null) {
+			throw new EnterpriseAuthenticationException("You have no permission to delete.");
 		}
-		if (projectCategoryRepository.doesCategoryNameExist(name, auth.getEnterprise())) {
-			throw new Exception("Project category with same name already exist.");
+		if (projectCategory.getProjects().size() > 0) {
+			throw new InformationException("Unable to delete: several projects are related to this category");
 		}
-		projectCategory.setName(name);
-		projectCategoryRepository.save(projectCategory);
-		return ServiceResponse.SUCCESS;
+		projectCategoryRepository.delete(projectCategory);
 	}
 	
 	@Cacheable(value = "projectCategoryNameCache", key = "#auth.enterprise.id")

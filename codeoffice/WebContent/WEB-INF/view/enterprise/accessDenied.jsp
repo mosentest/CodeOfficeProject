@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp" />
 <style type="text/css">
 	.access-title {
@@ -34,7 +35,12 @@
 					</tr>
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
-						<td><a href="/enterprise/login">Go back to login page.</a></td>
+						<security:authorize access="isAuthenticated()">
+						<td><a href="/enterprise">Go back home page</a></td>
+						</security:authorize>
+						<security:authorize access="isAnonymous()">
+						<td><a href="/enterprise/login">Go back to login page</a></td>
+						</security:authorize>
 					</tr>
 				</table>
 			</div>			

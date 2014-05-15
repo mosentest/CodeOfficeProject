@@ -16,8 +16,8 @@
 					<img src="${empty project.iconPath ? 'img/office/project_icon.png' : project.iconPath}" width="50" height="50"/>
 				</div>
 				<div class="fl-l">
-					<div class="fc-b"><span>${project.code}&nbsp;/&nbsp;${case.code}</span></div>
-					<div>${case.summary}</div>
+					<div class="fc-b"><span>${project.code}&nbsp;/&nbsp;${caseObject.code}</span></div>
+					<div>${caseObject.summary}</div>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -28,27 +28,27 @@
 						<table class="info-table">
 							<tr>
 								<td class="case-info-title"><spring:message code="project.c_type"/>:</td>
-								<td class="case-info-value"><code:enum value="${case.type}"/></td>
+								<td class="case-info-value"><code:enum value="${caseObject.type}"/></td>
 								<td class="case-info-title"><spring:message code="project.c_status"/>:</td>
-								<td class="case-info-value"><code:enum value="${case.status}"/></td>
+								<td class="case-info-value"><code:enum value="${caseObject.status}"/></td>
 							</tr>
 							<tr>
 								<td class="case-info-title"><spring:message code="project.c_priority"/>:</td>
-								<td class="case-info-value"><code:enum value="${case.priority}"/></td>
+								<td class="case-info-value"><code:enum value="${caseObject.priority}"/></td>
 								<td class="case-info-title"><spring:message code="project.c_resolution"/>:</td>
-								<td class="case-info-value"><code:enum text="${case.resolution}"/></td>
+								<td class="case-info-value"><code:enum text="${caseObject.resolution}"/></td>
 							</tr>
 							<tr>
 								<td class="case-info-title"><spring:message code="project.c_releaseversion"/>:</td>
 								<td colspan="3">
-									<c:if test="${empty case.releaseVersion}"><spring:message code="project.c_undecided"/></c:if>
-									<c:if test="${not empty case.releaseVersion}"><a href="enterprise/pro_${project.code}/version/${case.releaseVersion.code}">${case.releaseVersion.code}</a></c:if>
+									<c:if test="${empty caseObject.releaseVersion}"><spring:message code="project.c_undecided"/></c:if>
+									<c:if test="${not empty caseObject.releaseVersion}"><a href="enterprise/pro_${project.code}/version/${caseObject.releaseVersion.code}">${caseObject.releaseVersion.code}</a></c:if>
 								</td>
 							</tr>
 							<tr>
 								<td class="case-info-title"><spring:message code="project.c_affectedversions"/>:</td>
 								<td colspan="3">
-									<c:forEach items="${case.versions}" var="version" varStatus="status">
+									<c:forEach items="${caseObject.versions}" var="version" varStatus="status">
 										<a href="enterprise/pro_${project.code}/version/${version.code}">${version.code}</a>
 										<c:if test="${!status.last}">,&nbsp;</c:if>
 									</c:forEach>
@@ -57,7 +57,7 @@
 							<tr>
 								<td class="case-info-title"><spring:message code="project.c_components"/>:</td>
 								<td colspan="3">
-									<c:forEach items="${case.components}" var="component" varStatus="status">
+									<c:forEach items="${caseObject.components}" var="component" varStatus="status">
 										<a href="enterprise/pro_${project.code}/component/${component.id}">${component.name}</a>
 										<c:if test="${!status.last}">,&nbsp;</c:if>
 									</c:forEach>
@@ -66,7 +66,7 @@
 							<tr>
 								<td class="case-info-title"><spring:message code="project.c_labels"/>:</td>
 								<td colspan="3">
-									<c:forEach items="${case.labels}" var="label" varStatus="status">
+									<c:forEach items="${caseObject.labels}" var="label" varStatus="status">
 										<a href="enterprise/pro_${project.code}/label/${label.label}">${label.label}</a>
 										<c:if test="${!status.last}">,&nbsp;</c:if>
 									</c:forEach>
@@ -78,19 +78,19 @@
 				<div class="sep-30"></div>
 				<div class="mainelement">
 					<div class="title"><spring:message code="project.c_description"/></div>
-					<div class="content fs-ms">${case.description}</div>
+					<div class="content fs-ms">${caseObject.description}</div>
 				</div>
-				<c:if test="${not empty case.attachments}">
+				<c:if test="${not empty caseObject.attachments}">
 					<div class="sep-30"></div>
 					<div class="mainelement"></div>
 				</c:if>
 				</div>
-				<c:if test="${not empty case.caseLinks}">
+				<c:if test="${not empty caseObject.caseLinks}">
 					<div class="sep-30"></div>
 					<div class="mainelement">
 						<div class="title"><spring:message code="project.c_links"/></div>
 						<div class="content fs-ms">
-							<c:forEach items="${case.caseLinks}" var="link">
+							<c:forEach items="${caseObject.caseLinks}" var="link">
 								<div class="caselink">
 									<div class="caselink-element"><spring:message code="${link.type.code}"/></div>
 									<div class="caselink-element">
@@ -136,37 +136,38 @@
 					<div class="tab-content" id="tab-content">
 						<c:if test="${activity eq 'note'}">
 							<c:if test="${fn:length(notes) eq 0}"><code:info message="project.c_nonote"/></c:if>
-							<c:if test="${fn:length(notes) gt 0}"></c:if>
+							<c:if test="${fn:length(notes) gt 0}">
+								<c:forEach items="${notes}" var="note">
+								<div class="note-item">
+									<div class="note-item-header">
+										<code:user user="${note.creator}" width="24" height="24"/>&nbsp;<spring:message code="project.n_addednote"/>
+										&nbsp;-&nbsp;<code:date date="${note.create}"/>
+									</div>
+									<div class="note-item-content activity-item-description">${note.content}</div>
+								</div>
+							</c:forEach>
+							</c:if>
 						</c:if>
 						<c:if test="${activity eq 'worklog'}">
 							<c:if test="${fn:length(worklogs) eq 0}"><code:info message="project.c_noworklog"/></c:if>
-							<c:if test="${fn:length(worklogs) gt 0}"></c:if>
+							<c:if test="${fn:length(worklogs) gt 0}">
+							${fn:length(worklogs)}
+							</c:if>
 						</c:if>
 						<c:if test="${activity eq 'history'}">
 							<c:if test="${fn:length(histories) eq 0}"><code:info message="project.c_nohistory"/></c:if>
-							<c:if test="${fn:length(histories) gt 0}"></c:if>
+							<c:if test="${fn:length(histories) gt 0}">
+							
+							</c:if>
 						</c:if>
 						<c:if test="${activity eq 'activity'}">
 							<c:if test="${fn:length(activities) eq 0}"><code:info message="project.c_noactivity"/></c:if>
-							<c:if test="${fn:length(activities) gt 0}"></c:if>
+							<c:if test="${fn:length(activities) gt 0}">
+								<c:forEach items="${activities}" var="activity">
+									<util:caseActivity caseObject="#{case}" activityObject="#{activity}"/>
+								</c:forEach>
+							</c:if>
 						</c:if>
-						<div layout="block">
-							<ui:repeat value="#{case.notes}" var="note">
-								<div class="note-item" layout="block">
-									<div class="note-item-header" layout="block">
-										<util:employee employee="#{note.creator}" link="true" width="24" height="24"/>#{' '}
-										<h:outputText value="#{office.case_addednote}"/>#{' - '}
-										<code:date date="#{note.create}" recentForm="true" shortFormat="HH:mm" fullFormat="yy-MM-dd HH:mm"/>
-									</div>
-									<div class="note-item-content" layout="block">
-										<h:outputText value="#{note.content}"/>
-									</div>
-								</div>
-							</ui:repeat>
-						</div>
-						<div layout="block" rendered="#{caseBean.activity eq 'worklog' and not empty case.workLogs}">
-							#{case.workLogs.size()}
-						</div>
 						<div layout="block" rendered="#{caseBean.activity eq 'history' and not empty case.histories}">
 							<div class="history-element-header" layout="block">
 								<div class="field" layout="block"><h:outputText value="#{office.case_historyfield}"/></div>
@@ -198,9 +199,6 @@
 							</div>
 							<h:form rendered="#{caseBean.activity eq 'activity' and not empty case.activities}">
 							<div layout="block">
-								<ui:repeat value="#{case.activities}" var="activity">
-									<util:caseActivity caseObject="#{case}" activityObject="#{activity}"/>
-								</ui:repeat>
 							</div>
 							</h:form>
 						</div>

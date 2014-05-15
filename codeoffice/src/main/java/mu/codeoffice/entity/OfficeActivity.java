@@ -43,7 +43,7 @@ public class OfficeActivity implements Serializable {
 
 	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
 	@JoinColumn(name = "enterprise_user_id")
-	private EnterpriseUser user;
+	protected EnterpriseUser user;
 
 	@Column(name = "create_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -75,6 +75,26 @@ public class OfficeActivity implements Serializable {
 	}
 
 	public void setActvityObjects(List<ActivityObject> activityObjects) {
+		this.activityObjects = activityObjects;
+	}
+
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
+	}
+
+	public EnterpriseUser getUser() {
+		return user;
+	}
+
+	public void setUser(EnterpriseUser user) {
+		this.user = user;
+	}
+
+	public void setActivityObjects(List<ActivityObject> activityObjects) {
 		this.activityObjects = activityObjects;
 	}
 	

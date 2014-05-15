@@ -96,7 +96,7 @@
 									</c:if>
 								</div>
 							</div>
-							<div class="sep-30"></div>
+							<div class="sep-30"></div> 
 							<div class="subelement">
 								<div class="title"><spring:message code="project.labelsummary"/></div>
 								<div class="content">

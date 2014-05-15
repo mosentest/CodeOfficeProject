@@ -1,11 +1,15 @@
 package test;
 
-import mu.codeoffice.enums.ProjectRoleType;
+import mu.codeoffice.enums.ProjectPermission;
 
 public class Tester {
 
 	public static void main(String[] args) {
-		ProjectRoleType.getRoles(16 + 8 + 4 + 2 + 1).forEach(System.out::println);
+		Long l = 0l;
+		System.out.println(l == null);
+		Long ll = null;
+		System.out.println(ll == 0l);
+		
 	}
 
 }

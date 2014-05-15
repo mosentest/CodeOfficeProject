@@ -2,7 +2,7 @@ package mu.codeoffice.controller;
 
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Project;
-import mu.codeoffice.enums.ProjectRoleType;
+import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.service.ComponentService;
@@ -23,12 +23,12 @@ public class ComponentController {
 	
 	private static final int LIST_ITEMS = 15;
 
-	private static final ProjectRoleType[] VIEW_AUTH = {
-		ProjectRoleType.VERSION_COMPONENT
+	private static final ProjectPermission[] VIEW_AUTH = {
+		ProjectPermission.VERSION_COMPONENT
 	};
 	
-	private static final ProjectRoleType[] MANAGE_AUTH = {
-		ProjectRoleType.VERSION_COMPONENT_MANAGE
+	private static final ProjectPermission[] MANAGE_AUTH = {
+		ProjectPermission.VERSION_COMPONENT_MANAGE
 	};
 	
 	@Autowired

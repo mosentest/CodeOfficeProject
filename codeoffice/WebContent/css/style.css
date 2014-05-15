@@ -303,6 +303,19 @@ a:hover {
 }
 .element .content {
 }
+.form-table {
+	border-spacing: 0px;
+    border-collapse: collapse;
+	font-size: 16px;
+	width: 800px;
+	margin: 20px auto;
+}
+.form-table tr {
+	height: 30px;
+}
+.form-table td {
+	border-spacing: 0px;
+}
 .default-table {
 	border-spacing: 0px;
     border-collapse: collapse;

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import mu.codeoffice.data.Summary;
+import mu.codeoffice.dto.ProjectDTO;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.Label;
@@ -52,6 +53,11 @@ public class ProjectService extends ProjectStatisticService {
 		} catch (Exception e) {
 			throw new EnterpriseAuthenticationException("Access denied.");
 		}
+	}
+	
+	@Transactional(readOnly = true)
+	public Project createProject(EnterpriseAuthentication auth, ProjectDTO projectDTO) {
+		return null;
 	}
 	
 	public List<ProjectNote> getProjectNote(Long project) {

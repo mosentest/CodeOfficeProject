@@ -13,7 +13,13 @@
 				<jsp:param name="menu" value="newproject"/>
 			</jsp:include>
 			<div class="maincontent">
-				project form
+				<div class="element">
+					<div class="title"><spring:message code="project.p_new"/></div>
+					<div class="content">
+						<form:form action="enterprise/project/new" method="POST" modelAttribute="project">
+						</form:form>
+					</div>
+				</div>
 			</div>
 			<div class="clearfix"></div>
 		</div>

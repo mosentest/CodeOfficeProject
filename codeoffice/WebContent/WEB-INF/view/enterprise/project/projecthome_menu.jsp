@@ -7,8 +7,8 @@
 		<li class="tab ${param.menu eq 'projectcategories' ? 'active' : ''}"><a href="enterprise/category"><spring:message code="project.projectcategories"/></a></li>
 		<li class="empty-tab"></li>
 		<security:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_PROJECT_MANAGER', 'ROLE_ADMIN')">
-			<li class="tab ${param.menu eq 'newcategory' ? 'active' : ''}"><a href="enterprise/category/new"><spring:message code="project.createcategory"/></a></li>
-			<li class="tab ${param.menu eq 'newproject' ? 'active' : ''}"><a href="enterprise/project/new"><spring:message code="project.createproject"/></a></li>
+			<li class="tab ${param.menu eq 'newcategory' ? 'active' : ''}"><a href="enterprise/category/create"><spring:message code="project.createcategory"/></a></li>
+			<li class="tab ${param.menu eq 'newproject' ? 'active' : ''}"><a href="enterprise/project/create"><spring:message code="project.createproject"/></a></li>
 		</security:authorize>
 	</ul>
 </div>

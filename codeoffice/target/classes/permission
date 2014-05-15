@@ -1,0 +1,8 @@
+project:
+						value		project_manager		project		vc_manager		vc		case_manager		case
+	project_manager		32			X					X			X				X		X					X
+	project				16								X							X		X					X					
+	vc_manager			8								X			X				X		X					X					
+	vc					4								X							X		X					X
+	case_manager		2								X							X		X					X
+	case				1								X							X							X	

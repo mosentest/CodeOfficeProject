@@ -25,36 +25,7 @@ public class UserTag extends SimpleTagSupport {
 	@Override
 	public void doTag() throws JspException, IOException {
 		JspWriter out = getJspContext().getOut();
-		
-		if (user == null) {
-			out.println("None");
-			return;
-		}
-		
-		StringBuilder buffer = new StringBuilder();
-		if (showImage) {
-			buffer.append("<span class=\"imglink\">");
-		}
-		if (showImage) {
-			String imagePath = user.getProfilePath();
-			if (imagePath.equals("male.jpg") || imagePath.equals("female.jpg")) {
-				imagePath = "img/" + imagePath;
-			}
-			buffer.append(String.format("<span><img src=\"%s\" width=\"%d\" height=\"%d\"></span>", imagePath, width, height));
-		}
-		if (showSpace) {
-			buffer.append("<span class=\"minorspace\">&nbsp;</span>");
-		}
-		if (showLink) {
-			buffer.append(String.format("<a href=\"enterprise/user/%s\">%s</a>", user.getNameLink(), user.getFullName()));
-		} else {
-			buffer.append(String.format("<span>%s</span>", user.getFullName()));
-		}
-		if (showImage) {
-			buffer.append("</span>");
-		}
-		
-		out.println(buffer.toString());
+		new UserRenderer(out).renderUser(user, showImage, showLink, showSpace, width, height);
 	}
 
 	public EnterpriseUser getUser() {

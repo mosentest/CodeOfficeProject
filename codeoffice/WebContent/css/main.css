@@ -69,10 +69,10 @@
 /* middle */
 #middle {
 	width: 1200px;
-	margin: 10px auto -10px auto;
+	margin: 3px auto 3px auto;
 }
 #middle p {
-	font-size: 14px;
+	font-size: 16px;
 	margin: 0px;
 	text-align: center;	
 }

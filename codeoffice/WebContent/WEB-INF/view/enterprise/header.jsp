@@ -99,24 +99,27 @@
 			<a href="javascript:window.history.back()"><spring:message code="page.back" /></a>
 		</c:if>
 		<div class="error-message">
-			<c:if test="${errorMessages != null}">
-				<c:forEach items="${errorMessages}" var="message">
-					<p>${message}</p>
+			<c:if test="${not empty sessionScope.ERROR_MESSAGE}">
+				<c:forEach items="${sessionScope.ERROR_MESSAGE}" var="m">
+					<p>${m}</p>
 				</c:forEach>
+				<c:remove var="ERROR_MESSAGE" scope="session"/>
 			</c:if>
 		</div>
 		<div class="warn-message">
-			<c:if test="${warnMessages != null}">
-				<c:forEach items="${warnMessages}" var="message">
-					<p>${message}</p>
+			<c:if test="${not empty sessionScope.WARN_MESSAGE}">
+				<c:forEach items="${sessionScope.WARN_MESSAGE}" var="m">
+					<p>${m}</p>
 				</c:forEach>
+				<c:remove var="WARN_MESSAGE" scope="session"/>
 			</c:if>
 		</div>
 		<div class="notice-message">
-			<c:if test="${noticeMessages != null}">
-				<c:forEach items="${noticeMessages}" var="message">
-					<p>${message}</p>
+			<c:if test="${not empty sessionScope.NOTICE_MESSAGE}">
+				<c:forEach items="${sessionScope.NOTICE_MESSAGE}" var="m">
+					<p>${m}</p>
 				</c:forEach>
+				<c:remove var="NOTICE_MESSAGE" scope="session"/>
 			</c:if>
 		</div>
 	</div>
