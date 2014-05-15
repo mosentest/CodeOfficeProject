@@ -81,15 +81,9 @@
 					</span>
 				</div>
 				<div id="sub-menu">
-					<span class="link"><a href="vhome">Vote</a></span>
-					<span class="link"><a href="#">Form</a></span>
-					<span class="link"><a href="vote">Create vote</a></span>
-					<span class="link"><a href="#">menu 1</a></span>
-					<span class="link"><a href="#">menu 1</a></span>
-					<span class="link"><a href="#">menu 1</a></span>
-					<span class="link"><a href="#">menu 1</a></span>
-					<span class="link"><a href="#">menu 1</a></span>
-					<span class="link"><a href="#">menu 1</a></span>
+					<c:forEach items="${sessionScope.SETTING_SUBMENU}" var="submenu">
+						<span class="link"><a href="${submenu.link}">${submenu.title}</a></span>
+					</c:forEach>
 				</div>
 			</security:authorize>
 		</div>

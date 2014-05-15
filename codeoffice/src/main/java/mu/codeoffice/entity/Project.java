@@ -31,11 +31,11 @@ public class Project implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
-	@ManyToOne(cascade = CascadeType.ALL, optional = true, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
 	private ProjectCategory category;
 
@@ -69,7 +69,7 @@ public class Project implements Serializable {
 	@Column(name = "completed")
 	private boolean completed;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "lead_id")	
 	private EnterpriseUser lead;
 	

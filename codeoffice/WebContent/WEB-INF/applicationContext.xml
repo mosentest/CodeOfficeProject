@@ -145,10 +145,14 @@
 		<security:intercept-url pattern="/enterprise/sys/logout" access="permitAll"/>
 		<security:intercept-url pattern="/enterprise/sys/accessdenied" access="permitAll"/>
 		<security:intercept-url pattern="/enterprise/sys/**" access="hasAnyRole('ROLE_SYS_DEVELOPER', 'ROLE_SYS_TESTER', 'ROLE_SYS_MANAGER', 'ROLE_SYS_ADMIN')"/>
-		
+		<!-- previous page after login <security:form-login
+				login-page="/enterprise/login" 
+				authentication-failure-url="/enterprise/accessdenied" 
+				default-target-url="/enterprise"/> -->
 		<security:form-login
 				login-page="/enterprise/login" 
 				authentication-failure-url="/enterprise/accessdenied" 
+				authentication-success-handler-ref="enterpriseAuthenticationSuccessHandler"
 				default-target-url="/enterprise"/>
 			
 		<security:logout 
@@ -160,7 +164,7 @@
 	<security:authentication-manager>
 		<security:authentication-provider ref="enterpriseUserAuthenticationProvider"/>
 	</security:authentication-manager>
-	
+	<bean id ="enterpriseAuthenticationSuccessHandler" class="mu.codeoffice.security.EnterpriseAuthenticationSuccessHandler"/>
 	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
 	
 	<!-- Spring Security end -->
