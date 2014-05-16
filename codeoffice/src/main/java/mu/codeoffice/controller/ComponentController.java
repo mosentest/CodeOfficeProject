@@ -110,7 +110,10 @@ public class ComponentController extends ProjectPermissionRequired {
 		if (targetComponent != null) {
 			model.put("targetComponent", componentService.getProjectComponent(projectCode, targetComponent, auth));
 		}
-		model.put("project", projectService.getProjectInfo(projectCode, auth));
+		Project project = projectService.getProjectInfo(projectCode, auth);
+		model.put("project", project);
+		model.put("leadGroup", componentService.getAuthorizedUsers(auth, project.getId(), ProjectPermission.VERSION_COMPONENT_MANAGE));
+		model.put("userGroup", componentService.getAuthorizedUsers(auth, project.getId(), ProjectPermission.CASE));
 		model.put("mergeComponent", mergeComponent);
 		return new ModelAndView("enterprise/project/component_merge", model);
 	}

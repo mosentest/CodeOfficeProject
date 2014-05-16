@@ -19,7 +19,8 @@ public class MySqlBitwiseAndSQLFunction extends StandardSQLFunction implements S
 	}
 
 	@SuppressWarnings("rawtypes")
-	public String render(List args, SessionFactoryImplementor factory) throws QueryException {
+	@Override
+	public String render(Type firstArgumentType, List args, SessionFactoryImplementor factory) throws QueryException {
 		if (args.size() != 2) {
 			throw new IllegalArgumentException("the function must be passed 2 arguments");
 		}

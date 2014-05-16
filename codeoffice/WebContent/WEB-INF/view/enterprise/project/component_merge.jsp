@@ -38,6 +38,7 @@ function select_merge(id) {
 }
 </script>
 <spring:message var="text_merge" code="application.merge"/>
+<spring:message var="text_select" code="application.select"/>
 <link rel="stylesheet" type="text/css" href="css/project.css">
 <div id="content">
 	<div class="element">
@@ -64,15 +65,42 @@ function select_merge(id) {
 							</tr>
 							<tr>
 								<td><spring:message code="component.lead"/></td>
-								<td><form:input path=""/></td>
+								<td>
+									<form:select multitple="single" path="lead">
+										<form:option value="0" label="------ ${text_select} ------"/>
+										<c:forEach items="${leadGroup}" var="roleGroup">
+											<optgroup label="${roleGroup.role.name}">
+												<form:options items="${roleGroup.users}" itemValue="id" itemLabel="fullName"/>
+											</optgroup>
+										</c:forEach>
+									</form:select>
+								</td>
 							</tr>
 							<tr>
 								<td><spring:message code="component.default_reporter"/></td>
-								<td><form:input path=""/></td>
+								<td>
+									<form:select multitple="single" path="defaultReporter">
+										<form:option value="0" label="------ ${text_select} ------"/>
+										<c:forEach items="${userGroup}" var="roleGroup">
+											<optgroup label="${roleGroup.role.name}">
+												<form:options items="${roleGroup.users}" itemValue="id" itemLabel="fullName"/>
+											</optgroup>
+										</c:forEach>
+									</form:select>
+								</td>
 							</tr>
 							<tr>
 								<td><spring:message code="component.default_assignee"/></td>
-								<td><form:input path=""/></td>
+								<td>
+									<form:select multitple="single" path="defaultAssignee">
+										<form:option value="0" label="------ ${text_select} ------"/>
+										<c:forEach items="${userGroup}" var="roleGroup">
+											<optgroup label="${roleGroup.role.name}">
+												<form:options items="${roleGroup.users}" itemValue="id" itemLabel="fullName"/>
+											</optgroup>
+										</c:forEach>
+									</form:select>
+								</td>
 							</tr>
 							<tr>
 								<td><spring:message code="component.description"/></td>

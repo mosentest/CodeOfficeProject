@@ -9,8 +9,8 @@ import org.springframework.cache.annotation.Cacheable;
 
 public enum ProjectPermission implements Permission {
 	
-	CASE("case", 1, 1), CASE_MANAGE("case_manage", 2, 3), VERSION_COMPONENT("version_component", 4, 23), VERSION_COMPONENT_MANAGE("version_component_manage", 8, 25), 
-	PROJECT("project", 16, 33), PROJECT_MANAGE("project_manage", 32, 65);
+	CASE("case", 1, 1), CASE_MANAGE("case_manage", 2, 21), VERSION_COMPONENT("version_component", 4, 23), VERSION_COMPONENT_MANAGE("version_component_manage", 8, 31), 
+	PROJECT("project", 16, 21), PROJECT_MANAGE("project_manage", 32, 63);
 	
 	private final String code;
 	

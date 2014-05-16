@@ -15,9 +15,11 @@ import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
+import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseStatus;
+import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.security.EnterpriseAuthentication;
 
 import org.springframework.data.domain.Page;
@@ -42,6 +44,11 @@ public class ComponentService extends ProjectStatisticService {
 	@Transactional(readOnly = true)
 	public List<Component> getProjectComponents(EnterpriseAuthentication auth, String project) {
 		return componentRepository.getProjectComponents(auth.getEnterprise(), project);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<RoleGroup> getAuthorizedUsers(EnterpriseAuthentication auth, Long project, ProjectPermission permission) {
+		return roleGroupRepository.getAuthorizedGroups(project, permission.getValue());
 	}
 	
 	@Transactional
