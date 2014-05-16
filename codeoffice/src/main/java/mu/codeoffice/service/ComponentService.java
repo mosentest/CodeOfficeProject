@@ -7,7 +7,9 @@ import static mu.codeoffice.query.CaseSpecifications.sort;
 import java.util.List;
 import java.util.Map;
 
+import mu.codeoffice.common.InformationException;
 import mu.codeoffice.data.Summary;
+import mu.codeoffice.dto.ComponentDTO;
 import mu.codeoffice.entity.Case;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.EnterpriseUser;
@@ -16,16 +18,38 @@ import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseStatus;
+import mu.codeoffice.security.EnterpriseAuthentication;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ComponentService extends ProjectStatisticService {
+	
+	@Transactional
+	public void merge(EnterpriseAuthentication auth, ComponentDTO<Component> componentDTO, String projectCode) 
+			throws AuthenticationException, InformationException {
+		
+	}
+	
+	@Transactional
+	public void delete(String projectCode, String componentCode, EnterpriseAuthentication auth) 
+			throws AuthenticationException, InformationException {
+		Component component = componentRepository.getProjectComponent(projectCode, componentCode, auth.getEnterprise());
+		if (component.getNoCase() > 0) {
+			throw new InformationException(String.format("Unable to delete component '%s', it has %d related cases.", component.getName(), component.getNoCase()));
+		}
+		componentRepository.delete(component);
+	}
+	
+	public Component getProjectComponent(String projectCode, String componentCode, EnterpriseAuthentication auth) {
+		return componentRepository.getProjectComponent(projectCode, componentCode, auth.getEnterprise());
+	}
 
-	public Component getProjectComponent(Project project, String component) {
-		return componentRepository.getProjectComponent(project.getId(), component);
+	public Component getProjectComponent(Project project, String componentCode) {
+		return componentRepository.getProjectComponent(project.getId(), componentCode);
 	}
 	
 	@Transactional(readOnly = true)

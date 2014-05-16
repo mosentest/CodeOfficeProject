@@ -69,7 +69,7 @@ public class Project implements Serializable {
 	@Column(name = "completed")
 	private boolean completed;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "lead_id")	
 	private EnterpriseUser lead;
 	

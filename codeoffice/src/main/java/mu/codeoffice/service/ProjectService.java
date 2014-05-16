@@ -56,7 +56,7 @@ public class ProjectService extends ProjectStatisticService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Project createProject(EnterpriseAuthentication auth, ProjectDTO projectDTO) {
+	public Project createProject(EnterpriseAuthentication auth, ProjectDTO<Project> projectDTO) {
 		return null;
 	}
 	
@@ -106,7 +106,6 @@ public class ProjectService extends ProjectStatisticService {
 			throw new EnterpriseAuthenticationException("You have no access to this project.");
 		}
 		project.getCategory().getId();
-		project.getLead().getId();
 		return project;
 	}
 

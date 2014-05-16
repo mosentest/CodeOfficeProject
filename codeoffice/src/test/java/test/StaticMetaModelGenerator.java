@@ -68,8 +68,6 @@ public class StaticMetaModelGenerator {
 
 	public static String generate(Class<?> typeClass) throws Exception {
 		System.out.println(typeClass.getName());
-		Field[] field = typeClass.getDeclaredFields();
-		String className = typeClass.getSimpleName();
 		StringBuilder buffer = new StringBuilder();
 		return buffer.toString();
 	}

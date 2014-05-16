@@ -76,12 +76,12 @@ public class ProjectCategoryController {
 	@RequestMapping(value = "category/{id}/edit", method = RequestMethod.GET) 
 	public ModelAndView categoryEditRequest(@PathVariable("id") Long id, @AuthenticationPrincipal EnterpriseAuthentication auth,
 			HttpSession session, ModelMap model) {
-		model.put("edit", true);
 		ProjectCategory category = projectCategoryService.getProjectCategory(id, auth);
 		if (category == null) {
-			addNoticeMessage(session, "Category not found.");
+			addErrorMessage(session, "Category not found.");
 			return new ModelAndView("redirect:/enterprise/category");
 		} else {
+			model.put("edit", true);
 			model.put("projectCategoryNames", projectCategoryService.getProjectCategoryNames(auth));
 			model.put("projectCategory", category);
 			model.put("projectCategoryId", category.getId());
@@ -92,7 +92,6 @@ public class ProjectCategoryController {
 	@RequestMapping(value = "category/{id}/edit", method = RequestMethod.POST) 
 	public ModelAndView categoryEdit(@PathVariable("id") Long id, @ModelAttribute ProjectCategory category,
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
-		model.put("edit", true);
 		if (projectCategoryService.getProjectCategory(id, auth) == null) {
 			addNoticeMessage(session, "Category not found.");
 			return new ModelAndView("redirect:/enterprise/category");
@@ -100,10 +99,10 @@ public class ProjectCategoryController {
 		try {
 			category.setId(id);
 			category = projectCategoryService.update(category, auth);
-			loadInformation(auth, model, category);
 			addNoticeMessage(session, "Category has been updated.");
-			return new ModelAndView("redirect:/enterprise/category");
+			return new ModelAndView("redirect:/enterprise/category", model);
 		} catch (InformationException e) {
+			model.put("edit", true);
 			model.put("projectCategoryNames", projectCategoryService.getProjectCategoryNames(auth));
 			model.put("projectCategory", category);
 			model.put("projectCategoryId", id);			
@@ -123,7 +122,7 @@ public class ProjectCategoryController {
 			throw e;
 		} catch (InformationException e) {
 			loadInformations(auth, model);
-			model.put("errorMessage", e.getMessage());
+			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("enterprise/project/projectcategory", model);
 		}
 	}

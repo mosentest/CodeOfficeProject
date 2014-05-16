@@ -91,6 +91,9 @@ public class ProjectCategoryService {
 		} else {
 			projectCategory = projectCategoryRepository.getProjectCategory(category, auth.getEnterprise());
 		}
+		if (projectCategory == null) {
+			return null;
+		}
 		projectCategory.getProjects().forEach(project -> project.getLead().getId());
 		if (auth.hasProjectAuthority()) {
 			return projectCategory;

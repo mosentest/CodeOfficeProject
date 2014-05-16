@@ -2,15 +2,15 @@ package mu.codeoffice.controller;
 
 import java.util.List;
 
+import mu.codeoffice.dto.ComponentDTO;
 import mu.codeoffice.dto.ProjectDTO;
+import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
 import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
-import mu.codeoffice.security.Permission;
 import mu.codeoffice.service.CaseService;
-import mu.codeoffice.service.ProjectService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -24,30 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/enterprise/")
-public class ProjectController extends PermissionRequired {
+public class ProjectController extends ProjectPermissionRequired {
 
 	private static final int LIST_ITEMS = 15;
 	
 	@Autowired
-	private ProjectService projectService;
-	
-	@Autowired
 	private CaseService caseService;
-	
-	@Override
-	protected void authorize(EnterpriseAuthentication auth, Object object,
-			Permission...authorities) throws EnterpriseAuthenticationException {
-		if (auth.hasProjectAuthority()) {
-			return;
-		}
-		if (object == null) {
-			throw new EnterpriseAuthenticationException("You are not authorized.");
-		}
-		String project = (String) object;
-		if (!auth.projectAuthenticate(projectService.getProjectAuthority(auth.getEnterpriseUser(), project), (ProjectPermission[]) authorities)) {
-			throw new EnterpriseAuthenticationException("You are not authorized.");
-		}
-	}
 	
 	@RequestMapping(value = "project", method = RequestMethod.GET)
 	public ModelAndView main(ModelMap model) {
@@ -161,6 +143,7 @@ public class ProjectController extends PermissionRequired {
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("components", projectService.getProjectComponents(project.getId()));
+		model.put("mergeComponent", new ComponentDTO<Component>());
 		return new ModelAndView("enterprise/project/project_components", model);
 	}
 
@@ -216,13 +199,13 @@ public class ProjectController extends PermissionRequired {
 	}
 
 	@RequestMapping(value = "project/create", method = RequestMethod.POST) 
-	public ModelAndView projectCreate(@ModelAttribute ProjectDTO project, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+	public ModelAndView projectCreate(@ModelAttribute ProjectDTO<Project> project, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("enterprise/project/project_form", model);
 	}
 	
 	@RequestMapping(value = "project/create", method = RequestMethod.GET) 
 	public ModelAndView projectRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		model.put("project", new ProjectDTO());
+		model.put("project", new ProjectDTO<Project>());
 		model.put("projectCategories", null);
 		model.put("projectLeads", null);
 		return new ModelAndView("enterprise/project/project_form", model);
