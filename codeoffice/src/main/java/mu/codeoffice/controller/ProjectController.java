@@ -12,6 +12,7 @@ import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.service.CaseService;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProjectController extends ProjectPermissionRequired {
 
 	private static final int LIST_ITEMS = 15;
+	
+	private static final Logger logger = Logger.getLogger(ProjectController.class);
 	
 	@Autowired
 	private CaseService caseService;
@@ -144,6 +147,7 @@ public class ProjectController extends ProjectPermissionRequired {
 		model.put("project", project);
 		model.put("components", projectService.getProjectComponents(project.getId()));
 		model.put("mergeComponent", new ComponentDTO<Component>());
+		logger.debug("Logger");
 		return new ModelAndView("enterprise/project/project_components", model);
 	}
 

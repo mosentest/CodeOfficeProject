@@ -34,6 +34,16 @@ public class ComponentService extends ProjectStatisticService {
 		
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Component> getComponents(EnterpriseAuthentication auth, ComponentDTO<Component> componentDTO) {
+		return componentRepository.getComponents(auth.getEnterprise(), componentDTO.getProject(), componentDTO.getComponentCode());
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Component> getProjectComponents(EnterpriseAuthentication auth, String project) {
+		return componentRepository.getProjectComponents(auth.getEnterprise(), project);
+	}
+	
 	@Transactional
 	public void delete(String projectCode, String componentCode, EnterpriseAuthentication auth) 
 			throws AuthenticationException, InformationException {

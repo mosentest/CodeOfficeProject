@@ -3,6 +3,8 @@ package mu.codeoffice.controller;
 import static mu.codeoffice.utility.MessageUtil.addErrorMessage;
 import static mu.codeoffice.utility.MessageUtil.addNoticeMessage;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -86,13 +88,30 @@ public class ComponentController extends ProjectPermissionRequired {
 	}
 
 	@RequestMapping(value = "pro_{project}/m_merge", method = RequestMethod.POST) 
-	public ModelAndView mergeRequest(@ModelAttribute("mergeComponent") ComponentDTO<Component> mergeComponent, @PathVariable("project") String projectCode, 
+	public ModelAndView mergeRequest(@RequestParam(value = "targetComponent", required = false) String targetComponent, 
+			@ModelAttribute("mergeComponent") ComponentDTO<Component> mergeComponent, @PathVariable("project") String projectCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) throws AuthenticationException {
-		for (String code : mergeComponent.getComponentCode()) {
-			System.out.println(code);
+		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
+		if (!projectCode.equals(mergeComponent.getProject())) {
+			addErrorMessage(session, "Project not available");
+			return new ModelAndView("redirect:enterprise/pro_" + projectCode + "/components");
+		}
+		List<Component> components = null;
+		if (mergeComponent.getComponentCode() == null || mergeComponent.getComponentCode().length == 0) {
+			components = componentService.getProjectComponents(auth, projectCode);
+		} else {
+			components = componentService.getComponents(auth, mergeComponent);
+		}
+		if (components == null || components.size() == 0) {
+			addErrorMessage(session, "No components available to merge.");
+			return new ModelAndView("redirect:enterprise/pro_" + projectCode + "/components");
+		}
+		model.put("components", components);
+		if (targetComponent != null) {
+			model.put("targetComponent", componentService.getProjectComponent(projectCode, targetComponent, auth));
 		}
 		model.put("project", projectService.getProjectInfo(projectCode, auth));
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
+		model.put("mergeComponent", mergeComponent);
 		return new ModelAndView("enterprise/project/component_merge", model);
 	}
 

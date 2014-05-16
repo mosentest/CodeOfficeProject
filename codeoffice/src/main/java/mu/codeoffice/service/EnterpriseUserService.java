@@ -61,7 +61,7 @@ public class EnterpriseUserService {
 	}
 	
 	@Transactional
-	public EnterpriseUser register(EnterpriseUserDTO enterpriseUserDTO) {
+	public EnterpriseUser register(EnterpriseUserDTO<EnterpriseUser> enterpriseUserDTO) {
 		return null;
 	}
 	

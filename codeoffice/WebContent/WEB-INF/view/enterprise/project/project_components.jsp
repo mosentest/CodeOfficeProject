@@ -69,6 +69,7 @@ function select_merge(id) {
 							<th><spring:message code="component.description"/></th>
 							<c:if test="${isVCManager}"><th></th><th></th></c:if>
 						</tr>
+						<tr><td colspan="10"><form:hidden path="project" value="${project.code}"/></td></tr>
 						<c:forEach items="${components}" var="component" varStatus="status">
 						<tr id="a_${status.index}">
 							<c:if test="${isVCManager}">

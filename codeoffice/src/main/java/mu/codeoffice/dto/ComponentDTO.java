@@ -12,6 +12,8 @@ public class ComponentDTO<Component> implements DataTransferObject<Component> {
 	
 	private String description;
 	
+	private String project;
+	
 	private EnterpriseUser lead;
 	
 	private EnterpriseUser defaultReporter;
@@ -94,6 +96,14 @@ public class ComponentDTO<Component> implements DataTransferObject<Component> {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
 	}
 	
 }

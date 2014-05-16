@@ -1,0 +1,21 @@
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+
+	<tlib-version>2.0</tlib-version>
+	<uri>http://www.codeoffice.com/codefunction</uri>
+	
+	<function>
+		<name>listContains</name>
+		<function-class>mu.codeoffice.tag.Function</function-class>
+		<function-signature>java.lang.Boolean listContains(java.util.List, java.lang.Object)</function-signature>
+	</function>  
+	
+	<function>
+		<name>arrayContains</name>
+		<function-class>mu.codeoffice.tag.Function</function-class>
+		<function-signature>java.lang.Boolean arrayContains(java.lang.Object[], java.lang.Object)</function-signature>
+	</function>  
+
+</taglib> 

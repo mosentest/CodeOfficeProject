@@ -21,4 +21,7 @@ public interface RoleGroupRepository extends JpaRepository<RoleGroup, Long> {
 	@Query("SELECT DISTINCT u FROM RoleGroup r JOIN r.users u WHERE r.project.id = :project")
 	public List<EnterpriseUser> getUsers(@Param("project") Long project);
 	
+	@Query("SELECT DISTINCT u FROM RoleGroup r JOIN r.users u WHERE r.project.id = :project AND bitwise_and(r.role.value, :authority) >= 1")
+	public List<EnterpriseUser> getAuthorizedUsers(@Param("project") Long project, @Param("authority") int authority);
+	
 }
