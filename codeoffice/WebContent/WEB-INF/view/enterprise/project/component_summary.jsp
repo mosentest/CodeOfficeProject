@@ -20,9 +20,6 @@
 <script type="text/javascript">
 google.load("visualization", "1", { packages:["corechart"] });
 google.setOnLoadCallback(drawChart);
-function submitMerge() {
-	$('#merge-form').submit();
-}
 function drawChart() {
 	
 	var monthlyDataTable = new google.visualization.DataTable();
@@ -68,12 +65,6 @@ function drawChart() {
 						<c:if test="${VC_MANAGER_AUTH}">
 							<span class="minorspace"></span>
 							<a href="enterprise/pro_${project.code}/m_${component.code}/edit"><img src="img/icon_edit.png" title="${text_edit}"/></a>
-							<span class="minorspace"></span>
-							<form:form id="merge-form" action="enterprise/pro_${project.code}/m_merge" modelAttribute="mergeComponent" method="POST">
-								<form:hidden path="project" value="${project.code}"/>
-								<input type="hidden" name="targetComponent" value="${component.code}"/>
-								<a href="javascript:submitMerge();"><img src="img/icon_merge.png" title="${text_merge}"/></a>
-							</form:form>
 							<span class="minorspace"></span>
 							<a href="enterprise/pro_${project.code}/m_${component.code}/delete"><img src="img/icon_remove.png" title="${text_delete}"/></a>
 						</c:if>

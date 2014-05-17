@@ -31,19 +31,22 @@ function getComponentInfo(code) {
 	});
 }
 function merge(event) {
-	console.log('wtf');
-	$('#merge-form').attr('url', 'project_${project.code}/m_' + $("input[name='code']").val() + "/merge");
+	$('#merge-form').attr('action', 'enterprise/pro_${project.code}/m_' + $("input[name='code']").val() + "/merge");
 	$('#merge-form').submit();
 }
-function select_merge(id) {
+function select_merge(id, code) {
 	$('#m_' + id).click();
 	var checked = $('#m_' + id).attr('checked');
 	if (checked === undefined) {
 		$('#m_' + id).attr('checked', true);
 		$('#a_' + id).animate({backgroundColor: '#ffcc00'}, 'slow');
+		var clone = $('#cc_prototype_' + code).clone();
+		clone.attr('id', 'cc_' + code);
+		clone.appendTo('#hidden-fields');
 	} else {
 		$('#m_' + id).attr('checked', false);
 		$('#a_' + id).animate({backgroundColor: 'transparent'}, 'slow');
+		$('#cc_' + code).remove();
 	}
 	if ($('.m_mergable:checked').length > 1) {
 		$('#mergebutton').removeClass('disabled-button');
@@ -70,9 +73,11 @@ function select_merge(id) {
 						<form:form action="" id="merge-form" modelAttribute="mergeComponent" method="POST">
 						<table class="default-table">
 							<tr>
-								<td>
+								<td id="hidden-fields">
 									<form:hidden path="id" value="${targetComponent.id}"/>
-									<form:hidden path="code" value="${targetComponent.code}"/>
+									<c:forEach items="${mergeComponent.componentCode}" var="code">
+										<input id="cc_${code}" type="hidden" name="componentCode" value="${code}"/>
+									</c:forEach>
 								</td>
 							</tr>
 							<tr>
@@ -135,9 +140,10 @@ function select_merge(id) {
 								<input type="radio" id="r_${status.index}" onclick="getComponentInfo('${component.code}')" ${status.first ? 'checked=checked' : ''} name="default"/>
 							</td>
 							<td class="center">
-								<a class="image-link" href="javascript:select_merge(${status.index})"><img src="img/icon_merge.png" title="${text_merge}"/></a>
+								<a class="image-link" href="javascript:select_merge(${status.index}, '${component.code}')"><img src="img/icon_merge.png" title="${text_merge}"/></a>
 								<input type="checkbox" class="m_mergable" ${componentSelected ? 'checked=checked' : ''} 
 									id="m_${status.index}" value="${component.code}" style="display: none;"/>
+								<input id="cc_prototype_${component.code}" type="hidden" name="componentCode" value="${component.code}"/>
 							</td>
 							<td><img src="img/office/icon_component.png" width="20" height="20"/></td>
 							<td><a href="enterprise/pro_${project.code}/m_${component.code}">${component.name}</a></td>

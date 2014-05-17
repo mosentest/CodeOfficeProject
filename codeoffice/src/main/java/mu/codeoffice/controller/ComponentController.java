@@ -65,6 +65,8 @@ public class ComponentController extends ProjectPermissionRequired {
 		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			componentService.update(auth, componentCode, component, projectCode);
+			addNoticeMessage(session, "Component has been updated.");
+			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/m_" + component.getCode());
 		} catch (AuthenticationException e) {
 			throw e;
 		} catch (InformationException e) {
@@ -76,8 +78,6 @@ public class ComponentController extends ProjectPermissionRequired {
 			model.put("edit", true);
 			return new ModelAndView("enterprise/project/component_form");
 		}
-		addNoticeMessage(session, "Component has been updated.");
-		return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/m_" + component.getCode());
 	}
 
 	@RequestMapping(value = "pro_{projectCode}/component/create", method = RequestMethod.GET) 
@@ -102,6 +102,8 @@ public class ComponentController extends ProjectPermissionRequired {
 		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			componentService.create(auth, component, projectCode);
+			addNoticeMessage(session, "Component has been created.");
+			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
 		} catch (AuthenticationException e) {
 			throw e;
 		} catch (InformationException e) {
@@ -111,9 +113,6 @@ public class ComponentController extends ProjectPermissionRequired {
 			loadUserGroups(auth, project.getId(), model);
 			return new ModelAndView("enterprise/project/component_form");
 		}
-		addNoticeMessage(session, "Component has been created.");
-		logger.debug("Redirecting to: " + "redirect:/enterprise/pro_" + projectCode + "/m_" + component.getCode());
-		return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
 	}
 
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}/delete", method = RequestMethod.GET) 
@@ -123,14 +122,14 @@ public class ComponentController extends ProjectPermissionRequired {
 		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			componentService.delete(projectCode, componentCode, auth);
+			addNoticeMessage(session, "Component has been deleted");
+			return new ModelAndView("redirect:" + request.getHeader("Referer"));
 		} catch (AuthenticationException e) {
 			throw e;
 		} catch (InformationException e) {
 			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("redirect:" + request.getHeader("Referer"));
 		}
-		addNoticeMessage(session, "Component has been deleted");
-		return new ModelAndView("redirect:" + request.getHeader("Referer"));
 	}
 
 	@RequestMapping(value = "pro_{projectCode}/m_merge", method = RequestMethod.POST) 
@@ -167,10 +166,19 @@ public class ComponentController extends ProjectPermissionRequired {
 
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}/merge", method = RequestMethod.POST) 
 	public ModelAndView merge(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode, 
-			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) throws AuthenticationException {
+			@ModelAttribute("mergeComponent") ComponentDTO mergeComponent, @AuthenticationPrincipal EnterpriseAuthentication auth, 
+			HttpSession session, ModelMap model) throws AuthenticationException {
 		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
-		addNoticeMessage(session, "Components: has been merged.");
-		return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
+		try {
+			componentService.merge(auth, projectCode, componentCode, mergeComponent);
+			addNoticeMessage(session, "Components: '" + String.join("', '", mergeComponent.getComponentCode()) + "' has been merged.");
+			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
+		} catch (AuthenticationException e) {
+			throw e;
+		} catch (InformationException e) {
+			addErrorMessage(session, e.getMessage());
+			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
+		}
 	}
 	
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}/info", method = RequestMethod.GET)

@@ -3,7 +3,6 @@ package mu.codeoffice.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -60,7 +59,7 @@ public class Component implements Serializable, JSONSerializable<Component> {
 	@JoinColumn(name = "office_component_assignee_id")
 	private EnterpriseUser defaultAssignee;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "components")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "components")
 	private List<Case> cases;
 	
 	public Component() {}
@@ -76,6 +75,15 @@ public class Component implements Serializable, JSONSerializable<Component> {
 		json.setName(name);
 		json.setDescription(description);
 		return json;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Component)) {
+			return false;
+		}
+		Component c = (Component) o;
+		return c.id != null && this.id != null && c.id.equals(this.id);
 	}
 
 	public Long getId() {

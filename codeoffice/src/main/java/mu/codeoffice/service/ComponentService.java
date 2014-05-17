@@ -24,7 +24,9 @@ import mu.codeoffice.enums.CaseStatus;
 import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
+import mu.codeoffice.security.EnterpriseAuthenticationException;
 
+import org.apache.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
@@ -33,24 +35,50 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ComponentService extends ProjectStatisticService {
 	
+	private Logger logger = Logger.getLogger(ComponentService.class);
+	
 	@Resource
 	private ProjectRepository projectRepository;
 	
 	@Transactional
-	public void merge(EnterpriseAuthentication auth, ComponentDTO componentDTO, String projectCode) 
+	public void merge(EnterpriseAuthentication auth, String projectCode, String componentCode, ComponentDTO mergeComponent) 
 			throws AuthenticationException, InformationException {
-		
+		if (!componentRepository.isSameObject(auth.getEnterprise(), projectCode, mergeComponent.getCode(), mergeComponent.getId())) {
+			throw new EnterpriseAuthenticationException("Unable to access component '" + componentCode + "'");
+		}
+		Component component = componentRepository.getProjectComponent(projectCode, componentCode, auth.getEnterprise());
+		List<Component> mergeList = componentRepository.getComponents(auth.getEnterprise(), projectCode, componentCode, mergeComponent.getComponentCode());
+		for (Component componentObject : mergeList) {
+			List<Case> relatedCases = caseRepository.findAll(
+					all(null, component.getProject().getId(), null, null, componentObject.getId(), null, null, null, null, null, null));
+			for (Case caseObject : relatedCases) {
+				if (!component.getCases().contains(caseObject)) {
+					component.getCases().add(caseObject);
+				}
+				if (!caseObject.getComponents().contains(component)) {
+					caseObject.getComponents().add(component);
+				}
+				caseObject.getComponents().remove(componentObject);
+				caseRepository.save(caseObject);
+			}
+			componentObject.getCases().clear();
+			componentRepository.save(componentObject);
+		}
+		componentRepository.delete(mergeList);
+		logger.debug("Components: '" + String.join("', '", mergeComponent.getComponentCode()) + "' has been merged.");
+		component.setNoCase(component.getCases().size());
+		componentRepository.save(component);
 	}
 	
 	@Transactional
 	public void create(EnterpriseAuthentication auth, Component component, String projectCode)  
 			throws AuthenticationException, InformationException {
 		if (!componentRepository.isCodeAvailable(projectCode, component.getCode(), auth.getEnterprise(), 0l)) {
-			throw new InformationException("Component code '" + component.getCode() + "' is not available.");
+			throw new InformationException("Component code '" + component.getCode() + "' is not available");
 		}
 		Project project = projectRepository.getProject(projectCode, auth.getEnterprise());
 		if (project == null) {
-			throw new InformationException("Project is not available.");
+			throw new EnterpriseAuthenticationException("Unable to access project '" + projectCode + "'");
 		}
 		component.setProject(project);
 		component.setEnterprise(auth.getEnterprise());
@@ -73,10 +101,10 @@ public class ComponentService extends ProjectStatisticService {
 			throws AuthenticationException, InformationException {
 		Project project = projectRepository.getProject(projectCode, auth.getEnterprise());
 		if (project == null) {
-			throw new InformationException("Project is not available.");
+			throw new EnterpriseAuthenticationException("Unable to access project '" + projectCode + "'");
 		}
-		if (!componentRepository.isSameObject(auth.getEnterprise(), originalCode, component.getId())) {
-			throw new InformationException("Component is not available");
+		if (!componentRepository.isSameObject(auth.getEnterprise(), projectCode, originalCode, component.getId())) {
+			throw new EnterpriseAuthenticationException("Unable to access component '" + component.getCode() + "'");
 		}
 		if (!componentRepository.isCodeAvailable(projectCode, component.getCode(), auth.getEnterprise(), component.getId())) {
 			throw new InformationException("Component code '" + component.getCode() + "' is not available.");
@@ -99,7 +127,7 @@ public class ComponentService extends ProjectStatisticService {
 	
 	@Transactional(readOnly = true)
 	public List<Component> getComponents(EnterpriseAuthentication auth, ComponentDTO componentDTO) {
-		return componentRepository.getComponents(auth.getEnterprise(), componentDTO.getProject(), componentDTO.getComponentCode());
+		return componentRepository.getComponents(auth.getEnterprise(), componentDTO.getProject(), "", componentDTO.getComponentCode());
 	}
 	
 	@Transactional(readOnly = true)

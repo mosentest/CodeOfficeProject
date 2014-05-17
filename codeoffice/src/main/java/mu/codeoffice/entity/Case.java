@@ -120,14 +120,14 @@ public class Case implements Serializable {
 	@JoinColumn(name = "office_release_version_id", nullable = true)
 	private Version releaseVersion;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "office_case_version", 
         joinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "version_id", referencedColumnName = "id"))
-	@OrderBy("code ASC")
+	@OrderBy("id ASC")
 	private List<Version> versions;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "office_case_component", 
         joinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "component_id", referencedColumnName = "id"))

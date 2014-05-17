@@ -23,13 +23,14 @@ public interface ComponentRepository extends JpaRepository<Component, Long> {
 	@Query("SELECT c FROM Component c WHERE c.project.id = :project AND c.code = :component")
 	public Component getProjectComponent(@Param("project") Long project, @Param("component") String component);
 	
-	@Query("SELECT c FROM Component c WHERE c.enterprise = :enterprise AND c.project.code = :project AND c.code IN (:components)")
-	public List<Component> getComponents(@Param("enterprise") Enterprise enterprise, @Param("project") String project, @Param("components") String[] components);
+	@Query("SELECT c FROM Component c WHERE c.enterprise = :enterprise AND c.project.code = :project AND c.code <> :component AND c.code IN (:components)")
+	public List<Component> getComponents(@Param("enterprise") Enterprise enterprise, @Param("project") String project, 
+			@Param("component") String component, @Param("components") String[] components);
 	
 	@Query("SELECT COUNT(c) = 0 FROM Component c WHERE c.enterprise = :enterprise AND c.project.code = :project AND c.code = :code AND c.id <> :id")
 	public boolean isCodeAvailable(@Param("project") String project, @Param("code") String code, @Param("enterprise") Enterprise enterprise, @Param("id") Long id);
 	
-	@Query("SELECT COUNT(c) = 1 FROM Component c WHERE c.enterprise = :enterprise AND c.id = :id AND c.code = :code")
-	public boolean isSameObject(@Param("enterprise") Enterprise enterprise, @Param("code") String code, @Param("id") Long id);
+	@Query("SELECT COUNT(c) = 1 FROM Component c WHERE c.enterprise = :enterprise AND c.project.code = :project AND c.id = :id AND c.code = :code")
+	public boolean isSameObject(@Param("enterprise") Enterprise enterprise, @Param("project") String project, @Param("code") String code, @Param("id") Long id);
 	
 }
