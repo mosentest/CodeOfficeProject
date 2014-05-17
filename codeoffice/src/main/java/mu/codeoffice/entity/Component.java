@@ -16,9 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import mu.codeoffice.json.ComponentJSON;
+
 @Entity
 @Table(name = "office_project_component", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "office_project_id"}))
-public class Component implements Serializable {
+public class Component implements Serializable, JSONSerializable<Component> {
 	
 	private static final long serialVersionUID = 7413950969585396632L;
 
@@ -62,6 +64,19 @@ public class Component implements Serializable {
 	private List<Case> cases;
 	
 	public Component() {}
+
+	@Override
+	public ComponentJSON toJSONObject() {
+		ComponentJSON json = new ComponentJSON();
+		json.setCode(code);
+		json.setDefaultAssignee(defaultAssignee.getFullName());
+		json.setDefaultReporter(defaultReporter.getFullName());
+		json.setLead(lead.getFullName());
+		json.setId(id);
+		json.setName(name);
+		json.setDescription(description);
+		return json;
+	}
 
 	public Long getId() {
 		return id;

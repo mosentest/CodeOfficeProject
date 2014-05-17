@@ -37,7 +37,7 @@ public class ComponentService extends ProjectStatisticService {
 	private ProjectRepository projectRepository;
 	
 	@Transactional
-	public void merge(EnterpriseAuthentication auth, ComponentDTO<Component> componentDTO, String projectCode) 
+	public void merge(EnterpriseAuthentication auth, ComponentDTO componentDTO, String projectCode) 
 			throws AuthenticationException, InformationException {
 		
 	}
@@ -98,7 +98,7 @@ public class ComponentService extends ProjectStatisticService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Component> getComponents(EnterpriseAuthentication auth, ComponentDTO<Component> componentDTO) {
+	public List<Component> getComponents(EnterpriseAuthentication auth, ComponentDTO componentDTO) {
 		return componentRepository.getComponents(auth.getEnterprise(), componentDTO.getProject(), componentDTO.getComponentCode());
 	}
 	

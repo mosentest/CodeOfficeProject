@@ -1,8 +1,9 @@
 package mu.codeoffice.dto;
 
+import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.EnterpriseUser;
 
-public class ComponentDTO<Component> implements DataTransferObject<Component> {
+public class ComponentDTO implements DataTransferObject<Component> {
 
 	private Long id;
 	
@@ -30,7 +31,7 @@ public class ComponentDTO<Component> implements DataTransferObject<Component> {
 	}
 
 	@Override
-	public DataTransferObject<Component> buildDTO(Object object) {
+	public DataTransferObject<Component> buildDTO(Component object) {
 		return null;
 	}
 
@@ -105,5 +106,5 @@ public class ComponentDTO<Component> implements DataTransferObject<Component> {
 	public void setProject(String project) {
 		this.project = project;
 	}
-	
+
 }

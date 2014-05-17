@@ -15,16 +15,24 @@ function getComponentInfo(code) {
 	$.ajax({
 		url: 'enterprise/pro_${project.code}/m_' + code + '/info',
 		type: 'GET',
+		responseType: 'json',
 		success: function(data) {
-			console.log(data);
+			$("input[name='id']").val(data.id);
+			$("input[name='code']").val(data.code);
+			$("input[name='name']").val(data.name);
+			$('#lead').text('').append("<a href=\"enterprise/user/" + data.lead.replace(" ", "_") + "\">" + data.lead + "</a>");
+			$('#defaultReporter').text('').append("<a href=\"enterprise/user/" + data.defaultReporter.replace(" ", "_") + "\">" + data.defaultReporter + "</a>");
+			$('#defaultAssignee').text('').append("<a href=\"enterprise/user/" + data.defaultAssignee.replace(" ", "_") + "\">" + data.defaultAssignee + "</a>");
+			$("textArea[name='description']").val(data.description);
 		},
-		error: function(e) {
-			console.log(e);
+		error: function(xhr, status, error) {
+			console.log("error: " + JSON.parse(xhr.responseText));
 		}
 	});
 }
 function merge(event) {
-	$('#merge-form').attr('url', 'project_{project}/m_' + $("input[name='code']") + "/merge");
+	console.log('wtf');
+	$('#merge-form').attr('url', 'project_${project.code}/m_' + $("input[name='code']").val() + "/merge");
 	$('#merge-form').submit();
 }
 function select_merge(id) {
@@ -60,95 +68,45 @@ function select_merge(id) {
 					<div class="title imglink"><img src="img/office/icon_merge.png"/><span class="titlespan"><spring:message code="component.merge_components"/></span></div>
 					<div class="content">
 						<form:form action="" id="merge-form" modelAttribute="mergeComponent" method="POST">
-						<table class="form-table">
+						<table class="default-table">
 							<tr>
 								<td>
 									<form:hidden path="id" value="${targetComponent.id}"/>
-									<form:hidden path="code" value="${targetComponent.id}"/>
+									<form:hidden path="code" value="${targetComponent.code}"/>
 								</td>
 							</tr>
 							<tr>
-								<td><spring:message code="component.code"/></td>
-								<td>
-									<c:if test="${empty targetComponent}"><form:input path="code"/></c:if>
-									<c:if test="${not empty targetComponent}">${targetComponent.code}</c:if>
-								</td>
+								<td class="label-header"><spring:message code="component.code"/>:</td>
+								<td><form:input path="code" readonly="true" value="${targetComponent.code}"/></td>
 							</tr>
 							<tr>
-								<td><spring:message code="component.project"/></td>
+								<td class="label-header"><spring:message code="component.project"/>:</td>
 								<td>${project.name}</td>
 							</tr>
 							<tr>
-								<td><spring:message code="component.name"/></td>
-								<td>
-									<c:if test="${empty targetComponent}"><form:input path="name"/></c:if>
-									<c:if test="${not empty targetComponent}">${targetComponent.name}</c:if>
-								</td>
+								<td class="label-header"><spring:message code="component.name"/>:</td>
+								<td><form:input path="name" readonly="true" value="${targetComponent.name}"/></td>
 							</tr>
 							<tr>
-								<td><spring:message code="component.lead"/></td>
-								<td>
-									<c:if test="${empty targetComponent}">
-									<form:select multitple="single" path="lead">
-										<form:option value="0" label="------ ${text_select} ------"/>
-										<c:forEach items="${leadGroup}" var="roleGroup">
-											<optgroup label="${roleGroup.role.name}">
-												<c:forEach items="${roleGroup.users}" var="user">
-													<option label="${user.fullName}" value="${user.id}" ${targetComponent.lead.id eq user.id ? 'selected=selected' : ''}/>
-												</c:forEach>
-											</optgroup>
-										</c:forEach>
-									</form:select>
-									</c:if>
-									<c:if test="${not empty targetComponent}"><code:user user="${targetComponent.lead}"/></c:if>	
-								</td>
+								<td class="label-header"><spring:message code="component.lead"/>:</td>
+								<td id="lead"><code:user user="${targetComponent.lead}" showImage="false" showSpace="false"/></td>
 							</tr>
 							<tr>
-								<td><spring:message code="component.default_reporter"/></td>
-								<td>
-									<c:if test="${empty targetComponent}">
-									<form:select multitple="single" path="defaultReporter">
-										<form:option value="0" label="------ ${text_select} ------"/>
-										<c:forEach items="${userGroup}" var="roleGroup">
-											<optgroup label="${roleGroup.role.name}">
-												<c:forEach items="${roleGroup.users}" var="user">
-													<option label="${user.fullName}" value="${user.id}" ${targetComponent.defaultReporter.id eq user.id ? 'selected=selected' : ''}/>
-												</c:forEach>
-											</optgroup>
-										</c:forEach>
-									</form:select>
-									</c:if>
-									<c:if test="${not empty targetComponent}"><code:user user="${targetComponent.defaultReporter}"/></c:if>		
-								</td>
+								<td class="label-header"><spring:message code="component.default_reporter"/>:</td>
+								<td id="defaultReporter"><code:user user="${targetComponent.defaultReporter}" showImage="false" showSpace="false"/></td>
 							</tr>
 							<tr>
-								<td><spring:message code="component.default_assignee"/></td>
-								<td>
-									<c:if test="${empty targetComponent}">
-									<form:select multitple="single" path="defaultAssignee">
-										<form:option value="0" label="------ ${text_select} ------"/>
-										<c:forEach items="${userGroup}" var="roleGroup">
-											<optgroup label="${roleGroup.role.name}">
-												<c:forEach items="${roleGroup.users}" var="user">
-													<option label="${user.fullName}" value="${user.id}" ${targetComponent.defaultAssignee.id eq user.id ? 'selected=selected' : ''}/>
-												</c:forEach>
-											</optgroup>
-										</c:forEach>
-									</form:select>
-									</c:if>
-									<c:if test="${not empty targetComponent}"><code:user user="${targetComponent.defaultAssignee}"/></c:if>		
-								</td>
+								<td class="label-header"><spring:message code="component.default_assignee"/>:</td>
+								<td id="defaultAssignee"><code:user user="${targetComponent.defaultAssignee}" showImage="false" showSpace="false"/></td>
 							</tr>
 							<tr>
-								<td><spring:message code="component.description"/></td>
-								<td>
-									<c:if test="${empty targetComponent}"><form:input path="description"/></c:if>
-									<c:if test="${not empty targetComponent}">${targetComponent.description}</c:if>
-								</td>
+								<td class="label-header"><spring:message code="component.description"/>:</td>
+								<td><textArea name="description" readonly="readonly" cols="30" rows="6">${targetComponent.description}</textArea></td>
 							</tr>
 							<tr>
-								<td colspan="2"><input id="mergebutton" class="${fn:length(mergeComponent.componentCode) lt 2 ? 'disabled-button' : 'button'} largebutton" 
-									type="submit" value="${text_merge}" onclick="merge(event);" disabled="disabled"/></td>
+								<c:set var="mergeDisabled" value="${fn:length(mergeComponent.componentCode) lt 2}"/>
+								<td colspan="2"><input id="mergebutton" class="${mergeDisabled ? 'disabled-button' : 'button'} largebutton" 
+									type="submit" value="${text_merge}" onclick="merge(event);" ${mergeDisabled ? 'disabled=disabled' : ''}/></td>
 							</tr>
 						</table>
 						</form:form>
@@ -160,7 +118,7 @@ function select_merge(id) {
 					<div class="content">
 						<table class="default-table left-header">
 						<tr>
-							<c:if test="${empty targetComponent}"><th style="text-align: center;"><spring:message code="component.set_as_default"/></th></c:if>
+							<th style="text-align: center;"><spring:message code="component.set_as_default"/></th>
 							<th style="text-align: center;"><spring:message code="application.merge"/></th>
 							<th></th>
 							<th><spring:message code="component.name"/></th>
@@ -173,7 +131,9 @@ function select_merge(id) {
 						<c:forEach items="${components}" var="component" varStatus="status">
 						<c:set var="componentSelected" value="${codefunction:arrayContains(mergeComponent.componentCode, component.code)}"/>
 						<tr id="a_${status.index}" style="background-color:${componentSelected ? '#ffcc00' : 'transparent'}" >
-							<c:if test="${empty targetComponent}"><td class="center"><input type="radio" id="r_${status.index}" onclick="getComponentInfo(${component.code})" name="default"/></td></c:if>
+							<td class="center">
+								<input type="radio" id="r_${status.index}" onclick="getComponentInfo('${component.code}')" ${status.first ? 'checked=checked' : ''} name="default"/>
+							</td>
 							<td class="center">
 								<a class="image-link" href="javascript:select_merge(${status.index})"><img src="img/icon_merge.png" title="${text_merge}"/></a>
 								<input type="checkbox" class="m_mergable" ${componentSelected ? 'checked=checked' : ''} 

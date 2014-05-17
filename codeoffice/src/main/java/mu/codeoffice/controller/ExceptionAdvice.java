@@ -1,9 +1,9 @@
 package mu.codeoffice.controller;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+@Controller
 public class ExceptionAdvice {
 
 	@ExceptionHandler(IllegalStateException.class)

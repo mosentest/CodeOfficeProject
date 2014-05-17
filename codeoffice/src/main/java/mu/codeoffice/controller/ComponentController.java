@@ -13,6 +13,7 @@ import mu.codeoffice.dto.ComponentDTO;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.enums.ProjectPermission;
+import mu.codeoffice.json.ComponentJSON;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.ComponentService;
 
@@ -134,7 +135,7 @@ public class ComponentController extends ProjectPermissionRequired {
 
 	@RequestMapping(value = "pro_{projectCode}/m_merge", method = RequestMethod.POST) 
 	public ModelAndView mergeRequest(@RequestParam(value = "targetComponent", required = false) String targetComponent, 
-			@ModelAttribute("mergeComponent") ComponentDTO<Component> mergeComponent, @PathVariable("projectCode") String projectCode, 
+			@ModelAttribute("mergeComponent") ComponentDTO mergeComponent, @PathVariable("projectCode") String projectCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) throws AuthenticationException {
 		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		if (!projectCode.equals(mergeComponent.getProject())) {
@@ -147,17 +148,20 @@ public class ComponentController extends ProjectPermissionRequired {
 		} else {
 			components = componentService.getComponents(auth, mergeComponent);
 		}
-		if (components == null || components.size() == 0) {
+		if (components == null || components.size() <= 1) {
 			addErrorMessage(session, "No components available to merge.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
 		}
 		model.put("components", components);
 		if (targetComponent != null) {
 			model.put("targetComponent", componentService.getProjectComponent(projectCode, targetComponent, auth));
+		} else {
+			model.put("targetComponent", components.get(0));
 		}
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		model.put("project", project);
 		model.put("mergeComponent", mergeComponent);
+		loadUserGroups(auth, project.getId(), model);
 		return new ModelAndView("enterprise/project/component_merge", model);
 	}
 
@@ -170,11 +174,12 @@ public class ComponentController extends ProjectPermissionRequired {
 	}
 	
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}/info", method = RequestMethod.GET)
-	public @ResponseBody Component getComponentInfo(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode,
+	public @ResponseBody ComponentJSON getComponentInfo(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode,
 			@AuthenticationPrincipal EnterpriseAuthentication auth) throws AuthenticationException {
 		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Component component = componentService.getProjectComponent(projectCode, componentCode, auth);
-		return component;
+		logger.debug("Ajax requesting: " + component.getId());
+		return component.toJSONObject();
 	}
 	
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}", method = RequestMethod.GET) 
@@ -187,6 +192,7 @@ public class ComponentController extends ProjectPermissionRequired {
 		model.put("component", component);
 		model.put("VC_MANAGER_AUTH", hasAuthority(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE));
 		model.put("monthlySummary", componentService.getComponentMonthlySummary(project, component));
+		model.put("mergeComponent", new ComponentDTO());
 		return new ModelAndView("enterprise/project/component_summary");
 	}
 	

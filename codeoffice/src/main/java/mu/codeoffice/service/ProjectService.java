@@ -56,7 +56,7 @@ public class ProjectService extends ProjectStatisticService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Project createProject(EnterpriseAuthentication auth, ProjectDTO<Project> projectDTO) {
+	public Project createProject(EnterpriseAuthentication auth, ProjectDTO projectDTO) {
 		return null;
 	}
 	

@@ -1,6 +1,8 @@
 package mu.codeoffice.dto;
 
-public class EnterpriseUserDTO<EnterpriseUser> implements DataTransferObject<EnterpriseUser> {
+import mu.codeoffice.entity.EnterpriseUser;
+
+public class EnterpriseUserDTO implements DataTransferObject<EnterpriseUser> {
 
 	@Override
 	public EnterpriseUser buildObject(DataTransferObject<EnterpriseUser> dto) {

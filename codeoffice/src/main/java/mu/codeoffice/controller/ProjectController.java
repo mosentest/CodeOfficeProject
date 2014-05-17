@@ -4,7 +4,6 @@ import java.util.List;
 
 import mu.codeoffice.dto.ComponentDTO;
 import mu.codeoffice.dto.ProjectDTO;
-import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
 import mu.codeoffice.enums.ProjectPermission;
@@ -146,7 +145,7 @@ public class ProjectController extends ProjectPermissionRequired {
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("components", projectService.getProjectComponents(project.getId()));
-		model.put("mergeComponent", new ComponentDTO<Component>());
+		model.put("mergeComponent", new ComponentDTO());
 		model.put("VC_MANAGER_AUTH", hasAuthority(auth, code, ProjectPermission.VERSION_COMPONENT_MANAGE));
 		logger.debug("Logger");
 		return new ModelAndView("enterprise/project/project_components", model);
@@ -204,13 +203,13 @@ public class ProjectController extends ProjectPermissionRequired {
 	}
 
 	@RequestMapping(value = "project/create", method = RequestMethod.POST) 
-	public ModelAndView projectCreate(@ModelAttribute ProjectDTO<Project> project, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+	public ModelAndView projectCreate(@ModelAttribute ProjectDTO project, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("enterprise/project/project_form", model);
 	}
 	
 	@RequestMapping(value = "project/create", method = RequestMethod.GET) 
 	public ModelAndView projectRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		model.put("project", new ProjectDTO<Project>());
+		model.put("project", new ProjectDTO());
 		model.put("projectCategories", null);
 		model.put("projectLeads", null);
 		return new ModelAndView("enterprise/project/project_form", model);
