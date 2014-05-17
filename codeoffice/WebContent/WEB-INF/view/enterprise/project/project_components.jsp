@@ -41,7 +41,7 @@ function select_merge(id) {
 <spring:message var="text_delete" code="application.delete"/>
 <spring:message var="text_merge" code="application.merge"/>
 <security:authorize access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')">
-	<c:set var="isVCManager" value="true"/>
+	<c:set var="VC_MANAGER_AUTH" value="true"/>
 </security:authorize>
 <div id="content">
 	<div class="element">
@@ -54,12 +54,20 @@ function select_merge(id) {
 				<div class="mainelement">
 					<div class="title imglink"><img src="img/office/icon_components.png"/><span class="titlespan"><spring:message code="project.components"/></span></div>
 					<div class="content">
+						<c:if test="${VC_MANAGER_AUTH}">
+							<div class="sep-20"></div>
+							<a class="fw-b imglink" href="enterprise/pro_${project.code}/component/create">
+								<img src="img/icon_add.png"/>
+								<span><spring:message code="component.create_new_component"/></span>
+							</a>
+							<div class="sep-20"></div>
+						</c:if>
 						<c:if test="${fn:length(components) eq 0}"><code:info message="project.no_components"/></c:if>
 						<c:if test="${fn:length(components) gt 0}">
 						<form:form action="enterprise/pro_${project.code}/m_merge" modelAttribute="mergeComponent" method="POST">
 						<table class="default-table left-header">
 						<tr>
-							<c:if test="${isVCManager}"><th style="text-align: center;"><spring:message code="application.merge"/></th></c:if>
+							<c:if test="${VC_MANAGER_AUTH}"><th style="text-align: center;"><spring:message code="application.merge"/></th></c:if>
 							<th></th>
 							<th><spring:message code="component.name"/></th>
 							<th><spring:message code="component.lead"/></th>
@@ -67,12 +75,12 @@ function select_merge(id) {
 							<th><spring:message code="component.default_assignee"/></th>
 							<th><spring:message code="component.case_count"/></th>
 							<th><spring:message code="component.description"/></th>
-							<c:if test="${isVCManager}"><th></th><th></th></c:if>
+							<c:if test="${VC_MANAGER_AUTH}"><th></th><th></th></c:if>
 						</tr>
 						<tr><td colspan="10"><form:hidden path="project" value="${project.code}"/></td></tr>
 						<c:forEach items="${components}" var="component" varStatus="status">
 						<tr id="a_${status.index}">
-							<c:if test="${isVCManager}">
+							<c:if test="${VC_MANAGER_AUTH}">
 							<td class="center">
 								<a class="image-link" href="javascript:select_merge(${status.index})"><img src="img/icon_merge.png" title="${text_merge}"/></a>
 								<form:checkbox class="m_mergable" id="m_${status.index}" path="componentCode" value="${component.code}" style="display: none;"/>
@@ -85,7 +93,7 @@ function select_merge(id) {
 							<td><code:user user="${component.defaultAssignee}"/></td>
 							<td>${component.noCase}</td>
 							<td>${component.description}</td>
-							<c:if test="${isVCManager}">
+							<c:if test="${VC_MANAGER_AUTH}">
 							<td class="center"><a class="image-link" href="enterprise/pro_${project.code}/m_${component.code}/edit"><img src="img/icon_edit.png" title="${text_edit}"/></a></td>
 							<td class="center"><a class="image-link" href="enterprise/pro_${project.code}/m_${component.code}/delete"><img src="img/icon_remove.png" title="${text_delete}"/></a></td>
 							</c:if>

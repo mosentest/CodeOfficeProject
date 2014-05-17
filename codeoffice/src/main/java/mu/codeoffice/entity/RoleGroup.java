@@ -45,6 +45,24 @@ public class RoleGroup implements Serializable {
 	private List<EnterpriseUser> users;
 	
 	public RoleGroup() {}
+	
+	public static boolean hasUser(List<RoleGroup> roleGroup, EnterpriseUser user) {
+		for (RoleGroup group : roleGroup) {
+			if (group.hasUser(user)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean hasUser(EnterpriseUser user) {
+		for (EnterpriseUser u : users) {
+			if (u.getId() == user.getId()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public Long getId() {
 		return id;

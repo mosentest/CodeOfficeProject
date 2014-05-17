@@ -147,6 +147,7 @@ public class ProjectController extends ProjectPermissionRequired {
 		model.put("project", project);
 		model.put("components", projectService.getProjectComponents(project.getId()));
 		model.put("mergeComponent", new ComponentDTO<Component>());
+		model.put("VC_MANAGER_AUTH", hasAuthority(auth, code, ProjectPermission.VERSION_COMPONENT_MANAGE));
 		logger.debug("Logger");
 		return new ModelAndView("enterprise/project/project_components", model);
 	}

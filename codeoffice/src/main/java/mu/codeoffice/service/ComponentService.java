@@ -7,6 +7,8 @@ import static mu.codeoffice.query.CaseSpecifications.sort;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.data.Summary;
 import mu.codeoffice.dto.ComponentDTO;
@@ -20,6 +22,7 @@ import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseStatus;
 import mu.codeoffice.enums.ProjectPermission;
+import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 
 import org.springframework.data.domain.Page;
@@ -30,10 +33,68 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ComponentService extends ProjectStatisticService {
 	
+	@Resource
+	private ProjectRepository projectRepository;
+	
 	@Transactional
 	public void merge(EnterpriseAuthentication auth, ComponentDTO<Component> componentDTO, String projectCode) 
 			throws AuthenticationException, InformationException {
 		
+	}
+	
+	@Transactional
+	public void create(EnterpriseAuthentication auth, Component component, String projectCode)  
+			throws AuthenticationException, InformationException {
+		if (!componentRepository.isCodeAvailable(projectCode, component.getCode(), auth.getEnterprise(), 0l)) {
+			throw new InformationException("Component code '" + component.getCode() + "' is not available.");
+		}
+		Project project = projectRepository.getProject(projectCode, auth.getEnterprise());
+		if (project == null) {
+			throw new InformationException("Project is not available.");
+		}
+		component.setProject(project);
+		component.setEnterprise(auth.getEnterprise());
+		List<RoleGroup> userGroup = roleGroupRepository.getAuthorizedGroups(project.getId(), ProjectPermission.CASE.getValue());
+		List<RoleGroup> leadGroup = roleGroupRepository.getAuthorizedGroups(project.getId(), ProjectPermission.VERSION_COMPONENT_MANAGE.getValue());
+		if (!RoleGroup.hasUser(userGroup, component.getDefaultAssignee())) {
+			throw new InformationException("Default assignee for component is not valid.");
+		}
+		if (!RoleGroup.hasUser(userGroup, component.getDefaultReporter())) {
+			throw new InformationException("Default reporter for component is not valid.");
+		}
+		if (!RoleGroup.hasUser(leadGroup, component.getLead())) {
+			throw new InformationException("Component lead is not valid.");
+		}
+		componentRepository.save(component);
+	}
+	
+	@Transactional
+	public void update(EnterpriseAuthentication auth, String originalCode, Component component, String projectCode) 
+			throws AuthenticationException, InformationException {
+		Project project = projectRepository.getProject(projectCode, auth.getEnterprise());
+		if (project == null) {
+			throw new InformationException("Project is not available.");
+		}
+		if (!componentRepository.isSameObject(auth.getEnterprise(), originalCode, component.getId())) {
+			throw new InformationException("Component is not available");
+		}
+		if (!componentRepository.isCodeAvailable(projectCode, component.getCode(), auth.getEnterprise(), component.getId())) {
+			throw new InformationException("Component code '" + component.getCode() + "' is not available.");
+		}
+		component.setProject(project);
+		component.setEnterprise(auth.getEnterprise());
+		List<RoleGroup> userGroup = roleGroupRepository.getAuthorizedGroups(project.getId(), ProjectPermission.CASE.getValue());
+		List<RoleGroup> leadGroup = roleGroupRepository.getAuthorizedGroups(project.getId(), ProjectPermission.VERSION_COMPONENT_MANAGE.getValue());
+		if (!RoleGroup.hasUser(userGroup, component.getDefaultAssignee())) {
+			throw new InformationException("Default assignee for component is not valid.");
+		}
+		if (!RoleGroup.hasUser(userGroup, component.getDefaultReporter())) {
+			throw new InformationException("Default reporter for component is not valid.");
+		}
+		if (!RoleGroup.hasUser(leadGroup, component.getLead())) {
+			throw new InformationException("Component lead is not valid.");
+		}
+		componentRepository.save(component);
 	}
 	
 	@Transactional(readOnly = true)

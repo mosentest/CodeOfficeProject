@@ -11,4 +11,9 @@ public class DefaultMappingController {
 	public String redirect() {
 		return "redirect:/enterprise";
 	}
+	
+	@RequestMapping(value = "enterprise/badRequest", method = RequestMethod.GET)
+	public String badRequest() {
+		return "enterprise/badRequest";
+	}
 }

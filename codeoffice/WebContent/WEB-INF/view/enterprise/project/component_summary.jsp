@@ -5,16 +5,24 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
 <link rel="stylesheet" type="text/css" href="css/project.css">
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
+<style type="text/css">
+	#merge-form {
+		display: inline;
+	}
+</style>
 <c:if test="${fn:length(monthlySummary) gt 0}">
 <script type="text/javascript">
 google.load("visualization", "1", { packages:["corechart"] });
 google.setOnLoadCallback(drawChart);
+function submitMerge() {
+	$('#merge-form').submit();
+}
 function drawChart() {
 	
 	var monthlyDataTable = new google.visualization.DataTable();
@@ -40,6 +48,12 @@ function drawChart() {
 }
 </script>
 </c:if>
+<spring:message var="text_edit" code="application.edit"/>
+<spring:message var="text_delete" code="application.delete"/>
+<spring:message var="text_merge" code="application.merge"/>
+<security:authorize access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')">
+	<c:set var="VC_MANAGER_AUTH" value="true"/>
+</security:authorize>
 <div id="content">
 	<div class="element">
 		<div class="info"><jsp:include page="/WEB-INF/view/enterprise/project/project_header.jsp"/></div>
@@ -49,7 +63,20 @@ function drawChart() {
 			</jsp:include>
 			<div class="maincontent">
 				<div class="subelement">
-					<div class="title"><spring:message code="component.info"/></div>
+					<div class="title imglink">
+						<span><spring:message code="component.info"/></span>
+						<c:if test="${VC_MANAGER_AUTH}">
+							<span class="minorspace"></span>
+							<a href="enterprise/pro_${project.code}/m_${component.code}/edit"><img src="img/icon_edit.png" title="${text_edit}"/></a>
+							<span class="minorspace"></span>
+							<form id="merge-form" action="enterprise/pro_${project.code}/m_merge" method="POST">
+								<input type="hidden" name="targetComponent" value="${component.code}"/>
+								<a href="javascript:submitMerge();"><img src="img/icon_merge.png" title="${text_merge}"/></a>
+							</form>
+							<span class="minorspace"></span>
+							<a href="enterprise/pro_${project.code}/m_${component.code}/delete"><img src="img/icon_remove.png" title="${text_delete}"/></a>
+						</c:if>
+					</div>
 					<div class="content" style="padding: 15px;">
 						<table class="info-table">
 							<tr>

@@ -55,6 +55,9 @@ input[type=text], input[type=password] {
 .sep-30 {
 	height: 30px;
 }
+.sep-20 {
+	height: 20px;
+}
 .p_3 {
 	padding: 3px;
 }
@@ -353,6 +356,9 @@ a:hover {
 }
 .default-table td {
 	border-spacing: 0px;
+}
+.label-header {
+	font-weight: bold;
 }
 .info-table {
 	width: 100%;
