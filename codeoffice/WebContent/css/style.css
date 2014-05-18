@@ -412,6 +412,7 @@ a:hover {
 .action-link span {
 	padding-left: 10px;
 	text-align: center;
+	white-space: nowrap;
 }
 .action-field {
 	width: 100%;

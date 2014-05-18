@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -54,10 +55,15 @@
 <body>
 	<security:authorize access="isAuthenticated()">
 		<div id="header-login">
-			<span><security:authentication property="principal.enterprise.name"/>,&nbsp;</span>
-			<a href="enterprise/user/<security:authentication property="principal.username"/>"><security:authentication property="principal.username"/></a>
-			|<a href="enterprise/user/settings"><spring:message code="application.settings" /></a>
-			|<a href="enterprise/logout"><spring:message code="application.logout" /></a>
+			<spring:message var="text_logout" code="application.logout"/>
+			<spring:message var="text_settings" code="application.settings"/>
+			<spring:message var="text_logout" code="application.logout"/>
+			<c:set var="text_username"><security:authentication property="principal.username"/></c:set>
+			<c:set var="text_enterprise_name"><security:authentication property="principal.enterprise.name"/></c:set>
+			<code:imagelink image="icon_home" text="${text_enterprise_name}" link="enterprise" border="false" width="180"/>
+			|<code:imagelink image="icon_user" text="${text_username}" link="enterprise/user/${text_username}" border="false"/>
+			|<code:imagelink image="icon_setting" text="${text_settings}" link="enterprise/user/settings" border="false"/>
+			|<code:imagelink image="icon_logout" text="${text_logout}" link="enterprise/logout" border="false"/>
 		</div>
 	</security:authorize>
 	<div id="header">
