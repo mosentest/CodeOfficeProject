@@ -26,12 +26,12 @@ public class ComponentDTO implements DataTransferObject<Component> {
 	public ComponentDTO() {}
 
 	@Override
-	public Component buildObject(DataTransferObject<Component> dto) {
+	public Component toObject(DataTransferObject<Component> dto) {
 		return null;
 	}
 
 	@Override
-	public DataTransferObject<Component> buildDTO(Component object) {
+	public DataTransferObject<Component> toDTO(Component object) {
 		return null;
 	}
 

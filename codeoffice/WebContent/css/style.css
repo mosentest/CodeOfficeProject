@@ -405,3 +405,15 @@ a:hover {
 	float: right;
 	font-size: 14px;
 }
+.action-link {
+	display: inline-block;
+	padding: 3px 6px;
+}
+.action-link span {
+	padding-left: 10px;
+	text-align: center;
+}
+.action-field {
+	width: 100%;
+	padding: 5px 10px 10px 10px;
+}

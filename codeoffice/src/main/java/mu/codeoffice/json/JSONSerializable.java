@@ -1,6 +1,5 @@
-package mu.codeoffice.entity;
+package mu.codeoffice.json;
 
-import mu.codeoffice.json.JSONObject;
 
 public interface JSONSerializable<T> {
 

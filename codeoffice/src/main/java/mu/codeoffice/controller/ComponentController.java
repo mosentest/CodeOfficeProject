@@ -48,10 +48,6 @@ public class ComponentController extends ProjectPermissionRequired {
 		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		Component component = componentService.getProjectComponent(projectCode, componentCode, auth);
 		Project project = projectService.getProjectInfo(projectCode, auth);
-		if (project == null) {
-			addErrorMessage(session, "Project not found.");
-			return new ModelAndView("redirect:/enterprise/category");
-		}
 		model.put("project", project);
 		loadUserGroups(auth, project.getId(), model);
 		model.put("component", component);
@@ -67,8 +63,6 @@ public class ComponentController extends ProjectPermissionRequired {
 			componentService.update(auth, componentCode, component, projectCode);
 			addNoticeMessage(session, "Component has been updated.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/m_" + component.getCode());
-		} catch (AuthenticationException e) {
-			throw e;
 		} catch (InformationException e) {
 			addErrorMessage(session, e.getMessage());
 			Project project = projectService.getProjectInfo(projectCode, auth);
@@ -87,10 +81,6 @@ public class ComponentController extends ProjectPermissionRequired {
 		model.put("component", new Component());
 		model.put("edit", false);
 		Project project = projectService.getProjectInfo(projectCode, auth);
-		if (project == null) {
-			addErrorMessage(session, "Project not found.");
-			return new ModelAndView("redirect:/enterprise/category");
-		}
 		model.put("project", project);
 		loadUserGroups(auth, project.getId(), model);
 		return new ModelAndView("enterprise/project/component_form", model);
@@ -104,8 +94,6 @@ public class ComponentController extends ProjectPermissionRequired {
 			componentService.create(auth, component, projectCode);
 			addNoticeMessage(session, "Component has been created.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
-		} catch (AuthenticationException e) {
-			throw e;
 		} catch (InformationException e) {
 			addErrorMessage(session, e.getMessage());
 			Project project = projectService.getProjectInfo(projectCode, auth);
@@ -124,8 +112,6 @@ public class ComponentController extends ProjectPermissionRequired {
 			componentService.delete(projectCode, componentCode, auth);
 			addNoticeMessage(session, "Component has been deleted");
 			return new ModelAndView("redirect:" + request.getHeader("Referer"));
-		} catch (AuthenticationException e) {
-			throw e;
 		} catch (InformationException e) {
 			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("redirect:" + request.getHeader("Referer"));
@@ -173,8 +159,6 @@ public class ComponentController extends ProjectPermissionRequired {
 			componentService.merge(auth, projectCode, componentCode, mergeComponent);
 			addNoticeMessage(session, "Components: '" + String.join("', '", mergeComponent.getComponentCode()) + "' has been merged.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
-		} catch (AuthenticationException e) {
-			throw e;
 		} catch (InformationException e) {
 			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");

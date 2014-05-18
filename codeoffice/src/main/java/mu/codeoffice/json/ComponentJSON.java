@@ -22,7 +22,12 @@ public class ComponentJSON implements JSONObject<Component> {
 	
 	@Override
 	public Component toObject(JSONObject<Component> json) {
-		return null;
+		Component component = new Component();
+		ComponentJSON jsonObject = (ComponentJSON) json;
+		component.setId(jsonObject.id);
+		component.setCode(jsonObject.code);
+		component.setDescription(jsonObject.description);
+		return component;
 	}
 
 	@Override

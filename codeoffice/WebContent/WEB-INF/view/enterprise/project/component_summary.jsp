@@ -60,15 +60,13 @@ function drawChart() {
 			</jsp:include>
 			<div class="maincontent">
 				<div class="subelement">
-					<div class="title imglink">
-						<span><spring:message code="component.info"/></span>
-						<c:if test="${VC_MANAGER_AUTH}">
-							<span class="minorspace"></span>
-							<a href="enterprise/pro_${project.code}/m_${component.code}/edit"><img src="img/icon_edit.png" title="${text_edit}"/></a>
-							<span class="minorspace"></span>
-							<a href="enterprise/pro_${project.code}/m_${component.code}/delete"><img src="img/icon_remove.png" title="${text_delete}"/></a>
-						</c:if>
-					</div>
+					<c:if test="${VC_MANAGER_AUTH}">
+						<div class="action-field ">
+							<code:imagelink image="icon_edit" text="${text_edit}" link="enterprise/pro_${project.code}/m_${component.code}/edit" width="80"/>
+							<code:imagelink image="icon_remove" text="${text_delete}" link="enterprise/pro_${project.code}/m_${component.code}/delete" width="80"/>
+						</div>
+					</c:if>
+					<div class="title"><spring:message code="component.info"/></div>
 					<div class="content" style="padding: 15px;">
 						<table class="info-table">
 							<tr>

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.json.ComponentJSON;
+import mu.codeoffice.json.JSONSerializable;
 
 @Entity
 @Table(name = "office_project_component", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "office_project_id"}))

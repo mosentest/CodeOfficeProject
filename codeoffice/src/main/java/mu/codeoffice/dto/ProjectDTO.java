@@ -5,12 +5,12 @@ import mu.codeoffice.entity.Project;
 public class ProjectDTO implements DataTransferObject<Project> {
 
 	@Override
-	public Project buildObject(DataTransferObject<Project> dto) {
+	public Project toObject(DataTransferObject<Project> dto) {
 		return null;
 	}
 
 	@Override
-	public DataTransferObject<Project> buildDTO(Project object) {
+	public DataTransferObject<Project> toDTO(Project object) {
 		return null;
 	}
 

@@ -72,10 +72,10 @@ public class Version implements Serializable {
 	@Column(name = "no_related")
 	private int noRelated;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "versions")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "versions")
 	private List<Case> relatedCases;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "releaseVersion")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "releaseVersion")
 	private List<Case> releaseCases;
 	
 	public Version() {}

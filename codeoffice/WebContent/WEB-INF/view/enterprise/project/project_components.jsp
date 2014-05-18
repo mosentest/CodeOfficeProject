@@ -40,6 +40,7 @@ function select_merge(id) {
 <spring:message var="text_edit" code="application.edit"/>
 <spring:message var="text_delete" code="application.delete"/>
 <spring:message var="text_merge" code="application.merge"/>
+<spring:message var="text_create" code="component.create_new_component"/>
 <security:authorize access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')">
 	<c:set var="VC_MANAGER_AUTH" value="true"/>
 </security:authorize>
@@ -52,16 +53,13 @@ function select_merge(id) {
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
+					<c:if test="${VC_MANAGER_AUTH}">
+						<div class="action-field ">
+							<code:imagelink image="icon_add" text="${text_create}" link="enterprise/pro_${project.code}/component/create"/>
+						</div>
+					</c:if>
 					<div class="title imglink"><img src="img/office/icon_components.png"/><span class="titlespan"><spring:message code="project.components"/></span></div>
 					<div class="content">
-						<c:if test="${VC_MANAGER_AUTH}">
-							<div class="sep-20"></div>
-							<a class="fw-b imglink" href="enterprise/pro_${project.code}/component/create">
-								<img src="img/icon_add.png"/>
-								<span><spring:message code="component.create_new_component"/></span>
-							</a>
-							<div class="sep-20"></div>
-						</c:if>
 						<c:if test="${fn:length(components) eq 0}"><code:info message="project.no_components"/></c:if>
 						<c:if test="${fn:length(components) gt 0}">
 						<form:form action="enterprise/pro_${project.code}/m_merge" modelAttribute="mergeComponent" method="POST">

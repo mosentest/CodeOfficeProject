@@ -4,10 +4,12 @@ import static mu.codeoffice.query.CaseSpecifications.all;
 import static mu.codeoffice.query.CaseSpecifications.pageSpecification;
 import static mu.codeoffice.query.CaseSpecifications.sort;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mu.codeoffice.common.InformationException;
 import mu.codeoffice.data.Summary;
 import mu.codeoffice.entity.Case;
 import mu.codeoffice.entity.Component;
@@ -18,16 +20,92 @@ import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseStatus;
 import mu.codeoffice.enums.CaseType;
+import mu.codeoffice.security.EnterpriseAuthentication;
+import mu.codeoffice.security.EnterpriseAuthenticationException;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class VersionService extends ProjectStatisticService {
+	
+	@Transactional
+	public void create(EnterpriseAuthentication auth, String projectCode, Version version) throws AuthenticationException, InformationException {
+		
+	}
+	
+	@Transactional
+	public void delete(EnterpriseAuthentication auth, String projectCode, String versionCode) throws AuthenticationException, InformationException {
+		Version version = versionRepository.getProjectVersion(auth.getEnterprise(), projectCode, versionCode);
+		if (version == null) {
+			throw new EnterpriseAuthenticationException("Access denied.");
+		}
+		if (version.getNoRelated() > 0 || version.getNoRelease() > 0) {
+			throw new InformationException("Version has related cases, can not delete.");
+		}
+		versionRepository.delete(version);
+	}
+	
+	@Transactional
+	public void edit(EnterpriseAuthentication auth, String projectCode, String versionCode, Version version) throws AuthenticationException, InformationException {
+		
+	}
 
-	public Version getProjectVersion(Project project, String version) {
-		return versionRepository.getProjectVersion(project, version);
+	@Transactional
+	public void start(EnterpriseAuthentication auth, String projectCode, String versionCode) throws AuthenticationException, InformationException {
+		Version version = versionRepository.getProjectVersion(auth.getEnterprise(), projectCode, versionCode);
+		if (version == null) {
+			throw new EnterpriseAuthenticationException("Access denied.");
+		}
+		if (version.isStarted()) {
+			throw new InformationException("Version '" + versionCode + "' has already started.");
+		}
+		version.setStarted(true);
+		version.setStart(new Date());
+		versionRepository.save(version);
+	}
+	
+	@Transactional
+	public void stop(EnterpriseAuthentication auth, String projectCode, String versionCode) throws AuthenticationException, InformationException {
+		Version version = versionRepository.getProjectVersion(auth.getEnterprise(), projectCode, versionCode);
+		if (version == null) {
+			throw new EnterpriseAuthenticationException("Access denied.");
+		}
+		if (!version.isStarted()) {
+			throw new InformationException("Can not proceed.");
+		}
+		version.setStarted(false);
+		version.setStart(null);
+		versionRepository.save(version);
+	}
+	
+	@Transactional
+	public void release(EnterpriseAuthentication auth, String projectCode, String versionCode) throws AuthenticationException, InformationException {
+		Version version = versionRepository.getProjectVersion(auth.getEnterprise(), projectCode, versionCode);
+		if (version == null) {
+			throw new EnterpriseAuthenticationException("Access denied.");
+		}
+		if (!version.isStarted()) {
+			throw new InformationException("Version '" + versionCode + "' is not started.");
+		}
+		if (version.isReleased()) {
+			throw new InformationException("Version '" + versionCode + "' has already been released.");
+		}
+		version.setReleased(true);
+		version.setRelease(new Date());
+		versionRepository.save(version);
+	}
+	
+	
+	@Transactional(readOnly = true)
+	public Version getProjectVersion(EnterpriseAuthentication auth, String projectCode, String versionCode) throws AuthenticationException {
+		Version version = versionRepository.getProjectVersion(auth.getEnterprise(), projectCode, versionCode);
+		if (version == null) {
+			throw new EnterpriseAuthenticationException("Permission denied.");
+		}
+		return version;
 	}
 	
 	@Transactional(readOnly = true)

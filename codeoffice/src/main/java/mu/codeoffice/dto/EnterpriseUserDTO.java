@@ -5,12 +5,12 @@ import mu.codeoffice.entity.EnterpriseUser;
 public class EnterpriseUserDTO implements DataTransferObject<EnterpriseUser> {
 
 	@Override
-	public EnterpriseUser buildObject(DataTransferObject<EnterpriseUser> dto) {
+	public EnterpriseUser toObject(DataTransferObject<EnterpriseUser> dto) {
 		return null;
 	}
 
 	@Override
-	public DataTransferObject<EnterpriseUser> buildDTO(EnterpriseUser object) {
+	public DataTransferObject<EnterpriseUser> toDTO(EnterpriseUser object) {
 		return null;
 	}
 

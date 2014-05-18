@@ -74,6 +74,7 @@ public class ProjectController extends ProjectPermissionRequired {
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("versions", projectService.getProjectVersions(project.getId()));
+		model.put("VC_MANAGER_AUTH", hasAuthority(auth, code, ProjectPermission.VERSION_COMPONENT_MANAGE));
 		return new ModelAndView("enterprise/project/project_versions", model);
 	}
 

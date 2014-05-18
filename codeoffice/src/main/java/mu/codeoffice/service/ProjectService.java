@@ -26,6 +26,7 @@ import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -95,7 +96,7 @@ public class ProjectService extends ProjectStatisticService {
 	
 	@Transactional(readOnly = true)
 	@Cacheable(value = "projectInfoCache", key = "#code + '_' + #auth.enterpriseUser.id")
-	public Project getProjectInfo(String code, EnterpriseAuthentication auth) throws EnterpriseAuthenticationException {
+	public Project getProjectInfo(String code, EnterpriseAuthentication auth) throws AuthenticationException {
 		Project project = null;
 		if (auth.hasProjectAuthority()) {
 			project = projectRepository.getProject(code, auth.getEnterprise());

@@ -5,9 +5,14 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
+<spring:message var="text_create" code="version.create_new_version"/>
+<security:authorize access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')">
+	<c:set var="VC_MANAGER_AUTH" value="true"/>
+</security:authorize>
 <link rel="stylesheet" type="text/css" href="css/project.css">
 <div id="content">
 	<div class="element">
@@ -18,6 +23,11 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
+					<c:if test="${VC_MANAGER_AUTH}">
+						<div class="action-field ">
+							<code:imagelink image="icon_add" text="${text_create}" link="enterprise/pro_${project.code}/version/create"/>
+						</div>
+					</c:if>
 					<div class="title imglink"><img src="img/office/icon_versions.png"/><span class="titlespan"><spring:message code="project.versions"/></span></div>
 					<div class="content">
 						<c:if test="${fn:length(versions) eq 0}"><code:info message="project.no_versions"/></c:if>
@@ -33,6 +43,7 @@
 								<th><spring:message code="version.related_count"/></th>
 								<th><spring:message code="version.started"/></th>
 								<th><spring:message code="version.description"/></th>
+								<c:if test="${VC_MANAGER_AUTH}"><th></th><th></th></c:if>
 							</tr>
 							<c:forEach items="${versions}" var="version">
 							<tr>
@@ -53,6 +64,10 @@
 								<td>${version.noRelated}</td>
 								<td><code:checkmark value="${version.started}" checkmarkOnly="false"/></td>
 								<td>${version.description}</td>
+								<c:if test="${VC_MANAGER_AUTH}">
+								<td class="center"><a class="image-link" href="enterprise/pro_${project.code}/v_${version.code}/edit"><img src="img/icon_edit.png" title="${text_edit}"/></a></td>
+								<td class="center"><a class="image-link" href="enterprise/pro_${project.code}/v_${version.code}/delete"><img src="img/icon_remove.png" title="${text_delete}"/></a></td>
+								</c:if>
 							</tr>
 							</c:forEach>
 						</table>

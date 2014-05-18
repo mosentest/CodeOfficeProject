@@ -5,6 +5,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -40,6 +41,14 @@ function drawChart() {
 }
 </script>
 </c:if>
+<security:authorize access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')">
+	<c:set var="VC_MANAGER_AUTH" value="true"/>
+</security:authorize>
+<spring:message var="text_edit" code="application.edit"/>
+<spring:message var="text_delete" code="application.delete"/>
+<spring:message var="text_start" code="version.start"/>
+<spring:message var="text_stop" code="version.stop"/>
+<spring:message var="text_release" code="version.release"/>
 <div id="content">
 	<div class="element">
 		<div class="info"><jsp:include page="/WEB-INF/view/enterprise/project/project_header.jsp"/></div>
@@ -49,6 +58,21 @@ function drawChart() {
 			</jsp:include>
 			<div class="maincontent">
 				<div class="subelement">
+					<c:if test="${VC_MANAGER_AUTH}">
+						<div class="action-field ">
+							<c:if test="${not version.started}">
+								<code:imagelink image="icon_start" text="${text_start}" link="enterprise/pro_${project.code}/v_${version.code}/start" width="80"/>
+							</c:if>
+							<c:if test="${version.started and not version.released}">
+								<code:imagelink image="icon_stop" text="${text_stop}" link="enterprise/pro_${project.code}/v_${version.code}/stop" width="80"/>
+							</c:if>
+							<c:if test="${started and not version.released}">
+								<code:imagelink image="icon_release" text="${text_release}" link="enterprise/pro_${project.code}/v_${version.code}/release" width="80"/>
+							</c:if>
+							<code:imagelink image="icon_edit" text="${text_edit}" link="enterprise/pro_${project.code}/v_${version.code}/edit" width="80"/>
+							<code:imagelink image="icon_remove" text="${text_delete}" link="enterprise/pro_${project.code}/v_${version.code}/delete" width="80"/>
+						</div>
+					</c:if>
 					<div class="title"><spring:message code="version.info"/></div>
 					<div class="content" style="padding: 15px;">
 						<table class="info-table">
