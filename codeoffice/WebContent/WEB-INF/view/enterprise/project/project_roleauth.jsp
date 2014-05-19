@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/enterprise/header.jsp">
 	<jsp:param name="navigation" value="project"/>
 </jsp:include>
@@ -17,27 +18,26 @@
 			</jsp:include>
 			<div class="maincontent">
 				<div class="mainelement">
-					<div class="title imglink"><img src="img/office/icon_rolegroups.png"/><span class="titlespan"><spring:message code="project.rolegroup"/></span></div>
+					<div class="title imglink"><img src="img/icon_authority.png"/><span class="titlespan"><spring:message code="project.rolegroup_authtable"/></span></div>
 					<div class="content">
-					<c:if test="${fn:length(roleGroups) eq 0}"><spring:message code="project.no_rolegroups"/></c:if>
-					<c:if test="${fn:length(roleGroups) gt 0}">
-					<div class="sep-3p"><a href="enterprise/pro_${project.code}/roleauth"><spring:message code="project.see_role_group_auth_table"/></a></div>
+					<c:if test="${fn:length(roles) eq 0}"><spring:message code="project.no_rolegroups"/></c:if>
+					<c:if test="${fn:length(roles) gt 0}">
+					<c:set var="permissionLength" value="${fn:length(permissions)}"/>
 					<table class="default-table left-header">
 						<tr>
-							<th class="role"><spring:message code="rolegroup.role"/></th>
-							<th class="role"><spring:message code="rolegroup.role_description"/></th>
-							<th class="users"><spring:message code="rolegroup.users"/></th>
+							<th><spring:message code="rolegroup.role"/></th>
+							<th><spring:message code="rolegroup.role_description"/></th>
+							<c:forEach var="index" 	begin="1" end="${permissionLength}" step="1">
+							<th><spring:message code="${permissions[permissionLength - index].code}"/></th>
+							</c:forEach>
 						</tr>
-						<c:forEach items="${roleGroups}" var="roleGroup">
+						<c:forEach items="${roles}" var="role">
 						<tr class="border-bottom">
-							<td class="role">${roleGroup.role.name}</td>
-							<td class="role">${roleGroup.role.description}</td>
-							<td class="users">
-								<c:forEach items="${roleGroup.users}" var="user">
-									<span class="rolegroup-user"><code:user user="${user}" width="30" height="30"/></span>
-									<span class="minorspace"></span><span class="minorspace"></span>
-								</c:forEach>
-							</td>
+							<td>${role.name}</td>
+							<td>${role.description}</td>
+							<c:forEach var="index" 	begin="1" end="${permissionLength}" step="1">
+							<td><code:checkmark value="${codefunction:bitwiseAnd(permissions[permissionLength - index].value, role.value) gt 0}"/></td>
+							</c:forEach>
 						</tr>
 						</c:forEach>
 					</table>

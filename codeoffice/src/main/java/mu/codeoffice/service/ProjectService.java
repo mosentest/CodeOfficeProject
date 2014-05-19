@@ -90,8 +90,13 @@ public class ProjectService extends ProjectStatisticService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<RoleGroup> getProjectRoleGroups(Long project) {
-		return roleGroupRepository.getProjectRoleGroups(project);
+	public List<RoleGroup> getProjectRoleGroups(EnterpriseAuthentication auth, String project) {
+		return roleGroupRepository.getProjectRoleGroups(auth.getEnterprise(), project);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<ProjectRole> getProjectRoles(EnterpriseAuthentication auth, String project) {
+		return roleGroupRepository.getProjectRoles(auth.getEnterprise(), project);
 	}
 	
 	@Transactional(readOnly = true)

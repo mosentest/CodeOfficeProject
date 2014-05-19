@@ -133,9 +133,8 @@ public class ProjectController extends ProjectPermissionRequired {
 	public ModelAndView rolegroup(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
 		authorize(auth, code, ProjectPermission.PROJECT);
-		Project project = projectService.getProjectInfo(code, auth);
-		model.put("project", project);
-		model.put("roleGroups", projectService.getProjectRoleGroups(project.getId()));
+		model.put("project", projectService.getProjectInfo(code, auth));
+		model.put("roleGroups", projectService.getProjectRoleGroups(auth, code));
 		return new ModelAndView("enterprise/project/project_rolegroup", model);
 	}
 
