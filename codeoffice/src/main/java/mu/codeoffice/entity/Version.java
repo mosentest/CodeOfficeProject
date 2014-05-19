@@ -48,9 +48,17 @@ public class Version implements Serializable {
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date start;
 
+	@Column(name = "estimated_start_date")
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date estimatedStart;
+
 	@Column(name = "update_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date update;
+
+	@Column(name = "estimated_release_date")
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date estimatedRelease;
 
 	@Column(name = "release_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -198,6 +206,22 @@ public class Version implements Serializable {
 
 	public void setNoRelated(int noRelated) {
 		this.noRelated = noRelated;
+	}
+
+	public Date getEstimatedRelease() {
+		return estimatedRelease;
+	}
+
+	public void setEstimatedRelease(Date estimatedRelease) {
+		this.estimatedRelease = estimatedRelease;
+	}
+
+	public Date getEstimatedStart() {
+		return estimatedStart;
+	}
+
+	public void setEstimatedStart(Date estimatedStart) {
+		this.estimatedStart = estimatedStart;
 	}
 	
 }

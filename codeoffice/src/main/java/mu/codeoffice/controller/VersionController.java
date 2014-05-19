@@ -3,6 +3,8 @@ package mu.codeoffice.controller;
 import static mu.codeoffice.utility.MessageUtil.addErrorMessage;
 import static mu.codeoffice.utility.MessageUtil.addNoticeMessage;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import mu.codeoffice.common.InformationException;
@@ -11,12 +13,15 @@ import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.VersionService;
+import mu.codeoffice.utility.DateEditor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -222,6 +227,11 @@ public class VersionController extends ProjectPermissionRequired {
 		model.put("relatedCase", versionService.getRelatedCase(project.getId(), version.getId(), 0, LIST_ITEMS, true, "code"));
 		model.put("releaseCase", versionService.getReleaseCase(project.getId(), version.getId(), 0, LIST_ITEMS, true, "code"));
 		return new ModelAndView("enterprise/project/version_cases");
+	}
+	
+	@InitBinder
+	public void binder(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new DateEditor());
 	}
 	
 }

@@ -86,7 +86,7 @@
 								<td><form:textarea path="description" cols="30" rows="6"/></td>
 							</tr>
 							<tr>
-								<td colspan="2"><input id="mergebutton" class="button largebutton" type="submit" value="${edit ? text_update : text_create}"/></td>
+								<td colspan="2"><input class="button largebutton" type="submit" value="${edit ? text_update : text_create}"/></td>
 							</tr>
 						</table>
 						</form:form>

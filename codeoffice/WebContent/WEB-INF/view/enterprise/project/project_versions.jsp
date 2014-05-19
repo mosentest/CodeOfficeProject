@@ -37,7 +37,9 @@
 								<th></th>
 								<th><spring:message code="version.released"/></th>
 								<th><spring:message code="version.code"/></th>
+								<th><spring:message code="version.estimated_start_date"/></th>
 								<th><spring:message code="version.start_date"/></th>
+								<th><spring:message code="version.estimated_release_date"/></th>
 								<th><spring:message code="version.release_date"/></th>
 								<th><spring:message code="version.release_count"/></th>
 								<th><spring:message code="version.related_count"/></th>
@@ -53,11 +55,13 @@
 								</td>
 								<td><code:checkmark value="${version.released}" checkmarkOnly="false"/></td>
 								<td><a href="enterprise/pro_${project.code}/v_${version.code}">${version.code}</a></td>
-								<td><fmt:formatDate value="${version.start}" pattern="yy-MM-dd HH:mm:ss"/></td>
+								<td><fmt:formatDate value="${version.estimatedStart}" pattern="yyyy-MM-dd"/></td>
+								<td><fmt:formatDate value="${version.start}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+								<td><fmt:formatDate value="${version.estimatedRelease}" pattern="yyyy-MM-dd"/></td>
 								<td>
 									<c:if test="${empty version.delay}"><code:date date="${version.release}"/></c:if>
 									<c:if test="${not empty version.delay}">
-										<span class="delayed-version"><spring:message code="version.delayed_to"/>:&nbsp;<fmt:formatDate value="${version.release}" pattern="yy-MM-dd"/></span>
+										<span class="delayed-version"><spring:message code="version.delayed_to"/>:&nbsp;<fmt:formatDate value="${version.release}" pattern="yyyy-MM-dd"/></span>
 									</c:if>
 								</td>
 								<td>${version.noRelease}</td>

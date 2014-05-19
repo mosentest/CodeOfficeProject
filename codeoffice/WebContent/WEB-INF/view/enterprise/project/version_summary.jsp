@@ -61,16 +61,14 @@ function drawChart() {
 					<c:if test="${VC_MANAGER_AUTH}">
 						<div class="action-field ">
 							<c:if test="${not version.started}">
-								<code:imagelink image="icon_start" text="${text_start}" link="enterprise/pro_${project.code}/v_${version.code}/start" width="80"/>
+								<code:imagelink image="icon_start" text="${text_start}" link="enterprise/pro_${project.code}/v_${version.code}/start" width="90"/>
 							</c:if>
 							<c:if test="${version.started and not version.released}">
-								<code:imagelink image="icon_stop" text="${text_stop}" link="enterprise/pro_${project.code}/v_${version.code}/stop" width="80"/>
+								<code:imagelink image="icon_stop" text="${text_stop}" link="enterprise/pro_${project.code}/v_${version.code}/stop" width="90"/>
+								<code:imagelink image="icon_release" text="${text_release}" link="enterprise/pro_${project.code}/v_${version.code}/release" width="90"/>
 							</c:if>
-							<c:if test="${started and not version.released}">
-								<code:imagelink image="icon_release" text="${text_release}" link="enterprise/pro_${project.code}/v_${version.code}/release" width="80"/>
-							</c:if>
-							<code:imagelink image="icon_edit" text="${text_edit}" link="enterprise/pro_${project.code}/v_${version.code}/edit" width="80"/>
-							<code:imagelink image="icon_remove" text="${text_delete}" link="enterprise/pro_${project.code}/v_${version.code}/delete" width="80"/>
+							<code:imagelink image="icon_edit" text="${text_edit}" link="enterprise/pro_${project.code}/v_${version.code}/edit" width="90"/>
+							<code:imagelink image="icon_remove" text="${text_delete}" link="enterprise/pro_${project.code}/v_${version.code}/delete" width="90"/>
 						</div>
 					</c:if>
 					<div class="title"><spring:message code="version.info"/></div>
@@ -87,6 +85,12 @@ function drawChart() {
 								<td class="info-value"><code:checkmark value="${version.started}"/></td>
 								<td class="info-title"><spring:message code="version.released"/></td>
 								<td class="info-value"><code:checkmark value="${version.released}"/></td>
+							</tr>
+							<tr>
+								<td class="info-title"><spring:message code="version.estimated_start_date"/></td>
+								<td class="info-value"><fmt:formatDate value="${version.estimatedStart}" pattern="yy-MM-dd"/></td>
+								<td class="info-title"><spring:message code="version.estimated_release_date"/></td>
+								<td class="info-value"><fmt:formatDate value="${version.estimatedRelease}" pattern="yy-MM-dd"/></td>
 							</tr>
 							<tr>
 								<td class="info-title"><spring:message code="version.start_date"/></td>

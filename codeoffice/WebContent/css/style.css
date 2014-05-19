@@ -24,6 +24,10 @@ select {
 input[type=text], input[type=password], textArea, select {
 	font-size: 16px;
 }
+/* jquery ui style fix*/
+.ui-datepicker-trigger:hover {
+	cursor: pointer;
+}
 .post-form {
 	display: none;
 }
@@ -416,5 +420,8 @@ a:hover {
 }
 .action-field {
 	width: 100%;
-	padding: 5px 10px 10px 10px;
+	padding: 5px  class="imglink"10px 10px 10px;
+}
+.datepicker {
+	margin-right: 10px;
 }
