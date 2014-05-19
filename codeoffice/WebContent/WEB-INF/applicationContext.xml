@@ -9,6 +9,7 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"  
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
 			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 			http://www.springframework.org/schema/context  
@@ -24,7 +25,9 @@
 			http://www.springframework.org/schema/security 
 			http://www.springframework.org/schema/security/spring-security-3.2.xsd
 			http://www.springframework.org/schema/cache 
-			http://www.springframework.org/schema/cache/spring-cache.xsd">
+			http://www.springframework.org/schema/cache/spring-cache.xsd
+			http://www.springframework.org/schema/websocket
+			http://www.springframework.org/schema/websocket/spring-websocket-4.0.xsd">
 			
 	<context:annotation-config />  
 	<context:component-scan base-package="mu.codeoffice.**" />
@@ -135,6 +138,7 @@
 		<security:intercept-url pattern="/enterprise/login" access="permitAll"/>
 		<security:intercept-url pattern="/enterprise/logout" access="permitAll"/>
 		<security:intercept-url pattern="/enterprise/accessdenied" access="permitAll"/>
+		<security:intercept-url pattern="/enterprise/messaging" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/enterprise/project/create" access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/enterprise/category/create" access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/enterprise/category/**/" access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')"/>
@@ -188,4 +192,18 @@
 	</bean>
 	
 	<!-- Spring cache end -->
+	
+	<!-- web socket messaging -->
+	<websocket:handlers>
+        <websocket:mapping path="/enterprise/messaging" handler="webSocketHandler"/>
+        <websocket:sockjs/>
+    </websocket:handlers>
+    <bean id="webSocketHandler" class="org.springframework.web.socket.handler.PerConnectionWebSocketHandler">
+    	<constructor-arg type="java.lang.Class" value="mu.codeoffice.messaging.MessageWebSocketHandler"/>
+    </bean>
+	<bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+		<property name="maxTextMessageBufferSize" value="8192"/>
+  		<property name="maxBinaryMessageBufferSize" value="8192"/>
+	</bean>
+	<!--  -->
 </beans>

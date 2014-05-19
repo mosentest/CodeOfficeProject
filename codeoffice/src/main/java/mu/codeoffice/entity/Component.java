@@ -83,8 +83,8 @@ public class Component implements Serializable, JSONSerializable<Component> {
 		if (!(o instanceof Component)) {
 			return false;
 		}
-		Component c = (Component) o;
-		return c.id != null && this.id != null && c.id.equals(this.id);
+		Component e = (Component) o;
+		return e.id != null && this.id != null && e.id.equals(this.id);
 	}
 
 	public Long getId() {

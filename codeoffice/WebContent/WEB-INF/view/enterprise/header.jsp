@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <%
@@ -18,6 +18,11 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.10.3.custom.css">
+<security:authorize access="isAuthenticated()">
+<script src="js/stomp.min.js"></script>
+<script src="js/sockjs-0.3.js"></script>
+<script src="js/messaging.js"></script>
+</security:authorize>
 <script src="js/jquery-2.0.3.js"></script>
 <script src="js/ch.js"></script>
 <script src="js/jquery-ui-1.10.3.custom.js"></script>
@@ -49,6 +54,7 @@
 			$('.horizontal-tab li').removeClass('active');
 			$(this).addClass('active');
 		});
+		startClient();
 	});
 </script>
 </head>

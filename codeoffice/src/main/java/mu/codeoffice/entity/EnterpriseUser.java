@@ -80,6 +80,16 @@ public class EnterpriseUser implements Serializable {
 	private List<Case> watching;
     
     public EnterpriseUser() {}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof EnterpriseUser)) {
+			return false;
+		}
+		EnterpriseUser e = (EnterpriseUser) o;
+		return e.id != null && this.id != null && e.id.equals(this.id);
+	}
+
     
     public String getNameLink() {
     	return lastName + "_" + firstName;

@@ -49,7 +49,7 @@ public class Message implements Serializable {
 	@Column(name = "replied")
 	private boolean replied;
 
-	@Column(name = "read")
+	@Column(name = "_read")
 	private boolean read;
 
 	@Column(name = "sender_removed")

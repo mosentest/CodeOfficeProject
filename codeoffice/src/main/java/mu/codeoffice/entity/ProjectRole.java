@@ -35,6 +35,15 @@ public class ProjectRole implements Serializable {
 	private int value;
 	
 	public ProjectRole() {}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof ProjectRole)) {
+			return false;
+		}
+		ProjectRole e = (ProjectRole) o;
+		return e.id != null && id != null && e.id.equals(id);
+	}
 
 	public Long getId() {
 		return id;

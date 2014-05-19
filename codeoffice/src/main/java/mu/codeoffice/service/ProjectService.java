@@ -109,7 +109,7 @@ public class ProjectService extends ProjectStatisticService {
 			project = projectRepository.getProject(code, auth.getEnterprise(), auth.getEnterpriseUser());
 		}
 		if (project == null) {
-			throw new EnterpriseAuthenticationException("You have no access to this project.");
+			throw new EnterpriseAuthenticationException("You have no permission to project.");
 		}
 		project.getCategory().getId();
 		return project;
