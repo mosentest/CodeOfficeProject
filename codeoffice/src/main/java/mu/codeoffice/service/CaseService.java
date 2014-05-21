@@ -15,7 +15,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mu.codeoffice.data.AssigneeData;
-import mu.codeoffice.entity.Case;
+import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseStatus;
@@ -55,32 +55,32 @@ public class CaseService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<Case> getProjectCaseStream(EnterpriseAuthentication auth, Long project, int pageIndex,  int size) {
-		Page<Case> page = caseRepository.findAll(unresolved(null, project, null, null, null, null, null, null, null, null, null), 
-				pageSpecification(pageIndex, size, sort(false, Case.getSortColumn("code"))));
+	public Page<Issue> getProjectCaseStream(EnterpriseAuthentication auth, Long project, int pageIndex,  int size) {
+		Page<Issue> page = caseRepository.findAll(unresolved(null, project, null, null, null, null, null, null, null, null, null), 
+				pageSpecification(pageIndex, size, sort(false, Issue.getSortColumn("code"))));
 		return page;
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Case> getCaseInProgress(EnterpriseAuthentication auth, Long project, int pageIndex, int size) {
-		Page<Case> page = caseRepository.findAll(inProgress(project, auth.getEnterpriseUser().getId(), null), 
-				pageSpecification(pageIndex, size, sort(false, Case.getSortColumn("id"))));
+	public Page<Issue> getCaseInProgress(EnterpriseAuthentication auth, Long project, int pageIndex, int size) {
+		Page<Issue> page = caseRepository.findAll(inProgress(project, auth.getEnterpriseUser().getId(), null), 
+				pageSpecification(pageIndex, size, sort(false, Issue.getSortColumn("id"))));
 		return page;
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Case> getAssignedCase(EnterpriseAuthentication auth, Long project, int pageIndex, int size) {
-		Page<Case> page = caseRepository.findAll(assigned(project, auth.getEnterpriseUser().getId(), null), 
-				pageSpecification(pageIndex, size, sort(false, Case.getSortColumn("id"))));
+	public Page<Issue> getAssignedCase(EnterpriseAuthentication auth, Long project, int pageIndex, int size) {
+		Page<Issue> page = caseRepository.findAll(assigned(project, auth.getEnterpriseUser().getId(), null), 
+				pageSpecification(pageIndex, size, sort(false, Issue.getSortColumn("id"))));
 		return page;
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<Case> getCasePage(EnterpriseAuthentication auth, Long project, Long version, Long releaseVersion, Long component, Long label, 
+	public Page<Issue> getCasePage(EnterpriseAuthentication auth, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority,
 			int pageIndex, int size, String column, boolean ascending) {
-		Page<Case> page = caseRepository.findAll(all(null, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority), 
-				pageSpecification(pageIndex, size, sort(ascending, Case.getSortColumn(column))));
+		Page<Issue> page = caseRepository.findAll(all(null, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority), 
+				pageSpecification(pageIndex, size, sort(ascending, Issue.getSortColumn(column))));
 		return page;
 	}
 	

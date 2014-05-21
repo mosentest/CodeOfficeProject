@@ -98,7 +98,7 @@ public class Project implements Serializable {
 	private List<Label> labels;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
-	private List<Case> cases;
+	private List<Issue> cases;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectObject")
 	private List<ProjectHistory> histories;
@@ -175,11 +175,11 @@ public class Project implements Serializable {
 		this.end = end;
 	}
 
-	public List<Case> getCases() {
+	public List<Issue> getCases() {
 		return cases;
 	}
 
-	public void setCases(List<Case> cases) {
+	public void setCases(List<Issue> cases) {
 		this.cases = cases;
 	}
 

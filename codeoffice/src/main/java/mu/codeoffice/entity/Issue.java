@@ -30,16 +30,16 @@ import mu.codeoffice.enums.CaseStatus;
 import mu.codeoffice.enums.CaseType;
 
 @Entity
-@Table(name = "office_case", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
-public class Case implements Serializable {
+@Table(name = "issue", uniqueConstraints = @UniqueConstraint(columnNames = {"key", "enterprise_id"}))
+public class Issue implements Serializable {
 
 	private static final long serialVersionUID = 410952237049468161L;
 	
 	private static final String[] SORTABLE_COLUMNS =  {
-		"code", "summary", "create", "update", "close", "project"
+		"key", "summary", "create", "update", "close", "project"
 	};
 	
-	private static final String DEFAULT_COLUMN = "code";
+	private static final String DEFAULT_COLUMN = "key";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,8 +49,8 @@ public class Case implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 	
-	@Column(name = "code")
-	private String code;
+	@Column(name = "key")
+	private String key;
 
 	@Column(name = "summary")
 	private String summary;
@@ -146,7 +146,7 @@ public class Case implements Serializable {
 	private List<CaseHistory> histories;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "caseObject")
-	private List<CaseLink> caseLinks;
+	private List<IssueLink> caseLinks;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "caseObject")
 	@OrderBy("create DESC")
@@ -168,7 +168,7 @@ public class Case implements Serializable {
 	@OrderBy("label ASC")
 	private List<Label> labels;
 	
-	public Case() {}
+	public Issue() {}
 	
 	public static String getSortColumn(String column) {
 		for (String c : SORTABLE_COLUMNS) {
@@ -180,7 +180,7 @@ public class Case implements Serializable {
 	}
 	
 	public String getCaseHeader() {
-		return String.format("[%s] - %s", code, summary);
+		return String.format("[%s] - %s", key, summary);
 	}
 
 	public Long getId() {
@@ -191,12 +191,12 @@ public class Case implements Serializable {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public String getKey() {
+		return key;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	public String getSummary() {
@@ -407,11 +407,11 @@ public class Case implements Serializable {
 		this.releaseVersion = releaseVersion;
 	}
 
-	public List<CaseLink> getCaseLinks() {
+	public List<IssueLink> getCaseLinks() {
 		return caseLinks;
 	}
 
-	public void setCaseLinks(List<CaseLink> caseLinks) {
+	public void setCaseLinks(List<IssueLink> caseLinks) {
 		this.caseLinks = caseLinks;
 	}
 

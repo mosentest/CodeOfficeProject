@@ -51,7 +51,7 @@ public class Project_ {
 
 	public static volatile ListAttribute<Project, Label> labels;
 	
-	public static volatile ListAttribute<Project, Case> cases;
+	public static volatile ListAttribute<Project, Issue> cases;
 	
 	public static volatile ListAttribute<Project, ProjectHistory> histories;
 

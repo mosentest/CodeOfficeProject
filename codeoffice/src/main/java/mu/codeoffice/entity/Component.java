@@ -61,7 +61,7 @@ public class Component implements Serializable, JSONSerializable<Component> {
 	private EnterpriseUser defaultAssignee;
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "components")
-	private List<Case> cases;
+	private List<Issue> cases;
 	
 	public Component() {}
 
@@ -143,11 +143,11 @@ public class Component implements Serializable, JSONSerializable<Component> {
 		this.defaultAssignee = defaultAssignee;
 	}
 
-	public List<Case> getCases() {
+	public List<Issue> getCases() {
 		return cases;
 	}
 
-	public void setCases(List<Case> cases) {
+	public void setCases(List<Issue> cases) {
 		this.cases = cases;
 	}
 	

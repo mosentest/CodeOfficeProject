@@ -80,10 +80,10 @@ public class EnterpriseUser implements Serializable {
     private int projectPermissionValue;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
-	private List<EnterpriseGlobalPermission> globalPermissions;
+	private List<GlobalPermission> globalPermissions;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
-	private List<EnterpriseGlobalPermission> projectPermissions;
+	private List<GlobalPermission> projectPermissions;
 
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "usergroup_user", 
@@ -95,7 +95,7 @@ public class EnterpriseUser implements Serializable {
 	@JoinTable(name = "office_watcher_case", 
  			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
  			inverseJoinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"))
-	private List<Case> watching;
+	private List<Issue> watching;
     
     public EnterpriseUser() {}
     
@@ -234,11 +234,11 @@ public class EnterpriseUser implements Serializable {
 		this.profilePath = profilePath;
 	}
 
-	public List<Case> getWatching() {
+	public List<Issue> getWatching() {
 		return watching;
 	}
 
-	public void setWatching(List<Case> watching) {
+	public void setWatching(List<Issue> watching) {
 		this.watching = watching;
 	}
 
@@ -250,11 +250,11 @@ public class EnterpriseUser implements Serializable {
 		this.projectPermissionValue = projectPermissionValue;
 	}
 
-	public List<EnterpriseGlobalPermission> getProjectPermissions() {
+	public List<GlobalPermission> getProjectPermissions() {
 		return projectPermissions;
 	}
 
-	public void setProjectPermissions(List<EnterpriseGlobalPermission> projectPermissions) {
+	public void setProjectPermissions(List<GlobalPermission> projectPermissions) {
 		this.projectPermissions = projectPermissions;
 	}
 	

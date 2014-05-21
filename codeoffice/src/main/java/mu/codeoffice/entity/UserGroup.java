@@ -35,10 +35,10 @@ public class UserGroup implements Serializable {
 	private String description;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
-	private List<EnterpriseGlobalPermission> globalPermissions;
+	private List<GlobalPermission> globalPermissions;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
-	private List<EnterpriseGlobalPermission> projectPermissions;
+	private List<GlobalPermission> projectPermissions;
 
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "userGroups")
 	private List<EnterpriseUser> users;
@@ -85,11 +85,11 @@ public class UserGroup implements Serializable {
 		this.users = users;
 	}
 
-	public List<EnterpriseGlobalPermission> getProjectPermissions() {
+	public List<GlobalPermission> getProjectPermissions() {
 		return projectPermissions;
 	}
 
-	public void setProjectPermissions(List<EnterpriseGlobalPermission> projectPermissions) {
+	public void setProjectPermissions(List<GlobalPermission> projectPermissions) {
 		this.projectPermissions = projectPermissions;
 	}
 	

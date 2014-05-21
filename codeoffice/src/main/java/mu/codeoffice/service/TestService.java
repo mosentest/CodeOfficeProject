@@ -10,7 +10,7 @@ import java.util.Random;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
-import mu.codeoffice.entity.Case;
+import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.EnterpriseUser;
@@ -134,8 +134,8 @@ public class TestService {
 			project.getLabels().add(l5);
 			project.getLabels().add(l6);
 			projectRepository.save(project);
-			List<Case> cases = caseRepository.getCases(project.getId());
-			for (Case c : cases) {
+			List<Issue> cases = caseRepository.getCases(project.getId());
+			for (Issue c : cases) {
 				c.setLabels(new ArrayList<>());
 				if (random.nextInt(6) == 0) {
 					c.getLabels().add(l1);
@@ -199,8 +199,8 @@ public class TestService {
 			version.setRelatedCases(new ArrayList<>());
 			versionRepository.save(version);
 		}
-		List<Case> cases = caseRepository.findAll();
-		for (Case c : cases) {
+		List<Issue> cases = caseRepository.findAll();
+		for (Issue c : cases) {
 			c.setVersions(new ArrayList<>());
 			c.setReleaseVersion(null);
 			caseRepository.save(c);
@@ -297,7 +297,7 @@ public class TestService {
 		List<EnterpriseUser> user = enterpriseUserRepository.findAll();
 		Random random = new Random();
 		for (Project project : projects) {
-			List<Case> cases = new ArrayList<>();
+			List<Issue> cases = new ArrayList<>();
 			int noCase = 20 + random.nextInt(30);
 			for (int i = 0; i < noCase; i++) {
 				project.getRoleGroups().size();
@@ -306,7 +306,7 @@ public class TestService {
 				project.getVersions().forEach(version -> version.getRelatedCases().size());
 				project.getVersions().forEach(version -> version.getReleaseCases().size());
 				project.getComponents().size();
-				Case c = new Case();
+				Issue c = new Issue();
 				c.setProject(project);
 				c.setEnterprise(enterprise);
 				c.setSummary("Case summary " + i + " for project" + project.getCode());
@@ -331,9 +331,9 @@ public class TestService {
 					roleGroupRepository.save(roleGroup);
 				}
 				if (i < 10) {
-					c.setCode(project.getCode() + "-" + "0000" + i);
+					c.setKey(project.getCode() + "-" + "0000" + i);
 				} else {
-					c.setCode(project.getCode() + "-" + "000" + i);
+					c.setKey(project.getCode() + "-" + "000" + i);
 				}
 				
 				CaseStatus status = CaseStatus.values()[random.nextInt(CaseStatus.values().length)];	

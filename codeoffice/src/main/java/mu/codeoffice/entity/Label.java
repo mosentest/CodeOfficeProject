@@ -41,7 +41,7 @@ public class Label implements Serializable {
 	private int count;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "labels")
-	private List<Case> cases;
+	private List<Issue> cases;
 	
 	public Label() {}
 
@@ -77,11 +77,11 @@ public class Label implements Serializable {
 		this.count = count;
 	}
 
-	public List<Case> getCases() {
+	public List<Issue> getCases() {
 		return cases;
 	}
 
-	public void setCases(List<Case> cases) {
+	public void setCases(List<Issue> cases) {
 		this.cases = cases;
 	}
 

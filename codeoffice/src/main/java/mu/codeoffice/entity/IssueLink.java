@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,11 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import mu.codeoffice.enums.LinkType;
-
 @Entity
-@Table(name = "office_case_link")
-public class CaseLink implements Serializable {
+@Table(name = "issue_link")
+public class IssueLink implements Serializable {
 
 	private static final long serialVersionUID = -6567864973408779465L;
 
@@ -35,11 +31,10 @@ public class CaseLink implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "case_id")
-	private Case caseObject;
+	private Issue caseObject;
 
 	@Column(length = 3)
-	@Enumerated(EnumType.STRING)
-	private LinkType type;
+	private IssueLinkType linkType;
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -47,9 +42,9 @@ public class CaseLink implements Serializable {
 			joinColumns = { @JoinColumn(name="holder_id", referencedColumnName="id") },
 			inverseJoinColumns = { @JoinColumn(name="case_id", referencedColumnName="id")
 	})
-	private List<Case> cases;
+	private List<Issue> cases;
 	
-	public CaseLink() {}
+	public IssueLink() {}
 
 	public Long getId() {
 		return id;
@@ -59,27 +54,27 @@ public class CaseLink implements Serializable {
 		this.id = id;
 	}
 
-	public Case getCaseObject() {
+	public Issue getCaseObject() {
 		return caseObject;
 	}
 
-	public void setCaseObject(Case caseObject) {
+	public void setCaseObject(Issue caseObject) {
 		this.caseObject = caseObject;
 	}
 
-	public LinkType getType() {
-		return type;
+	public IssueLinkType getLinkType() {
+		return linkType;
 	}
 
-	public void setType(LinkType type) {
-		this.type = type;
+	public void setLinkType(IssueLinkType linkType) {
+		this.linkType = linkType;
 	}
 
-	public List<Case> getCases() {
+	public List<Issue> getCases() {
 		return cases;
 	}
 
-	public void setCases(List<Case> cases) {
+	public void setCases(List<Issue> cases) {
 		this.cases = cases;
 	}
 

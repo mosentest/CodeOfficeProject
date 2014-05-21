@@ -14,13 +14,13 @@ public class CaseHistory extends OfficeHistory {
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "office_case_history_id")
-	private Case caseObject;
+	private Issue caseObject;
 
-	public Case getCaseObject() {
+	public Issue getCaseObject() {
 		return caseObject;
 	}
 
-	public void setCaseObject(Case caseObject) {
+	public void setCaseObject(Issue caseObject) {
 		this.caseObject = caseObject;
 	}
 

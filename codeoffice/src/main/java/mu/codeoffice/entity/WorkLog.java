@@ -31,7 +31,7 @@ public class WorkLog implements Serializable {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "office_worklog_case_id")
-	private Case caseObject;
+	private Issue caseObject;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "office_worklog_creator_id")
@@ -61,11 +61,11 @@ public class WorkLog implements Serializable {
 		this.id = id;
 	}
 
-	public Case getCaseObject() {
+	public Issue getCaseObject() {
 		return caseObject;
 	}
 
-	public void setCaseObject(Case caseObject) {
+	public void setCaseObject(Issue caseObject) {
 		this.caseObject = caseObject;
 	}
 

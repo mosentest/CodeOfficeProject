@@ -81,10 +81,10 @@ public class Version implements Serializable {
 	private int noRelated;
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "versions")
-	private List<Case> relatedCases;
+	private List<Issue> relatedCases;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "releaseVersion")
-	private List<Case> releaseCases;
+	private List<Issue> releaseCases;
 	
 	public Version() {}
 
@@ -152,11 +152,11 @@ public class Version implements Serializable {
 		this.release = release;
 	}
 
-	public List<Case> getRelatedCases() {
+	public List<Issue> getRelatedCases() {
 		return relatedCases;
 	}
 
-	public void setRelatedCases(List<Case> relatedCases) {
+	public void setRelatedCases(List<Issue> relatedCases) {
 		this.relatedCases = relatedCases;
 	}
 
@@ -184,11 +184,11 @@ public class Version implements Serializable {
 		this.started = started;
 	}
 
-	public List<Case> getReleaseCases() {
+	public List<Issue> getReleaseCases() {
 		return releaseCases;
 	}
 
-	public void setReleaseCases(List<Case> releaseCases) {
+	public void setReleaseCases(List<Issue> releaseCases) {
 		this.releaseCases = releaseCases;
 	}
 

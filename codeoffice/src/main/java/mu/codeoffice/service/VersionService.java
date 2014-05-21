@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.data.Summary;
-import mu.codeoffice.entity.Case;
+import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.Label;
@@ -159,10 +159,10 @@ public class VersionService extends ProjectStatisticService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Map<CaseType, List<Case>> getReleaseNote(Long project, Long version) {
-		Map<CaseType, List<Case>> map = new HashMap<>();
+	public Map<CaseType, List<Issue>> getReleaseNote(Long project, Long version) {
+		Map<CaseType, List<Issue>> map = new HashMap<>();
 		for (CaseType type : CaseType.values()) {
-			List<Case> cases = caseRepository.findAll(all(null, project, null, version, null, null, null, null, null, type, null));
+			List<Issue> cases = caseRepository.findAll(all(null, project, null, version, null, null, null, null, null, type, null));
 			if (cases.size() > 0) {
 				map.put(type, cases);
 			}
@@ -171,16 +171,16 @@ public class VersionService extends ProjectStatisticService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Case> getRelatedCase(Long project, Long version, int pageIndex, int size, boolean ascending, String column) {
-		Page<Case> page = caseRepository.findAll(all(null, project, version, null, null, null, null, null, null, null, null), 
-				pageSpecification(pageIndex, size, sort(ascending, Case.getSortColumn(column))));
+	public Page<Issue> getRelatedCase(Long project, Long version, int pageIndex, int size, boolean ascending, String column) {
+		Page<Issue> page = caseRepository.findAll(all(null, project, version, null, null, null, null, null, null, null, null), 
+				pageSpecification(pageIndex, size, sort(ascending, Issue.getSortColumn(column))));
 		return page;
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<Case> getReleaseCase(Long project, Long version, int pageIndex, int size, boolean ascending, String column) {
-		Page<Case> page = caseRepository.findAll(all(null, project, null, version, null, null, null, null, null, null, null), 
-				pageSpecification(pageIndex, size, sort(ascending, Case.getSortColumn(column))));
+	public Page<Issue> getReleaseCase(Long project, Long version, int pageIndex, int size, boolean ascending, String column) {
+		Page<Issue> page = caseRepository.findAll(all(null, project, null, version, null, null, null, null, null, null, null), 
+				pageSpecification(pageIndex, size, sort(ascending, Issue.getSortColumn(column))));
 		return page;
 	}
 	

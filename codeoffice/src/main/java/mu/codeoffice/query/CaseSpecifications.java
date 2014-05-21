@@ -10,7 +10,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import mu.codeoffice.entity.Case;
+import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Case_;
 import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseStatus;
@@ -23,11 +23,11 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class CaseSpecifications {
 
-	public static Specification<Case> all(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
+	public static Specification<Issue> all(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority) {
-		return new Specification<Case>() {
+		return new Specification<Issue>() {
 			@Override
-			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -35,10 +35,10 @@ public class CaseSpecifications {
 		};
 	}
 	
-	public static Specification<Case> inProgress(Long project, Long assignee, Long reporter) {
-		return new Specification<Case>() {
+	public static Specification<Issue> inProgress(Long project, Long assignee, Long reporter) {
+		return new Specification<Issue>() {
 			@Override
-			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				predicates.add(builder.isTrue(root.get(Case_.inProgress)));
@@ -47,10 +47,10 @@ public class CaseSpecifications {
 		};
 	}
 	
-	public static Specification<Case> closed(Long project, Long assignee, Long reporter) {
-		return new Specification<Case>() {
+	public static Specification<Issue> closed(Long project, Long assignee, Long reporter) {
+		return new Specification<Issue>() {
 			@Override
-			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				predicates.add(builder.isNotNull(root.get(Case_.close)));
@@ -59,10 +59,10 @@ public class CaseSpecifications {
 		};
 	}
 
-	public static Specification<Case> assigned(Long project, Long assignee, Long reporter) {
-		return new Specification<Case>() {
+	public static Specification<Issue> assigned(Long project, Long assignee, Long reporter) {
+		return new Specification<Issue>() {
 			@Override
-			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.CLO));
@@ -73,12 +73,12 @@ public class CaseSpecifications {
 		};
 	}
 
-	public static Specification<Case> unresolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
+	public static Specification<Issue> unresolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  
 			CaseStatus status, CaseType type, CasePriority priority) {
-		return new Specification<Case>() {
+		return new Specification<Issue>() {
 			@Override
-			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.CLO));
@@ -88,12 +88,12 @@ public class CaseSpecifications {
 		};
 	}
 
-	public static Specification<Case> resolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
+	public static Specification<Issue> resolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  
 			CaseType type, CasePriority priority) {
-		return new Specification<Case>() {
+		return new Specification<Issue>() {
 			@Override
-			public Predicate toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, null, type, priority);
 				predicates.add(builder.isFalse(root.get(Case_.removed)));
 				predicates.add(builder.and(
@@ -115,7 +115,7 @@ public class CaseSpecifications {
 		return new Sort(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, column);
 	}
 	
-	private static List<Predicate> toPredicate(Root<Case> root, CriteriaQuery<?> query, CriteriaBuilder builder, 
+	private static List<Predicate> toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder, 
 			Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter, 
 			CaseStatus status, CaseType type, CasePriority priority) {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import mu.codeoffice.entity.Case;
+import mu.codeoffice.entity.Issue;
 
 public class StaticMetaModelGenerator {
 
@@ -72,7 +72,7 @@ public class StaticMetaModelGenerator {
 	}
 
 	public static void main(String[] args) throws Exception {
-		generate(Case.class, DESTINATION);
+		generate(Issue.class, DESTINATION);
 	}
 
 }

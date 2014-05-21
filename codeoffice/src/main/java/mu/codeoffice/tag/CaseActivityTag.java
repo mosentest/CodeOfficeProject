@@ -8,7 +8,7 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import mu.codeoffice.entity.Case;
+import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.CaseActivity;
 
 import org.springframework.context.MessageSource;
@@ -18,7 +18,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class CaseActivityTag extends SimpleTagSupport {
 	
-	private Case caseObject;
+	private Issue caseObject;
 	
 	private CaseActivity activityObject;
 	
@@ -41,7 +41,7 @@ public class CaseActivityTag extends SimpleTagSupport {
 				if (activityObject.getActivityObjects().size() > 1) {
 					buffer.append(String.format(" %s <a href=\"enterprise/pro_%s/%s\">%s</a>", 
 							getMessage("project.c_updatednfield", activityObject.getActivityObjects().size()), 
-							caseObject.getProject().getCode(), caseObject.getCode(), caseObject.getCaseHeader()));
+							caseObject.getProject().getCode(), caseObject.getKey(), caseObject.getCaseHeader()));
 				}
 				buffer.append("<div class=\"activity-item-multiple-element\">");
 				buffer.append("</div>");
@@ -140,11 +140,11 @@ public class CaseActivityTag extends SimpleTagSupport {
 //		</h:panelGroup>
 //		<h:panelGroup styleClass="clearfix" layout="block"></h:panelGroup>
 //	</h:panelGroup>
-	public Case getCaseObject() {
+	public Issue getCaseObject() {
 		return caseObject;
 	}
 
-	public void setCaseObject(Case caseObject) {
+	public void setCaseObject(Issue caseObject) {
 		this.caseObject = caseObject;
 	}
 

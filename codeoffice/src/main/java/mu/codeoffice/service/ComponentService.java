@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.data.Summary;
 import mu.codeoffice.dto.ComponentDTO;
-import mu.codeoffice.entity.Case;
+import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.Label;
@@ -49,9 +49,9 @@ public class ComponentService extends ProjectStatisticService {
 		Component component = componentRepository.getProjectComponent(projectCode, componentCode, auth.getEnterprise());
 		List<Component> mergeList = componentRepository.getComponents(auth.getEnterprise(), projectCode, componentCode, mergeComponent.getComponentCode());
 		for (Component componentObject : mergeList) {
-			List<Case> relatedCases = caseRepository.findAll(
+			List<Issue> relatedCases = caseRepository.findAll(
 					all(null, component.getProject().getId(), null, null, componentObject.getId(), null, null, null, null, null, null));
-			for (Case caseObject : relatedCases) {
+			for (Issue caseObject : relatedCases) {
 				if (!component.getCases().contains(caseObject)) {
 					component.getCases().add(caseObject);
 				}
@@ -164,9 +164,9 @@ public class ComponentService extends ProjectStatisticService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Case> getRelatedCase(Project project, Component component, int pageIndex, int size, boolean ascending, String column) {
-		Page<Case> page = caseRepository.findAll(all(null, project.getId(), null, null, component.getId(), null, null, null, null, null, null), 
-				pageSpecification(pageIndex, size, sort(ascending, Case.getSortColumn(column))));
+	public Page<Issue> getRelatedCase(Project project, Component component, int pageIndex, int size, boolean ascending, String column) {
+		Page<Issue> page = caseRepository.findAll(all(null, project.getId(), null, null, component.getId(), null, null, null, null, null, null), 
+				pageSpecification(pageIndex, size, sort(ascending, Issue.getSortColumn(column))));
 		return page;
 	}
 	
