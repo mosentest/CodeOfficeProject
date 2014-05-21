@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import mu.codeoffice.security.GlobalPermission;
 
 @Entity
 @Table(name = "enterprise_user")
@@ -69,17 +72,37 @@ public class EnterpriseUser implements Serializable {
 
     @Column(name = "authority")
     private int authority;
-	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "enterpriseUsers")
-	private List<EnterpriseUserGroup> groups;
+    
+    @Column(name = "global_permission_value")
+    private int globalPermissionValue;
+
+    @Column(name = "project_permission_value")
+    private int projectPermissionValue;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
+	private List<EnterpriseGlobalPermission> globalPermissions;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
+	private List<EnterpriseGlobalPermission> projectPermissions;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "usergroup_user", 
+        	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
+        	inverseJoinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"))
+	private List<UserGroup> userGroups;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "office_watcher_case", 
- 			joinColumns = @JoinColumn(name = "enterprise_user_id", referencedColumnName = "id"), 
+ 			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
  			inverseJoinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"))
 	private List<Case> watching;
     
     public EnterpriseUser() {}
+    
+    @Transient
+    public List<GlobalPermission> getGlobalPermissions() {
+    	return GlobalPermission.getPermissions(globalPermissionValue);
+    }
 	
 	@Override
 	public boolean equals(Object o) {
@@ -211,20 +234,28 @@ public class EnterpriseUser implements Serializable {
 		this.profilePath = profilePath;
 	}
 
-	public List<EnterpriseUserGroup> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(List<EnterpriseUserGroup> groups) {
-		this.groups = groups;
-	}
-
 	public List<Case> getWatching() {
 		return watching;
 	}
 
 	public void setWatching(List<Case> watching) {
 		this.watching = watching;
+	}
+
+	public int getProjectPermissionValue() {
+		return projectPermissionValue;
+	}
+
+	public void setProjectPermissionValue(int projectPermissionValue) {
+		this.projectPermissionValue = projectPermissionValue;
+	}
+
+	public List<EnterpriseGlobalPermission> getProjectPermissions() {
+		return projectPermissions;
+	}
+
+	public void setProjectPermissions(List<EnterpriseGlobalPermission> projectPermissions) {
+		this.projectPermissions = projectPermissions;
 	}
 	
 }

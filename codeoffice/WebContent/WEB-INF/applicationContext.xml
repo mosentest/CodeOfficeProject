@@ -194,16 +194,12 @@
 	<!-- Spring cache end -->
 	
 	<!-- web socket messaging -->
-	<websocket:handlers>
-        <websocket:mapping path="/enterprise/messaging" handler="webSocketHandler"/>
-        <websocket:sockjs/>
-    </websocket:handlers>
-    <bean id="webSocketHandler" class="org.springframework.web.socket.handler.PerConnectionWebSocketHandler">
-    	<constructor-arg type="java.lang.Class" value="mu.codeoffice.messaging.MessageWebSocketHandler"/>
-    </bean>
-	<bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
-		<property name="maxTextMessageBufferSize" value="8192"/>
-  		<property name="maxBinaryMessageBufferSize" value="8192"/>
-	</bean>
+	<!-- 
+	<websocket:message-broker application-destination-prefix="/app">to annotated messages
+    <websocket:stomp-endpoint path="/portfolio">websocket url
+      <websocket:sockjs/>
+    </websocket:stomp-endpoint>
+    <websocket:stomp-broker-relay prefix="/queue/,/topic/"/>destination prefix 
+  </websocket:message-broker> -->
 	<!--  -->
 </beans>

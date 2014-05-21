@@ -19,8 +19,8 @@
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.10.3.custom.css">
 <security:authorize access="isAuthenticated()">
+<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
 <script src="js/stomp.min.js"></script>
-<script src="js/sockjs-0.3.js"></script>
 <script src="js/messaging.js"></script>
 </security:authorize>
 <script src="js/jquery-2.0.3.js"></script>
@@ -54,7 +54,18 @@
 			$('.horizontal-tab li').removeClass('active');
 			$(this).addClass('active');
 		});
-		startClient();
+		  $('.add').click(function(e){
+			    e.preventDefault();
+			    var code = $('.new .code').val();
+			    var price = Number($('.new .price').val());
+			    var jsonstr = JSON.stringify({ 'code': code, 'price': price });
+			    stompClient.send("/app/addStock", {}, jsonstr);
+			    return false;
+			  });$('.remove-all').click(function(e) {
+				    e.preventDefault();
+				    stompClient.send("/app/removeAllStocks");
+				    return false;
+				  });
 	});
 </script>
 </head>

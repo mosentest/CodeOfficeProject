@@ -8,6 +8,7 @@ public enum ActivityType {
 	/* project */
 	C_P("create_project"), D_P("delete_project"),
 	C_M("create_member"), U_L("update_lead"), D_M("delete_member"),
+	U_V("update_version"), U_C("update_component"),
 	C_C("create_case"), D_C("delete_case"), 
 	/* case */
 	STA("start_progress"), STO("stop_progress"),

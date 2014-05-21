@@ -1,32 +1,54 @@
-var socket;
-var registered = false;
 
-function startClient() {
-	console.log("opening socket");
-	
-	socket = new SockJS("http://" + document.domain + ":8080/enterprise/messaging");
+    var socket = new SockJS("/enterprise/ws");
+    var stompClient = Stomp.over(socket);
 
-	
-	console.log("http://" + document.domain + ":8080/enterprise/messaging");
-	socket.onopen = function() {
-		console.log("Opened socket.");
-		var nickname = "hahahaha";
-		socket.send(nickname);
-	};
+    // Render price data from server into HTML, registered as callback
+    // when subscribing to price topic
+    function renderPrice(frame) {
+      var prices = JSON.parse(frame.body);
+      $('#price').empty();
+      for(var i in prices) {
+        var price = prices[i];
+        $('#price').append(
+          $('<tr>').append(
+            $('<td>').html(price.code),
+            $('<td>').html(price.price.toFixed(2)),
+            $('<td>').html(price.timeStr)
+          )
+        );
+      }
+    }
+    
+    // Callback function to be called when stomp client is connected to server
+    var connectCallback = function() {
+      stompClient.subscribe('/topic/price', renderPrice);
+    }; 
 
-	socket.onmessage = function(a) {
-		console.log("received message: " + a.data);
-	};
-	socket.onclose = function() {
-		document.write("Closed socket.");
-	};
-	socket.onerror = function() {
-		document.write("Error during transfer.");
-	};
-	sendMessage();
+    // Callback function to be called when stomp client could not connect to server
+    var errorCallback = function(error) {
+      alert(error.headers.message);
+    };
 
-}
-
-function sendMessage() {
-	socket.send("connected");
-}
+    // Connect to server via websocket
+    stompClient.connect("guest", "guest", connectCallback, errorCallback);
+    
+    // Register handler for add button
+    $(document).ready(function() {
+      $('.add').click(function(e){
+        e.preventDefault();
+        var code = $('.new .code').val();
+        var price = Number($('.new .price').val());
+        var jsonstr = JSON.stringify({ 'code': code, 'price': price });
+        stompClient.send("/app/addStock", {}, jsonstr);
+        return false;
+      });
+    });
+    
+    // Register handler for remove all button
+    $(document).ready(function() {
+      $('.remove-all').click(function(e) {
+        e.preventDefault();
+        stompClient.send("/app/removeAllStocks");
+        return false;
+      });
+    });
