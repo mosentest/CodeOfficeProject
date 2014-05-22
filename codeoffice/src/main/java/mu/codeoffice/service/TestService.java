@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.UserGroup;
-import mu.codeoffice.entity.settings.AnnouncementBanner;
+import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.AttachmentSettings;
 import mu.codeoffice.entity.settings.GeneralProjectSettings;
 import mu.codeoffice.entity.settings.GlobalAdvancedSettings;
@@ -28,7 +28,7 @@ import mu.codeoffice.repository.ProjectCategoryRepository;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.repository.UserGroupRepository;
 import mu.codeoffice.repository.VersionRepository;
-import mu.codeoffice.repository.settings.AnnouncementBannerRepository;
+import mu.codeoffice.repository.settings.AnnouncementRepository;
 import mu.codeoffice.repository.settings.AttachmentSettingsRepository;
 import mu.codeoffice.repository.settings.GeneralProjectSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalAdvancedSettingsRepository;
@@ -71,7 +71,7 @@ public class TestService {
 	private EnterpriseRepository enterpriseRepository;
 	
 	@Resource
-	private AnnouncementBannerRepository announcementBannerRepository;
+	private AnnouncementRepository announcementBannerRepository;
 	
 	@Resource
 	private GlobalAdvancedSettingsRepository globalAdvancedSettingsRepository;
@@ -129,7 +129,7 @@ public class TestService {
 	public void _2_CreateEnterpriseSettings() {
 		List<Enterprise> enterprises = enterpriseRepository.findAll();
 		for (Enterprise enterprise : enterprises) {
-			AnnouncementBanner announcementBanner = new AnnouncementBanner();
+			Announcement announcementBanner = new Announcement();
 			announcementBanner.setEnterprise(enterprise);
 			
 			AttachmentSettings attachmentSettings = new AttachmentSettings();
@@ -192,7 +192,7 @@ public class TestService {
 			
 			EnterpriseUser main = new EnterpriseUser();
 			main.setEnterprise(enterprise);
-			main.setAccount("admin");
+			main.setAccount("admin" + j);
 			main.setAddress("address");
 			main.setCreate(new Date());
 			main.setEmail("admin" + j + "@admin.com");

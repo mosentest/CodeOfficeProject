@@ -9,16 +9,14 @@ import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.Enterprise;
-import mu.codeoffice.entity.settings.AnnouncementBanner;
+import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.AttachmentSettings;
 import mu.codeoffice.entity.settings.GeneralProjectSettings;
 import mu.codeoffice.entity.settings.GlobalAdvancedSettings;
-import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
-import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.entity.settings.TimeTrackingSettings;
-import mu.codeoffice.repository.settings.AnnouncementBannerRepository;
+import mu.codeoffice.repository.settings.AnnouncementRepository;
 import mu.codeoffice.repository.settings.AttachmentSettingsRepository;
 import mu.codeoffice.repository.settings.GeneralProjectSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalAdvancedSettingsRepository;
@@ -33,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EnterpriseSettingsService {
@@ -43,7 +42,7 @@ public class EnterpriseSettingsService {
 	private ServletContext servletContext;
 	
 	@Resource
-	private AnnouncementBannerRepository announcementBannerRepository;
+	private AnnouncementRepository announcementRepository;
 	
 	@Resource
 	private GlobalAdvancedSettingsRepository globalAdvancedSettingsRepository;
@@ -68,87 +67,124 @@ public class EnterpriseSettingsService {
 	
 	@Resource
 	private TimeTrackingSettingsRepository timeTrackingSettingsRepository;
-	
-	public void update(EnterpriseAuthentication auth, AnnouncementBanner announcementBanner) 
+
+	@Transactional
+	public void update(EnterpriseAuthentication auth, Announcement announcement) 
 			throws InformationException, AuthenticationException {
-		announcementBannerRepository.save(announcementBanner);
-		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_ACCOUNCEMENT" , announcementBanner);
+		announcementRepository.save(announcement);
+		cacheSettings(auth.getEnterprise(), "announcement", announcement);
+		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_ACCOUNCEMENT" , announcement);
 	}
 	
-	public AnnouncementBanner getAnnouncementBanner(EnterpriseAuthentication auth) 
+	@Transactional(readOnly = true)
+	public Announcement getAnnouncementBanner(EnterpriseAuthentication auth) 
 			throws InformationException, AuthenticationException {
-		return null;
+		Object settings = getSettings(auth.getEnterprise(), "announcement");
+		if (settings != null) {
+			return (Announcement) settings;
+		}
+		Announcement announcement = announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
+		cacheSettings(auth.getEnterprise(), "announcement", announcement);
+		return announcement;
 	}
 
+	@Transactional
 	public void update(EnterpriseAuthentication auth, AttachmentSettings attachmentSettings) 
 			throws InformationException, AuthenticationException {
 		attachmentSettingsRepository.save(attachmentSettings);
+		cacheSettings(auth.getEnterprise(), "attachmentSettings", attachmentSettings);
 		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_ATTACHMENT", attachmentSettings);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public AttachmentSettings getAttachmentSettings(EnterpriseAuthentication auth) 
 			throws InformationException, AuthenticationException {
-		return null;
+		Object settings = getSettings(auth.getEnterprise(), "attachmentSettings");
+		if (settings != null) {
+			return (AttachmentSettings) settings;
+		}
+		AttachmentSettings attachmentSettings = attachmentSettingsRepository.getEnterpriseAttachmentSettings(auth.getEnterprise());
+		cacheSettings(auth.getEnterprise(), "attachmentSettings", attachmentSettings);
+		return attachmentSettings;
 	}
 
+	@Transactional
 	public void update(EnterpriseAuthentication auth, GeneralProjectSettings generalProjectSettings) 
 			throws InformationException, AuthenticationException {
 		generalProjectSettingsRepository.save(generalProjectSettings);
+		cacheSettings(auth.getEnterprise(), "generalProjectSettings", generalProjectSettings);
 		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_GENERAL_PROJECT", generalProjectSettings);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public GeneralProjectSettings getGeneralProjectSettings(EnterpriseAuthentication auth) 
 			throws InformationException, AuthenticationException {
-		return null;
+		Object settings = getSettings(auth.getEnterprise(), "generalProjectSettings");
+		if (settings != null) {
+			return (GeneralProjectSettings) settings;
+		}
+		GeneralProjectSettings generalProjectSettings = generalProjectSettingsRepository.getEnterpriseGeneralProjectSettings(auth.getEnterprise());
+		cacheSettings(auth.getEnterprise(), "generalProjectSettings", generalProjectSettings);
+		return generalProjectSettings;
 	}
 
+	@Transactional
 	public void update(EnterpriseAuthentication auth, GlobalAdvancedSettings globalAdvancedSettings) 
 			throws InformationException, AuthenticationException {
 		globalAdvancedSettingsRepository.save(globalAdvancedSettings);
+		cacheSettings(auth.getEnterprise(), "globalAdvancedSettings", globalAdvancedSettings);
 		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_GLOBAL_ADVANCED", globalAdvancedSettings);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public GlobalAdvancedSettings getGlobalAdvancedSettings(EnterpriseAuthentication auth) 
 			throws InformationException, AuthenticationException {
-		return null;
+		Object settings = getSettings(auth.getEnterprise(), "globalAdvancedSettings");
+		if (settings != null) {
+			return (GlobalAdvancedSettings) settings;
+		}
+		GlobalAdvancedSettings globalAdvancedSettings = globalAdvancedSettingsRepository.getEnterpriseGlobalAdvancedSettings(auth.getEnterprise());
+		cacheSettings(auth.getEnterprise(), "globalAdvancedSettings", globalAdvancedSettings);
+		return globalAdvancedSettings;
 	}
 
-	public void update(EnterpriseAuthentication auth, GlobalPermissionSettings globalPermission) 
-			throws InformationException, AuthenticationException {
-		globalPermissionRepository.save(globalPermission);
-		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_GLOBAL_PERMISSION", globalPermission);
-	}
-	
-	public GlobalPermissionSettings getGlobalPermission(EnterpriseAuthentication auth) 
-			throws InformationException, AuthenticationException {
-		return null;
-	}
-
+	@Transactional
 	public void update(EnterpriseAuthentication auth, GlobalSettings globalSettings) 
 			throws InformationException, AuthenticationException {
+		cacheSettings(auth.getEnterprise(), "globalSettings", globalSettings);
 		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_GLOBAL", globalSettings);
 		globalSettingsRepository.save(globalSettings);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public GlobalSettings getGlobalSettings(EnterpriseAuthentication auth) 
 			throws InformationException, AuthenticationException {
-		return null;
+		Object settings = getSettings(auth.getEnterprise(), "globalSettings");
+		if (settings != null) {
+			return (GlobalSettings) settings;
+		}
+		GlobalSettings globalSettings = globalSettingsRepository.getEnterpriseGlobalSettings(auth.getEnterprise());
+		cacheSettings(auth.getEnterprise(), "globalSettings", globalSettings);
+		return globalSettings;
 	}
 
+	@Transactional
 	public void update(EnterpriseAuthentication auth, InternationalizationSettings internationalizationSettings) 
 			throws InformationException, AuthenticationException {
 		internationalizationSettingsRepository.save(internationalizationSettings);
 		cacheSettings(auth.getEnterprise(), "internationalization", internationalizationSettings);
 		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_INTERNATIONALIZATION", internationalizationSettings);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public InternationalizationSettings getInternationalizationSettings(EnterpriseAuthentication auth) 
 			throws InformationException, AuthenticationException {
 		Object settings = getSettings(auth.getEnterprise(), "internationalization");
 		if (settings != null) {
 			return (InternationalizationSettings) settings;
 		}
-		InternationalizationSettings internationalizationSettings = internationalizationSettingsRepository.getOne(null);
+		InternationalizationSettings internationalizationSettings = 
+				internationalizationSettingsRepository.getEnterpriseInternationalizationSettings(auth.getEnterprise());
 		internationalizationSettings.setDefaultLocale(null);
 		internationalizationSettings.setDefaultTimeZone(TimeZone.getTimeZone(internationalizationSettings.getDefaultTimeZoneID()));
 		LocaleContextHolder.setTimeZone(internationalizationSettings.getDefaultTimeZone());
@@ -156,27 +192,25 @@ public class EnterpriseSettingsService {
 		cacheSettings(auth.getEnterprise(), "internationalization", internationalizationSettings);
 		return internationalizationSettings;
 	}
-	
-	public void update(EnterpriseAuthentication auth, ProjectPermissionSettings projectPermission) 
-			throws InformationException, AuthenticationException {
-		projectPermissionRepository.save(projectPermission);
-		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_PROJECT_PERMISSION", projectPermission);
-	}
-	
-	public ProjectPermissionSettings getProjectPermission(EnterpriseAuthentication auth) 
-			throws InformationException, AuthenticationException {
-		return null;
-	}
-	
+
+	@Transactional
 	public void update(EnterpriseAuthentication auth, TimeTrackingSettings timeTrackingSettings) 
 			throws InformationException, AuthenticationException {
 		timeTrackingSettingsRepository.save(timeTrackingSettings);
+		cacheSettings(auth.getEnterprise(), "timeTrackingSettings", timeTrackingSettings);
 		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_TIME_TRACKING", timeTrackingSettings);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public TimeTrackingSettings getTimeTrackingSettings(EnterpriseAuthentication auth) 
 			throws InformationException, AuthenticationException {
-		return null;
+		Object settings = getSettings(auth.getEnterprise(), "timeTrackingSettings");
+		if (settings != null) {
+			return (TimeTrackingSettings) settings;
+		}
+		TimeTrackingSettings timeTrackingSettings = timeTrackingSettingsRepository.getEnterpriseTimeTrackingSettings(auth.getEnterprise());
+		cacheSettings(auth.getEnterprise(), "timeTrackingSettings", timeTrackingSettings);
+		return timeTrackingSettings;
 	}
 	
 	public Object getSettings(Enterprise enterprise, String key) {

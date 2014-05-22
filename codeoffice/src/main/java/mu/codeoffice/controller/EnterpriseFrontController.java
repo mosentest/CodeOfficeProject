@@ -1,5 +1,6 @@
 package mu.codeoffice.controller;
 
+import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.TestService;
 
 import org.apache.log4j.Logger;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/")
 public class EnterpriseFrontController {
 	
 	private static final Logger logger = Logger.getLogger(EnterpriseFrontController.class);
@@ -23,29 +24,36 @@ public class EnterpriseFrontController {
 	private TestService testService;
 	
 	@RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-	public ModelAndView defaultRequest() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth instanceof AnonymousAuthenticationToken) {
-			return new ModelAndView("enterprise/login");
+	public ModelAndView defaultRequest(@AuthenticationPrincipal EnterpriseAuthentication auth) {
+		if (auth == null) {
+			return new ModelAndView("redirect:/login");
 		} else {
-			return new ModelAndView("enterprise/home");
+			return new ModelAndView("redirect:/home");
 		}
+	}
+
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		if (auth == null) {
+			return new ModelAndView("redirect:/login");
+		}
+		return new ModelAndView("home", model);
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginRequest() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth instanceof AnonymousAuthenticationToken) {
-			return "enterprise/login";
+			return "login";
 		}
-		return "redirect:/";
+		return "redirect:/home";
 	}
 	
 	@RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
 	public String accessDenied(ModelMap model) {
 		model.addAttribute("error", true);
 		logger.debug("");
-		return "enterprise/accessDenied";
+		return "error/403";
 	}
 	
 }

@@ -1,14 +1,14 @@
 package mu.codeoffice.controller;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@Controller
+@ControllerAdvice
 public class ExceptionAdvice {
 
-	@ExceptionHandler(IllegalStateException.class)
-	public String illegalStateException(IllegalStateException e) {
-		return "redirect:/enterprise/badRequest";
+	@ExceptionHandler(Exception.class)
+	public String handle(Exception e) {
+		System.out.println("wtf");
+		return "error/404";
 	}
-	
 }

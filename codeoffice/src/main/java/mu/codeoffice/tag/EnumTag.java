@@ -53,7 +53,7 @@ public class EnumTag extends SimpleTagSupport {
 	}
 	
 	private String getImageString() {
-		return "<span class=\"imglink\"><img src=\"img/" + (value == null ? image.getImagePath() : value.getImagePath()) + ".png\"/>";
+		return "<span class=\"imglink\"><img src=\"assets/img/" + (value == null ? image.getImagePath() : value.getImagePath()) + ".png\"/>";
 	}
 	
 	private String getTextString(boolean textOnly) {

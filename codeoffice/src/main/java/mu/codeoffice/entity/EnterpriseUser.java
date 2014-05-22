@@ -24,7 +24,7 @@ import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 
 @Entity
-@Table(name = "enterprise_user", uniqueConstraints = @UniqueConstraint(columnNames = {"account", "enterprise_id"}))
+@Table(name = "enterprise_user")
 public class EnterpriseUser implements Serializable {
 
 	private static final long serialVersionUID = 7445898962052022294L;
@@ -37,7 +37,7 @@ public class EnterpriseUser implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
-    @Column(name = "account", nullable = false)
+    @Column(name = "account", nullable = false, unique = true)
 	private String account;
 
     @Column(name = "email", nullable = false, unique = true)

@@ -9,11 +9,11 @@ public class DefaultMappingController {
 
 	@RequestMapping(method = { RequestMethod.GET, RequestMethod.POST })
 	public String redirect() {
-		return "redirect:/enterprise";
+		return "redirect:/home";
 	}
 	
-	@RequestMapping(value = "enterprise/badRequest", method = RequestMethod.GET)
+	@RequestMapping(value = "/badrequest", method = RequestMethod.GET)
 	public String badRequest() {
-		return "enterprise/badRequest";
+		return "error/400";
 	}
 }

@@ -48,10 +48,8 @@ public class EnterpriseAuthenticationSuccessHandler implements AuthenticationSuc
 				servletContext.setAttribute(settingHeader + "_ATTACHMENT", enterpriseSettingsService.getAttachmentSettings(auth));
 				servletContext.setAttribute(settingHeader + "_GENERAL_PROJECT", enterpriseSettingsService.getGeneralProjectSettings(auth));
 				servletContext.setAttribute(settingHeader + "_GLOBAL_ADVANCED", enterpriseSettingsService.getGlobalAdvancedSettings(auth));
-				servletContext.setAttribute(settingHeader + "_GLOBAL_PERMISSION", enterpriseSettingsService.getGlobalPermission(auth));
 				servletContext.setAttribute(settingHeader + "_GLOBAL", enterpriseSettingsService.getGlobalSettings(auth));
 				servletContext.setAttribute(settingHeader + "_INTERNATIONALIZATION", enterpriseSettingsService.getInternationalizationSettings(auth));
-				servletContext.setAttribute(settingHeader + "_PROJECT_PERMISSION", enterpriseSettingsService.getProjectPermission(auth));
 				servletContext.setAttribute(settingHeader + "_TIME_TRACKING", enterpriseSettingsService.getTimeTrackingSettings(auth));
 			} catch (AuthenticationException e) {
 				servletContext.removeAttribute(settingHeader);

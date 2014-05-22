@@ -14,12 +14,12 @@
 </style>
 <div id="main">
 	<div class="element">
-		<div class="title">404 - Not found</div>
+		<div class="title">400 - Bad request</div>
 		<div class="content">
 			<div id="access-content">
 				<table class="default-table center">
 					<tr>
-						<td><span class="access-title"><spring:message code="application.not_found"/></span></td>
+						<td><span class="access-title"><spring:message code="application.bad_request"/></span></td>
 					</tr>
 					<c:if test="${not empty error}">
 					<tr>
@@ -28,7 +28,7 @@
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
 						<td><span class="error-message" style="font-weight: bold; "><spring:message code="application.error"/>: </span>
-						<span>${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}</span></td>
+						<span><spring:message code="application.bad_request_message"/></span></td>
 					</tr>
 					</c:if>
 					<tr class="separator-tr"><td></td></tr>

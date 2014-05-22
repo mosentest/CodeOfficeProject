@@ -43,9 +43,9 @@ public class InfoTag extends SimpleTagSupport {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<div class=\"info-element imglink\">");
 		if (WARNING.equals(type)) {
-			buffer.append("<img src=\"img/warning.png\"/>");
+			buffer.append("<img src=\"assets/img/warning.png\"/>");
 		} else if (INFO.equals(type)) {
-			buffer.append("<img src=\"img/info.png\"/>");
+			buffer.append("<img src=\"assets/img/info.png\"/>");
 		}
 		Object[] arguments = null;
 		if (this.arguments != null) {

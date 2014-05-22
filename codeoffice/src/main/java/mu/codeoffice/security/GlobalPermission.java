@@ -7,12 +7,12 @@ import java.util.Map;
 
 public enum GlobalPermission implements Permission {
 
-	SYSTEM_ADMIN("codeoffice.permission.global.system_admin", "ROLE_SYSTEM_ADMIN", 32, 63),
-	ADMIN("codeoffice.permission.global.admin", "ROLE_ADMIN", 16, 31),
-	PROJECT_ADMIN("codeoffice.permission.global.project_admin", "ROLE_PROJECT_ADMIN", 8, 11),
-	SHARED_OBJECT("codeoffice.permission.global.shared_object", "ROLE_SHARED_OBJECT", 4, 5),
-	BROWSE_USER("codeoffice.permission.global.browse_user", "ROLE_BROWSE_USER", 2, 3),
-	USER("codeoffice.permission.global.user", "ROLE_USER", 1, 1);
+	SYSTEM_ADMIN("codeoffice.permission.global.system_admin", "ROLE_GLOBAL_SYSTEM_ADMIN", 32, 63),
+	ADMIN("codeoffice.permission.global.admin", "ROLE_GLOBAL_ADMIN", 16, 31),
+	PROJECT_ADMIN("codeoffice.permission.global.project_admin", "ROLE_GLOBAL_PROJECT_ADMIN", 8, 11),
+	SHARED_OBJECT("codeoffice.permission.global.shared_object", "ROLE_GLOBAL_SHARED_OBJECT", 4, 5),
+	BROWSE_USER("codeoffice.permission.global.browse_user", "ROLE_GLOBAL_BROWSE_USER", 2, 3),
+	USER("codeoffice.permission.global.user", "ROLE_GLOBAL_USER", 1, 1);
 	
 	private final String key;
 	
