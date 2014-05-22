@@ -34,6 +34,10 @@ public class EnterpriseAuthentication extends User {
 		return enterpriseUser;
 	}
 	
+	public String getFullName() {
+		return enterpriseUser.getFullName();
+	}
+	
 	public boolean authorized(GrantedAuthority authority) {
 		return getAuthorities().contains(authority);
 	}

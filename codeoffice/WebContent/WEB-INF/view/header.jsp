@@ -34,14 +34,14 @@
 			$(this).removeClass('current');
 		});
 		if ($('.leftmenu').length > 0) {
-			var left = $('.leftmenu')[0];
-			var main = $('.maincontent')[0];
-			if (left.offsetHeight >= main.offsetHeight) {
-				main.style.border = "none";
-				left.style.borderRight = "1px solid #E5E5E5";
+			var left = $('.leftmenu').first();
+			var main = $('.maincontent').first();
+			if (left.height() >= main.height()) {
+				left.css({'border-right' : '1px solid #E5E5E5'});
+				main.css({'border' : 'none'});
 			} else {
-				main.style.borderLeft = "1px solid #E5E5E5";
-				left.style.border = "none";
+				main.css({'border-left' : '1px solid #E5E5E5'});
+				left.css({'border' : 'none'});
 			}	
 			
 		}
@@ -58,14 +58,14 @@
 			<spring:message var="text_logout" code="application.logout"/>
 			<spring:message var="text_settings" code="application.settings"/>
 			<spring:message var="text_logout" code="application.logout"/>
-			<c:set var="text_username"><security:authentication property="principal.username"/></c:set>
+			<c:set var="text_username"><security:authentication property="principal.fullName"/></c:set>
 			<c:set var="text_enterprise_name"><security:authentication property="principal.enterprise.name"/></c:set>
 			<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
-				<code:imagelink image="icon_setting" text="${text_settings}" link="settings/home" border="false"/>|
+				<code:imagelink image="icon_setting" text="${text_settings}" link="settings/home" border="false" style=""/>|
 			</security:authorize>
-			<code:imagelink image="icon_home" text="${text_enterprise_name}" link="" border="false" width="150"/>
-			|<code:imagelink image="icon_user" text="${text_username}" link="user/${text_username}" border="false"/>
-			|<code:imagelink image="icon_logout" text="${text_logout}" link="logout" border="false"/>
+			<code:imagelink image="icon_home" text="${text_enterprise_name}" link="" border="false" width="130" style=""/>
+			|<code:imagelink image="icon_user" text="${text_username}" link="user/${text_username}" border="false" style=""/>
+			|<code:imagelink image="icon_logout" text="${text_logout}" link="logout" border="false" style=""/>
 		</div>
 	</security:authorize>
 	<div id="header">
@@ -94,7 +94,7 @@
 					</span>
 				</div>
 				<div id="sub-menu">
-					<c:forEach items="${sessionScope.SETTING_SUBMENU}" var="submenu">
+					<c:forEach items="${sessionScope.SETTINGS_SUBMENU}" var="submenu">
 						<span class="link"><a href="${submenu.link}">${submenu.title}</a></span>
 					</c:forEach>
 				</div>
