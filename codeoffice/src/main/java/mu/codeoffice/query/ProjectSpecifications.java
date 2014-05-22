@@ -2,7 +2,6 @@ package mu.codeoffice.query;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -10,7 +9,6 @@ import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.Project_;
-import mu.codeoffice.entity.RoleGroup_;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -23,7 +21,6 @@ public class ProjectSpecifications {
 			public Predicate toPredicate(Root<Project> root,
 					CriteriaQuery<?> query, CriteriaBuilder builder) {
 				return builder.and(
-						builder.equal(root.join(Project_.roleGroups, JoinType.LEFT).join(RoleGroup_.users).<EnterpriseUser>get("user"), user),
 						builder.equal(root.get(Project_.code), code),
 						builder.equal(root.get(Project_.enterprise), enterprise));
 			}

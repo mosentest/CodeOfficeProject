@@ -37,11 +37,9 @@ public class Project_ {
 	
 	public static volatile SingularAttribute<Project, Integer> visibility;
 	
-	public static volatile SingularAttribute<Project, Integer> noUser;
+	public static volatile SingularAttribute<Project, Integer> totalUsers;
 	
-	public static volatile SingularAttribute<Project, Integer> noCase;
-	
-	public static volatile ListAttribute<Project, RoleGroup> roleGroups;
+	public static volatile SingularAttribute<Project, Integer> totalIssues;
 	
 	public static volatile ListAttribute<Project, Component> components;
 	

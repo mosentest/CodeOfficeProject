@@ -128,7 +128,7 @@ public class Issue implements Serializable {
 	private List<Version> versions;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "office_case_component", uniqueConstraints = @UniqueConstraint(columnNames = {"issue_cid", "component_id"}),
+    @JoinTable(name = "issue_component", uniqueConstraints = @UniqueConstraint(columnNames = {"issue_cid", "component_id"}),
         joinColumns = @JoinColumn(name = "issue_cid", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "component_id", referencedColumnName = "id"))
 	@OrderBy("name ASC")

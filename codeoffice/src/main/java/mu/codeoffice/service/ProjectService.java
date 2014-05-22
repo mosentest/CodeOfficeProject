@@ -13,8 +13,6 @@ import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
 import mu.codeoffice.entity.ProjectNote;
-import mu.codeoffice.entity.ProjectRole;
-import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.IssuePriority;
 import mu.codeoffice.enums.IssueStatus;
@@ -49,8 +47,7 @@ public class ProjectService extends ProjectStatisticService {
 	@Cacheable(value = "projectRoleCache", key = "#project + '_' + #user.id")
 	public int getProjectAuthority(EnterpriseUser user, String project) throws EnterpriseAuthenticationException {
 		try {
-			ProjectRole role = roleGroupRepository.getProjectRole(user, project);
-			return role.getValue();
+			return 0;
 		} catch (Exception e) {
 			throw new EnterpriseAuthenticationException("Access denied.");
 		}
@@ -90,20 +87,10 @@ public class ProjectService extends ProjectStatisticService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<RoleGroup> getProjectRoleGroups(EnterpriseAuthentication auth, String project) {
-		return roleGroupRepository.getProjectRoleGroups(auth.getEnterprise(), project);
-	}
-	
-	@Transactional(readOnly = true)
-	public List<ProjectRole> getProjectRoles(EnterpriseAuthentication auth, String project) {
-		return roleGroupRepository.getProjectRoles(auth.getEnterprise(), project);
-	}
-	
-	@Transactional(readOnly = true)
 	@Cacheable(value = "projectInfoCache", key = "#code + '_' + #auth.enterpriseUser.id")
 	public Project getProjectInfo(String code, EnterpriseAuthentication auth) throws AuthenticationException {
 		Project project = null;
-		if (auth.hasProjectAuthority()) {
+		if (code == null) {
 			project = projectRepository.getProject(code, auth.getEnterprise());
 		} else {
 			project = projectRepository.getProject(code, auth.getEnterprise(), auth.getEnterpriseUser());
@@ -164,7 +151,7 @@ public class ProjectService extends ProjectStatisticService {
 
 	@Transactional(readOnly = true)
 	public Map<EnterpriseUser, Integer> getAssigneeSummary(Project project) {
-		return getAssigneeSummary(roleGroupRepository.getUsers(project.getId()), project.getId(), null, null, null, null, null, null, null, null);
+		return getAssigneeSummary(null, project.getId(), null, null, null, null, null, null, null, null);
 	}
 	
 }

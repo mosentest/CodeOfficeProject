@@ -1,8 +1,8 @@
 package mu.codeoffice.service;
 
-import static mu.codeoffice.query.CaseSpecifications.all;
-import static mu.codeoffice.query.CaseSpecifications.unresolved;
-import static mu.codeoffice.query.CaseSpecifications.resolved;
+import static mu.codeoffice.query.IssueSpecifications.all;
+import static mu.codeoffice.query.IssueSpecifications.resolved;
+import static mu.codeoffice.query.IssueSpecifications.unresolved;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,10 +22,9 @@ import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.IssuePriority;
 import mu.codeoffice.enums.IssueStatus;
 import mu.codeoffice.enums.IssueType;
-import mu.codeoffice.repository.IssueRepository;
 import mu.codeoffice.repository.ComponentRepository;
+import mu.codeoffice.repository.IssueRepository;
 import mu.codeoffice.repository.LabelRepository;
-import mu.codeoffice.repository.RoleGroupRepository;
 import mu.codeoffice.repository.VersionRepository;
 import mu.codeoffice.utility.DateUtil;
 
@@ -38,9 +37,6 @@ public abstract class ProjectStatisticService {
 	
 	@Autowired
 	protected IssueRepository caseRepository;
-	
-	@Resource
-	protected RoleGroupRepository roleGroupRepository;
 	
 	@Resource
 	protected ComponentRepository componentRepository;

@@ -21,7 +21,7 @@
 			http://www.springframework.org/schema/mvc
 			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 			http://www.springframework.org/schema/data/jpa
-			http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+			http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
 			http://www.springframework.org/schema/security 
 			http://www.springframework.org/schema/security/spring-security-3.2.xsd
 			http://www.springframework.org/schema/cache 
@@ -137,8 +137,8 @@
 		<security:intercept-url pattern="/enterprise/" access="permitAll"/>
 		<security:intercept-url pattern="/enterprise/login" access="permitAll"/>
 		<security:intercept-url pattern="/enterprise/logout" access="permitAll"/>
+		<security:intercept-url pattern="/enterprise/settings/**" access="hasRole('ROLE_SYSTEM_ADMIN')"/>
 		<security:intercept-url pattern="/enterprise/accessdenied" access="permitAll"/>
-		<security:intercept-url pattern="/enterprise/messaging" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/enterprise/project/create" access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/enterprise/category/create" access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/enterprise/category/**/" access="hasAnyRole('ROLE_PROJECT_MANAGER', 'ROLE_MANAGER', 'ROLE_ADMIN')"/>

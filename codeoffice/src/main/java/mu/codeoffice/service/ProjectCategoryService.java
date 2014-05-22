@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectCategory;
-import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.repository.ProjectCategoryRepository;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
@@ -70,10 +69,6 @@ public class ProjectCategoryService {
 		emptyCategory.setProjects(projectRepository.getNoneCategorizedProjects(auth.getEnterprise()));
 		categories.add(emptyCategory);
 		categories.forEach(category -> category.getProjects().size());
-		if (auth.hasProjectAuthority()) {
-			categories.forEach(category -> category.getProjects().forEach(project -> project.getLead().getId()));
-			return categories;
-		}
 		categories.forEach(category -> category.setProjects(category.getProjects()
 				.stream()
 				.filter(project -> isProjectVisible(project, auth))
@@ -95,9 +90,6 @@ public class ProjectCategoryService {
 			return null;
 		}
 		projectCategory.getProjects().forEach(project -> project.getLead().getId());
-		if (auth.hasProjectAuthority()) {
-			return projectCategory;
-		}
 		projectCategory.setProjects(projectCategory.getProjects()
 				.stream()
 				.filter(project -> isProjectVisible(project, auth))
@@ -107,11 +99,6 @@ public class ProjectCategoryService {
 	
 	private boolean isProjectVisible(Project project, EnterpriseAuthentication authentication) {
 		project.getLead().getId();
-		for (RoleGroup roleGroup : project.getRoleGroups()) {
-			if (roleGroup.getUsers().contains(authentication.getEnterpriseUser())) {
-				return true;
-			}
-		}
 		return false;
 	}
 		

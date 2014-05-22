@@ -1,6 +1,5 @@
 package mu.codeoffice.security;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,8 +18,6 @@ import org.springframework.stereotype.Service;
 public class EnterpriseUserDetailsService implements UserDetailsService {
 	
 	private static final Logger logger = Logger.getLogger(EnterpriseUser.class);
-	
-	private static final int MAX_ROLE_OFFSET = 1 << 11;
 
 	@Resource
 	private EnterpriseUserRepository enterpriseUserRepository;
@@ -36,7 +33,7 @@ public class EnterpriseUserDetailsService implements UserDetailsService {
 			enterpriseUser.getEnterprise().getId();
 			userDetails = new EnterpriseAuthentication(enterpriseUser.getEnterprise(), enterpriseUser, 
 					enterpriseUser.getAccount(), enterpriseUser.getPassword(),
-					true, true, true, true, grantAuthorities(enterpriseUser.getAuthority()));
+					true, true, true, true, grantAuthorities(enterpriseUser.getGlobalPermissionValue(), enterpriseUser.getProjectPermissionValue()));
 		} catch (UsernameNotFoundException e) {
 			throw e;
 		} catch (Exception e) {
@@ -46,15 +43,11 @@ public class EnterpriseUserDetailsService implements UserDetailsService {
 		return userDetails;
 	}
 	
-	private List<GrantedAuthority> grantAuthorities(Integer authority) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (int i = 1; i <= MAX_ROLE_OFFSET; i *= 2) {
-			if ((authority & 1) == 1) {
-				authorities.add(EnterpriseAuthority.getAuthority(i));
-			}
-			authority = authority >> 1;
-		}
-		return authorities;
+	private List<GrantedAuthority> grantAuthorities(int globalPermissionValue, int projectPermissionValue) {
+		List<GrantedAuthority> globalAuthorities = EnterpriseAuthority.getGrantedAuthorities(GlobalPermission.getPermissions(globalPermissionValue));
+		List<GrantedAuthority> projectAuthorities = EnterpriseAuthority.getGrantedAuthorities(ProjectPermission.getPermissions(projectPermissionValue));
+		globalAuthorities.addAll(projectAuthorities);
+		return globalAuthorities;
 	}
 
 }

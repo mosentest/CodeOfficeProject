@@ -1,13 +1,13 @@
 package mu.codeoffice.service;
 
-import static mu.codeoffice.query.CaseSpecifications.all;
-import static mu.codeoffice.query.CaseSpecifications.closed;
-import static mu.codeoffice.query.CaseSpecifications.inProgress;
-import static mu.codeoffice.query.CaseSpecifications.pageSpecification;
-import static mu.codeoffice.query.CaseSpecifications.resolved;
-import static mu.codeoffice.query.CaseSpecifications.sort;
-import static mu.codeoffice.query.CaseSpecifications.unresolved;
-import static mu.codeoffice.query.CaseSpecifications.assigned;
+import static mu.codeoffice.query.IssueSpecifications.all;
+import static mu.codeoffice.query.IssueSpecifications.assigned;
+import static mu.codeoffice.query.IssueSpecifications.closed;
+import static mu.codeoffice.query.IssueSpecifications.inProgress;
+import static mu.codeoffice.query.IssueSpecifications.pageSpecification;
+import static mu.codeoffice.query.IssueSpecifications.resolved;
+import static mu.codeoffice.query.IssueSpecifications.sort;
+import static mu.codeoffice.query.IssueSpecifications.unresolved;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +15,12 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mu.codeoffice.data.AssigneeData;
-import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.Issue;
 import mu.codeoffice.enums.IssuePriority;
 import mu.codeoffice.enums.IssueStatus;
 import mu.codeoffice.enums.IssueType;
 import mu.codeoffice.repository.IssueRepository;
-import mu.codeoffice.repository.RoleGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 
 import org.springframework.data.domain.Page;
@@ -29,17 +28,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CaseService {
+public class IssueService {
 
 	@Resource
 	private IssueRepository caseRepository;
 	
-	@Resource 
-	private RoleGroupRepository roleGroupRepository;
-	
 	public List<AssigneeData> getAssigneeStatus(Long project) {
 		List<AssigneeData> assigneeStatus = new ArrayList<>();
-		List<EnterpriseUser> users = roleGroupRepository.getUsers(project);
+		List<EnterpriseUser> users = new ArrayList<>();
 		for (EnterpriseUser user : users) {
 			int total = (int) caseRepository.count(all(null, project, null, null, null, null, user.getId(), null, null, null, null));
 			if (total == 0) {

@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface Permission {
 	
-	default boolean isAuthorized(int authority, Permission permission) {
-		return (permission.getAuthority() & authority) > 1;
+	default boolean isAuthorized(int authority) {
+		return (getAuthority() & authority) > 1;
 	}
 	
 	default int getPermissionValue(List<Permission> permissions) {
@@ -17,4 +17,14 @@ public interface Permission {
 	}
 	
 	public int getAuthority();
+	
+	public String getKey();
+	
+	public String getAuthKey();
+	
+	public String getCategory();
+	
+	public String getDescription();
+	
+	public int getFullAuthority();
 }

@@ -6,10 +6,9 @@ import mu.codeoffice.dto.ComponentDTO;
 import mu.codeoffice.dto.ProjectDTO;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
-import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
-import mu.codeoffice.service.CaseService;
+import mu.codeoffice.service.IssueService;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class ProjectController extends ProjectPermissionRequired {
 	private static final Logger logger = Logger.getLogger(ProjectController.class);
 	
 	@Autowired
-	private CaseService caseService;
+	private IssueService caseService;
 	
 	@RequestMapping(value = "project", method = RequestMethod.GET)
 	public ModelAndView main(ModelMap model) {
@@ -41,7 +40,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}", method = RequestMethod.GET)
 	public ModelAndView project(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("caseStream", caseService.getProjectCaseStream(auth, project.getId(), 0, LIST_ITEMS));
@@ -56,7 +54,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/summary", method = RequestMethod.GET)
 	public ModelAndView summary(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("monthlySummary", projectService.getProjectMonthlySummary(project));
@@ -70,18 +67,16 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/versions", method = RequestMethod.GET)
 	public ModelAndView versions(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("versions", projectService.getProjectVersions(project.getId()));
-		model.put("VC_MANAGER_AUTH", hasAuthority(auth, code, ProjectPermission.VERSION_COMPONENT_MANAGE));
+		model.put("VC_MANAGER_AUTH", null);
 		return new ModelAndView("enterprise/project/project_versions", model);
 	}
 
 	@RequestMapping(value = "pro_{code}/roadmap", method = RequestMethod.GET)
 	public ModelAndView roadmap(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("roadMap", projectService.getRoadMap(project));
@@ -91,7 +86,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/casesummary", method = RequestMethod.GET)
 	public ModelAndView caseSummary(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("statusMap", projectService.getCaseStatusSummary(project));
@@ -107,7 +101,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/case", method = RequestMethod.GET)
 	public ModelAndView cases(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.CASE);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("casePage", caseService.getCasePage(auth, project.getId(), 
@@ -118,7 +111,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/case/{page}", method = RequestMethod.GET)
 	public ModelAndView casesPage(@PathVariable("page") int page, @PathVariable("code") String code,
 		@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		if (page <= 0) {
@@ -132,21 +124,19 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/rolegroup", method = RequestMethod.GET)
 	public ModelAndView rolegroup(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		model.put("project", projectService.getProjectInfo(code, auth));
-		model.put("roleGroups", projectService.getProjectRoleGroups(auth, code));
+		model.put("roleGroups", null);
 		return new ModelAndView("enterprise/project/project_rolegroup", model);
 	}
 
 	@RequestMapping(value = "pro_{code}/components", method = RequestMethod.GET)
 	public ModelAndView components(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("components", projectService.getProjectComponents(project.getId()));
 		model.put("mergeComponent", new ComponentDTO());
-		model.put("VC_MANAGER_AUTH", hasAuthority(auth, code, ProjectPermission.VERSION_COMPONENT_MANAGE));
+		model.put("VC_MANAGER_AUTH", null);
 		logger.debug("Logger");
 		return new ModelAndView("enterprise/project/project_components", model);
 	}
@@ -154,7 +144,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/labels", method = RequestMethod.GET)
 	public ModelAndView labels(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("labels", projectService.getProjectLabels(project.getId()));
@@ -164,7 +153,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/notes", method = RequestMethod.GET)
 	public ModelAndView notes(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		model.put("notes", projectService.getProjectNote(project.getId()));
@@ -174,7 +162,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/changelog", method = RequestMethod.GET)
 	public ModelAndView changelog(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		return new ModelAndView("enterprise/project/project_changelog", model);
@@ -183,7 +170,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/source", method = RequestMethod.GET)
 	public ModelAndView source(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		return new ModelAndView("enterprise/project/project_source", model);
@@ -192,7 +178,6 @@ public class ProjectController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{code}/reviews", method = RequestMethod.GET)
 	public ModelAndView reviews(@PathVariable("code") String code, @AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 			throws EnterpriseAuthenticationException {
-		authorize(auth, code, ProjectPermission.PROJECT);
 		Project project = projectService.getProjectInfo(code, auth);
 		model.put("project", project);
 		return new ModelAndView("enterprise/project/project_reviews", model);

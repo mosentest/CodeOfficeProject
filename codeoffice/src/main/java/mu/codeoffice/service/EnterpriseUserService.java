@@ -11,7 +11,6 @@ import mu.codeoffice.common.ServiceResponse;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.settings.Submenu;
 import mu.codeoffice.repository.EnterpriseUserRepository;
-import mu.codeoffice.repository.RoleGroupRepository;
 import mu.codeoffice.repository.SubmenuRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 
@@ -28,16 +27,12 @@ public class EnterpriseUserService {
 	private EnterpriseUserRepository enterpriseUserRepository;
 	
 	@Resource
-	private RoleGroupRepository roleGroupRepository;
-	
-	@Resource
 	private SubmenuRepository submenuRepository;
 	
 	@Transactional(readOnly = true)
 	public List<EnterpriseUser> getAvailableUserForProject(EnterpriseAuthentication auth, String projectCode) {
 		List<EnterpriseUser> users = enterpriseUserRepository.getUsers(auth.getEnterprise());
-		List<EnterpriseUser> projectUsers = roleGroupRepository.getUsers(projectCode);
-		users.removeAll(projectUsers);
+		users.removeAll(null);
 		return users;
 	}
 	

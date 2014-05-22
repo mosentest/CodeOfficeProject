@@ -70,7 +70,7 @@ public class Issue_ {
 	
 	public static volatile ListAttribute<Issue, IssueHistory> histories;
 	
-	public static volatile ListAttribute<Issue, IssueLink> caseLinks;
+	public static volatile ListAttribute<Issue, IssueLink> issueLink;
 	
 	public static volatile ListAttribute<Issue, IssueActivity> activities;
 	

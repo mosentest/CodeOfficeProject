@@ -1,8 +1,8 @@
 package mu.codeoffice.service;
 
-import static mu.codeoffice.query.CaseSpecifications.all;
-import static mu.codeoffice.query.CaseSpecifications.pageSpecification;
-import static mu.codeoffice.query.CaseSpecifications.sort;
+import static mu.codeoffice.query.IssueSpecifications.all;
+import static mu.codeoffice.query.IssueSpecifications.pageSpecification;
+import static mu.codeoffice.query.IssueSpecifications.sort;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -206,6 +206,6 @@ public class VersionService extends ProjectStatisticService {
 
 	@Transactional(readOnly = true)
 	public Map<EnterpriseUser, Integer> getAssigneeSummary(Project project, Long version, Long releaseVersion) {
-		return getAssigneeSummary(roleGroupRepository.getUsers(project.getId()), project.getId(), version, releaseVersion, null, null, null, null, null, null);
+		return getAssigneeSummary(null, project.getId(), version, releaseVersion, null, null, null, null, null, null);
 	}
 }

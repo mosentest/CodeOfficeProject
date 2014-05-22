@@ -1,8 +1,8 @@
 package mu.codeoffice.service;
 
-import static mu.codeoffice.query.CaseSpecifications.all;
-import static mu.codeoffice.query.CaseSpecifications.pageSpecification;
-import static mu.codeoffice.query.CaseSpecifications.sort;
+import static mu.codeoffice.query.IssueSpecifications.all;
+import static mu.codeoffice.query.IssueSpecifications.pageSpecification;
+import static mu.codeoffice.query.IssueSpecifications.sort;
 
 import java.util.List;
 import java.util.Map;
@@ -12,16 +12,14 @@ import javax.annotation.Resource;
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.data.Summary;
 import mu.codeoffice.dto.ComponentDTO;
-import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
-import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.IssuePriority;
 import mu.codeoffice.enums.IssueStatus;
-import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
@@ -82,17 +80,6 @@ public class ComponentService extends ProjectStatisticService {
 		}
 		component.setProject(project);
 		component.setEnterprise(auth.getEnterprise());
-		List<RoleGroup> userGroup = roleGroupRepository.getAuthorizedGroups(project.getId(), ProjectPermission.CASE.getValue());
-		List<RoleGroup> leadGroup = roleGroupRepository.getAuthorizedGroups(project.getId(), ProjectPermission.VERSION_COMPONENT_MANAGE.getValue());
-		if (!RoleGroup.hasUser(userGroup, component.getDefaultAssignee())) {
-			throw new InformationException("Default assignee for component is not valid.");
-		}
-		if (!RoleGroup.hasUser(userGroup, component.getDefaultReporter())) {
-			throw new InformationException("Default reporter for component is not valid.");
-		}
-		if (!RoleGroup.hasUser(leadGroup, component.getLead())) {
-			throw new InformationException("Component lead is not valid.");
-		}
 		componentRepository.save(component);
 	}
 	
@@ -111,17 +98,6 @@ public class ComponentService extends ProjectStatisticService {
 		}
 		component.setProject(project);
 		component.setEnterprise(auth.getEnterprise());
-		List<RoleGroup> userGroup = roleGroupRepository.getAuthorizedGroups(project.getId(), ProjectPermission.CASE.getValue());
-		List<RoleGroup> leadGroup = roleGroupRepository.getAuthorizedGroups(project.getId(), ProjectPermission.VERSION_COMPONENT_MANAGE.getValue());
-		if (!RoleGroup.hasUser(userGroup, component.getDefaultAssignee())) {
-			throw new InformationException("Default assignee for component is not valid.");
-		}
-		if (!RoleGroup.hasUser(userGroup, component.getDefaultReporter())) {
-			throw new InformationException("Default reporter for component is not valid.");
-		}
-		if (!RoleGroup.hasUser(leadGroup, component.getLead())) {
-			throw new InformationException("Component lead is not valid.");
-		}
 		componentRepository.save(component);
 	}
 	
@@ -133,11 +109,6 @@ public class ComponentService extends ProjectStatisticService {
 	@Transactional(readOnly = true)
 	public List<Component> getProjectComponents(EnterpriseAuthentication auth, String project) {
 		return componentRepository.getProjectComponents(auth.getEnterprise(), project);
-	}
-	
-	@Transactional(readOnly = true)
-	public List<RoleGroup> getAuthorizedUsers(EnterpriseAuthentication auth, Long project, ProjectPermission permission) {
-		return roleGroupRepository.getAuthorizedGroups(project, permission.getValue());
 	}
 	
 	@Transactional
@@ -192,6 +163,6 @@ public class ComponentService extends ProjectStatisticService {
 
 	@Transactional(readOnly = true)
 	public Map<EnterpriseUser, Integer> getAssigneeSummary(Project project, Component component) {
-		return getAssigneeSummary(roleGroupRepository.getUsers(project.getId()), project.getId(), null, null, component.getId(), null, null, null, null, null);
+		return getAssigneeSummary(null, project.getId(), null, null, component.getId(), null, null, null, null, null);
 	}
 }

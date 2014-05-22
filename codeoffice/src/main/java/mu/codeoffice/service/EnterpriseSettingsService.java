@@ -1,9 +1,14 @@
 package mu.codeoffice.service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
+
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
+import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.settings.AnnouncementBanner;
 import mu.codeoffice.entity.settings.AttachmentSettings;
 import mu.codeoffice.entity.settings.GeneralProjectSettings;
@@ -25,11 +30,14 @@ import mu.codeoffice.repository.settings.TimeTrackingSettingsRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EnterpriseSettingsService {
+	
+	private Map<Enterprise, SettingsHolder> cacheManager = new HashMap<>();
 	
 	@Autowired
 	private ServletContext servletContext;
@@ -166,18 +174,30 @@ public class EnterpriseSettingsService {
 	public void update(EnterpriseAuthentication auth, InternationalizationSettings internationalizationSettings) 
 			throws InformationException, AuthenticationException {
 		internationalizationSettingsRepository.save(internationalizationSettings);
+		cacheSettings(auth.getEnterprise(), "internationalization", internationalizationSettings);
 		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_INTERNATIONALIZATION", internationalizationSettings);
 	}
 	
 	public void save(EnterpriseAuthentication auth, InternationalizationSettings internationalizationSettings) 
 			throws InformationException, AuthenticationException {
 		internationalizationSettingsRepository.save(internationalizationSettings);
+		cacheSettings(auth.getEnterprise(), "internationalization", internationalizationSettings);
 		servletContext.setAttribute("ENT_SETTINGS_" + auth.getEnterprise().getId() + "_INTERNATIONALIZATION", internationalizationSettings);
 	}
 	
 	public InternationalizationSettings getInternationalizationSettings(EnterpriseAuthentication auth) 
 			throws InformationException, AuthenticationException {
-		return null;
+		Object settings = getSettings(auth.getEnterprise(), "internationalization");
+		if (settings != null) {
+			return (InternationalizationSettings) settings;
+		}
+		InternationalizationSettings internationalizationSettings = internationalizationSettingsRepository.getOne(null);
+		internationalizationSettings.setDefaultLocale(null);
+		internationalizationSettings.setDefaultTimeZone(TimeZone.getTimeZone(internationalizationSettings.getDefaultTimeZoneID()));
+		LocaleContextHolder.setTimeZone(internationalizationSettings.getDefaultTimeZone());
+		LocaleContextHolder.setLocale(internationalizationSettings.getDefaultLocale());
+		cacheSettings(auth.getEnterprise(), "internationalization", internationalizationSettings);
+		return internationalizationSettings;
 	}
 	
 	public void update(EnterpriseAuthentication auth, ProjectPermission projectPermission) 
@@ -212,6 +232,38 @@ public class EnterpriseSettingsService {
 	public TimeTrackingSettings getTimeTrackingSettings(EnterpriseAuthentication auth) 
 			throws InformationException, AuthenticationException {
 		return null;
+	}
+	
+	public Object getSettings(Enterprise enterprise, String key) {
+		if (cacheManager.get(enterprise) == null) {
+			return null;
+		}
+		return cacheManager.get(enterprise).getSettings(key);
+	}
+	
+	private void cacheSettings(Enterprise enterprise, String key, Object settings) {
+		if (cacheManager.get(enterprise) == null) {
+			cacheManager.put(enterprise, new SettingsHolder());
+		}
+		cacheManager.get(enterprise).putSettings(key, settings);
+	}
+	
+	public static class SettingsHolder {
+		
+		private Map<String, Object> settings;
+		
+		public SettingsHolder() {
+			settings = new HashMap<>();
+		}
+		
+		public void putSettings(String key, Object settings) {
+			this.settings.put(key, settings);
+		}
+		
+		public Object getSettings(String key) {
+			return settings.get(key);
+		}
+		
 	}
 	
 }

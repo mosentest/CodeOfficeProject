@@ -21,14 +21,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-public class CaseSpecifications {
+public class IssueSpecifications {
 
 	public static Specification<Issue> all(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
 		return new Specification<Issue>() {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
+				List<Predicate> predicates = IssueSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
 				predicates.add(builder.isFalse(root.get(Issue_.removed)));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
@@ -39,7 +39,7 @@ public class CaseSpecifications {
 		return new Specification<Issue>() {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
+				List<Predicate> predicates = IssueSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
 				predicates.add(builder.isFalse(root.get(Issue_.removed)));
 				predicates.add(builder.isTrue(root.get(Issue_.inProgress)));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -51,7 +51,7 @@ public class CaseSpecifications {
 		return new Specification<Issue>() {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
+				List<Predicate> predicates = IssueSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
 				predicates.add(builder.isFalse(root.get(Issue_.removed)));
 				predicates.add(builder.isNotNull(root.get(Issue_.close)));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -63,7 +63,7 @@ public class CaseSpecifications {
 		return new Specification<Issue>() {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
+				List<Predicate> predicates = IssueSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
 				predicates.add(builder.isFalse(root.get(Issue_.removed)));
 				predicates.add(builder.notEqual(root.get(Issue_.status), IssueStatus.CLO));
 				predicates.add(builder.notEqual(root.get(Issue_.status), IssueStatus.RES));
@@ -79,7 +79,7 @@ public class CaseSpecifications {
 		return new Specification<Issue>() {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
+				List<Predicate> predicates = IssueSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
 				predicates.add(builder.isFalse(root.get(Issue_.removed)));
 				predicates.add(builder.notEqual(root.get(Issue_.status), IssueStatus.CLO));
 				predicates.add(builder.notEqual(root.get(Issue_.status), IssueStatus.RES));
@@ -94,7 +94,7 @@ public class CaseSpecifications {
 		return new Specification<Issue>() {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, null, type, priority);
+				List<Predicate> predicates = IssueSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, null, type, priority);
 				predicates.add(builder.isFalse(root.get(Issue_.removed)));
 				predicates.add(builder.and(
 						builder.or(

@@ -106,6 +106,26 @@ public class EnterpriseUser implements Serializable {
     	return mu.codeoffice.security.GlobalPermission.getPermissions(globalPermissionValue);
     }
 	
+	public int getGlobalPermissionValue() {
+		return globalPermissionValue;
+	}
+
+	public void setGlobalPermissionValue(int globalPermissionValue) {
+		this.globalPermissionValue = globalPermissionValue;
+	}
+
+	public List<UserGroup> getUserGroups() {
+		return userGroups;
+	}
+
+	public void setUserGroups(List<UserGroup> userGroups) {
+		this.userGroups = userGroups;
+	}
+
+	public void setGlobalPermissions(List<GlobalPermission> globalPermissions) {
+		this.globalPermissions = globalPermissions;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof EnterpriseUser)) {

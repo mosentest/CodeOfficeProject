@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.EnterpriseUser;
-import mu.codeoffice.enums.ProjectPermission;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -35,29 +34,8 @@ public class EnterpriseAuthentication extends User {
 		return enterpriseUser;
 	}
 	
-	public boolean hasEnterpriseAuthority(Enterprise enterprise) {
-		return enterprise != null && this.enterprise.getId().equals(enterprise.getId());
-	}
-	
 	public boolean authorized(GrantedAuthority authority) {
 		return getAuthorities().contains(authority);
-	}
-	
-	public boolean projectAuthenticate(int authority, ProjectPermission...roles) {
-		return ProjectPermission.authenticate(authority, roles);
-	}
-	
-	public boolean hasProjectAuthority() {
-		boolean authorized = false;
-		for (GrantedAuthority authority : getAuthorities()) {
-			if (authority.getAuthority().equals(EnterpriseAuthority.ROLE_ADMIN.getAuthority()) || 
-					authority.getAuthority().equals(EnterpriseAuthority.ROLE_MANAGER.getAuthority()) ||
-					authority.getAuthority().equals(EnterpriseAuthority.ROLE_PROJECT_MANAGER.getAuthority())) {
-				authorized = true;
-				break;
-			}
-		}
-		return authorized;
 	}
 
 }

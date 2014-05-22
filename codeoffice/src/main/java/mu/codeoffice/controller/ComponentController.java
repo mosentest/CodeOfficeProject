@@ -12,7 +12,6 @@ import mu.codeoffice.common.InformationException;
 import mu.codeoffice.dto.ComponentDTO;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Project;
-import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.json.ComponentJSON;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.ComponentService;
@@ -45,7 +44,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}/edit", method = RequestMethod.GET) 
 	public ModelAndView editRequest(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		Component component = componentService.getProjectComponent(projectCode, componentCode, auth);
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		model.put("project", project);
@@ -58,7 +56,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}/edit", method = RequestMethod.POST) 
 	public ModelAndView edit(@ModelAttribute Component component, @PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session,ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			componentService.update(auth, componentCode, component, projectCode);
 			addNoticeMessage(session, "Component has been updated.");
@@ -77,7 +74,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/component/create", method = RequestMethod.GET) 
 	public ModelAndView createRequest(@PathVariable("projectCode") String projectCode,
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		model.put("component", new Component());
 		model.put("edit", false);
 		Project project = projectService.getProjectInfo(projectCode, auth);
@@ -89,7 +85,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/component/create", method = RequestMethod.POST) 
 	public ModelAndView create(@ModelAttribute Component component, @PathVariable("projectCode") String projectCode,
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			componentService.create(auth, component, projectCode);
 			addNoticeMessage(session, "Component has been created.");
@@ -107,7 +102,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	public ModelAndView delete(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			HttpServletRequest request, HttpSession session, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			componentService.delete(projectCode, componentCode, auth);
 			addNoticeMessage(session, "Component has been deleted");
@@ -122,7 +116,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	public ModelAndView mergeRequest(@RequestParam(value = "targetComponent", required = false) String targetComponent, 
 			@ModelAttribute("mergeComponent") ComponentDTO mergeComponent, @PathVariable("projectCode") String projectCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		if (!projectCode.equals(mergeComponent.getProject())) {
 			addErrorMessage(session, "Project not available");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
@@ -154,7 +147,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	public ModelAndView merge(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode, 
 			@ModelAttribute("mergeComponent") ComponentDTO mergeComponent, @AuthenticationPrincipal EnterpriseAuthentication auth, 
 			HttpSession session, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			componentService.merge(auth, projectCode, componentCode, mergeComponent);
 			addNoticeMessage(session, "Components: '" + String.join("', '", mergeComponent.getComponentCode()) + "' has been merged.");
@@ -168,7 +160,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}/info", method = RequestMethod.GET)
 	public @ResponseBody ComponentJSON getComponentInfo(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode,
 			@AuthenticationPrincipal EnterpriseAuthentication auth) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Component component = componentService.getProjectComponent(projectCode, componentCode, auth);
 		logger.debug("Ajax requesting: " + component.getId());
 		return component.toJSONObject();
@@ -177,12 +168,11 @@ public class ComponentController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}", method = RequestMethod.GET) 
 	public ModelAndView summary(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		Component component = componentService.getProjectComponent(project, componentCode);
 		model.put("project", project);
 		model.put("component", component);
-		model.put("VC_MANAGER_AUTH", hasAuthority(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE));
+		model.put("VC_MANAGER_AUTH", null);
 		model.put("monthlySummary", componentService.getComponentMonthlySummary(project, component));
 		model.put("mergeComponent", new ComponentDTO());
 		return new ModelAndView("enterprise/project/component_summary");
@@ -191,7 +181,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}/summary", method = RequestMethod.GET) 
 	public ModelAndView casesummary(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		Component component = componentService.getProjectComponent(project, componentCode);
 		model.put("project", project);
@@ -208,7 +197,6 @@ public class ComponentController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/m_{componentCode}/case", method = RequestMethod.GET) 
 	public ModelAndView cases(@PathVariable("projectCode") String projectCode, @PathVariable("componentCode") String componentCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		Component component = componentService.getProjectComponent(project, componentCode);
 		model.put("project", project);
@@ -218,8 +206,8 @@ public class ComponentController extends ProjectPermissionRequired {
 	}
 	
 	private void loadUserGroups(EnterpriseAuthentication auth, Long project, ModelMap model) {
-		model.put("leadGroup", componentService.getAuthorizedUsers(auth, project, ProjectPermission.VERSION_COMPONENT_MANAGE));
-		model.put("userGroup", componentService.getAuthorizedUsers(auth, project, ProjectPermission.CASE));
+		model.put("leadGroup", null);
+		model.put("userGroup", null);
 	}
 	
 }

@@ -79,9 +79,6 @@ public class Project implements Serializable {
 	private int totalIssues;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
-	private List<RoleGroup> roleGroups;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
 	private List<Component> components;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
@@ -222,14 +219,6 @@ public class Project implements Serializable {
 
 	public void setRemoved(boolean removed) {
 		this.removed = removed;
-	}
-
-	public List<RoleGroup> getRoleGroups() {
-		return roleGroups;
-	}
-
-	public void setRoleGroups(List<RoleGroup> roleGroups) {
-		this.roleGroups = roleGroups;
 	}
 
 	public int getTotalIssues() {

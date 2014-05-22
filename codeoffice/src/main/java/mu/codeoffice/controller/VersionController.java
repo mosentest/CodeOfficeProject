@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.Version;
-import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.VersionService;
 import mu.codeoffice.utility.DateEditor;
@@ -41,7 +40,6 @@ public class VersionController extends ProjectPermissionRequired {
 	public ModelAndView start(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) 
 					throws AuthenticationException, InformationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			versionService.start(auth, projectCode, versionCode);
 			addNoticeMessage(session, "Changed status of version '" + versionCode + "' to 'Started'.");
@@ -56,7 +54,6 @@ public class VersionController extends ProjectPermissionRequired {
 	public ModelAndView stop(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) 
 					throws AuthenticationException, InformationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			versionService.stop(auth, projectCode, versionCode);
 			addNoticeMessage(session, "Stopped progress on version '" + versionCode + "'.");
@@ -71,7 +68,6 @@ public class VersionController extends ProjectPermissionRequired {
 	public ModelAndView release(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) 
 					throws AuthenticationException, InformationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			versionService.release(auth, projectCode, versionCode);
 			addNoticeMessage(session, "Released version '" + versionCode + "'.");
@@ -86,7 +82,6 @@ public class VersionController extends ProjectPermissionRequired {
 	public ModelAndView editRequest(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) 
 					throws AuthenticationException, InformationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		model.put("project", projectService.getProjectInfo(projectCode, auth));
 		model.put("version", versionService.getProjectVersion(auth, projectCode, versionCode));
 		model.put("edit", true);
@@ -98,7 +93,6 @@ public class VersionController extends ProjectPermissionRequired {
 			@ModelAttribute("version") Version version, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) 
 					throws AuthenticationException, InformationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			versionService.edit(auth, projectCode, versionCode, version);
 			addNoticeMessage(session, "Version has been updated.");
@@ -117,7 +111,6 @@ public class VersionController extends ProjectPermissionRequired {
 	public ModelAndView delete(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) 
 					throws AuthenticationException, InformationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			versionService.delete(auth, projectCode, versionCode);
 			addNoticeMessage(session, "Version has been deleted.");
@@ -132,7 +125,6 @@ public class VersionController extends ProjectPermissionRequired {
 	public ModelAndView createRequest(@PathVariable("projectCode") String projectCode,
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) 
 					throws AuthenticationException, InformationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		model.put("project", projectService.getProjectInfo(projectCode, auth));
 		model.put("version", new Version());
 		model.put("edit", false);
@@ -144,7 +136,6 @@ public class VersionController extends ProjectPermissionRequired {
 			@ModelAttribute("version") Version version,
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) 
 					throws AuthenticationException, InformationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE);
 		try {
 			versionService.create(auth, projectCode, version);
 			addNoticeMessage(session, "Version has been created.");
@@ -160,20 +151,18 @@ public class VersionController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/v_{versionCode}", method = RequestMethod.GET) 
 	public ModelAndView summary(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		Version version = versionService.getProjectVersion(auth, projectCode, versionCode);
 		model.put("project", project);
 		model.put("version", version);
 		model.put("monthlySummary", versionService.getVersionMonthlySummary(project, version));
-		model.put("VC_MANAGER_AUTH", hasAuthority(auth, projectCode, ProjectPermission.VERSION_COMPONENT_MANAGE));
+		model.put("VC_MANAGER_AUTH", null);
 		return new ModelAndView("enterprise/project/version_summary");
 	}
 	
 	@RequestMapping(value = "pro_{projectCode}/v_{versionCode}/crelated", method = RequestMethod.GET) 
 	public ModelAndView related(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		Version version = versionService.getProjectVersion(auth, projectCode, versionCode);
 		model.put("project", project);
@@ -190,7 +179,6 @@ public class VersionController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/v_{versionCode}/crelease", method = RequestMethod.GET) 
 	public ModelAndView release(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		Version version = versionService.getProjectVersion(auth, projectCode, versionCode);
 		model.put("project", project);
@@ -207,7 +195,6 @@ public class VersionController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/v_{versionCode}/releasenote", method = RequestMethod.GET) 
 	public ModelAndView releasenote(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		Version version = versionService.getProjectVersion(auth, projectCode, versionCode);
 		model.put("project", project);
@@ -219,7 +206,6 @@ public class VersionController extends ProjectPermissionRequired {
 	@RequestMapping(value = "pro_{projectCode}/v_{versionCode}/case", method = RequestMethod.GET) 
 	public ModelAndView cases(@PathVariable("projectCode") String projectCode, @PathVariable("versionCode") String versionCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) throws AuthenticationException {
-		authorize(auth, projectCode, ProjectPermission.VERSION_COMPONENT);
 		Project project = projectService.getProjectInfo(projectCode, auth);
 		Version version = versionService.getProjectVersion(auth, projectCode, versionCode);
 		model.put("project", project);

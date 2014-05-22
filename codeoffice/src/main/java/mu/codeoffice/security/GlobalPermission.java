@@ -7,14 +7,16 @@ import java.util.Map;
 
 public enum GlobalPermission implements Permission {
 
-	SYSTEM_ADMIN("codeoffice.permission.global.system_admin", 32, 63),
-	ADMIN("codeoffice.permission.global.admin", 16, 31),
-	PROJECT_ADMIN("codeoffice.permission.global.project_admin", 8, 11),
-	SHARED_OBJECT("codeoffice.permission.global.shared_object", 4, 5),
-	BROWSE_USER("codeoffice.permission.global.browse_user", 2, 3),
-	USER("codeoffice.permission.global.user", 1, 1);
+	SYSTEM_ADMIN("codeoffice.permission.global.system_admin", "ROLE_SYSTEM_ADMIN", 32, 63),
+	ADMIN("codeoffice.permission.global.admin", "ROLE_ADMIN", 16, 31),
+	PROJECT_ADMIN("codeoffice.permission.global.project_admin", "ROLE_PROJECT_ADMIN", 8, 11),
+	SHARED_OBJECT("codeoffice.permission.global.shared_object", "ROLE_SHARED_OBJECT", 4, 5),
+	BROWSE_USER("codeoffice.permission.global.browse_user", "ROLE_BROWSE_USER", 2, 3),
+	USER("codeoffice.permission.global.user", "ROLE_USER", 1, 1);
 	
 	private final String key;
+	
+	private final String authKey;
 	
 	private final String category = "codeoffice.permission.global.global";
 	
@@ -26,8 +28,9 @@ public enum GlobalPermission implements Permission {
 	
 	private final static Map<Integer, List<GlobalPermission>> cacheManager = new HashMap<>();
 	
-	private GlobalPermission(String key, int authority, int fullAuthority) {
+	private GlobalPermission(String key, String authKey, int authority, int fullAuthority) {
 		this.key = key;
+		this.authKey = authKey;
 		this.description = key + ".description";
 		this.authority = authority;
 		this.fullAuthority = fullAuthority;
@@ -51,21 +54,30 @@ public enum GlobalPermission implements Permission {
 		cacheManager.put(fullAuthority, permissions);
 		return permissions;
 	}
-	
+
+	@Override
 	public String getKey() {
 		return key;
 	}
-	
+
+	@Override
 	public String getCategory() {
 		return category;
 	}
-	
+
+	@Override
 	public String getDescription() {
 		return description;
 	}
-	
+
+	@Override
 	public int getFullAuthority() {
 		return fullAuthority;
+	}
+
+	@Override
+	public String getAuthKey() {
+		return authKey;
 	}
 	
 }
