@@ -24,7 +24,7 @@ import mu.codeoffice.entity.UserGroup;
 
 @Entity
 @Table(name = "settings_globalpermission")
-public class GlobalPermission implements Serializable {
+public class GlobalPermissionSettings implements Serializable {
 
 	private static final long serialVersionUID = -3478455507851817587L;
 
@@ -37,7 +37,7 @@ public class GlobalPermission implements Serializable {
 	private Enterprise enterprise;
 
 	@Column(name = "global_permission")
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private mu.codeoffice.security.GlobalPermission globalPermission;
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -52,7 +52,7 @@ public class GlobalPermission implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<EnterpriseUser> users;
 	
-	public GlobalPermission() {}
+	public GlobalPermissionSettings() {}
 
 	public Long getId() {
 		return id;

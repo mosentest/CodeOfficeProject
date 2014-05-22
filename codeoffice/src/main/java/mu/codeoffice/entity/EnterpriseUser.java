@@ -20,11 +20,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
-import mu.codeoffice.entity.settings.GlobalPermission;
-import mu.codeoffice.entity.settings.ProjectPermission;
+import mu.codeoffice.entity.settings.GlobalPermissionSettings;
+import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 
 @Entity
-@Table(name = "enterprise_user")
+@Table(name = "enterprise_user", uniqueConstraints = @UniqueConstraint(columnNames = {"account", "enterprise_id"}))
 public class EnterpriseUser implements Serializable {
 
 	private static final long serialVersionUID = 7445898962052022294L;
@@ -37,7 +37,7 @@ public class EnterpriseUser implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
-    @Column(name = "account", nullable = false, unique = true)
+    @Column(name = "account", nullable = false)
 	private String account;
 
     @Column(name = "email", nullable = false, unique = true)
@@ -71,9 +71,6 @@ public class EnterpriseUser implements Serializable {
 
     @Column(name = "address")
 	private String address;
-
-    @Column(name = "authority")
-    private int authority;
     
     @Column(name = "global_permission_value")
     private int globalPermissionValue;
@@ -82,15 +79,12 @@ public class EnterpriseUser implements Serializable {
     private int projectPermissionValue;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	private List<GlobalPermission> globalPermissions;
+	private List<GlobalPermissionSettings> globalPermissions;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	private List<ProjectPermission> projectPermissions;
+	private List<ProjectPermissionSettings> projectPermissions;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "usergroup_user", 
-        	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
-        	inverseJoinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"))
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private List<UserGroup> userGroups;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -122,7 +116,7 @@ public class EnterpriseUser implements Serializable {
 		this.userGroups = userGroups;
 	}
 
-	public void setGlobalPermissions(List<GlobalPermission> globalPermissions) {
+	public void setGlobalPermissions(List<GlobalPermissionSettings> globalPermissions) {
 		this.globalPermissions = globalPermissions;
 	}
 
@@ -190,14 +184,6 @@ public class EnterpriseUser implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public int getAuthority() {
-		return authority;
-	}
-
-	public void setAuthority(int authority) {
-		this.authority = authority;
 	}
 
 	public String getAccount() {
@@ -272,11 +258,11 @@ public class EnterpriseUser implements Serializable {
 		this.projectPermissionValue = projectPermissionValue;
 	}
 
-	public List<ProjectPermission> getProjectPermissions() {
+	public List<ProjectPermissionSettings> getProjectPermissions() {
 		return projectPermissions;
 	}
 
-	public void setProjectPermissions(List<ProjectPermission> projectPermissions) {
+	public void setProjectPermissions(List<ProjectPermissionSettings> projectPermissions) {
 		this.projectPermissions = projectPermissions;
 	}
 	

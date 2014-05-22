@@ -89,12 +89,7 @@ public class ProjectService extends ProjectStatisticService {
 	@Transactional(readOnly = true)
 	@Cacheable(value = "projectInfoCache", key = "#code + '_' + #auth.enterpriseUser.id")
 	public Project getProjectInfo(String code, EnterpriseAuthentication auth) throws AuthenticationException {
-		Project project = null;
-		if (code == null) {
-			project = projectRepository.getProject(code, auth.getEnterprise());
-		} else {
-			project = projectRepository.getProject(code, auth.getEnterprise(), auth.getEnterpriseUser());
-		}
+		Project project = projectRepository.getProject(code, auth.getEnterprise());
 		if (project == null) {
 			throw new EnterpriseAuthenticationException("You have no permission to project.");
 		}

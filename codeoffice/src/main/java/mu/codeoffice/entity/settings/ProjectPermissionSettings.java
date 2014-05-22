@@ -24,7 +24,7 @@ import mu.codeoffice.entity.UserGroup;
 
 @Entity
 @Table(name = "settings_projectpermission")
-public class ProjectPermission implements Serializable {
+public class ProjectPermissionSettings implements Serializable {
 
 	private static final long serialVersionUID = -3478455507851817587L;
 
@@ -37,7 +37,7 @@ public class ProjectPermission implements Serializable {
 	private Enterprise enterprise;
 
 	@Column(name = "project_permission")
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private mu.codeoffice.security.ProjectPermission projectPermission;
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -52,7 +52,7 @@ public class ProjectPermission implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<EnterpriseUser> users;
 	
-	public ProjectPermission() {}
+	public ProjectPermissionSettings() {}
 
 	public Long getId() {
 		return id;

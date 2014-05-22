@@ -1,16 +1,47 @@
 package mu.codeoffice.service;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
 import javax.annotation.Resource;
 
+import mu.codeoffice.entity.Enterprise;
+import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.UserGroup;
+import mu.codeoffice.entity.settings.AnnouncementBanner;
+import mu.codeoffice.entity.settings.AttachmentSettings;
+import mu.codeoffice.entity.settings.GeneralProjectSettings;
+import mu.codeoffice.entity.settings.GlobalAdvancedSettings;
+import mu.codeoffice.entity.settings.GlobalPermissionSettings;
+import mu.codeoffice.entity.settings.GlobalSettings;
+import mu.codeoffice.entity.settings.InternationalizationSettings;
+import mu.codeoffice.entity.settings.ProjectPermissionSettings;
+import mu.codeoffice.entity.settings.TimeTrackingSettings;
 import mu.codeoffice.repository.ComponentRepository;
+import mu.codeoffice.repository.EnterpriseRepository;
 import mu.codeoffice.repository.EnterpriseUserRepository;
 import mu.codeoffice.repository.IssueRepository;
 import mu.codeoffice.repository.LabelRepository;
 import mu.codeoffice.repository.ProjectCategoryRepository;
 import mu.codeoffice.repository.ProjectRepository;
+import mu.codeoffice.repository.UserGroupRepository;
 import mu.codeoffice.repository.VersionRepository;
+import mu.codeoffice.repository.settings.AnnouncementBannerRepository;
+import mu.codeoffice.repository.settings.AttachmentSettingsRepository;
+import mu.codeoffice.repository.settings.GeneralProjectSettingsRepository;
+import mu.codeoffice.repository.settings.GlobalAdvancedSettingsRepository;
+import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
+import mu.codeoffice.repository.settings.GlobalSettingsRepository;
+import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
+import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
+import mu.codeoffice.repository.settings.TimeTrackingSettingsRepository;
+import mu.codeoffice.security.GlobalPermission;
+import mu.codeoffice.security.ProjectPermission;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TestService {
@@ -35,5 +66,167 @@ public class TestService {
 	
 	@Resource
 	private IssueRepository caseRepository;
+	
+	@Resource
+	private EnterpriseRepository enterpriseRepository;
+	
+	@Resource
+	private AnnouncementBannerRepository announcementBannerRepository;
+	
+	@Resource
+	private GlobalAdvancedSettingsRepository globalAdvancedSettingsRepository;
+	
+	@Resource
+	private GlobalPermissionSettingsRepository globalPermissionRepository;
+	
+	@Resource
+	private AttachmentSettingsRepository attachmentSettingsRepository;
+	
+	@Resource
+	private GeneralProjectSettingsRepository generalProjectSettingsRepository;
+	
+	@Resource
+	private GlobalSettingsRepository globalSettingsRepository;
+	
+	@Resource
+	private InternationalizationSettingsRepository internationalizationSettingsRepository;
+	
+	@Resource
+	private ProjectPermissionSettingsRepository projectPermissionRepository;
+	
+	@Resource
+	private TimeTrackingSettingsRepository timeTrackingSettingsRepository;
+	
+	@Resource
+	private UserGroupRepository userGroupRepository;
+	
+	@Resource(name = "applicationProperties")
+	private Properties properties;
+	
+	@Transactional
+	public void _1_CreateEnterprise() {
+		Enterprise e1 = new Enterprise();
+		e1.setCode("ZIM");
+		e1.setDescription("Zimu Enterprise");
+		e1.setName("Zimu Enterprise");
+
+		Enterprise e2 = new Enterprise();
+		e2.setCode("UMI");
+		e2.setDescription("Enterprise 2");
+		e2.setName("Enterprise 2");
+
+		Enterprise e3 = new Enterprise();
+		e3.setCode("MIZ");
+		e3.setDescription("Enterprise 3");
+		e3.setName("Enterprise 3");
+
+		enterpriseRepository.save(e1);
+		enterpriseRepository.save(e2);
+		enterpriseRepository.save(e3);
+	}
+
+	@Transactional
+	public void _2_CreateEnterpriseSettings() {
+		List<Enterprise> enterprises = enterpriseRepository.findAll();
+		for (Enterprise enterprise : enterprises) {
+			AnnouncementBanner announcementBanner = new AnnouncementBanner();
+			announcementBanner.setEnterprise(enterprise);
+			
+			AttachmentSettings attachmentSettings = new AttachmentSettings();
+			attachmentSettings.setEnterprise(enterprise);
+			attachmentSettings.setDefaultSettings(properties);
+			
+			GeneralProjectSettings generalProjectSettings = new GeneralProjectSettings();
+			generalProjectSettings.setEnterprise(enterprise);
+			
+			GlobalAdvancedSettings globalAdvancedSettings = new GlobalAdvancedSettings();
+			globalAdvancedSettings.setEnterprise(enterprise);
+			globalAdvancedSettings.setDefaultSettings(properties);
+			
+			GlobalSettings globalSettings = new GlobalSettings();
+			globalSettings.setEnterprise(enterprise);
+			globalSettings.setDefaultSettings(properties);
+			
+			InternationalizationSettings internationalizationSettings = new InternationalizationSettings();
+			internationalizationSettings.setEnterprise(enterprise);
+			internationalizationSettings.setDefaultSettings(properties);
+			
+			TimeTrackingSettings timeTrackingSettings = new TimeTrackingSettings();
+			timeTrackingSettings.setEnterprise(enterprise);
+			timeTrackingSettings.setDefaultSettings(properties);
+
+			announcementBannerRepository.save(announcementBanner);
+			attachmentSettingsRepository.save(attachmentSettings);
+			generalProjectSettingsRepository.save(generalProjectSettings);
+			globalAdvancedSettingsRepository.save(globalAdvancedSettings);
+			globalSettingsRepository.save(globalSettings);
+			internationalizationSettingsRepository.save(internationalizationSettings);
+			timeTrackingSettingsRepository.save(timeTrackingSettings);
+			
+			for (GlobalPermission permission : GlobalPermission.values()) {
+				GlobalPermissionSettings globalPermissionSettings = new GlobalPermissionSettings();
+				globalPermissionSettings.setEnterprise(enterprise);
+				globalPermissionSettings.setGlobalPermission(permission);
+				globalPermissionRepository.save(globalPermissionSettings);
+			}
+			
+			for (ProjectPermission permission : ProjectPermission.values()) {
+				ProjectPermissionSettings projectPermissionSettings = new ProjectPermissionSettings();
+				projectPermissionSettings.setEnterprise(enterprise);
+				projectPermissionSettings.setProjectPermission(permission);
+				projectPermissionRepository.save(projectPermissionSettings);
+			}
+		}
+	}
+	
+	@Transactional
+	public void _3_CreateUsers() {
+		List<Enterprise> enterprises = enterpriseRepository.findAll();
+		int j = 0;
+		for (Enterprise enterprise : enterprises) {
+			UserGroup group = new UserGroup();
+			group.setEnterprise(enterprise);
+			group.setTitle("users");
+			group.setDescription("All enterprise users.");
+			userGroupRepository.save(group);
+			
+			EnterpriseUser main = new EnterpriseUser();
+			main.setEnterprise(enterprise);
+			main.setAccount("admin");
+			main.setAddress("address");
+			main.setCreate(new Date());
+			main.setEmail("admin" + j + "@admin.com");
+			main.setFirstName("Admin");
+			main.setLastName("Admin");
+			main.setProfilePath("male.jpg");
+			main.setLogin(new Date());
+			main.setPhone("");
+			main.setGlobalPermissionValue(-1);
+			main.setProjectPermissionValue(-1);
+			main.setUserGroups(Arrays.asList(group));
+			main.setPassword("e10adc3949ba59abbe56e057f20f883e");
+			enterpriseUserRepository.save(main);
+			
+			for (int i = 1; i <= 6; i++, j++) {
+				EnterpriseUser u = new EnterpriseUser();
+				u.setEnterprise(enterprise);
+				u.setAccount("user" + i);
+				u.setAddress("address" + i);
+				u.setCreate(new Date());
+				u.setEmail(j + "_" + i + "@" + i + ".com");
+				u.setFirstName("First" + i);
+				u.setLastName("Last" + i);
+				u.setProfilePath(i % 2 == 0 ? "male.jpg" : "femaile.jpg");
+				u.setLogin(new Date());
+				u.setPhone("");
+				u.setGlobalPermissionValue(1);
+				u.setProjectPermissionValue(1);
+				u.setPassword("e10adc3949ba59abbe56e057f20f883e");
+				u.setUserGroups(Arrays.asList(group));
+				enterpriseUserRepository.save(u);
+			}
+			
+		}
+	}
 	
 }

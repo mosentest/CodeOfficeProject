@@ -60,7 +60,7 @@ public class EnterpriseAuthenticationSuccessHandler implements AuthenticationSuc
 			}
 		}
 		
-		response.sendRedirect(request.getContextPath() + "/enterprise");
+		response.sendRedirect(request.getContextPath() + "/");
 	}
 
 }

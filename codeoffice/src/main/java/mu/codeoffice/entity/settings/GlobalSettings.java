@@ -1,6 +1,7 @@
 package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ import mu.codeoffice.enums.EmailVisibility;
 
 @Entity
 @Table(name = "settings_global")
-public class GlobalSettings implements Serializable {
+public class GlobalSettings implements SettingsEntity, Serializable {
 	
 	private static final long serialVersionUID = 8189118879112150940L;
 
@@ -86,6 +87,26 @@ public class GlobalSettings implements Serializable {
 	private boolean enableInlineEdit;
 	
 	public GlobalSettings() {}
+
+	@Override
+	public void setDefaultSettings(Properties properties) {
+		enablePublicMode = Boolean.parseBoolean(properties.getProperty("settings.global.default.enablePublicMode"));
+		maxAuthenticationAllowed = Integer.parseInt(properties.getProperty("settings.global.default.maxAuthenticationAllowed"));
+		captchaOnSignUp = Boolean.parseBoolean(properties.getProperty("settings.global.default.captchaOnSignUp"));
+		emailFormat = properties.getProperty("settings.global.default.emailFormat");
+		introduction = properties.getProperty("settings.global.default.introduction");
+		enableVote = Boolean.parseBoolean(properties.getProperty("settings.global.default.enableVote"));
+		enableWatch = Boolean.parseBoolean(properties.getProperty("settings.global.default.enableWatch"));
+		maxProjectNameLength = Integer.parseInt(properties.getProperty("settings.global.default.maxProjectNameLength"));
+		maxProjectKeyLength = Integer.parseInt(properties.getProperty("settings.global.default.maxProjectKeyLength"));
+		enableUnassignedIssue = Boolean.parseBoolean(properties.getProperty("settings.global.default.enableUnassignedIssue"));
+		enableLogoutConfirmation = Boolean.parseBoolean(properties.getProperty("settings.global.default.enableLogoutConfirmation"));
+		enableContactAdministrator = Boolean.parseBoolean(properties.getProperty("settings.global.default.enableContactAdministrator"));
+		contactAdministratorMessage = properties.getProperty("settings.global.default.contactAdministratorMessage");
+		enableInlineEdit = Boolean.parseBoolean(properties.getProperty("settings.global.default.enableInlineEdit"));
+		emailVisibility = EmailVisibility.valueOf(properties.getProperty("settings.global.default.emailVisibility"));
+		commentVisibility = CommentVisibility.valueOf(properties.getProperty("settings.global.default.commentVisibility"));
+	}
 
 	public Long getId() {
 		return id;

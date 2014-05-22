@@ -1,6 +1,7 @@
 package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import mu.codeoffice.entity.Enterprise;
 
 @Entity
 @Table(name = "settings_attachment")
-public class AttachmentSettings implements Serializable {
+public class AttachmentSettings implements SettingsEntity, Serializable {
 
 	private static final long serialVersionUID = -1831132373213073918L;
 	
@@ -41,6 +42,14 @@ public class AttachmentSettings implements Serializable {
 	private boolean enableZipSupport;
 	
 	public AttachmentSettings() {}
+
+	@Override
+	public void setDefaultSettings(Properties properties) {
+		attachmentPath = properties.getProperty("settings.attachment.default.attachmentPath").replace("{enterprise}", enterprise.getCode());
+		attachmentSize = Long.parseLong(properties.getProperty("settings.attachment.default.attachmentSize"));
+		enableThumbnails = Boolean.parseBoolean(properties.getProperty("settings.attachment.default.enableThumbnails"));
+		enableZipSupport = Boolean.parseBoolean(properties.getProperty("settings.attachment.default.enableZipSupport"));
+	}
 
 	public Long getId() {
 		return id;

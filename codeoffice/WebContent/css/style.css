@@ -208,6 +208,12 @@ a:hover {
 	padding: 5px;
 	width: 82%;
 }
+.vertical-tab .tab-title {
+	padding: 3px 20px 10px 20px;
+	line-height: 25px;
+	font-size: 16px;
+	font-weight: bold;
+}
 .vertical-tab .tab {
 	padding: 3px 10px 5px 10px;
 	line-height: 20px;

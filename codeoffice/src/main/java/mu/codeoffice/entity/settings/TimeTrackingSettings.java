@@ -1,6 +1,7 @@
 package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import mu.codeoffice.entity.Enterprise;
 
 @Entity
 @Table(name = "settings_time_tracking")
-public class TimeTrackingSettings implements Serializable {
+public class TimeTrackingSettings implements SettingsEntity, Serializable {
 	
 	private static final long serialVersionUID = -6441299912952667018L;
 
@@ -40,10 +41,19 @@ public class TimeTrackingSettings implements Serializable {
 	@Column(name = "time_estimates_display_format")
 	private String timeEstimatesDisplayFormat;
 
-	@Column(name = "default_time_trakning_unit")
-	private String defaultTimeTrakningUnit;
+	@Column(name = "default_time_tracking_unit")
+	private String defaultTimeTrackingUnit;
 	
 	public TimeTrackingSettings() {}
+
+	@Override
+	public void setDefaultSettings(Properties properties) {
+		enabled = Boolean.parseBoolean(properties.getProperty("settings.timetracking.default.enabled"));
+		workHoursPerDay = Integer.parseInt(properties.getProperty("settings.timetracking.default.workHoursPerDay"));
+		workDaysPerWeek = Integer.parseInt(properties.getProperty("settings.timetracking.default.workDaysPerWeek"));
+		timeEstimatesDisplayFormat = properties.getProperty("settings.timetracking.default.timeEstimatesDisplayFormat");
+		defaultTimeTrackingUnit = properties.getProperty("settings.timetracking.default.defaultTimeTrackingUnit");
+	}
 
 	public Long getId() {
 		return id;
@@ -93,12 +103,12 @@ public class TimeTrackingSettings implements Serializable {
 		this.timeEstimatesDisplayFormat = timeEstimatesDisplayFormat;
 	}
 
-	public String getDefaultTimeTrakningUnit() {
-		return defaultTimeTrakningUnit;
+	public String getDefaultTimeTrackingUnit() {
+		return defaultTimeTrackingUnit;
 	}
 
-	public void setDefaultTimeTrakningUnit(String defaultTimeTrakningUnit) {
-		this.defaultTimeTrakningUnit = defaultTimeTrakningUnit;
+	public void setDefaultTimeTrackingUnit(String defaultTimeTrackingUnit) {
+		this.defaultTimeTrackingUnit = defaultTimeTrackingUnit;
 	}
 	
 }

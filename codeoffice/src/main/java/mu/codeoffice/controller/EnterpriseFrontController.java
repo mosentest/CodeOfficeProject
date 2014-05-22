@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/enterprise")
+@RequestMapping("/")
 public class EnterpriseFrontController {
 	
 	private static final Logger logger = Logger.getLogger(EnterpriseFrontController.class);
@@ -38,7 +38,7 @@ public class EnterpriseFrontController {
 		if (auth instanceof AnonymousAuthenticationToken) {
 			return "enterprise/login";
 		}
-		return "redirect:/enterprise";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value = "/accessdenied", method = RequestMethod.GET)

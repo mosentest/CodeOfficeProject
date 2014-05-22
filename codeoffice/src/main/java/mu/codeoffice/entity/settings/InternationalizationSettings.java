@@ -2,6 +2,7 @@ package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.TimeZone;
 
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ import mu.codeoffice.entity.Enterprise;
 
 @Entity
 @Table(name = "settings_internationalization")
-public class InternationalizationSettings implements Serializable {
+public class InternationalizationSettings implements SettingsEntity, Serializable {
 
 	private static final long serialVersionUID = 4720358394692523462L;
 
@@ -47,6 +48,13 @@ public class InternationalizationSettings implements Serializable {
 	private Locale defaultLocale;
 	
 	public InternationalizationSettings() {}
+
+	@Override
+	public void setDefaultSettings(Properties properties) {
+		defaultLanguage = properties.getProperty("settings.i18n.default.defaultLanguage");
+		defaultTimeZoneID = properties.getProperty("settings.i18n.default.defaultTimeZoneID");
+		defaultLocaleString = properties.getProperty("settings.i18n.default.defaultLocaleString");
+	}
 
 	public Long getId() {
 		return id;

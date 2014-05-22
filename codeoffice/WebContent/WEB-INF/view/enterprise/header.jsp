@@ -18,11 +18,6 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" type="text/css" href="css/custom-theme/jquery-ui-1.10.3.custom.css">
-<security:authorize access="isAuthenticated()">
-<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
-<script src="js/stomp.min.js"></script>
-<script src="js/messaging.js"></script>
-</security:authorize>
 <script src="js/jquery-2.0.3.js"></script>
 <script src="js/ch.js"></script>
 <script src="js/jquery-ui-1.10.3.custom.js"></script>
@@ -54,18 +49,6 @@
 			$('.horizontal-tab li').removeClass('active');
 			$(this).addClass('active');
 		});
-		  $('.add').click(function(e){
-			    e.preventDefault();
-			    var code = $('.new .code').val();
-			    var price = Number($('.new .price').val());
-			    var jsonstr = JSON.stringify({ 'code': code, 'price': price });
-			    stompClient.send("/app/addStock", {}, jsonstr);
-			    return false;
-			  });$('.remove-all').click(function(e) {
-				    e.preventDefault();
-				    stompClient.send("/app/removeAllStocks");
-				    return false;
-				  });
 	});
 </script>
 </head>
@@ -77,10 +60,12 @@
 			<spring:message var="text_logout" code="application.logout"/>
 			<c:set var="text_username"><security:authentication property="principal.username"/></c:set>
 			<c:set var="text_enterprise_name"><security:authentication property="principal.enterprise.name"/></c:set>
-			<code:imagelink image="icon_home" text="${text_enterprise_name}" link="enterprise" border="false" width="180"/>
-			|<code:imagelink image="icon_user" text="${text_username}" link="enterprise/user/${text_username}" border="false"/>
-			|<code:imagelink image="icon_setting" text="${text_settings}" link="enterprise/user/settings" border="false"/>
-			|<code:imagelink image="icon_logout" text="${text_logout}" link="enterprise/logout" border="false"/>
+			<security:authorize access="hasRole('ROLE_ADMIN')">
+				<code:imagelink image="icon_setting" text="${text_settings}" link="settings/home" border="false"/>
+			</security:authorize>
+			|<code:imagelink image="icon_home" text="${text_enterprise_name}" link="" border="false" width="180"/>
+			|<code:imagelink image="icon_user" text="${text_username}" link="user/${text_username}" border="false"/>
+			|<code:imagelink image="icon_logout" text="${text_logout}" link="logout" border="false"/>
 		</div>
 	</security:authorize>
 	<div id="header">
