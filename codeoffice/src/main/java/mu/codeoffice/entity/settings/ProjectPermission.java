@@ -1,4 +1,4 @@
-package mu.codeoffice.entity;
+package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,9 +18,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import mu.codeoffice.entity.Enterprise;
+import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.UserGroup;
+
 @Entity
-@Table(name = "settings_globalpermission")
-public class GlobalPermission implements Serializable {
+@Table(name = "settings_projectpermission")
+public class ProjectPermission implements Serializable {
 
 	private static final long serialVersionUID = -3478455507851817587L;
 
@@ -32,23 +36,23 @@ public class GlobalPermission implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
-	@Column(name = "global_permission")
+	@Column(name = "project_permission")
 	@Enumerated(EnumType.ORDINAL)
-	private mu.codeoffice.security.GlobalPermission globalPermission;
+	private mu.codeoffice.security.ProjectPermission projectPermission;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "globalpermission_usergroup", uniqueConstraints = @UniqueConstraint(columnNames = {"globalpermission_id", "usergroup_id"}),
-        joinColumns = @JoinColumn(name = "globalpermission_id", referencedColumnName = "id"), 
+    @JoinTable(name = "projectpermission_usergroup", uniqueConstraints = @UniqueConstraint(columnNames = {"projectpermission_gid", "usergroup_id"}),
+        joinColumns = @JoinColumn(name = "projectpermission_gid", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"))
 	private List<UserGroup> userGroups;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "globalpermission_user", uniqueConstraints = @UniqueConstraint(columnNames = {"globalpermission_id", "user_id"}),
-        joinColumns = @JoinColumn(name = "globalpermission_id", referencedColumnName = "id"), 
+    @JoinTable(name = "projectpermission_user", uniqueConstraints = @UniqueConstraint(columnNames = {"projectpermission_uid", "user_id"}),
+        joinColumns = @JoinColumn(name = "projectpermission_uid", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<EnterpriseUser> users;
 	
-	public GlobalPermission() {}
+	public ProjectPermission() {}
 
 	public Long getId() {
 		return id;
@@ -66,12 +70,12 @@ public class GlobalPermission implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public mu.codeoffice.security.GlobalPermission getGlobalPermission() {
-		return globalPermission;
+	public mu.codeoffice.security.ProjectPermission getProjectPermission() {
+		return projectPermission;
 	}
 
-	public void setGlobalPermission(mu.codeoffice.security.GlobalPermission globalPermission) {
-		this.globalPermission = globalPermission;
+	public void setProjectPermission(mu.codeoffice.security.ProjectPermission projectPermission) {
+		this.projectPermission = projectPermission;
 	}
 
 	public List<UserGroup> getUserGroups() {

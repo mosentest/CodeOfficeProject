@@ -18,11 +18,10 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "office_project", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
+@Table(name = "project", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1939535351112095185L;
@@ -73,17 +72,11 @@ public class Project implements Serializable {
 	@JoinColumn(name = "lead_id")	
 	private EnterpriseUser lead;
 	
-	@Column(name = "visibility")
-	private int visibility;
+	@Column(name = "total_users")
+	private int totalUsers;
 
-	@Transient
-	private Visibility visibilityType;
-	
-	@Column(name = "no_user")
-	private int noUser;
-
-	@Column(name = "no_case")
-	private int noCase;
+	@Column(name = "total_issues")
+	private int totalIssues;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
 	private List<RoleGroup> roleGroups;
@@ -98,7 +91,7 @@ public class Project implements Serializable {
 	private List<Label> labels;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
-	private List<Issue> cases;
+	private List<Issue> issues;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectObject")
 	private List<ProjectHistory> histories;
@@ -175,12 +168,12 @@ public class Project implements Serializable {
 		this.end = end;
 	}
 
-	public List<Issue> getCases() {
-		return cases;
+	public List<Issue> getIssues() {
+		return issues;
 	}
 
-	public void setCases(List<Issue> cases) {
-		this.cases = cases;
+	public void setIssues(List<Issue> issues) {
+		this.issues = issues;
 	}
 
 	public List<ProjectHistory> getHistories() {
@@ -205,14 +198,6 @@ public class Project implements Serializable {
 
 	public void setNotes(List<ProjectNote> notes) {
 		this.notes = notes;
-	}
-
-	public int getVisibility() {
-		return visibility;
-	}
-
-	public void setVisibility(int visibility) {
-		this.visibility = visibility;
 	}
 
 	public List<ProjectActivity> getActivities() {
@@ -247,20 +232,20 @@ public class Project implements Serializable {
 		this.roleGroups = roleGroups;
 	}
 
-	public int getNoCase() {
-		return noCase;
+	public int getTotalIssues() {
+		return totalIssues;
 	}
 
-	public void setNoCase(int noCase) {
-		this.noCase = noCase;
+	public void setTotalIssues(int totalIssues) {
+		this.totalIssues = totalIssues;
 	}
 
-	public int getNoUser() {
-		return noUser;
+	public int getTotalUsers() {
+		return totalUsers;
 	}
 
-	public void setNoUser(int noUser) {
-		this.noUser = noUser;
+	public void setTotalUsers(int totalUsers) {
+		this.totalUsers = totalUsers;
 	}
 
 	public List<Version> getVersions() {
@@ -317,14 +302,6 @@ public class Project implements Serializable {
 
 	public void setLead(EnterpriseUser lead) {
 		this.lead = lead;
-	}
-
-	public Visibility getVisibilityType() {
-		return visibilityType;
-	}
-
-	public void setVisibilityType(Visibility visibilityType) {
-		this.visibilityType = visibilityType;
 	}
 	
 }

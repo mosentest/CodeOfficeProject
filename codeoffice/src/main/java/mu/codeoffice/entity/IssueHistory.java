@@ -7,21 +7,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-@DiscriminatorValue("C")
-public class CaseHistory extends OfficeHistory {
+@DiscriminatorValue("I")
+public class IssueHistory extends History {
 
 	private static final long serialVersionUID = 6017196451650119814L;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "office_case_history_id")
-	private Issue caseObject;
+	@JoinColumn(name = "issue_id")
+	private Issue issueObject;
 
-	public Issue getCaseObject() {
-		return caseObject;
+	public Issue getIssueObject() {
+		return issueObject;
 	}
 
-	public void setCaseObject(Issue caseObject) {
-		this.caseObject = caseObject;
+	public void setIssueObject(Issue issueObject) {
+		this.issueObject = issueObject;
 	}
 
 }

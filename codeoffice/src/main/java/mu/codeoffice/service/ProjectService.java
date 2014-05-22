@@ -16,9 +16,9 @@ import mu.codeoffice.entity.ProjectNote;
 import mu.codeoffice.entity.ProjectRole;
 import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Version;
-import mu.codeoffice.enums.CasePriority;
-import mu.codeoffice.enums.CaseStatus;
-import mu.codeoffice.repository.CaseRepository;
+import mu.codeoffice.enums.IssuePriority;
+import mu.codeoffice.enums.IssueStatus;
+import mu.codeoffice.repository.IssueRepository;
 import mu.codeoffice.repository.ProjectActivityRepository;
 import mu.codeoffice.repository.ProjectNoteRepository;
 import mu.codeoffice.repository.ProjectRepository;
@@ -37,7 +37,7 @@ public class ProjectService extends ProjectStatisticService {
 	private ProjectRepository projectRepository;
 	
 	@Resource
-	private CaseRepository caseRepository;
+	private IssueRepository caseRepository;
 
 	@Resource
 	private ProjectActivityRepository projectActivityRepository;
@@ -153,13 +153,13 @@ public class ProjectService extends ProjectStatisticService {
 	}
 
 	@Transactional(readOnly = true)
-	public Map<CaseStatus, Integer> getCaseStatusSummary(Project project) {
-		return getCaseStatusSummary(project.getId(), null, null, null, null, null, null, null, null);
+	public Map<IssueStatus, Integer> getCaseStatusSummary(Project project) {
+		return getIssueStatusSummary(project.getId(), null, null, null, null, null, null, null, null);
 	}
 
 	@Transactional(readOnly = true)
-	public Map<CasePriority, Integer> getCasePrioritySummary(Project project) {
-		return getCasePrioritySummary(project.getId(), null, null, null, null, null, null, null, null);
+	public Map<IssuePriority, Integer> getCasePrioritySummary(Project project) {
+		return getIssuePrioritySummary(project.getId(), null, null, null, null, null, null, null, null);
 	}
 
 	@Transactional(readOnly = true)

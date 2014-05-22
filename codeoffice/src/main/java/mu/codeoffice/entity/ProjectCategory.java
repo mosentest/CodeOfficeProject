@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "office_project_category")
+@Table(name = "project_category")
 public class ProjectCategory implements Serializable {
 
 	private static final long serialVersionUID = -235866916512304385L;

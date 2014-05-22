@@ -24,22 +24,22 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import mu.codeoffice.enums.CasePriority;
+import mu.codeoffice.enums.IssuePriority;
 import mu.codeoffice.enums.CaseResolution;
-import mu.codeoffice.enums.CaseStatus;
-import mu.codeoffice.enums.CaseType;
+import mu.codeoffice.enums.IssueStatus;
+import mu.codeoffice.enums.IssueType;
 
 @Entity
-@Table(name = "issue", uniqueConstraints = @UniqueConstraint(columnNames = {"key", "enterprise_id"}))
+@Table(name = "issue", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
 public class Issue implements Serializable {
 
 	private static final long serialVersionUID = 410952237049468161L;
 	
 	private static final String[] SORTABLE_COLUMNS =  {
-		"key", "summary", "create", "update", "close", "project"
+		"code", "summary", "create", "update", "close", "project"
 	};
 	
-	private static final String DEFAULT_COLUMN = "key";
+	private static final String DEFAULT_COLUMN = "code";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,8 +49,8 @@ public class Issue implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 	
-	@Column(name = "key")
-	private String key;
+	@Column(name = "code")
+	private String code;
 
 	@Column(name = "summary")
 	private String summary;
@@ -83,7 +83,7 @@ public class Issue implements Serializable {
 	private long timeSpent;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "office_project_id")
+	@JoinColumn(name = "project_id")
 	private Project project;
 
 	@Column(length = 3)
@@ -92,23 +92,23 @@ public class Issue implements Serializable {
 
 	@Column(length = 3)
 	@Enumerated(EnumType.STRING)
-	private CaseStatus status;
+	private IssueStatus status;
 
 	@Column(length = 3)
 	@Enumerated(EnumType.STRING)
-	private CasePriority priority;
+	private IssuePriority priority;
 
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
-	@JoinColumn(name = "office_case_reporter_id")
+	@JoinColumn(name = "issue_reporter_id")
 	private EnterpriseUser reporter;
 
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
-	@JoinColumn(name = "office_case_asignee_id")
+	@JoinColumn(name = "issue_assignee_id")
 	private EnterpriseUser assignee;
 
 	@Column(length = 3)
 	@Enumerated(EnumType.STRING)
-	private CaseType type;
+	private IssueType type;
 	
 	@Column(name = "edited")
 	private boolean edited;
@@ -117,42 +117,49 @@ public class Issue implements Serializable {
 	private boolean removed;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "office_release_version_id", nullable = true)
+	@JoinColumn(name = "project_release_version_id", nullable = true)
 	private Version releaseVersion;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "office_case_version", 
-        joinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"), 
+    @JoinTable(name = "issue_version", uniqueConstraints = @UniqueConstraint(columnNames = {"issue_vid", "version_id"}),
+        joinColumns = @JoinColumn(name = "issue_vid", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "version_id", referencedColumnName = "id"))
 	@OrderBy("id ASC")
 	private List<Version> versions;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "office_case_component", 
-        joinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"), 
+    @JoinTable(name = "office_case_component", uniqueConstraints = @UniqueConstraint(columnNames = {"issue_cid", "component_id"}),
+        joinColumns = @JoinColumn(name = "issue_cid", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "component_id", referencedColumnName = "id"))
 	@OrderBy("name ASC")
 	private List<Component> components;
 
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(name = "issue_label", uniqueConstraints = @UniqueConstraint(columnNames = {"issue_lid", "label_id"}),
+        	joinColumns = @JoinColumn(name = "issue_lid", referencedColumnName = "id"), 
+        	inverseJoinColumns = @JoinColumn(name = "label_id", referencedColumnName = "id"))
+	@OrderBy("label ASC")
+	private List<Label> labels;
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Attachment> attachments;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "caseObject")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
 	@OrderBy("create DESC")
-	private List<CaseNote> notes;
+	private List<IssueNote> notes;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "caseObject")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
 	@OrderBy("create DESC")
-	private List<CaseHistory> histories;
+	private List<IssueHistory> histories;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "caseObject")
-	private List<IssueLink> caseLinks;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
+	private List<IssueLink> issueLinks;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "caseObject")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
 	@OrderBy("create DESC")
-	private List<CaseActivity> activities;
+	private List<IssueActivity> activities;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "caseObject")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
 	private List<WorkLog> workLogs;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -160,13 +167,6 @@ public class Issue implements Serializable {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "watching")
 	private List<EnterpriseUser> watchers;
-
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(name = "office_case_label", 
-        	joinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"), 
-        	inverseJoinColumns = @JoinColumn(name = "label_id", referencedColumnName = "id"))
-	@OrderBy("label ASC")
-	private List<Label> labels;
 	
 	public Issue() {}
 	
@@ -180,7 +180,7 @@ public class Issue implements Serializable {
 	}
 	
 	public String getCaseHeader() {
-		return String.format("[%s] - %s", key, summary);
+		return String.format("[%s] - %s", code, summary);
 	}
 
 	public Long getId() {
@@ -191,12 +191,12 @@ public class Issue implements Serializable {
 		this.id = id;
 	}
 
-	public String getKey() {
-		return key;
+	public String getCode() {
+		return code;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getSummary() {
@@ -271,27 +271,27 @@ public class Issue implements Serializable {
 		this.resolution = resolution;
 	}
 
-	public CaseStatus getStatus() {
+	public IssueStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(CaseStatus status) {
+	public void setStatus(IssueStatus status) {
 		this.status = status;
 	}
 
-	public CasePriority getPriority() {
+	public IssuePriority getPriority() {
 		return priority;
 	}
 
-	public void setPriority(CasePriority priority) {
+	public void setPriority(IssuePriority priority) {
 		this.priority = priority;
 	}
 
-	public CaseType getType() {
+	public IssueType getType() {
 		return type;
 	}
 
-	public void setType(CaseType type) {
+	public void setType(IssueType type) {
 		this.type = type;
 	}
 
@@ -303,27 +303,27 @@ public class Issue implements Serializable {
 		this.attachments = attachments;
 	}
 
-	public List<CaseNote> getNotes() {
+	public List<IssueNote> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(List<CaseNote> notes) {
+	public void setNotes(List<IssueNote> notes) {
 		this.notes = notes;
 	}
 
-	public List<CaseHistory> getHistories() {
+	public List<IssueHistory> getHistories() {
 		return histories;
 	}
 
-	public void setHistories(List<CaseHistory> histories) {
+	public void setHistories(List<IssueHistory> histories) {
 		this.histories = histories;
 	}
 
-	public List<CaseActivity> getActivities() {
+	public List<IssueActivity> getActivities() {
 		return activities;
 	}
 
-	public void setActivities(List<CaseActivity> activities) {
+	public void setActivities(List<IssueActivity> activities) {
 		this.activities = activities;
 	}
 	
@@ -407,12 +407,12 @@ public class Issue implements Serializable {
 		this.releaseVersion = releaseVersion;
 	}
 
-	public List<IssueLink> getCaseLinks() {
-		return caseLinks;
+	public List<IssueLink> getIssueLinks() {
+		return issueLinks;
 	}
 
-	public void setCaseLinks(List<IssueLink> caseLinks) {
-		this.caseLinks = caseLinks;
+	public void setIssueLinks(List<IssueLink> issueLinks) {
+		this.issueLinks = issueLinks;
 	}
 
 	public Enterprise getEnterprise() {

@@ -11,10 +11,10 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import mu.codeoffice.entity.Issue;
-import mu.codeoffice.entity.Case_;
-import mu.codeoffice.enums.CasePriority;
-import mu.codeoffice.enums.CaseStatus;
-import mu.codeoffice.enums.CaseType;
+import mu.codeoffice.entity.Issue_;
+import mu.codeoffice.enums.IssuePriority;
+import mu.codeoffice.enums.IssueStatus;
+import mu.codeoffice.enums.IssueType;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,12 +24,12 @@ import org.springframework.data.jpa.domain.Specification;
 public class CaseSpecifications {
 
 	public static Specification<Issue> all(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
-			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority) {
+			Long assignee, Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
 		return new Specification<Issue>() {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
-				predicates.add(builder.isFalse(root.get(Case_.removed)));
+				predicates.add(builder.isFalse(root.get(Issue_.removed)));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		};
@@ -40,8 +40,8 @@ public class CaseSpecifications {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
-				predicates.add(builder.isFalse(root.get(Case_.removed)));
-				predicates.add(builder.isTrue(root.get(Case_.inProgress)));
+				predicates.add(builder.isFalse(root.get(Issue_.removed)));
+				predicates.add(builder.isTrue(root.get(Issue_.inProgress)));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		};
@@ -52,8 +52,8 @@ public class CaseSpecifications {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
-				predicates.add(builder.isFalse(root.get(Case_.removed)));
-				predicates.add(builder.isNotNull(root.get(Case_.close)));
+				predicates.add(builder.isFalse(root.get(Issue_.removed)));
+				predicates.add(builder.isNotNull(root.get(Issue_.close)));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		};
@@ -64,10 +64,10 @@ public class CaseSpecifications {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, null, project, null, null, null, null, assignee, reporter, null, null, null);
-				predicates.add(builder.isFalse(root.get(Case_.removed)));
-				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.CLO));
-				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.RES));
-				predicates.add(builder.isFalse(root.get(Case_.inProgress)));
+				predicates.add(builder.isFalse(root.get(Issue_.removed)));
+				predicates.add(builder.notEqual(root.get(Issue_.status), IssueStatus.CLO));
+				predicates.add(builder.notEqual(root.get(Issue_.status), IssueStatus.RES));
+				predicates.add(builder.isFalse(root.get(Issue_.inProgress)));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		};
@@ -75,14 +75,14 @@ public class CaseSpecifications {
 
 	public static Specification<Issue> unresolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  
-			CaseStatus status, CaseType type, CasePriority priority) {
+			IssueStatus status, IssueType type, IssuePriority priority) {
 		return new Specification<Issue>() {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority);
-				predicates.add(builder.isFalse(root.get(Case_.removed)));
-				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.CLO));
-				predicates.add(builder.notEqual(root.get(Case_.status), CaseStatus.RES));
+				predicates.add(builder.isFalse(root.get(Issue_.removed)));
+				predicates.add(builder.notEqual(root.get(Issue_.status), IssueStatus.CLO));
+				predicates.add(builder.notEqual(root.get(Issue_.status), IssueStatus.RES));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		};
@@ -90,16 +90,16 @@ public class CaseSpecifications {
 
 	public static Specification<Issue> resolved(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter,  
-			CaseType type, CasePriority priority) {
+			IssueType type, IssuePriority priority) {
 		return new Specification<Issue>() {
 			@Override
 			public Predicate toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				List<Predicate> predicates = CaseSpecifications.toPredicate(root, query, builder, date, project, version, releaseVersion, component, label, assignee, reporter, null, type, priority);
-				predicates.add(builder.isFalse(root.get(Case_.removed)));
+				predicates.add(builder.isFalse(root.get(Issue_.removed)));
 				predicates.add(builder.and(
 						builder.or(
-								builder.equal(root.get(Case_.status), CaseStatus.CLO),
-								builder.equal(root.get(Case_.status), CaseStatus.RES))
+								builder.equal(root.get(Issue_.status), IssueStatus.CLO),
+								builder.equal(root.get(Issue_.status), IssueStatus.RES))
 						)
 				);
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -118,40 +118,40 @@ public class CaseSpecifications {
 	private static List<Predicate> toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder, 
 			Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter, 
-			CaseStatus status, CaseType type, CasePriority priority) {
+			IssueStatus status, IssueType type, IssuePriority priority) {
 		List<Predicate> predicates = new ArrayList<>();
 		if (version != null) {
-			predicates.add(builder.equal(root.join(Case_.versions, JoinType.LEFT).<Long>get("id"), version));
+			predicates.add(builder.equal(root.join(Issue_.versions, JoinType.LEFT).<Long>get("id"), version));
 		}
 		if (component != null) {
-			predicates.add(builder.equal(root.join(Case_.components, JoinType.LEFT).<Long>get("id"), component));
+			predicates.add(builder.equal(root.join(Issue_.components, JoinType.LEFT).<Long>get("id"), component));
 		}
 		if (label != null) {
-			predicates.add(builder.equal(root.join(Case_.labels, JoinType.LEFT).<Long>get("id"), label));
+			predicates.add(builder.equal(root.join(Issue_.labels, JoinType.LEFT).<Long>get("id"), label));
 		}
 		if (project != null) {
-			predicates.add(builder.equal(root.get(Case_.project).<Long>get("id"), project));
+			predicates.add(builder.equal(root.get(Issue_.project).<Long>get("id"), project));
 		}
 		if (releaseVersion != null) {
-			predicates.add(builder.equal(root.get(Case_.releaseVersion).<Long>get("id"), releaseVersion));
+			predicates.add(builder.equal(root.get(Issue_.releaseVersion).<Long>get("id"), releaseVersion));
 		}
 		if (assignee != null) {
-			predicates.add(builder.equal(root.get(Case_.assignee).<Long>get("id"), assignee));
+			predicates.add(builder.equal(root.get(Issue_.assignee).<Long>get("id"), assignee));
 		}
 		if (reporter != null) {
-			predicates.add(builder.equal(root.get(Case_.reporter).<Long>get("id"), reporter));
+			predicates.add(builder.equal(root.get(Issue_.reporter).<Long>get("id"), reporter));
 		}
 		if (status != null) {
-			predicates.add(builder.equal(root.get(Case_.status), status));
+			predicates.add(builder.equal(root.get(Issue_.status), status));
 		}
 		if (type != null) {
-			predicates.add(builder.equal(root.get(Case_.type), type));
+			predicates.add(builder.equal(root.get(Issue_.type), type));
 		}
 		if (priority != null) {
-			predicates.add(builder.equal(root.get(Case_.priority), priority));
+			predicates.add(builder.equal(root.get(Issue_.priority), priority));
 		}
 		if (date != null) {
-			predicates.add(builder.lessThanOrEqualTo(root.get(Case_.create), date));
+			predicates.add(builder.lessThanOrEqualTo(root.get(Issue_.create), date));
 		}
 		return predicates;
 	}

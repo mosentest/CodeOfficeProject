@@ -9,7 +9,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import mu.codeoffice.entity.Issue;
-import mu.codeoffice.entity.CaseActivity;
+import mu.codeoffice.entity.IssueActivity;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -20,7 +20,7 @@ public class CaseActivityTag extends SimpleTagSupport {
 	
 	private Issue caseObject;
 	
-	private CaseActivity activityObject;
+	private IssueActivity activityObject;
 	
 	private MessageSource messageSource;
 	
@@ -37,11 +37,11 @@ public class CaseActivityTag extends SimpleTagSupport {
 		buffer.append("<div style=\"activity-item\">");
 			buffer.append("<div class=\"activity-item-user\"><img src=\"img/office/" + caseObject.getProject().getIconPath() +  ".png\"/></div>");
 			buffer.append("<div class=\"activity-item-content\">");
-				new UserRenderer(out).renderUser(activityObject.getUser(), false, true, true, 20, 20);
+				new UserRenderer(out).renderUser(activityObject.getCreator(), false, true, true, 20, 20);
 				if (activityObject.getActivityObjects().size() > 1) {
 					buffer.append(String.format(" %s <a href=\"enterprise/pro_%s/%s\">%s</a>", 
 							getMessage("project.c_updatednfield", activityObject.getActivityObjects().size()), 
-							caseObject.getProject().getCode(), caseObject.getKey(), caseObject.getCaseHeader()));
+							caseObject.getProject().getCode(), caseObject.getCode(), caseObject.getCaseHeader()));
 				}
 				buffer.append("<div class=\"activity-item-multiple-element\">");
 				buffer.append("</div>");
@@ -148,11 +148,11 @@ public class CaseActivityTag extends SimpleTagSupport {
 		this.caseObject = caseObject;
 	}
 
-	public CaseActivity getActivityObject() {
+	public IssueActivity getActivityObject() {
 		return activityObject;
 	}
 
-	public void setActivityObject(CaseActivity activityObject) {
+	public void setActivityObject(IssueActivity activityObject) {
 		this.activityObject = activityObject;
 	}
 

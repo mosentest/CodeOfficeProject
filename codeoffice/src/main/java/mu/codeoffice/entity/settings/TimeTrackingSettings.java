@@ -1,4 +1,4 @@
-package mu.codeoffice.entity;
+package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
 
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import mu.codeoffice.entity.Enterprise;
 
 @Entity
 @Table(name = "settings_time_tracking")

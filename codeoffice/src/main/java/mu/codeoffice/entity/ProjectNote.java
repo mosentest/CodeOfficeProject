@@ -13,7 +13,7 @@ public class ProjectNote extends Note {
 	private static final long serialVersionUID = -727167430656648892L;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "office_project_note_id")
+	@JoinColumn(name = "project_id")
 	private Project projectObject;
 
 	public Project getProjectObject() {

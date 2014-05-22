@@ -8,12 +8,12 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @DiscriminatorValue("H")
-public class ProjectHistory extends OfficeHistory {
+public class ProjectHistory extends History {
 
 	private static final long serialVersionUID = 3492615518200114251L;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "office_project_history_id")
+	@JoinColumn(name = "project_id")
 	private Project projectObject;
 
 	public Project getProjectObject() {

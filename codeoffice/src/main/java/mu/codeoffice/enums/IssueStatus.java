@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum CaseStatus implements TextImageEnum {
+public enum IssueStatus implements TextImageEnum {
 	
 	ASG("assigned"), DOC("document"), DOW("down"), EMA("email"), GEN("generic"),
 	INF("information"), INV("invisible"), NEI("needinfo"), TRA("trash"), UNA("unassigned"), _UP("up"), VIS("visible"),
@@ -9,7 +9,7 @@ public enum CaseStatus implements TextImageEnum {
 
 	private final String code;
 	
-	private CaseStatus(String code) {
+	private IssueStatus(String code) {
 		this.code = code;
 	}
 

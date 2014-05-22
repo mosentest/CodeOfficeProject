@@ -23,15 +23,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "office_activity")
+@Table(name = "history")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(
-	    name = "acvitity_type",
-	    discriminatorType = DiscriminatorType.STRING
-)
-public class OfficeActivity implements Serializable {
+@DiscriminatorColumn(name = "history_type", discriminatorType = DiscriminatorType.STRING)
+public class History implements Serializable {
 
-	private static final long serialVersionUID = -4415448978080731131L;
+	private static final long serialVersionUID = 30254826000132860L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,17 +39,18 @@ public class OfficeActivity implements Serializable {
 	private Enterprise enterprise;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "enterprise_user_id")
-	protected EnterpriseUser user;
+	@JoinColumn(name = "creator_id")
+	protected EnterpriseUser creator;
 
 	@Column(name = "create_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
 	protected Date create;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "activity")
-	protected List<ActivityObject> activityObjects;
-	
-	public OfficeActivity() {}
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "history")
+	protected List<HistoryElement> historyElements;
+
+	public History() {
+	}
 
 	public Long getId() {
 		return id;
@@ -60,22 +58,6 @@ public class OfficeActivity implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Date getCreate() {
-		return create;
-	}
-
-	public void setCreate(Date create) {
-		this.create = create;
-	}
-
-	public List<ActivityObject> getActivityObjects() {
-		return activityObjects;
-	}
-
-	public void setActvityObjects(List<ActivityObject> activityObjects) {
-		this.activityObjects = activityObjects;
 	}
 
 	public Enterprise getEnterprise() {
@@ -86,16 +68,28 @@ public class OfficeActivity implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public EnterpriseUser getUser() {
-		return user;
+	public EnterpriseUser getCreator() {
+		return creator;
 	}
 
-	public void setUser(EnterpriseUser user) {
-		this.user = user;
+	public void setCreator(EnterpriseUser creator) {
+		this.creator = creator;
 	}
 
-	public void setActivityObjects(List<ActivityObject> activityObjects) {
-		this.activityObjects = activityObjects;
+	public Date getCreate() {
+		return create;
 	}
-	
+
+	public void setCreate(Date create) {
+		this.create = create;
+	}
+
+	public List<HistoryElement> getHistoryElements() {
+		return historyElements;
+	}
+
+	public void setHistoryElements(List<HistoryElement> historyElements) {
+		this.historyElements = historyElements;
+	}
+
 }

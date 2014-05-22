@@ -19,10 +19,10 @@ import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Version;
-import mu.codeoffice.enums.CasePriority;
-import mu.codeoffice.enums.CaseStatus;
-import mu.codeoffice.enums.CaseType;
-import mu.codeoffice.repository.CaseRepository;
+import mu.codeoffice.enums.IssuePriority;
+import mu.codeoffice.enums.IssueStatus;
+import mu.codeoffice.enums.IssueType;
+import mu.codeoffice.repository.IssueRepository;
 import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.LabelRepository;
 import mu.codeoffice.repository.RoleGroupRepository;
@@ -37,7 +37,7 @@ public abstract class ProjectStatisticService {
 	protected VersionRepository versionRepository;
 	
 	@Autowired
-	protected CaseRepository caseRepository;
+	protected IssueRepository caseRepository;
 	
 	@Resource
 	protected RoleGroupRepository roleGroupRepository;
@@ -49,7 +49,7 @@ public abstract class ProjectStatisticService {
 	protected LabelRepository labelRepository;
 
 	protected List<Summary> getMonthlySummary(Long project, Long version, Long releaseVersion, Long component, Long label, 
-			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority) {
+			Long assignee, Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
 		List<Summary> summary = new ArrayList<>();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -67,7 +67,7 @@ public abstract class ProjectStatisticService {
 	}
 	
 	protected List<Summary> getWeeklySummary(Long project, Long version, Long releaseVersion, Long component, Long label, 
-			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority) {
+			Long assignee, Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
 		List<Summary> summary = new ArrayList<>();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
@@ -85,7 +85,7 @@ public abstract class ProjectStatisticService {
 	}
 
 	public Map<Version, Integer> getVersionSummary(Iterable<Version> versions, Long project, Long releaseVersion, Long component, Long label, 
-			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority) {
+			Long assignee, Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
 		Map<Version, Integer> map = new LinkedHashMap<>();
 		versions.forEach(v -> map.put(v, (int) caseRepository.count(
 				all(null, project, v.getId(), releaseVersion, component, label, assignee, reporter, status, type, priority))));
@@ -94,7 +94,7 @@ public abstract class ProjectStatisticService {
 	}
 
 	public Map<Version, Integer> getRoadMap(Iterable<Version> versions, Long project, Long version, Long component, Long label, 
-			Long assignee, Long reporter, CaseType type, CasePriority priority) {
+			Long assignee, Long reporter, IssueType type, IssuePriority priority) {
 		Map<Version, Integer> map = new LinkedHashMap<>();
 		versions.forEach(v -> map.put(v, (int) caseRepository.count(
 				resolved(null, project, version, v.getId(), component, label, assignee, reporter, type, priority))));
@@ -103,7 +103,7 @@ public abstract class ProjectStatisticService {
 	}
 
 	public Map<Component, Integer> getComponentSummary(Iterable<Component> components, Long project, Long version, Long releaseVersion, Long label, 
-			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority) {
+			Long assignee, Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
 		Map<Component, Integer> map = new LinkedHashMap<>();
 		components.forEach(c -> map.put(c, (int) caseRepository.count(
 				all(null, project, version, releaseVersion, c.getId(), label, assignee, reporter, status, type, priority))));
@@ -112,7 +112,7 @@ public abstract class ProjectStatisticService {
 	}
 
 	public Map<Label, Integer> getLabelSummary(Iterable<Label> labels, Long project, Long version, Long releaseVersion, Long component, 
-			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority) {
+			Long assignee, Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
 		Map<Label, Integer> map = new LinkedHashMap<>();
 		labels.forEach(l -> map.put(l, (int) caseRepository.count(
 				all(null, project, version, releaseVersion, component, l.getId(), assignee, reporter, status, type, priority))));
@@ -120,30 +120,30 @@ public abstract class ProjectStatisticService {
 		return map;
 	}
 
-	public Map<CaseType, Integer> getCaseTypeSummary(Long project, Long version, Long releaseVersion, Long component, Long label, 
-			Long assignee, Long reporter, CaseStatus status, CasePriority priority) {
-		Map<CaseType, Integer> map = new LinkedHashMap<>();
-		for (CaseType type : CaseType.values()) {
+	public Map<IssueType, Integer> getIssueTypeSummary(Long project, Long version, Long releaseVersion, Long component, Long label, 
+			Long assignee, Long reporter, IssueStatus status, IssuePriority priority) {
+		Map<IssueType, Integer> map = new LinkedHashMap<>();
+		for (IssueType type : IssueType.values()) {
 			map.put(type, (int) caseRepository.count(all(null, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority)));
 		}
 		clearZeroValues(map);
 		return map;
 	}
 
-	public Map<CaseStatus, Integer> getCaseStatusSummary(Long project, Long version, Long releaseVersion, Long component, Long label, 
-			Long assignee, Long reporter, CaseType type, CasePriority priority) {
-		Map<CaseStatus, Integer> map = new LinkedHashMap<>();
-		for (CaseStatus status : CaseStatus.values()) {
+	public Map<IssueStatus, Integer> getIssueStatusSummary(Long project, Long version, Long releaseVersion, Long component, Long label, 
+			Long assignee, Long reporter, IssueType type, IssuePriority priority) {
+		Map<IssueStatus, Integer> map = new LinkedHashMap<>();
+		for (IssueStatus status : IssueStatus.values()) {
 			map.put(status, (int) caseRepository.count(all(null, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority)));
 		}
 		clearZeroValues(map);
 		return map;
 	}
 
-	public Map<CasePriority, Integer> getCasePrioritySummary(Long project, Long version, Long releaseVersion, Long component, Long label, 
-			Long assignee, Long reporter, CaseStatus status, CaseType type) {
-		Map<CasePriority, Integer> map = new LinkedHashMap<>();
-		for (CasePriority priority : CasePriority.values()) {
+	public Map<IssuePriority, Integer> getIssuePrioritySummary(Long project, Long version, Long releaseVersion, Long component, Long label, 
+			Long assignee, Long reporter, IssueStatus status, IssueType type) {
+		Map<IssuePriority, Integer> map = new LinkedHashMap<>();
+		for (IssuePriority priority : IssuePriority.values()) {
 			map.put(priority, (int) caseRepository.count(all(null, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority)));
 		}
 		clearZeroValues(map);
@@ -151,7 +151,7 @@ public abstract class ProjectStatisticService {
 	}
 
 	public Map<EnterpriseUser, Integer> getAssigneeSummary(Iterable<EnterpriseUser> users, Long project, Long version, Long releaseVersion, Long component, Long label, 
-			Long reporter, CaseStatus status, CaseType type, CasePriority priority) {
+			Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
 		Map<EnterpriseUser, Integer> map = new LinkedHashMap<>();
 		users.forEach(u -> map.put(u, (int) caseRepository.count(
 				all(null, project, version, releaseVersion, component, label, u.getId(), reporter, status, type, priority))));

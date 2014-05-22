@@ -16,7 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "office_worklog")
+@Table(name = "worklog")
 public class WorkLog implements Serializable {
 
 	private static final long serialVersionUID = -6498976646080200527L;
@@ -30,11 +30,11 @@ public class WorkLog implements Serializable {
 	private Enterprise enterprise;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "office_worklog_case_id")
-	private Issue caseObject;
+	@JoinColumn(name = "issue_id")
+	private Issue issueObject;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "office_worklog_creator_id")
+	@JoinColumn(name = "creator_id")
 	private EnterpriseUser creator;
 	
 	@Column(name = "time_spent")
@@ -61,12 +61,12 @@ public class WorkLog implements Serializable {
 		this.id = id;
 	}
 
-	public Issue getCaseObject() {
-		return caseObject;
+	public Issue getIssueObject() {
+		return issueObject;
 	}
 
-	public void setCaseObject(Issue caseObject) {
-		this.caseObject = caseObject;
+	public void setIssueObject(Issue issueObject) {
+		this.issueObject = issueObject;
 	}
 
 	public long getTimeSpent() {

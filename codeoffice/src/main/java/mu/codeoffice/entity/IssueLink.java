@@ -3,7 +3,6 @@ package mu.codeoffice.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,9 +13,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import mu.codeoffice.entity.settings.IssueLinkType;
 
 @Entity
-@Table(name = "issue_link")
+@Table(name = "issuelink")
 public class IssueLink implements Serializable {
 
 	private static final long serialVersionUID = -6567864973408779465L;
@@ -30,19 +32,18 @@ public class IssueLink implements Serializable {
 	private Enterprise enterprise;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "case_id")
-	private Issue caseObject;
+	@JoinColumn(name = "issue_id")
+	private Issue issueObject;
 
-	@Column(length = 3)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "linktype_id")
 	private IssueLinkType linkType;
 	
 	@OneToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			name="office_case_link_caselink",
-			joinColumns = { @JoinColumn(name="holder_id", referencedColumnName="id") },
-			inverseJoinColumns = { @JoinColumn(name="case_id", referencedColumnName="id")
-	})
-	private List<Issue> cases;
+	@JoinTable(name="issuelink_linked", uniqueConstraints = @UniqueConstraint(columnNames = {"issuelink_id", "linked_id"}),
+		joinColumns = @JoinColumn(name = "issuelink_id", referencedColumnName = "id"),
+		inverseJoinColumns = @JoinColumn(name = "linked_id", referencedColumnName = "id"))
+	private List<Issue> issues;
 	
 	public IssueLink() {}
 
@@ -54,12 +55,12 @@ public class IssueLink implements Serializable {
 		this.id = id;
 	}
 
-	public Issue getCaseObject() {
-		return caseObject;
+	public Issue getIssueObject() {
+		return issueObject;
 	}
 
-	public void setCaseObject(Issue caseObject) {
-		this.caseObject = caseObject;
+	public void setIssueObject(Issue issueObject) {
+		this.issueObject = issueObject;
 	}
 
 	public IssueLinkType getLinkType() {
@@ -70,12 +71,12 @@ public class IssueLink implements Serializable {
 		this.linkType = linkType;
 	}
 
-	public List<Issue> getCases() {
-		return cases;
+	public List<Issue> getIssues() {
+		return issues;
 	}
 
-	public void setCases(List<Issue> cases) {
-		this.cases = cases;
+	public void setIssues(List<Issue> issues) {
+		this.issues = issues;
 	}
 
 	public Enterprise getEnterprise() {

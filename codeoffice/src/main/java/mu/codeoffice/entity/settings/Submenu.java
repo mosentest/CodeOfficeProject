@@ -1,4 +1,4 @@
-package mu.codeoffice.entity;
+package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
 
@@ -12,8 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import mu.codeoffice.entity.Enterprise;
+import mu.codeoffice.entity.EnterpriseUser;
+
 @Entity
-@Table(name = "setting_submenu")
+@Table(name = "settings_submenu")
 public class Submenu implements Serializable {
 
 	private static final long serialVersionUID = 5356504312158067580L;
@@ -26,7 +29,7 @@ public class Submenu implements Serializable {
 	private Enterprise enterprise;
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "user")	
+	@JoinColumn(name = "user_id")	
 	private EnterpriseUser user;
 	
 	@Column(name = "title")

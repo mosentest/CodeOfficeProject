@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 
 import mu.codeoffice.common.ServiceResponse;
 import mu.codeoffice.entity.EnterpriseUser;
-import mu.codeoffice.entity.Submenu;
+import mu.codeoffice.entity.settings.Submenu;
 import mu.codeoffice.repository.EnterpriseUserRepository;
 import mu.codeoffice.repository.RoleGroupRepository;
 import mu.codeoffice.repository.SubmenuRepository;

@@ -1,13 +1,13 @@
 package mu.codeoffice.enums;
 
-public enum CasePriority implements TextImageEnum {
+public enum IssuePriority implements TextImageEnum {
 	
 	BLO("blocker"), CRI("critical"), MAJ("major"), 
 	MIN("minor"), TRI("trivial");
 
 	private final String code;
 	
-	private CasePriority(String code) {
+	private IssuePriority(String code) {
 		this.code = code;
 	}
 	

@@ -1,4 +1,4 @@
-package mu.codeoffice.entity;
+package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
 
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import mu.codeoffice.entity.Enterprise;
 
 @Entity
 @Table(name = "settings_announcement_banner")
@@ -26,11 +28,14 @@ public class AnnouncementBanner implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 	
-	@Column(name = "accouncement")
-	private String accouncement;
+	@Column(name = "announcement")
+	private String announcement;
 
 	@Column(name = "enable_public_mode")
 	private boolean enablePublicMode;
+
+	@Column(name = "enabled")
+	private boolean enabled;
 	
 	public AnnouncementBanner() {}
 
@@ -51,11 +56,11 @@ public class AnnouncementBanner implements Serializable {
 	}
 
 	public String getAccouncement() {
-		return accouncement;
+		return announcement;
 	}
 
 	public void setAccouncement(String accouncement) {
-		this.accouncement = accouncement;
+		this.announcement = accouncement;
 	}
 
 	public boolean isEnablePublicMode() {
@@ -64,6 +69,14 @@ public class AnnouncementBanner implements Serializable {
 
 	public void setEnablePublicMode(boolean enablePublicMode) {
 		this.enablePublicMode = enablePublicMode;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 	
 }

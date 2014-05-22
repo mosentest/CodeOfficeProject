@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "enterprise_user_group", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
+@Table(name = "enterprise_usergroup", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class EnterpriseUserGroup implements Serializable {
 
 	private static final long serialVersionUID = -7084742565850981601L;
@@ -40,9 +40,9 @@ public class EnterpriseUserGroup implements Serializable {
 	private int users;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "group_enterprise_user",
+	@JoinTable(name = "usergroup_user",
 			joinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name = "enterprise_user_id", referencedColumnName = "id"))
+			inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<EnterpriseUser> enterpriseUsers;
 	
 	public EnterpriseUserGroup() {}

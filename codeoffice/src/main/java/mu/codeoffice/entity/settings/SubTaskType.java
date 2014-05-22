@@ -1,37 +1,44 @@
-package mu.codeoffice.entity;
+package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import mu.codeoffice.entity.Enterprise;
 
 @Entity
-@Table(name = "visibility")
-public class Visibility implements Serializable {
+@Table(name = "settings_subtask", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
+public class SubTaskType implements Serializable {
 
-	private static final long serialVersionUID = 7331628828969968738L;
+	private static final long serialVersionUID = 2285026771335552227L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
 	@Column(name = "name")
 	private String name;
+
+	@Column(name = "description")
+	private String description;
+
+	@Column(name = "icon")
+	private String icon;
 	
-	@Column(name = "visibility_value")
-	private int value;
-	
-	public Visibility() {}
+	public SubTaskType() {}
 
 	public Long getId() {
 		return id;
@@ -57,12 +64,20 @@ public class Visibility implements Serializable {
 		this.name = name;
 	}
 
-	public int getValue() {
-		return value;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setValue(int value) {
-		this.value = value;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
 }

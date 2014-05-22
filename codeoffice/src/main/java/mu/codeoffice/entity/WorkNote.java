@@ -15,10 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 @Entity
-@Table(name = "office_worknote")
+@Table(name = "worknote")
 public class WorkNote implements Serializable {
 
 	private static final long serialVersionUID = 4704097564463879200L;
@@ -51,9 +50,6 @@ public class WorkNote implements Serializable {
 
 	@Column(name = "visibility")
 	private int visibility;
-	
-	@Transient
-	private Visibility visibilitybType;
 	
 	public WorkNote() {}
 
@@ -119,14 +115,6 @@ public class WorkNote implements Serializable {
 
 	public void setCreator(EnterpriseUser creator) {
 		this.creator = creator;
-	}
-
-	public Visibility getVisibilitybType() {
-		return visibilitybType;
-	}
-
-	public void setVisibilitybType(Visibility visibilitybType) {
-		this.visibilitybType = visibilitybType;
 	}
 	
 }

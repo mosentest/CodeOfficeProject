@@ -196,12 +196,12 @@ public class ComponentController extends ProjectPermissionRequired {
 		Component component = componentService.getProjectComponent(project, componentCode);
 		model.put("project", project);
 		model.put("component", component);
-		model.put("statusMap", componentService.getCaseStatusSummary(project, component));
+		model.put("statusMap", componentService.getIssueStatusSummary(project, component));
 		model.put("priorityMap", componentService.getCasePrioritySummary(project, component));
 		model.put("assigneeMap", componentService.getAssigneeSummary(project, component));
 		model.put("labelMap", componentService.getLabelSummary(project, component));
 		model.put("versionMap", componentService.getVersionSummary(project, component));
-		model.put("totalCase", component.getNoCase());
+		model.put("totalCase", component.getTotalIssues());
 		return new ModelAndView("enterprise/project/component_casesummary");
 	}
 	

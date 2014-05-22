@@ -17,8 +17,8 @@ import javax.persistence.Table;
 import mu.codeoffice.enums.HistoryType;
 
 @Entity
-@Table(name = "office_history_object")
-public class HistoryObject implements Serializable {
+@Table(name = "history_element")
+public class HistoryElement implements Serializable {
 
 	private static final long serialVersionUID = -6490104947928417148L;
 	
@@ -32,7 +32,7 @@ public class HistoryObject implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "history_id")
-	private OfficeHistory history;
+	private History history;
 
 	@Column(length = 3)
 	@Enumerated(EnumType.STRING)
@@ -44,7 +44,7 @@ public class HistoryObject implements Serializable {
 	@Column(name = "new_value")
 	private String newValue;
 	
-	public HistoryObject() {
+	public HistoryElement() {
 		
 	}
 
@@ -64,11 +64,11 @@ public class HistoryObject implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public OfficeHistory getHistory() {
+	public History getHistory() {
 		return history;
 	}
 
-	public void setHistory(OfficeHistory history) {
+	public void setHistory(History history) {
 		this.history = history;
 	}
 

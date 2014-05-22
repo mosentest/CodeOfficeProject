@@ -1,4 +1,4 @@
-package mu.codeoffice.entity;
+package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
 
@@ -11,17 +11,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "office_system_message")
-public class SystemMessage implements Serializable {
+import mu.codeoffice.entity.Enterprise;
 
-	private static final long serialVersionUID = -5292600128954988495L;
-	
+@Entity
+@Table(name = "settings_general_project")
+public class GeneralProjectSettings implements Serializable {
+
+	private static final long serialVersionUID = 5666317822176705018L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 

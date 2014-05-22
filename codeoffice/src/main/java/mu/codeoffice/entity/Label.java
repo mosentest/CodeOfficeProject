@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "office_label", uniqueConstraints = @UniqueConstraint(columnNames = {"project_id", "label"}))
+@Table(name = "label", uniqueConstraints = @UniqueConstraint(columnNames = {"project_id", "label"}))
 public class Label implements Serializable {
 
 	private static final long serialVersionUID = 4497792049115583079L;
@@ -37,11 +37,11 @@ public class Label implements Serializable {
 	@Column(name = "label")
 	private String label;
 
-	@Column(name = "count")
-	private int count;
+	@Column(name = "total_issues")
+	private int totalIssues;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "labels")
-	private List<Issue> cases;
+	private List<Issue> issues;
 	
 	public Label() {}
 
@@ -69,20 +69,20 @@ public class Label implements Serializable {
 		this.label = label;
 	}
 
-	public int getCount() {
-		return count;
+	public int gettotalIssues() {
+		return totalIssues;
 	}
 
-	public void setCount(int count) {
-		this.count = count;
+	public void setTotalIssues(int totalIssues) {
+		this.totalIssues = totalIssues;
 	}
 
-	public List<Issue> getCases() {
-		return cases;
+	public List<Issue> getIssues() {
+		return issues;
 	}
 
-	public void setCases(List<Issue> cases) {
-		this.cases = cases;
+	public void setIssues(List<Issue> issues) {
+		this.issues = issues;
 	}
 
 	public Project getProject() {

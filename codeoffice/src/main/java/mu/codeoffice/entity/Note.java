@@ -23,7 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "office_note")
+@Table(name = "note")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(
 	    name = "note_type",
@@ -46,7 +46,7 @@ public class Note implements Serializable {
 	protected Date create;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "enterprise_user_id")
+	@JoinColumn(name = "creator_id")
 	private EnterpriseUser creator;
 	
 	@Column(name = "content")

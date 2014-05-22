@@ -19,9 +19,9 @@ import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.Version;
-import mu.codeoffice.enums.CasePriority;
-import mu.codeoffice.enums.CaseStatus;
-import mu.codeoffice.enums.CaseType;
+import mu.codeoffice.enums.IssuePriority;
+import mu.codeoffice.enums.IssueStatus;
+import mu.codeoffice.enums.IssueType;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
@@ -52,8 +52,8 @@ public class VersionService extends ProjectStatisticService {
 		version.setDelay(null);
 		version.setReleased(false);
 		version.setStarted(false);
-		version.setNoRelated(0);
-		version.setNoRelease(0);
+		version.setTotalRelated(0);
+		version.setTotalRelease(0);
 		versionRepository.save(version);
 	}
 	
@@ -64,7 +64,7 @@ public class VersionService extends ProjectStatisticService {
 		if (version == null) {
 			throw new EnterpriseAuthenticationException("Access denied.");
 		}
-		if (version.getNoRelated() > 0 || version.getNoRelease() > 0) {
+		if (version.getTotalRelated() > 0 || version.getTotalRelease() > 0) {
 			throw new InformationException("Version has related cases, can not delete.");
 		}
 		versionRepository.delete(version);
@@ -159,9 +159,9 @@ public class VersionService extends ProjectStatisticService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Map<CaseType, List<Issue>> getReleaseNote(Long project, Long version) {
-		Map<CaseType, List<Issue>> map = new HashMap<>();
-		for (CaseType type : CaseType.values()) {
+	public Map<IssueType, List<Issue>> getReleaseNote(Long project, Long version) {
+		Map<IssueType, List<Issue>> map = new HashMap<>();
+		for (IssueType type : IssueType.values()) {
 			List<Issue> cases = caseRepository.findAll(all(null, project, null, version, null, null, null, null, null, type, null));
 			if (cases.size() > 0) {
 				map.put(type, cases);
@@ -195,13 +195,13 @@ public class VersionService extends ProjectStatisticService {
 	}
 
 	@Transactional(readOnly = true)
-	public Map<CaseStatus, Integer> getCaseStatusSummary(Project project, Long version, Long releaseVersion) {
-		return getCaseStatusSummary(project.getId(), version, releaseVersion, null, null, null, null, null, null);
+	public Map<IssueStatus, Integer> getCaseStatusSummary(Project project, Long version, Long releaseVersion) {
+		return getIssueStatusSummary(project.getId(), version, releaseVersion, null, null, null, null, null, null);
 	}
 
 	@Transactional(readOnly = true)
-	public Map<CasePriority, Integer> getCasePrioritySummary(Project project, Long version, Long releaseVersion) {
-		return getCasePrioritySummary(project.getId(), version, releaseVersion, null, null, null, null, null, null);
+	public Map<IssuePriority, Integer> getCasePrioritySummary(Project project, Long version, Long releaseVersion) {
+		return getIssuePrioritySummary(project.getId(), version, releaseVersion, null, null, null, null, null, null);
 	}
 
 	@Transactional(readOnly = true)

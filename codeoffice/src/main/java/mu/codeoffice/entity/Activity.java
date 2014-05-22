@@ -23,12 +23,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "office_history")
+@Table(name = "activity")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "history_type", discriminatorType = DiscriminatorType.STRING)
-public class OfficeHistory implements Serializable {
+@DiscriminatorColumn(
+	    name = "acvitity_type",
+	    discriminatorType = DiscriminatorType.STRING
+)
+public class Activity implements Serializable {
 
-	private static final long serialVersionUID = 30254826000132860L;
+	private static final long serialVersionUID = -4415448978080731131L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,18 +42,17 @@ public class OfficeHistory implements Serializable {
 	private Enterprise enterprise;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "enterprise_user_id")
+	@JoinColumn(name = "creator_id")
 	protected EnterpriseUser creator;
 
 	@Column(name = "create_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
 	protected Date create;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "history")
-	protected List<HistoryObject> elements;
-
-	public OfficeHistory() {
-	}
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "activity")
+	protected List<ActivityElement> activityElements;
+	
+	public Activity() {}
 
 	public Long getId() {
 		return id;
@@ -58,6 +60,22 @@ public class OfficeHistory implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Date getCreate() {
+		return create;
+	}
+
+	public void setCreate(Date create) {
+		this.create = create;
+	}
+
+	public List<ActivityElement> getActivityObjects() {
+		return activityElements;
+	}
+
+	public void setActvityObjects(List<ActivityElement> activityObjects) {
+		this.activityElements = activityObjects;
 	}
 
 	public Enterprise getEnterprise() {
@@ -76,20 +94,8 @@ public class OfficeHistory implements Serializable {
 		this.creator = creator;
 	}
 
-	public Date getCreate() {
-		return create;
+	public void setActivityObjects(List<ActivityElement> activityElements) {
+		this.activityElements = activityElements;
 	}
-
-	public void setCreate(Date create) {
-		this.create = create;
-	}
-
-	public List<HistoryObject> getElements() {
-		return elements;
-	}
-
-	public void setElements(List<HistoryObject> elements) {
-		this.elements = elements;
-	}
-
+	
 }

@@ -100,7 +100,7 @@ public class ProjectController extends ProjectPermissionRequired {
 		model.put("labelMap", projectService.getLabelSummary(project));
 		model.put("componentMap", projectService.getComponentSummary(project));
 		model.put("versionMap", projectService.getVersionSummary(project));
-		model.put("totalCase", project.getNoCase());
+		model.put("totalCase", project.getTotalIssues());
 		return new ModelAndView("enterprise/project/project_casesummary", model);
 	}
 

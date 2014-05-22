@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import mu.codeoffice.entity.settings.GlobalPermission;
+
 @Entity
 @Table(name = "usergroup")
 public class UserGroup implements Serializable {
@@ -27,6 +29,9 @@ public class UserGroup implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
+
+	@Column(name = "default_group")
+	private boolean defaultGroup;
 
 	@Column(name = "title")
 	private String title;
@@ -91,6 +96,14 @@ public class UserGroup implements Serializable {
 
 	public void setProjectPermissions(List<GlobalPermission> projectPermissions) {
 		this.projectPermissions = projectPermissions;
+	}
+
+	public boolean isDefaultGroup() {
+		return defaultGroup;
+	}
+
+	public void setDefaultGroup(boolean defaultGroup) {
+		this.defaultGroup = defaultGroup;
 	}
 	
 }

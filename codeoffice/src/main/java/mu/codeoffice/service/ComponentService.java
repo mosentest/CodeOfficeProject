@@ -19,8 +19,8 @@ import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Version;
-import mu.codeoffice.enums.CasePriority;
-import mu.codeoffice.enums.CaseStatus;
+import mu.codeoffice.enums.IssuePriority;
+import mu.codeoffice.enums.IssueStatus;
 import mu.codeoffice.enums.ProjectPermission;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
@@ -52,8 +52,8 @@ public class ComponentService extends ProjectStatisticService {
 			List<Issue> relatedCases = caseRepository.findAll(
 					all(null, component.getProject().getId(), null, null, componentObject.getId(), null, null, null, null, null, null));
 			for (Issue caseObject : relatedCases) {
-				if (!component.getCases().contains(caseObject)) {
-					component.getCases().add(caseObject);
+				if (!component.getIssues().contains(caseObject)) {
+					component.getIssues().add(caseObject);
 				}
 				if (!caseObject.getComponents().contains(component)) {
 					caseObject.getComponents().add(component);
@@ -61,12 +61,12 @@ public class ComponentService extends ProjectStatisticService {
 				caseObject.getComponents().remove(componentObject);
 				caseRepository.save(caseObject);
 			}
-			componentObject.getCases().clear();
+			componentObject.getIssues().clear();
 			componentRepository.save(componentObject);
 		}
 		componentRepository.delete(mergeList);
 		logger.debug("Components: '" + String.join("', '", mergeComponent.getComponentCode()) + "' has been merged.");
-		component.setNoCase(component.getCases().size());
+		component.setTotalIssues(component.getIssues().size());
 		componentRepository.save(component);
 	}
 	
@@ -144,8 +144,8 @@ public class ComponentService extends ProjectStatisticService {
 	public void delete(String projectCode, String componentCode, EnterpriseAuthentication auth) 
 			throws AuthenticationException, InformationException {
 		Component component = componentRepository.getProjectComponent(projectCode, componentCode, auth.getEnterprise());
-		if (component.getNoCase() > 0) {
-			throw new InformationException(String.format("Unable to delete component '%s', it has %d related cases.", component.getName(), component.getNoCase()));
+		if (component.getTotalIssues() > 0) {
+			throw new InformationException(String.format("Unable to delete component '%s', it has %d related cases.", component.getName(), component.getTotalIssues()));
 		}
 		componentRepository.delete(component);
 	}
@@ -181,13 +181,13 @@ public class ComponentService extends ProjectStatisticService {
 	}
 
 	@Transactional(readOnly = true)
-	public Map<CaseStatus, Integer> getCaseStatusSummary(Project project, Component component) {
-		return getCaseStatusSummary(project.getId(), null, null, component.getId(), null, null, null, null, null);
+	public Map<IssueStatus, Integer> getIssueStatusSummary(Project project, Component component) {
+		return getIssueStatusSummary(project.getId(), null, null, component.getId(), null, null, null, null, null);
 	}
 
 	@Transactional(readOnly = true)
-	public Map<CasePriority, Integer> getCasePrioritySummary(Project project, Component component) {
-		return getCasePrioritySummary(project.getId(), null, null, component.getId(), null, null, null, null, null);
+	public Map<IssuePriority, Integer> getCasePrioritySummary(Project project, Component component) {
+		return getIssuePrioritySummary(project.getId(), null, null, component.getId(), null, null, null, null, null);
 	}
 
 	@Transactional(readOnly = true)

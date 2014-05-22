@@ -37,27 +37,6 @@ public class Enterprise implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "enterprise")
     private List<Project> projects;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "enterprise")
-    private List<Issue> projectCases;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "enterprise")
-    private List<Component> projectComponents;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "enterprise")
-    private List<Version> projectVersions;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "enterprise")
-    private List<Label> projectLabels;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "enterprise")
-    private List<EnterpriseUser> users;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "enterprise")
-    private List<ProjectRole> projectRoles;
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "enterprise")
-    private List<RoleGroup> projectRoleGroups;
     
     public Enterprise() {}
 
@@ -108,61 +87,5 @@ public class Enterprise implements Serializable {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
-
-	public List<Issue> getProjectCases() {
-		return projectCases;
-	}
-
-	public void setProjectCases(List<Issue> projectCases) {
-		this.projectCases = projectCases;
-	}
-
-	public List<Component> getProjectComponents() {
-		return projectComponents;
-	}
-
-	public void setProjectComponents(List<Component> projectComponents) {
-		this.projectComponents = projectComponents;
-	}
-
-	public List<Version> getProjectVersions() {
-		return projectVersions;
-	}
-
-	public void setProjectVersions(List<Version> projectVersions) {
-		this.projectVersions = projectVersions;
-	}
-
-	public List<Label> getProjectLabels() {
-		return projectLabels;
-	}
-
-	public void setProjectLabels(List<Label> projectLabels) {
-		this.projectLabels = projectLabels;
-	}
-
-	public List<EnterpriseUser> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<EnterpriseUser> users) {
-		this.users = users;
-	}
-
-	public List<ProjectRole> getProjectRoles() {
-		return projectRoles;
-	}
-
-	public void setProjectRoles(List<ProjectRole> projectRoles) {
-		this.projectRoles = projectRoles;
-	}
-
-	public List<RoleGroup> getProjectRoleGroups() {
-		return projectRoleGroups;
-	}
-
-	public void setProjectRoleGroups(List<RoleGroup> projectRoleGroups) {
-		this.projectRoleGroups = projectRoleGroups;
-	}    
     
 }

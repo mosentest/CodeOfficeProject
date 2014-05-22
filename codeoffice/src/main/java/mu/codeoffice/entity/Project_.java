@@ -37,8 +37,6 @@ public class Project_ {
 	
 	public static volatile SingularAttribute<Project, Integer> visibility;
 	
-	public static volatile SingularAttribute<Project, Visibility> visibilityType;
-	
 	public static volatile SingularAttribute<Project, Integer> noUser;
 	
 	public static volatile SingularAttribute<Project, Integer> noCase;

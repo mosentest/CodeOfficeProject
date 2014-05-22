@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +20,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "office_project_version", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "office_project_id"}))
+@Table(name = "project_version", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "project_id"}))
 public class Version implements Serializable {
 
 	private static final long serialVersionUID = -7015366395114015526L;
@@ -34,8 +33,8 @@ public class Version implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "office_project_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "project_id")
 	private Project project;
 
 	@Column(name = "code")
@@ -74,17 +73,17 @@ public class Version implements Serializable {
 	@Column(name = "released")
 	private boolean released;
 
-	@Column(name = "no_release")
-	private int noRelease;
+	@Column(name = "total_release")
+	private int totalRelease;
 	
-	@Column(name = "no_related")
-	private int noRelated;
+	@Column(name = "total_related")
+	private int totalRelated;
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "versions")
-	private List<Issue> relatedCases;
+	private List<Issue> relatedIssues;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "releaseVersion")
-	private List<Issue> releaseCases;
+	private List<Issue> releaseIssues;
 	
 	public Version() {}
 
@@ -152,12 +151,12 @@ public class Version implements Serializable {
 		this.release = release;
 	}
 
-	public List<Issue> getRelatedCases() {
-		return relatedCases;
+	public List<Issue> getRelatedIssues() {
+		return relatedIssues;
 	}
 
-	public void setRelatedCases(List<Issue> relatedCases) {
-		this.relatedCases = relatedCases;
+	public void setRelatedIssues(List<Issue> relatedIssues) {
+		this.relatedIssues = relatedIssues;
 	}
 
 	public Date getDelay() {
@@ -184,28 +183,28 @@ public class Version implements Serializable {
 		this.started = started;
 	}
 
-	public List<Issue> getReleaseCases() {
-		return releaseCases;
+	public List<Issue> getReleaseIssues() {
+		return releaseIssues;
 	}
 
-	public void setReleaseCases(List<Issue> releaseCases) {
-		this.releaseCases = releaseCases;
+	public void setReleaseIssues(List<Issue> releaseIssues) {
+		this.releaseIssues = releaseIssues;
 	}
 
-	public int getNoRelease() {
-		return noRelease;
+	public int getTotalRelease() {
+		return totalRelease;
 	}
 
-	public void setNoRelease(int noRelease) {
-		this.noRelease = noRelease;
+	public void setTotalRelease(int totalRelease) {
+		this.totalRelease = totalRelease;
 	}
 
-	public int getNoRelated() {
-		return noRelated;
+	public int getTotalRelated() {
+		return totalRelated;
 	}
 
-	public void setNoRelated(int noRelated) {
-		this.noRelated = noRelated;
+	public void setTotalRelated(int totalRelated) {
+		this.totalRelated = totalRelated;
 	}
 
 	public Date getEstimatedRelease() {

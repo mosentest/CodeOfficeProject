@@ -17,10 +17,10 @@ import javax.annotation.Resource;
 import mu.codeoffice.data.AssigneeData;
 import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.EnterpriseUser;
-import mu.codeoffice.enums.CasePriority;
-import mu.codeoffice.enums.CaseStatus;
-import mu.codeoffice.enums.CaseType;
-import mu.codeoffice.repository.CaseRepository;
+import mu.codeoffice.enums.IssuePriority;
+import mu.codeoffice.enums.IssueStatus;
+import mu.codeoffice.enums.IssueType;
+import mu.codeoffice.repository.IssueRepository;
 import mu.codeoffice.repository.RoleGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 
@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CaseService {
 
 	@Resource
-	private CaseRepository caseRepository;
+	private IssueRepository caseRepository;
 	
 	@Resource 
 	private RoleGroupRepository roleGroupRepository;
@@ -77,7 +77,7 @@ public class CaseService {
 	
 	@Transactional(readOnly = true)
 	public Page<Issue> getCasePage(EnterpriseAuthentication auth, Long project, Long version, Long releaseVersion, Long component, Long label, 
-			Long assignee, Long reporter, CaseStatus status, CaseType type, CasePriority priority,
+			Long assignee, Long reporter, IssueStatus status, IssueType type, IssuePriority priority,
 			int pageIndex, int size, String column, boolean ascending) {
 		Page<Issue> page = caseRepository.findAll(all(null, project, version, releaseVersion, component, label, assignee, reporter, status, type, priority), 
 				pageSpecification(pageIndex, size, sort(ascending, Issue.getSortColumn(column))));

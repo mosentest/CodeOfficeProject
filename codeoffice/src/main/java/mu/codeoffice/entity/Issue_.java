@@ -6,13 +6,13 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-import mu.codeoffice.enums.CasePriority;
+import mu.codeoffice.enums.IssuePriority;
 import mu.codeoffice.enums.CaseResolution;
-import mu.codeoffice.enums.CaseStatus;
-import mu.codeoffice.enums.CaseType;
+import mu.codeoffice.enums.IssueStatus;
+import mu.codeoffice.enums.IssueType;
 
 @StaticMetamodel(Issue.class)
-public class Case_ {
+public class Issue_ {
 	
 	public static volatile SingularAttribute<Issue, Long> id;
 	
@@ -42,15 +42,15 @@ public class Case_ {
 	
 	public static volatile SingularAttribute<Issue, CaseResolution> resolution;
 	
-	public static volatile SingularAttribute<Issue, CaseStatus> status;
+	public static volatile SingularAttribute<Issue, IssueStatus> status;
 	
-	public static volatile SingularAttribute<Issue, CasePriority> priority;
+	public static volatile SingularAttribute<Issue, IssuePriority> priority;
 	
 	public static volatile SingularAttribute<Issue, EnterpriseUser> reporter;
 	
 	public static volatile SingularAttribute<Issue, EnterpriseUser> assignee;
 	
-	public static volatile SingularAttribute<Issue, CaseType> type;
+	public static volatile SingularAttribute<Issue, IssueType> type;
 	
 	public static volatile SingularAttribute<Issue, Boolean> edited;
 	
@@ -66,13 +66,13 @@ public class Case_ {
 	
 	public static volatile ListAttribute<Issue, Attachment> attachments;
 	
-	public static volatile ListAttribute<Issue, CaseNote> notes;
+	public static volatile ListAttribute<Issue, IssueNote> notes;
 	
-	public static volatile ListAttribute<Issue, CaseHistory> histories;
+	public static volatile ListAttribute<Issue, IssueHistory> histories;
 	
 	public static volatile ListAttribute<Issue, IssueLink> caseLinks;
 	
-	public static volatile ListAttribute<Issue, CaseActivity> activities;
+	public static volatile ListAttribute<Issue, IssueActivity> activities;
 	
 	public static volatile ListAttribute<Issue, WorkLog> workLogs;
 	

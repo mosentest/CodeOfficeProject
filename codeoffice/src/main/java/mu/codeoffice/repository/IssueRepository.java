@@ -10,12 +10,12 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface CaseRepository extends JpaRepository<Issue, Long>, JpaSpecificationExecutor<Issue> {
+public interface IssueRepository extends JpaRepository<Issue, Long>, JpaSpecificationExecutor<Issue> {
 
 	@Query("SELECT c FROM Case c WHERE c.enterprise = :enterprise AND c.id = :caseId")
 	public Issue getOne(Enterprise enterprise, Long caseId);
 	
 	@Query("SELECT c FROM Case c WHERE c.project.id = :project")
-	public List<Issue> getCases(@Param("project") Long project);
+	public List<Issue> getIssues(@Param("project") Long project);
 
 }

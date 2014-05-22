@@ -18,8 +18,8 @@ import javax.persistence.Transient;
 import mu.codeoffice.enums.ActivityType;
 
 @Entity
-@Table(name = "office_activity_object")
-public class ActivityObject implements Serializable {
+@Table(name = "activity_element")
+public class ActivityElement implements Serializable {
 
 	private static final long serialVersionUID = 5371097946101843439L;
 
@@ -33,7 +33,7 @@ public class ActivityObject implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "activity_id")
-	private OfficeActivity activity;
+	private Activity activity;
 	
 	@Column(name = "description")
 	protected String description;
@@ -48,7 +48,7 @@ public class ActivityObject implements Serializable {
 	@Transient
 	private Object associationObject;
 	
-	public ActivityObject() {}
+	public ActivityElement() {}
 
 	public Long getId() {
 		return id;
@@ -66,11 +66,11 @@ public class ActivityObject implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public OfficeActivity getActivity() {
+	public Activity getActivity() {
 		return activity;
 	}
 
-	public void setActivity(OfficeActivity activity) {
+	public void setActivity(Activity activity) {
 		this.activity = activity;
 	}
 

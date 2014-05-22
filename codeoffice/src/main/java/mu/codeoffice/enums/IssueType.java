@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum CaseType implements TextImageEnum {
+public enum IssueType implements TextImageEnum {
 	
 	BLA("blank"), BUG("bug"), DEF("defect"), DOC("documentation"), EPI("epic"), GEN("generic"), 
 	HEA("health"), REM("removefeature"), REQ("requirement"), SAL("sales"), STO("story"), 
@@ -10,7 +10,7 @@ public enum CaseType implements TextImageEnum {
 
 	private final String code;
 	
-	private CaseType(String code) {
+	private IssueType(String code) {
 		this.code = code;
 	}
 	

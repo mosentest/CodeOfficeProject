@@ -1,4 +1,4 @@
-package mu.codeoffice.entity;
+package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
 
@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.enums.CommentVisibility;
 import mu.codeoffice.enums.EmailVisibility;
 

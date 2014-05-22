@@ -10,30 +10,29 @@ import java.util.Random;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
-import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Component;
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectCategory;
 import mu.codeoffice.entity.ProjectRole;
 import mu.codeoffice.entity.RoleGroup;
 import mu.codeoffice.entity.Version;
-import mu.codeoffice.enums.CasePriority;
 import mu.codeoffice.enums.CaseResolution;
-import mu.codeoffice.enums.CaseStatus;
-import mu.codeoffice.enums.CaseType;
-import mu.codeoffice.repository.CaseRepository;
+import mu.codeoffice.enums.IssuePriority;
+import mu.codeoffice.enums.IssueStatus;
+import mu.codeoffice.enums.IssueType;
 import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.EnterpriseUserRepository;
+import mu.codeoffice.repository.IssueRepository;
 import mu.codeoffice.repository.LabelRepository;
 import mu.codeoffice.repository.ProjectCategoryRepository;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.repository.RoleGroupRepository;
 import mu.codeoffice.repository.RoleRepository;
 import mu.codeoffice.repository.VersionRepository;
-import mu.codeoffice.repository.VisibilityRepository;
 import mu.codeoffice.utility.DateUtil;
 
 import org.springframework.stereotype.Service;
@@ -54,9 +53,6 @@ public class TestService {
 	private ComponentRepository componentRepository;
 	
 	@Resource
-	private VisibilityRepository visibilityRepository;
-	
-	@Resource
 	private RoleRepository roleRepository;
 	
 	@Resource
@@ -69,14 +65,14 @@ public class TestService {
 	private EnterpriseUserRepository enterpriseUserRepository;
 	
 	@Resource
-	private CaseRepository caseRepository;
+	private IssueRepository caseRepository;
 
 	@Transactional
 	public void test() {
 		List<Component> components = componentRepository.findAll();
 		for (Component component : components) {
-			component.getCases().size();
-			component.setNoCase(component.getCases().size());
+			component.getIssues().size();
+			component.setTotalIssues(component.getIssues().size());
 			componentRepository.save(component);
 		}
 	}
@@ -94,32 +90,32 @@ public class TestService {
 			l1.setEnterprise(enterprise);
 			l1.setLabel("Java");
 			l1.setProject(project);
-			l1.setCases(new ArrayList<>());
+			l1.setIssues(new ArrayList<>());
 			Label l2 = new Label();
 			l2.setEnterprise(enterprise);
 			l2.setLabel("Spring");
 			l2.setProject(project);
-			l2.setCases(new ArrayList<>());
+			l2.setIssues(new ArrayList<>());
 			Label l3 = new Label();
 			l3.setEnterprise(enterprise);
 			l3.setLabel("Spring Data JPA");
 			l3.setProject(project);
-			l3.setCases(new ArrayList<>());
+			l3.setIssues(new ArrayList<>());
 			Label l4 = new Label();
 			l4.setEnterprise(enterprise);
 			l4.setLabel("Spring Security");
 			l4.setProject(project);
-			l4.setCases(new ArrayList<>());
+			l4.setIssues(new ArrayList<>());
 			Label l5 = new Label();
 			l5.setEnterprise(enterprise);
 			l5.setLabel("Mysql");
 			l5.setProject(project);
-			l5.setCases(new ArrayList<>());
+			l5.setIssues(new ArrayList<>());
 			Label l6 = new Label();
 			l6.setEnterprise(enterprise);
 			l6.setLabel("EJB");
 			l6.setProject(project);
-			l6.setCases(new ArrayList<>());
+			l6.setIssues(new ArrayList<>());
 
 			labelRepository.save(l1);
 			labelRepository.save(l2);
@@ -134,38 +130,38 @@ public class TestService {
 			project.getLabels().add(l5);
 			project.getLabels().add(l6);
 			projectRepository.save(project);
-			List<Issue> cases = caseRepository.getCases(project.getId());
+			List<Issue> cases = caseRepository.getIssues(project.getId());
 			for (Issue c : cases) {
 				c.setLabels(new ArrayList<>());
 				if (random.nextInt(6) == 0) {
 					c.getLabels().add(l1);
-					l1.getCases().add(c);
-					l1.setCount(l1.getCount() + 1);
+					l1.getIssues().add(c);
+					l1.setTotalIssues(l1.gettotalIssues() + 1);
 				}
 				if (random.nextInt(6) == 0) {
 					c.getLabels().add(l2);
-					l2.getCases().add(c);
-					l2.setCount(l2.getCount() + 1);
+					l2.getIssues().add(c);
+					l2.setTotalIssues(l2.gettotalIssues() + 1);
 				}
 				if (random.nextInt(6) == 0) {
 					c.getLabels().add(l3);
-					l3.getCases().add(c);
-					l3.setCount(l3.getCount() + 1);
+					l3.getIssues().add(c);
+					l3.setTotalIssues(l3.gettotalIssues() + 1);
 				}
 				if (random.nextInt(6) == 0) {
 					c.getLabels().add(l4);
-					l4.getCases().add(c);
-					l4.setCount(l4.getCount() + 1);
+					l4.getIssues().add(c);
+					l4.setTotalIssues(l4.gettotalIssues() + 1);
 				}
 				if (random.nextInt(6) == 0) {
 					c.getLabels().add(l5);
-					l5.getCases().add(c);
-					l5.setCount(l5.getCount() + 1);
+					l5.getIssues().add(c);
+					l5.setTotalIssues(l5.gettotalIssues() + 1);
 				}
 				if (random.nextInt(6) == 0) {
 					c.getLabels().add(l6);
-					l6.getCases().add(c);
-					l6.setCount(l6.getCount() + 1);
+					l6.getIssues().add(c);
+					l6.setTotalIssues(l6.gettotalIssues() + 1);
 				}
 				caseRepository.save(c);
 			}
@@ -193,10 +189,10 @@ public class TestService {
 		}
 		List<Version> versions = versionRepository.findAll();
 		for (Version version : versions) {
-			version.getRelatedCases().size();
-			version.getRelatedCases().size();
-			version.setReleaseCases(new ArrayList<>());
-			version.setRelatedCases(new ArrayList<>());
+			version.getRelatedIssues().size();
+			version.getRelatedIssues().size();
+			version.setReleaseIssues(new ArrayList<>());
+			version.setRelatedIssues(new ArrayList<>());
 			versionRepository.save(version);
 		}
 		List<Issue> cases = caseRepository.findAll();
@@ -303,8 +299,8 @@ public class TestService {
 				project.getRoleGroups().size();
 				project.getRoleGroups().forEach(roleGroup -> roleGroup.getUsers().size());
 				project.getVersions().size();
-				project.getVersions().forEach(version -> version.getRelatedCases().size());
-				project.getVersions().forEach(version -> version.getReleaseCases().size());
+				project.getVersions().forEach(version -> version.getRelatedIssues().size());
+				project.getVersions().forEach(version -> version.getReleaseIssues().size());
 				project.getComponents().size();
 				Issue c = new Issue();
 				c.setProject(project);
@@ -331,17 +327,17 @@ public class TestService {
 					roleGroupRepository.save(roleGroup);
 				}
 				if (i < 10) {
-					c.setKey(project.getCode() + "-" + "0000" + i);
+					c.setCode(project.getCode() + "-" + "0000" + i);
 				} else {
-					c.setKey(project.getCode() + "-" + "000" + i);
+					c.setCode(project.getCode() + "-" + "000" + i);
 				}
 				
-				CaseStatus status = CaseStatus.values()[random.nextInt(CaseStatus.values().length)];	
+				IssueStatus status = IssueStatus.values()[random.nextInt(IssueStatus.values().length)];	
 				
-				c.setType(CaseType.values()[random.nextInt(CaseType.values().length)]);	
-				c.setPriority(CasePriority.values()[random.nextInt(CasePriority.values().length)]);
+				c.setType(IssueType.values()[random.nextInt(IssueType.values().length)]);	
+				c.setPriority(IssuePriority.values()[random.nextInt(IssuePriority.values().length)]);
 				c.setStatus(status);
-				if (status == CaseStatus.CLO || status == CaseStatus.RES) {
+				if (status == IssueStatus.CLO || status == IssueStatus.RES) {
 					c.setResolution(CaseResolution.values()[random.nextInt(CaseResolution.values().length)]);
 					c.setClose(DateUtil.addRandomDate(c.getUpdate(), DateUtil.DAY_ * 3));
 					if (c.getClose().after(new Date())) {
@@ -355,19 +351,19 @@ public class TestService {
 				int nocv = random.nextInt(project.getVersions().size());
 				for (int j = 0; j < nocc; j++) {
 					Component t = project.getComponents().get(j);
-					if (t.getCases() == null) {
-						t.setCases(Arrays.asList(c));
+					if (t.getIssues() == null) {
+						t.setIssues(Arrays.asList(c));
 					} else {
-						t.getCases().add(c);
+						t.getIssues().add(c);
 					}
 					cc.add(t);
 				}
 				for (int j = 0; j < nocv; j++) {
 					Version v = project.getVersions().get(j);
-					if (v.getRelatedCases() == null) {
-						v.setRelatedCases(Arrays.asList(c));
+					if (v.getRelatedIssues() == null) {
+						v.setRelatedIssues(Arrays.asList(c));
 					} else {
-						v.getRelatedCases().add(c);
+						v.getRelatedIssues().add(c);
 					}
 					cv.add(v);
 				}
@@ -375,10 +371,10 @@ public class TestService {
 				c.setVersions(cv);
 				if (random.nextBoolean()) {
 					c.setReleaseVersion(project.getVersions().get(random.nextInt(project.getVersions().size())));
-					if (c.getReleaseVersion().getReleaseCases() == null) {
-						c.getReleaseVersion().setReleaseCases(Arrays.asList(c));
+					if (c.getReleaseVersion().getReleaseIssues() == null) {
+						c.getReleaseVersion().setReleaseIssues(Arrays.asList(c));
 					} else {
-						c.getReleaseVersion().getReleaseCases().add(c);
+						c.getReleaseVersion().getReleaseIssues().add(c);
 					}
 				}
 				caseRepository.save(c);
@@ -387,7 +383,7 @@ public class TestService {
 				}
 				cases.add(c);
 			}
-			project.setNoCase(noCase);
+			project.setTotalIssues(noCase);
 			projectRepository.save(project);
 			
 		}

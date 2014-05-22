@@ -19,7 +19,7 @@ import mu.codeoffice.json.ComponentJSON;
 import mu.codeoffice.json.JSONSerializable;
 
 @Entity
-@Table(name = "office_project_component", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "office_project_id"}))
+@Table(name = "project_component", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "project_id"}))
 public class Component implements Serializable, JSONSerializable<Component> {
 	
 	private static final long serialVersionUID = 7413950969585396632L;
@@ -36,7 +36,7 @@ public class Component implements Serializable, JSONSerializable<Component> {
 	private String code;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "office_project_id")
+	@JoinColumn(name = "project_id")
 	private Project project;
 
 	@Column(name = "name")
@@ -45,23 +45,23 @@ public class Component implements Serializable, JSONSerializable<Component> {
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "no_case")
-	private int noCase;
+	@Column(name = "total_issues")
+	private int totalIssues;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "office_component_lead_id")
+	@JoinColumn(name = "component_lead_id")
 	private EnterpriseUser lead;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "office_component_reporter_id")
+	@JoinColumn(name = "component_reporter_id")
 	private EnterpriseUser defaultReporter;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "office_component_assignee_id")
+	@JoinColumn(name = "component_assignee_id")
 	private EnterpriseUser defaultAssignee;
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "components")
-	private List<Issue> cases;
+	private List<Issue> issues;
 	
 	public Component() {}
 
@@ -143,20 +143,20 @@ public class Component implements Serializable, JSONSerializable<Component> {
 		this.defaultAssignee = defaultAssignee;
 	}
 
-	public List<Issue> getCases() {
-		return cases;
+	public List<Issue> getIssues() {
+		return issues;
 	}
 
-	public void setCases(List<Issue> cases) {
-		this.cases = cases;
+	public void setIssues(List<Issue> issues) {
+		this.issues = issues;
 	}
 	
-	public int getNoCase() {
-		return noCase;
+	public int getTotalIssues() {
+		return totalIssues;
 	}
 
-	public void setNoCase(int noCase) {
-		this.noCase = noCase;
+	public void setTotalIssues(int totalIssues) {
+		this.totalIssues = totalIssues;
 	}
 
 	public Project getProject() {

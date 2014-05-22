@@ -18,8 +18,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
-import mu.codeoffice.security.GlobalPermission;
+import mu.codeoffice.entity.settings.GlobalPermission;
+import mu.codeoffice.entity.settings.ProjectPermission;
 
 @Entity
 @Table(name = "enterprise_user")
@@ -79,11 +81,11 @@ public class EnterpriseUser implements Serializable {
     @Column(name = "project_permission_value")
     private int projectPermissionValue;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private List<GlobalPermission> globalPermissions;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
-	private List<GlobalPermission> projectPermissions;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+	private List<ProjectPermission> projectPermissions;
 
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "usergroup_user", 
@@ -92,16 +94,16 @@ public class EnterpriseUser implements Serializable {
 	private List<UserGroup> userGroups;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "office_watcher_case", 
- 			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
- 			inverseJoinColumns = @JoinColumn(name = "case_id", referencedColumnName = "id"))
+	@JoinTable(name = "issue_watchlist", uniqueConstraints = @UniqueConstraint(columnNames = {"user_wid", "issue_id"}),
+ 			joinColumns = @JoinColumn(name = "user_wid", referencedColumnName = "id"), 
+ 			inverseJoinColumns = @JoinColumn(name = "issue_id", referencedColumnName = "id"))
 	private List<Issue> watching;
     
     public EnterpriseUser() {}
     
     @Transient
-    public List<GlobalPermission> getGlobalPermissions() {
-    	return GlobalPermission.getPermissions(globalPermissionValue);
+    public List<mu.codeoffice.security.GlobalPermission> getGlobalPermissions() {
+    	return mu.codeoffice.security.GlobalPermission.getPermissions(globalPermissionValue);
     }
 	
 	@Override
@@ -250,11 +252,11 @@ public class EnterpriseUser implements Serializable {
 		this.projectPermissionValue = projectPermissionValue;
 	}
 
-	public List<GlobalPermission> getProjectPermissions() {
+	public List<ProjectPermission> getProjectPermissions() {
 		return projectPermissions;
 	}
 
-	public void setProjectPermissions(List<GlobalPermission> projectPermissions) {
+	public void setProjectPermissions(List<ProjectPermission> projectPermissions) {
 		this.projectPermissions = projectPermissions;
 	}
 	

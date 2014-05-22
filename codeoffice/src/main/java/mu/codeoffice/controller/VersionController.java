@@ -183,7 +183,7 @@ public class VersionController extends ProjectPermissionRequired {
 		model.put("assigneeMap", versionService.getAssigneeSummary(project, version.getId(), null));
 		model.put("labelMap", versionService.getLabelSummary(project, version.getId(), null));
 		model.put("componentMap", versionService.getComponentSummary(project, version.getId(), null));
-		model.put("totalCase", version.getNoRelated());
+		model.put("totalCase", version.getTotalRelated());
 		return new ModelAndView("enterprise/project/version_relatedsummary");
 	}
 	
@@ -200,7 +200,7 @@ public class VersionController extends ProjectPermissionRequired {
 		model.put("assigneeMap", versionService.getAssigneeSummary(project, null, version.getId()));
 		model.put("labelMap", versionService.getLabelSummary(project, null, version.getId()));
 		model.put("componentMap", versionService.getComponentSummary(project, null, version.getId()));
-		model.put("totalCase", version.getNoRelease());
+		model.put("totalCase", version.getTotalRelease());
 		return new ModelAndView("enterprise/project/version_releasesummary");
 	}
 	

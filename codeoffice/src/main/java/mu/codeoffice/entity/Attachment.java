@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 import mu.codeoffice.enums.AttachmentType;
 
 @Entity
-@Table(name = "office_attachment")
+@Table(name = "attachment")
 public class Attachment implements Serializable {
 
 	private static final long serialVersionUID = -5092705321076355313L;
@@ -34,7 +34,7 @@ public class Attachment implements Serializable {
 	private Enterprise enterprise;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "enterprise_user_id")
+	@JoinColumn(name = "uploader_id")
 	private EnterpriseUser uploader;
 	
 	@Column(name = "description")

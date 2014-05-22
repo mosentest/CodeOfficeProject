@@ -3,7 +3,7 @@ package mu.codeoffice.repository;
 import java.util.List;
 
 import mu.codeoffice.entity.Enterprise;
-import mu.codeoffice.entity.Submenu;
+import mu.codeoffice.entity.settings.Submenu;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

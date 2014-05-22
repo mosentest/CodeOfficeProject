@@ -8,12 +8,12 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @DiscriminatorValue("P")
-public class ProjectActivity extends OfficeActivity {
+public class ProjectActivity extends Activity {
 
 	private static final long serialVersionUID = 3307131411326668519L;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "office_activity_project_id")
+	@JoinColumn(name = "project_id")
 	private Project projectObject;
 
 	public Project getProjectObject() {
