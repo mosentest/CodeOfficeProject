@@ -34,7 +34,7 @@ public class EnterpriseAuthentication extends User {
 		return enterpriseUser;
 	}
 	
-	public String getFullName() {
+	public String getFullname() {
 		return enterpriseUser.getFullName();
 	}
 	

@@ -49,6 +49,15 @@
 			$('.horizontal-tab li').removeClass('active');
 			$(this).addClass('active');
 		});
+		$('.dropdown-indicator').click(function() {
+			$('.dropdown ul').css({'left' : '-9999px'});
+			var position = $(this).position();
+			$(this).next('.dropdown').find('ul').css({'left' : position.left - 10, 'top' : position.top + 27});
+			return false;
+		});
+		$('.dropdown ul').mouseleave(function() {
+			$(this).css({'left' : '-9999px'});
+		});
 	});
 </script>
 </head>
@@ -60,22 +69,88 @@
 <div id="header">
 	<div class="left">
 		<div class="link settings imglink">
-			<a class="iconfont-large iconfont-appswitcher" href="javascript:showDropDown('settings-dropdown');">&nbsp;</a>
-			<div id="settings-dropdown" class="dropdown"></div>
+			<a class="iconfont-large iconfont-appswitcher dropdown-indicator" href="javascript:void(0);">&nbsp;</a>
+			<div class="dropdown">
+				<ul>
+					<li class="dropdown-title">Issues</li>
+					<li class="dropdown-link"><a href="#">Link 1</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-title">Title 2</li>
+					<li class="dropdown-link"><a href="#">Link 2</a></li>
+					<li class="dropdown-link"><a href="#">Link 3</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-link"><a href="#">Link 4</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="logo link">
 		<a href=""><img src="assets/img/icon-logo.png" width="57" height="30"/></a></div>
 		<div class="link imglink">
-			<a href="javascript:showDropDown('dashboard-dropdown');">Dashboards<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
-			<div id="dashboard-dropdown" class="dropdown"></div>
+			<a href="settings/home"><spring:message code="application.administration"/></a>
 		</div>
 		<div class="link imglink">
-			<a href="javascript:showDropDown('project-dropdown');">Projects<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
-			<div id="project-dropdown" class="dropdown"></div>
+			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.dashboards"/>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<div class="dropdown">
+				<ul>
+					<li class="dropdown-title">Dashboard</li>
+					<li class="dropdown-link"><a href="#">Link 1</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-title">Title 2</li>
+					<li class="dropdown-link"><a href="#">Link 2</a></li>
+					<li class="dropdown-link"><a href="#">Link 3</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-link"><a href="#">Link 4</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="link imglink">
-			<a href="javascript:showDropDown('issue-dropdown');">Issues<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
-			<div id="issue-dropdown" class="dropdown"></div>
+			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.projects"/>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<div class="dropdown">
+				<ul>
+					<li class="dropdown-title">Projects</li>
+					<li class="dropdown-link"><a href="#">Link 1</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-title">Title 2</li>
+					<li class="dropdown-link"><a href="#">Link 2</a></li>
+					<li class="dropdown-link"><a href="#">Link 3</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-link"><a href="#">Link 4</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="link imglink">
+			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.issues"/>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<div class="dropdown">
+				<ul>
+					<li class="dropdown-title">Issues</li>
+					<li class="dropdown-link"><a href="#">Link 1</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-title">Title 2</li>
+					<li class="dropdown-link"><a href="#">Link 2</a></li>
+					<li class="dropdown-link"><a href="#">Link 3</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-link"><a href="#">Link 4</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="link imglink">
+			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.messagecenter"/>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<div class="dropdown">
+				<ul>
+					<li class="dropdown-title">Message center</li>
+					<li class="dropdown-link"><a href="#">Link 1</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-title">Title 2</li>
+					<li class="dropdown-link"><a href="#">Link 2</a></li>
+					<li class="dropdown-link"><a href="#">Link 3</a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-link"><a href="#">Link 4</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -86,9 +161,12 @@
 				<input type="submit" class="hidden"/>
 			</form>
 		</div>
-		<div class="link"><a href="">Enterprise<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a></div>
-		<div class="link"><a href="">Zimu</a></div>
-		<div class="link"><a href="">Logout</a></div>
+		<div class="link">
+			<a href="enterprise/info"><security:authentication property="principal.enterprise.name"/>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+		</div>
+		<div class="link"><a href="personal/info"><security:authentication property="principal.fullname"/></a></div>
+		<div class="link"><a href="logout">Logout</a></div>
 		<div class="clearfix"></div>
 	</div>
 	<div class="clearfix"></div>
