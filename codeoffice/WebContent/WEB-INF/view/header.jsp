@@ -53,80 +53,76 @@
 </script>
 </head>
 <body>
-	<security:authorize access="isAuthenticated()">
-		<div id="header-login">
-			<spring:message var="text_logout" code="application.logout"/>
-			<spring:message var="text_settings" code="application.settings"/>
-			<spring:message var="text_logout" code="application.logout"/>
-			<c:set var="text_username"><security:authentication property="principal.fullName"/></c:set>
-			<c:set var="text_enterprise_name"><security:authentication property="principal.enterprise.name"/></c:set>
-			<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
-				<code:imagelink image="icon_setting" text="${text_settings}" link="settings/home" border="false" style=""/>|
-			</security:authorize>
-			<code:imagelink image="icon_home" text="${text_enterprise_name}" link="" border="false" width="130" style=""/>
-			|<code:imagelink image="icon_user" text="${text_username}" link="user/${text_username}" border="false" style=""/>
-			|<code:imagelink image="icon_logout" text="${text_logout}" link="logout" border="false" style=""/>
+<spring:message var="text_logout" code="application.logout"/>
+<spring:message var="text_settings" code="application.settings"/>
+<spring:message var="text_logout" code="application.logout"/>
+<security:authorize access="isAuthenticated()">
+<div id="header">
+	<div class="left">
+		<div class="link settings imglink">
+			<a class="iconfont-large iconfont-appswitcher" href="javascript:showDropDown('settings-dropdown');">&nbsp;</a>
+			<div id="settings-dropdown" class="dropdown"></div>
 		</div>
-	</security:authorize>
-	<div id="header">
-		<div id="header-content">
-			<div id="header-site">
-				<a href="/" class="imglink">
-					<img src="assets/img/codeoffice.png"/>
-				</a>
-			</div>
-			<security:authorize access="isAuthenticated()">
-				<div id="header-menu">
-					<span class="link <c:if test="${param.navigation eq 'home'}">navigation</c:if>">
-						<a href="/"><spring:message code="application.home" /></a>
-					</span>
-					<span class="link <c:if test="${param.navigation eq 'dashboard'}">navigation</c:if>">
-						<a href="dashboard"><spring:message code="application.dashboard" /></a>
-					</span>
-					<span class="link <c:if test="${param.navigation eq 'project'}">navigation</c:if>">
-						<a href="project"><spring:message code="application.project" /></a>
-					</span>
-					<span class="link <c:if test="${param.navigation eq 'case'}">navigation</c:if>">
-						<a href="case"><spring:message code="application.case" /></a>
-					</span>
-					<span class="link <c:if test="${param.navigation eq 'messagecenter'}">navigation</c:if>">
-						<a href="messagecenter"><spring:message code="application.messagecenter" /></a>
-					</span>
-				</div>
-				<div id="sub-menu">
-					<c:forEach items="${sessionScope.SETTINGS_SUBMENU}" var="submenu">
-						<span class="link"><a href="${submenu.link}">${submenu.title}</a></span>
-					</c:forEach>
-				</div>
-			</security:authorize>
+		<div class="logo link">
+		<a href=""><img src="assets/img/icon-logo.png" width="57" height="30"/></a></div>
+		<div class="link imglink">
+			<a href="javascript:showDropDown('dashboard-dropdown');">Dashboards<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<div id="dashboard-dropdown" class="dropdown"></div>
 		</div>
+		<div class="link imglink">
+			<a href="javascript:showDropDown('project-dropdown');">Projects<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<div id="project-dropdown" class="dropdown"></div>
+		</div>
+		<div class="link imglink">
+			<a href="javascript:showDropDown('issue-dropdown');">Issues<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<div id="issue-dropdown" class="dropdown"></div>
+		</div>
+		<div class="clearfix"></div>
 	</div>
-	<div id="middle">
-		<c:if test="${returnLink}">
-			<a href="javascript:window.history.back()"><spring:message code="application.back" /></a>
+	<div class="right">
+		<div class="quicksearch">
+			<form action="" method="GET">
+				<input type="text" id="quicksearch" placeholder="Quick search"/>
+				<input type="submit" class="hidden"/>
+			</form>
+		</div>
+		<div class="link"><a href="">Enterprise<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a></div>
+		<div class="link"><a href="">Zimu</a></div>
+		<div class="link"><a href="">Logout</a></div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+</security:authorize>
+<security:authorize access="isAnonymous()">
+<div id="header">
+	<div class="left"><img src="assets/img/icon-logo.png" width="57" height="30"/></div>
+	<div class="clearfix"></div>
+</div>
+</security:authorize>
+<div id="middle">
+	<div class="error-message">
+		<c:if test="${not empty sessionScope.ERROR_MESSAGE}">
+			<c:forEach items="${sessionScope.ERROR_MESSAGE}" var="m">
+				<p>${m}</p>
+			</c:forEach>
+			<c:remove var="ERROR_MESSAGE" scope="session"/>
 		</c:if>
-		<div class="error-message">
-			<c:if test="${not empty sessionScope.ERROR_MESSAGE}">
-				<c:forEach items="${sessionScope.ERROR_MESSAGE}" var="m">
-					<p>${m}</p>
-				</c:forEach>
-				<c:remove var="ERROR_MESSAGE" scope="session"/>
-			</c:if>
-		</div>
-		<div class="warn-message">
-			<c:if test="${not empty sessionScope.WARN_MESSAGE}">
-				<c:forEach items="${sessionScope.WARN_MESSAGE}" var="m">
-					<p>${m}</p>
-				</c:forEach>
-				<c:remove var="WARN_MESSAGE" scope="session"/>
-			</c:if>
-		</div>
-		<div class="notice-message">
-			<c:if test="${not empty sessionScope.NOTICE_MESSAGE}">
-				<c:forEach items="${sessionScope.NOTICE_MESSAGE}" var="m">
-					<p>${m}</p>
-				</c:forEach>
-				<c:remove var="NOTICE_MESSAGE" scope="session"/>
-			</c:if>
-		</div>
 	</div>
+	<div class="warn-message">
+		<c:if test="${not empty sessionScope.WARN_MESSAGE}">
+			<c:forEach items="${sessionScope.WARN_MESSAGE}" var="m">
+				<p>${m}</p>
+			</c:forEach>
+			<c:remove var="WARN_MESSAGE" scope="session"/>
+		</c:if>
+	</div>
+	<div class="notice-message">
+		<c:if test="${not empty sessionScope.NOTICE_MESSAGE}">
+			<c:forEach items="${sessionScope.NOTICE_MESSAGE}" var="m">
+				<p>${m}</p>
+			</c:forEach>
+			<c:remove var="NOTICE_MESSAGE" scope="session"/>
+		</c:if>
+	</div>
+</div>

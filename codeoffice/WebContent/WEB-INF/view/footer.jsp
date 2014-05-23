@@ -6,7 +6,12 @@
 	<div id="copyright">
 	<spring:message code="application.copyright"/>
 	<br />
+	<br />
 	<spring:message code="application.mail"/> <a href="mailto:<spring:message code="application.email"/>">:<spring:message code="application.email"/></a>
+	<br />
+	<br />
+	<br />
+	<img src="assets/img/icon-enterprise.png"/>
 	</div>
 </div>
 </footer>

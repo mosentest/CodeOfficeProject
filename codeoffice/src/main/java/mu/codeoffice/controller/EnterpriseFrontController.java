@@ -50,10 +50,16 @@ public class EnterpriseFrontController {
 	}
 	
 	@RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
-	public String accessDenied(ModelMap model) {
+	public String accessdenied(ModelMap model) {
 		model.addAttribute("error", true);
 		logger.debug("");
 		return "error/403";
+	}
+	
+	@RequestMapping(value = "/timeout", method = RequestMethod.GET)
+	public String timeout(ModelMap model) {
+		model.addAttribute("error", true);
+		return "error/timeout";
 	}
 	
 }

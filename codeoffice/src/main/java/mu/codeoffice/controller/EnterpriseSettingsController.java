@@ -1,6 +1,7 @@
 package mu.codeoffice.controller;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
@@ -43,7 +44,7 @@ public class EnterpriseSettingsController implements PermissionRequired {
 	}
 	
 	@RequestMapping(value = "home", method = RequestMethod.GET)
-	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
 		return new ModelAndView("settings/home", model);
 	}
 
