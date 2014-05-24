@@ -13,9 +13,11 @@
 }
 </style>
 <div id="content">
-	<div class="subelement">
-		<div class="title"><spring:message code="application.login"/></div>
-		<div class="content">
+	<div class="sub-element">
+		<div class="sub-element-info">
+		<div class="sub-element-title"><spring:message code="application.login"/></div>
+		</div>
+		<div class="sub-element-content">
 			<div id="login" class="border">
 				<form action="<c:url value='j_spring_security_check'/>" method="POST">
 					<table class="default-table form-table">

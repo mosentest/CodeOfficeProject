@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
@@ -27,7 +28,7 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enablePublicMode"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enablePublicMode}"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enablePublicMode}"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.maxAuthenticationAllowed"/>:</td>
@@ -35,7 +36,7 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.captchaOnSignUp"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.captchaOnSignUp}"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.captchaOnSignUp}"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.emailFormat"/>:</td>
@@ -47,7 +48,7 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableContactAdministrator"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableContactAdministrator}"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableContactAdministrator}"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.contactAdministratorMessage"/>:</td>
@@ -55,22 +56,22 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableLogoutConfirmation"/></td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableLogoutConfirmation}"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableLogoutConfirmation}"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableInlineEdit"/></td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableInlineEdit}"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableInlineEdit}"/></td>
 						</tr>
 						<tr class="form-title-row">
 							<td colspan="3"><spring:message code="settings.global.GENERALOPTIONS"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableVote"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableVote}"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableVote}"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableWatch"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableWatch}"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableWatch}"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.maxProjectNameLength"/>:</td>
@@ -82,7 +83,7 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableUnassignedIssue"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableUnassignedIssue}"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableUnassignedIssue}"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.emailVisibility"/>:</td>
@@ -91,10 +92,6 @@
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.commentVisibility"/>:</td>
 							<td class="form-input-col">${globalSettings.commentVisibility}</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><input type="submit" class="largebutton button" value="<spring:message code="application.save"/>"/></td>
 						</tr>
 					</table>
 				</form:form>

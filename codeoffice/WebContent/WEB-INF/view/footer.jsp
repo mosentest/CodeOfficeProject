@@ -7,7 +7,7 @@
 	<spring:message code="application.copyright"/>
 	<br />
 	<br />
-	<spring:message code="application.mail"/> <a href="mailto:<spring:message code="application.email"/>">:<spring:message code="application.email"/></a>
+	<spring:message code="application.mail"/> <a class="link" href="mailto:<spring:message code="application.email"/>">:<spring:message code="application.email"/></a>
 	<br />
 	<br />
 	<br />

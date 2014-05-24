@@ -29,6 +29,9 @@ input[type=text], input[type=password], textArea, select {
 	border-radius: 3px;
 	border: 1px solid #999;
 }
+a {
+	text-decoration: none;
+}
 @font-face {
 	font-family: 'codeoffice-font';
 	src: url('../img/icon-font.woff') format('woff');
@@ -184,20 +187,20 @@ input[type=text], input[type=password], textArea, select {
 .removed-link {
 	text-decoration: line-through;
 }
-a {
+.link {
 	text-decoration: none;
 	font-size: 14px;
 }
-a:link {
+.link:link {
 	color: #205081;
 }
-a:visited {
+.link:visited {
 	color: #205081;
 }
-a:active {
+.link:active {
 	color: #205081;
 }
-a:hover {
+.link:hover {
 	color: #0B76F0;
 }
 .image-link {
@@ -328,7 +331,7 @@ a:hover {
 }
 #content {
 	width: 100%;
-	margin: 0px auto 0px auto;
+	height: 100%;
 }
 .mainelement {
 	border: none;
@@ -544,4 +547,21 @@ a:hover {
 }
 .datepicker {
 	margin-right: 10px;
+}
+.toggle-on {
+	padding: 0px 3px;
+	background-color: #14892c;
+	border: 1px solid #14892c;
+	border-radius: 3px;
+	color: white;
+}
+.toggle-off {
+	padding: 0px 3px;
+	background-color: #d04437;
+	border: 1px solid #d04437;
+	border-radius: 3px;
+	color: white;
+}
+.toggle-on a, .toggle-off a {
+	color: white;
 }

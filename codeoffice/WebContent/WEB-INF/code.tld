@@ -147,8 +147,8 @@
 		</attribute>
 	</tag>
 	<tag>
-		<name>checkmark</name>
-		<tag-class>mu.codeoffice.tag.CheckmarkTag</tag-class>
+		<name>toggle</name>
+		<tag-class>mu.codeoffice.tag.ToggleTag</tag-class>
 		<body-content>scriptless</body-content>
 		<attribute>
 			<name>value</name>
@@ -157,10 +157,16 @@
 			<type>java.lang.Boolean</type>
 		</attribute>
 		<attribute>
-			<name>checkmarkOnly</name>
+			<name>toggle</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 			<type>java.lang.Boolean</type>
+		</attribute>
+		<attribute>
+			<name>path</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
 		</attribute>
 	</tag>
 	<tag>
