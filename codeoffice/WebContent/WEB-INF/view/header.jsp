@@ -15,67 +15,13 @@
 <base href="<%=basePath%>" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><spring:message code="application.title" /></title>
-<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/main.css">
 <link rel="stylesheet" href="assets/css/custom-theme/jquery-ui-1.10.3.custom.css">
 <script src="assets/js/jquery-2.0.3.js"></script>
-<script src="assets/js/ch.js"></script>
+<script src="assets/js/codeoffice.js"></script>
 <script src="assets/js/jquery-ui-1.10.3.custom.js"></script>
-<script>
-	$(document).ready(function() {
-		$('.buttons').button();
-		$('navigation').tabs({
-			collapsible : true
-		});
-		$('#header .link').mouseover(function() {
-			$(this).addClass('current');
-		});
-		$('#header .link').mouseout(function() {
-			$(this).removeClass('current');
-		});
-		if ($('#leftmenu').length > 0) {
-			var left = $('#leftmenu').first();
-			var main = $('#maincontent').first();
-			if (left.height() >= main.height()) {
-				left.addClass('leftmenu-border');
-				main.addClass('noborder');
-			} else {
-				main.addClass('maincontent-border');
-				left.addClass('noborder');
-			}	
-			
-		}
-		$('.horizontal-tab li').click(function() {
-			$('.horizontal-tab li').removeClass('active');
-			$(this).addClass('active');
-		});
-		$('.dropdown-indicator').click(function() {
-			$('.dropdown ul').css({'left' : '-9999px'});
-			var position = $(this).position();
-			$(this).next('.dropdown').find('ul').css({'left' : position.left - 10, 'top' : position.top + 27});
-			return false;
-		});
-		$('.toggleable').click(function() {
-			var input = $(this).next('input');
-			var checked = input.attr('checked');
-			if (checked === undefined) {
-				$(this).parent().removeClass('toggle-off');
-				$(this).parent().addClass('toggle-on');
-				$(this).text('Enabled');
-				input.attr('checked', true);
-			} else {
-				$(this).parent().removeClass('toggle-on');
-				$(this).parent().addClass('toggle-off');
-				$(this).text('Disabled');
-				input.attr('checked', false);
-			}
-		});
-		$('.dropdown ul').mouseleave(function() {
-			$(this).css({'left' : '-9999px'});
-		});
-	});
-</script>
 </head>
 <body>
 <spring:message var="text_logout" code="application.logout"/>

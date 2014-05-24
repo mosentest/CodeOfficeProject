@@ -19,7 +19,7 @@
 			</security:authorize>
 			<security:authorize access="hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN', 'ROLE_GLOBAL_ADMIN', 'ROLE_GLOBAL_PROJECT_ADMIN')">
 				<li class="tab-title"><spring:message code="settings.project_settings"/></li>
-				<li class="tab ${param.menu eq 'generalproject' ? 'active' : ''}"><a hclass="link" ref="settings/generalproject.html"><spring:message code="settings.general_project_settings"/></a></li>
+				<li class="tab ${param.menu eq 'generalproject' ? 'active' : ''}"><a class="link" href="settings/generalproject.html"><spring:message code="settings.general_project_settings"/></a></li>
 				<li class="tab ${param.menu eq 'issuelink' ? 'active' : ''}"><a class="link" href="settings/issuelink.html"><spring:message code="settings.issuelink_settings"/></a></li>
 				<li class="tab ${param.menu eq 'subtask' ? 'active' : ''}"><a class="link" href="settings/subtask.html"><spring:message code="settings.subtask_settings"/></a></li>
 				<li class="tab ${param.menu eq 'attachment' ? 'active' : ''}"><a class="link" href="settings/attachment.html"><spring:message code="settings.attachment_settings"/></a></li>
