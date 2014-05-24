@@ -12,7 +12,7 @@
 		margin: 20px auto;
 	}
 </style>
-<div id="main">
+<div id="content">
 	<div class="element">
 		<div class="title">404 - Not found</div>
 		<div class="content">

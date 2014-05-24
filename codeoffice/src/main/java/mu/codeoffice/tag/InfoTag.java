@@ -1,6 +1,7 @@
 package mu.codeoffice.tag;
 
 import java.io.IOException;
+import java.io.StringWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspException;
@@ -23,9 +24,17 @@ public class InfoTag extends SimpleTagSupport {
 	
 	private static final String INFO = "info";
 	
+	private static final String ERROR = "error";
+	
+	private static final String TIP = "tip";
+	
+	private static final String ALERT = "alert";
+	
 	private String arguments;
 	
 	private String type = INFO;
+	
+	private String title;
 	
 	private String message;
 	
@@ -34,6 +43,7 @@ public class InfoTag extends SimpleTagSupport {
 	@Override
 	public void doTag() throws JspException, IOException {
 		JspWriter out = getJspContext().getOut();
+		StringWriter writer = new StringWriter();
 		if (messageSource == null) {
 			ServletContext servletContext = ((PageContext) this.getJspContext()).getServletContext();
 			WebApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
@@ -41,21 +51,58 @@ public class InfoTag extends SimpleTagSupport {
 		}
 
 		StringBuilder buffer = new StringBuilder();
-		buffer.append("<div class=\"info-element imglink\">");
-		if (WARNING.equals(type)) {
-			buffer.append("<img src=\"assets/img/warning.png\"/>");
-		} else if (INFO.equals(type)) {
-			buffer.append("<img src=\"assets/img/info.png\"/>");
+		buffer.append("<div class=\"info-element imglink " + getColor() + "\" >");
+		buffer.append(getIcon());
+		buffer.append("<span class=\"info-element-title\">" + getTitleMessage() + "</span>");
+		if (getJspBody() != null) {
+			buffer.append("<span class=\"info-element-content\">");
+			getJspBody().invoke(writer);
+			buffer.append(writer.getBuffer());
+			buffer.append("</span>");
+		}
+		buffer.append("</div>");
+		out.println(buffer.toString());
+	}
+	
+	private String getTitleMessage() {
+		if (message != null) {
+			return message;
 		}
 		Object[] arguments = null;
 		if (this.arguments != null) {
 			arguments = this.arguments.split(separator);
 		}
-		if (message != null) {
-			buffer.append("<span class=\"text\">" + messageSource.getMessage(message, arguments, LocaleContextHolder.getLocale()) + "</span>");
+		return messageSource.getMessage(title, arguments, LocaleContextHolder.getLocale());
+	}
+	
+	private String getColor() {
+		if (type.equals(INFO)) {
+			return "info-element-info";
+		} else if (type.equals(WARNING)) {
+			return "info-element-warning";
+		} else if (type.equals(ERROR)) {
+			return "info-element-error";
+		} else if (type.equals(TIP)) {
+			return "info-element-tip";
+		} else if (type.equals(ALERT)) {
+			return "info-element-alert";
 		}
-		buffer.append("</div>");
-		out.println(buffer.toString());
+		return "info-element-info";
+	}
+	
+	private String getIcon() {
+		if (type.equals(INFO)) {
+			return "<img class=\"info-element-icon\" src=\"assets/img/icon-info.png\">";
+		} else if (type.equals(WARNING)) {
+			return "<img class=\"info-element-icon\" src=\"assets/img/icon-warning.png\">";
+		} else if (type.equals(ERROR)) {
+			return "<img class=\"info-element-icon\" src=\"assets/img/icon-error.png\">";
+		} else if (type.equals(TIP)) {
+			return "<img class=\"info-element-icon\" src=\"assets/img/icon-tip.png\">";
+		} else if (type.equals(ALERT)) {
+			return "<span class=\"info-element-icon iconfont-large iconfont-error\"\"></span>";
+		}
+		return "<img class=\"info-element-icon\" src=\"assets/img/icon-info.png\">";
 	}
 
 	public String getType() {
@@ -66,12 +113,12 @@ public class InfoTag extends SimpleTagSupport {
 		this.type = type;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getArguments() {
@@ -88,5 +135,13 @@ public class InfoTag extends SimpleTagSupport {
 
 	public void setSeparator(String separator) {
 		this.separator = separator;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

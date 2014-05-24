@@ -12,8 +12,8 @@
 	margin: 0px auto;
 }
 </style>
-<div id="main">
-	<div class="element">
+<div id="content">
+	<div class="subelement">
 		<div class="title"><spring:message code="application.login"/></div>
 		<div class="content">
 			<div id="login" class="border">

@@ -34,15 +34,15 @@
 		$('.link').mouseout(function() {
 			$(this).removeClass('current');
 		});
-		if ($('.leftmenu').length > 0) {
-			var left = $('.leftmenu').first();
-			var main = $('.maincontent').first();
+		if ($('#leftmenu').length > 0) {
+			var left = $('#leftmenu').first();
+			var main = $('#maincontent').first();
 			if (left.height() >= main.height()) {
-				left.css({'border-right' : '1px solid #E5E5E5'});
-				main.css({'border' : 'none'});
+				left.addClass('leftmenu-border');
+				main.addClass('noborder');
 			} else {
-				main.css({'border-left' : '1px solid #E5E5E5'});
-				left.css({'border' : 'none'});
+				main.addClass('maincontent-border');
+				left.addClass('noborder');
 			}	
 			
 		}
@@ -70,7 +70,7 @@
 <div id="header">
 	<div class="left">
 		<div class="link settings imglink">
-			<a class="iconfont-large iconfont-appswitcher dropdown-indicator" href="javascript:void(0);">&nbsp;</a>
+			<a class="iconfont-large iconfont-appswitcher dropdown-indicator" href="javascript:void(0);"></a>
 			<div class="dropdown">
 				<ul>
 					<li class="dropdown-title">Issues</li>
@@ -209,4 +209,42 @@
 			<c:remove var="NOTICE_MESSAGE" scope="session"/>
 		</c:if>
 	</div>
+</div>
+
+<div id="middle">
+	<c:if test="${not empty sessionScope.INFO_MESSAGE}">
+	<code:info type="info" message="application.info">
+		<c:forEach items="${sessionScope.INFO_MESSAGE}" var="m">
+			<p>${m}</p>
+		</c:forEach>
+	</code:info>
+	</c:if>
+	<c:if test="${not empty sessionScope.TIP_MESSAGE}">
+	<code:info type="tip" message="application.tip">
+		<c:forEach items="${sessionScope.TIP_MESSAGE}" var="m">
+			<p>${m}</p>
+		</c:forEach>
+	</code:info>
+	</c:if>
+	<c:if test="${not empty sessionScope.WARNING_MESSAGE}">
+	<code:info type="warning" message="application.warning">
+		<c:forEach items="${sessionScope.WARNING_MESSAGE}" var="m">
+			<p>${m}</p>
+		</c:forEach>
+	</code:info>
+	</c:if>
+	<c:if test="${not empty sessionScope.ERROR_MESSAGE}">
+	<code:info type="error" message="application.error">
+		<c:forEach items="${sessionScope.ERROR_MESSAGE}" var="m">
+			<p>${m}</p>
+		</c:forEach>
+	</code:info>
+	</c:if>
+	<c:if test="${not empty sessionScope.ALERT_MESSAGE}">
+	<code:info type="alert" message="application.alert">
+		<c:forEach items="${sessionScope.ALERT_MESSAGE}" var="m">
+			<p>${m}</p>
+		</c:forEach>
+	</code:info>
+	</c:if>
 </div>

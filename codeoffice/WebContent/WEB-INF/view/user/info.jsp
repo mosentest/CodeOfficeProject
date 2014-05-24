@@ -8,7 +8,7 @@
 		$("#tabs").tabs();
 	});
 </script>
-<div id="main">
+<div id="content">
 	<div id="tabs">
 		<ul>
 			<li><a href="#tabs-1">Nunc tincidunt</a></li>

@@ -23,7 +23,7 @@
 							<div class="subelement">
 								<div class="title"><spring:message code="version.status_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(statusMap) eq 0}"><code:info message="version.no_status_summary"/></c:if>
+									<c:if test="${fn:length(statusMap) eq 0}"><code:info title="version.no_status_summary"/></c:if>
 									<c:if test="${fn:length(statusMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${statusMap}" var="status">
@@ -41,7 +41,7 @@
 							<div class="subelement">
 								<div class="title"><spring:message code="version.priority_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(priorityMap) eq 0}"><code:info message="version.no_priority_summary"/></c:if>
+									<c:if test="${fn:length(priorityMap) eq 0}"><code:info title="version.no_priority_summary"/></c:if>
 									<c:if test="${fn:length(priorityMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${priorityMap}" var="priority">
@@ -59,7 +59,7 @@
 							<div class="subelement">
 								<div class="title"><spring:message code="version.assignee_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(assigneeMap) eq 0}"><code:info message="version.no_assignee_summary"/></c:if>
+									<c:if test="${fn:length(assigneeMap) eq 0}"><code:info title="version.no_assignee_summary"/></c:if>
 									<c:if test="${fn:length(assigneeMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${assigneeMap}" var="assignee">
@@ -79,7 +79,7 @@
 							<div class="subelement">
 								<div class="title"><spring:message code="version.component_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(componentMap) eq 0}"><code:info message="version.no_component_summary"/></c:if>
+									<c:if test="${fn:length(componentMap) eq 0}"><code:info title="version.no_component_summary"/></c:if>
 									<c:if test="${fn:length(componentMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${componentMap}" var="component">
@@ -100,7 +100,7 @@
 							<div class="subelement">
 								<div class="title"><spring:message code="version.label_summary"/></div>
 								<div class="content">
-									<c:if test="${fn:length(labelMap) eq 0}"><code:info message="version.no_label_summary"/></c:if>
+									<c:if test="${fn:length(labelMap) eq 0}"><code:info title="version.no_label_summary"/></c:if>
 									<c:if test="${fn:length(labelMap) gt 0}">
 									<table class="default-table nowrap">
 										<c:forEach items="${labelMap}" var="label">

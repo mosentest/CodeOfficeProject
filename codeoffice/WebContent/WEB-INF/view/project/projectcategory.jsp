@@ -49,7 +49,7 @@
 						</div>
 						<div class="content">
 							<c:if test="${fn:length(projectCategory.projects) eq 0}">
-								<code:info message="category.category_has_no_project" arguments="${projectCategory.name}"/>
+								<code:info title="category.category_has_no_project" arguments="${projectCategory.name}"/>
 							</c:if>
 							<c:if test="${fn:length(projectCategory.projects) gt 0}">
 							<table class="default-table center">

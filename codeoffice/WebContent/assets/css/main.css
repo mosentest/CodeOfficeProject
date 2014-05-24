@@ -21,7 +21,8 @@
 	border: none;
 	width: 150px;
 	height: 26px;
-	padding-left: 9px;
+	padding: 0px 0px 0px 9px;
+	-webkit-box-sizing: border-box;
 }
 #header .link {
 	padding: 12px 10px 6px 10px;
@@ -87,23 +88,8 @@
 /* middle */
 #middle {
 	width: 1200px;
-	margin: 3px auto -10px auto;
+	margin: 0px auto;
 }
-#middle p {
-	font-size: 16px;
-	margin: 0px;
-	text-align: center;	
-}
-.error-message {
-	color: red;
-}
-.warn-message {
-	color: #FF3300;
-}
-.notice-message {
-	color: green;
-}
-
 /* footer */
 #footer {
 	width: 100%;

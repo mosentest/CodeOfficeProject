@@ -32,7 +32,7 @@
 				<div class="mainelement">
 					<div class="title imglink"><img src="assets/img/office/icon_cases.png"/><span class="titlespan"><spring:message code="component.cases"/></span></div>
 					<div class="content">
-						<c:if test="${relatedCase.totalElements eq 0}"><code:info message="component.no_case"/></c:if>
+						<c:if test="${relatedCase.totalElements eq 0}"><code:info title="component.no_case"/></c:if>
 						<c:if test="${relatedCase.totalElements gt 0}">
 							<div class="element">
 								<div class="title"><spring:message code="component.related_cases"/></div>

@@ -18,7 +18,7 @@
 				<div class="mainelement">
 					<div class="title imglink"><img src="assets/img/office/icon_notes.png"/><span class="titlespan"><spring:message code="project.notes"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(notes) eq 0}"><code:info message="project.no_notes"/></c:if>
+						<c:if test="${fn:length(notes) eq 0}"><code:info title="project.no_notes"/></c:if>
 						<c:if test="${fn:length(notes) gt 0}">
 						<c:forEach items="notes" var="note">
 							<div class="note-item">

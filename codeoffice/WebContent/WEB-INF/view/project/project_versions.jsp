@@ -30,7 +30,7 @@
 					</c:if>
 					<div class="title imglink"><img src="assets/img/office/icon_versions.png"/><span class="titlespan"><spring:message code="project.versions"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(versions) eq 0}"><code:info message="project.no_versions"/></c:if>
+						<c:if test="${fn:length(versions) eq 0}"><code:info title="project.no_versions"/></c:if>
 						<c:if test="${fn:length(versions) gt 0}">
 						<table class="default-table center">
 							<tr>

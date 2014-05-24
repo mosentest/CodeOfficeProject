@@ -18,9 +18,9 @@ public class CheckmarkTag extends SimpleTagSupport {
 
 		StringBuilder buffer = new StringBuilder();
 		if (value) {
-			buffer.append("<img src=\"img/checkmark.png\" width=\"16\" height=\"16\"/>");
+			buffer.append("<img src=\"assets/img/icon-checkmark.png\"/>");
 		} else if (!value && !checkmarkOnly) {
-			buffer.append("<img src=\"img/cross.png\" width=\"16\" height=\"16\"/>");
+			buffer.append("<img src=\"assets/img/icon-cross.png\"/>");
 		}
 		out.println(buffer.toString());
 	}

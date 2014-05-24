@@ -60,7 +60,7 @@ function select_merge(id) {
 					</c:if>
 					<div class="title imglink"><img src="assets/img/office/icon_components.png"/><span class="titlespan"><spring:message code="project.components"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(components) eq 0}"><code:info message="project.no_components"/></c:if>
+						<c:if test="${fn:length(components) eq 0}"><code:info title="project.no_components"/></c:if>
 						<c:if test="${fn:length(components) gt 0}">
 						<form:form action="enterprise/pro_${project.code}/m_merge" modelAttribute="mergeComponent" method="POST">
 						<table class="default-table left-header">

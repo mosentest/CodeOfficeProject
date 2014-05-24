@@ -12,7 +12,7 @@
 		margin: 20px auto;
 	}
 </style>
-<div id="main">
+<div id="content">
 	<div class="element">
 		<div class="title">400 - Bad request</div>
 		<div class="content">

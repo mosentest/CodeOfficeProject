@@ -35,7 +35,7 @@
 						<div class="element">
 							<div class="title"><spring:message code="version.release_cases"/></div>
 							<div class="content">
-								<c:if test="${releaseCase.totalElements eq 0}"><code:info message="version.no_release_cases"/></c:if>
+								<c:if test="${releaseCase.totalElements eq 0}"><code:info title="version.no_release_cases"/></c:if>
 								<c:if test="${releaseCase.totalElements gt 0}">
 								<table class="default-table case-table">
 									<tr>
@@ -65,7 +65,7 @@
 						<div class="element">
 							<div class="title"><spring:message code="version.related_cases"/></div>
 							<div class="content">
-								<c:if test="${relatedCase.totalElements eq 0}"><code:info message="version.no_related_cases"/></c:if>
+								<c:if test="${relatedCase.totalElements eq 0}"><code:info title="version.no_related_cases"/></c:if>
 								<c:if test="${relatedCase.totalElements gt 0}">
 								<table class="default-table case-table">
 									<tr>

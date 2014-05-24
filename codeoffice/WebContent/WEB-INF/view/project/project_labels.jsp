@@ -18,7 +18,7 @@
 				<div class="mainelement">
 					<div class="title imglink"><img src="assets/img/office/icon_labels.png"/><span class="titlespan"><spring:message code="project.labels"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(labels) eq 0}"><code:info message="project.no_labels"/></c:if>
+						<c:if test="${fn:length(labels) eq 0}"><code:info title="project.no_labels"/></c:if>
 						<c:if test="${fn:length(labels) gt 0}">
 						<table class="default-table center">
 							<tr>

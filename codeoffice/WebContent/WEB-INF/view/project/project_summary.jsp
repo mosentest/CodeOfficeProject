@@ -126,7 +126,7 @@ function drawChart() {
 							<div class="content">
 								<c:set var="weekdata" value="${fn:length(weeklySummary) gt 0}"/>
 								<c:set var="monthdata" value="${fn:length(weeklySummary) gt 0}"/>
-								<c:if test="${not weekdata and not monthdata}"><code:info message="project.no_summary_map"/></c:if>
+								<c:if test="${not weekdata and not monthdata}"><code:info title="project.no_summary_map"/></c:if>
 								<c:if test="${weekdata or monthdata}">
 								<ul class="horizontal-tab">
 									<c:if test="${weekdata}">
@@ -152,7 +152,7 @@ function drawChart() {
 						<div class="subelement">
 							<div class="title"><spring:message code="project.unreleased_versions"/></div>
 							<div class="content">
-								<c:if test="${fn:length(unreleasedVersions) eq 0}"><code:info message="project.no_released_versions"/></c:if>
+								<c:if test="${fn:length(unreleasedVersions) eq 0}"><code:info title="project.no_released_versions"/></c:if>
 								<c:if test="${fn:length(unreleasedVersions) gt 0}">
 								<table class="default-table">
 									<tr>
@@ -184,7 +184,7 @@ function drawChart() {
 						<div class="subelement">
 							<div class="title"><spring:message code="project.activity_stream"/></div>
 							<div class="content" id="activity-stream">
-								<c:if test="${empty activityStream}"><code:info message="project.no_activity_stream"/></c:if>
+								<c:if test="${empty activityStream}"><code:info title="project.no_activity_stream"/></c:if>
 								<c:forEach var="activity" items="${activityStream}">
 									...
 								</c:forEach>

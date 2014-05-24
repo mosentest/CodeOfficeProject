@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<div class="leftmenu">
+<div id="leftmenu">
 	<ul class="vertical-tab">
 		<security:authorize access="isAuthenticated()">
 			<li class="tab ${param.menu eq 'home' ? 'active' : ''}"><a href="settings/home.html"><spring:message code="settings.home"/></a></li>

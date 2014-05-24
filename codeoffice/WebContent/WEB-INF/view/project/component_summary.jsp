@@ -99,7 +99,7 @@ function drawChart() {
 				<div class="subelement" style="height: 300px;">
 					<div class="title"><spring:message code="component.summary_map"/></div>
 					<div class="content">
-						<c:if test="${fn:length(monthlySummary) eq 0}"><code:info message="component.no_summary"/></c:if>
+						<c:if test="${fn:length(monthlySummary) eq 0}"><code:info title="component.no_summary"/></c:if>
 						<c:if test="${fn:length(monthlySummary) gt 0}">
 							<div id="monthly-summary-chart" class="tab-content"></div>
 							<div class="tab-content">
@@ -116,7 +116,7 @@ function drawChart() {
 				<div class="subelement">
 					<div class="title"><spring:message code="component.activity_stream"/></div>
 					<div class="content" id="activity-stream">
-						<c:if test="${empty activityStream}"><code:info message="component.no_activity_stream"/></c:if>
+						<c:if test="${empty activityStream}"><code:info title="component.no_activity_stream"/></c:if>
 						<c:forEach var="activity" items="${activityStream}">
 							...
 						</c:forEach>

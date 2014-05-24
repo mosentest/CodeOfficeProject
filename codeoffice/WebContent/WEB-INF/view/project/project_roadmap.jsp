@@ -20,7 +20,7 @@
 				<div class="mainelement">
 					<div class="title imglink"><img src="assets/img/office/icon_roadmap.png"/><span class="titlespan"><spring:message code="project.roadmap"/></span></div>
 					<div class="content">
-						<c:if test="${fn:length(roadMap) eq 0}"><code:info message="project.no_roadmap"/></c:if>
+						<c:if test="${fn:length(roadMap) eq 0}"><code:info title="project.no_roadmap"/></c:if>
 						<c:if test="${fn:length(roadMap) gt 0}">
 						<c:forEach items="${roadMap}" var="version">
 							<div class="roadmap-item">

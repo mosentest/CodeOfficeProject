@@ -46,7 +46,7 @@ public class GlobalSettings implements SettingsEntity, Serializable {
 	private boolean captchaOnSignUp;
 	
 	@Column(name = "email_format")
-	private String emailFormat = "'${fullname}'/ '${email}'/ '${email.hostname}";
+	private String emailFormat;
 	
 	@Column(name = "introduction")
 	private String introduction;

@@ -23,74 +23,76 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.title"/>:</td>
-							<td class="form-input-col">${globalSettings.title}</td>
+							<td class="form-input-col"><form:input path="title"/></td>
+							<td class="form-description-col">description for column</td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enablePublicMode"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enablePublicMode}"/></td>
+							<td class="form-input-col"><form:checkbox path="enablePublicMode"/></td>
+							<td class="form-description-col">description for column</td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.maxAuthenticationAllowed"/>:</td>
-							<td class="form-input-col">${globalSettings.maxAuthenticationAllowed}</td>
+							<td class="form-input-col" colspan="2"><form:input path="maxAuthenticationAllowed"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.captchaOnSignUp"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.captchaOnSignUp}"/></td>
+							<td class="form-input-col" colspan="2"><form:checkbox path="captchaOnSignUp"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.emailFormat"/>:</td>
-							<td class="form-input-col">${globalSettings.emailFormat}</td>
+							<td class="form-input-col" colspan="2"><form:input path="emailFormat"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.introduction"/>:</td>
-							<td class="form-input-col">${globalSettings.introduction}</td>
+							<td class="form-input-col" colspan="2"><form:textarea path="introduction" cols="30" rows="3"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableContactAdministrator"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableContactAdministrator}"/></td>
+							<td class="form-input-col" colspan="2"><form:checkbox path="enableContactAdministrator"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.contactAdministratorMessage"/>:</td>
-							<td class="form-input-col">${globalSettings.contactAdministratorMessage}</td>
+							<td class="form-input-col" colspan="2"><form:input path="contactAdministratorMessage"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableLogoutConfirmation"/></td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableLogoutConfirmation}"/></td>
+							<td class="form-input-col"><form:checkbox path="enableLogoutConfirmation"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableInlineEdit"/></td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableInlineEdit}"/></td>
+							<td class="form-input-col"><form:checkbox path="enableInlineEdit"/></td>
 						</tr>
 						<tr class="form-title-row">
 							<td colspan="3"><spring:message code="settings.global.GENERALOPTIONS"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableVote"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableVote}"/></td>
+							<td class="form-input-col" colspan="2"><form:checkbox path="enableVote"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableWatch"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableWatch}"/></td>
+							<td class="form-input-col" colspan="2"><form:checkbox path="enableWatch"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.maxProjectNameLength"/>:</td>
-							<td class="form-input-col">${globalSettings.maxProjectNameLength}</td>
+							<td class="form-input-col" colspan="2"><form:input path="maxProjectNameLength"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.maxProjectKeyLength"/>:</td>
-							<td class="form-input-col">${globalSettings.maxProjectKeyLength}</td>
+							<td class="form-input-col" colspan="2"><form:input path="maxProjectKeyLength"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.enableUnassignedIssue"/>:</td>
-							<td class="form-input-col"><code:checkmark value="${globalSettings.enableUnassignedIssue}"/></td>
+							<td class="form-input-col" colspan="2"><form:checkbox path="enableUnassignedIssue"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.emailVisibility"/>:</td>
-							<td class="form-input-col">${globalSettings.emailVisibility}</td>
+							<td class="form-input-col" colspan="2"><form:select path="emailVisibility" items="${emailVisibilities}" /></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="settings.global.commentVisibility"/>:</td>
-							<td class="form-input-col">${globalSettings.commentVisibility}</td>
+							<td class="form-input-col" colspan="2"><form:select path="commentVisibility" items="${commentVisibilities}" /></td>
 						</tr>
 						<tr>
 							<td></td>

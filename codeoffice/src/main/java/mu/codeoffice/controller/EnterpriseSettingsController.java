@@ -3,6 +3,7 @@ package mu.codeoffice.controller;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.Permission;
@@ -50,6 +51,7 @@ public class EnterpriseSettingsController implements PermissionRequired {
 
 	@RequestMapping(value = "global.html", method = RequestMethod.GET)
 	public ModelAndView globalView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		model.put("globalSettings", new GlobalSettings());
 		return new ModelAndView("settings/global", model);
 	}
 
