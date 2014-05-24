@@ -3,11 +3,7 @@ package mu.codeoffice.controller;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.TestService;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class EnterpriseFrontController {
-	
-	private static final Logger logger = Logger.getLogger(EnterpriseFrontController.class);
 
 	@Autowired
 	private TestService testService;
@@ -26,40 +20,26 @@ public class EnterpriseFrontController {
 	@RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
 	public ModelAndView defaultRequest(@AuthenticationPrincipal EnterpriseAuthentication auth) {
 		if (auth == null) {
-			return new ModelAndView("redirect:/login");
+			return new ModelAndView("redirect:/login.html");
 		} else {
-			return new ModelAndView("redirect:/home");
+			return new ModelAndView("redirect:/dashboard.html");
 		}
 	}
 
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	@RequestMapping(value = "/dashboard.html", method = RequestMethod.GET)
 	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		if (auth == null) {
-			return new ModelAndView("redirect:/login");
+			return new ModelAndView("redirect:/login.html");
 		}
-		return new ModelAndView("home", model);
+		return new ModelAndView("dashboard", model);
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginRequest() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth instanceof AnonymousAuthenticationToken) {
+	@RequestMapping(value = "/login.html", method = RequestMethod.GET)
+	public String loginRequest(@AuthenticationPrincipal EnterpriseAuthentication auth) {
+		if (auth == null) {
 			return "login";
 		}
-		return "redirect:/home";
-	}
-	
-	@RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
-	public String accessdenied(ModelMap model) {
-		model.addAttribute("error", true);
-		logger.debug("");
-		return "error/403";
-	}
-	
-	@RequestMapping(value = "/timeout", method = RequestMethod.GET)
-	public String timeout(ModelMap model) {
-		model.addAttribute("error", true);
-		return "error/timeout";
+		return "redirect:/dashboard.html";
 	}
 	
 }

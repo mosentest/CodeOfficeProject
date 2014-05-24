@@ -208,6 +208,7 @@ a:hover {
 	background-color: #205081;
 	color: white;
 	border: 1px solid white;
+	border-radius: 3px;
 }
 .button-current {
 	background-color: white;

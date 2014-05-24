@@ -15,6 +15,7 @@
 <base href="<%=basePath%>" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><spring:message code="application.title" /></title>
+<link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/main.css">
 <link rel="stylesheet" href="assets/css/custom-theme/jquery-ui-1.10.3.custom.css">
@@ -84,9 +85,10 @@
 			</div>
 		</div>
 		<div class="logo link">
-		<a href=""><img src="assets/img/icon-logo.png" width="57" height="30"/></a></div>
+			<a href="dashboard.html"><img src="assets/img/icon-logo.png" width="57" height="30"/></a>
+		</div>
 		<div class="link imglink">
-			<a href="settings/home"><spring:message code="application.administration"/></a>
+			<a href="settings/home.html"><spring:message code="application.administration"/></a>
 		</div>
 		<div class="link imglink">
 			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.dashboards"/>
@@ -162,11 +164,11 @@
 			</form>
 		</div>
 		<div class="link">
-			<a href="enterprise/info"><security:authentication property="principal.enterprise.name"/>
+			<a href="enterprise/info.html"><security:authentication property="principal.enterprise.name"/>
 			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
 		</div>
-		<div class="link"><a href="personal/info"><security:authentication property="principal.fullname"/></a></div>
-		<div class="link"><a href="logout">Logout</a></div>
+		<div class="link"><a href="personal/info.html"><security:authentication property="principal.fullname"/></a></div>
+		<div class="link"><a href="logout.html">Logout</a></div>
 		<div class="clearfix"></div>
 	</div>
 	<div class="clearfix"></div>
@@ -174,7 +176,11 @@
 </security:authorize>
 <security:authorize access="isAnonymous()">
 <div id="header">
-	<div class="left"><img src="assets/img/icon-logo.png" width="57" height="30"/></div>
+	<div class="left">
+		<div class="logo link">
+			<a href="dashboard.html"><img src="assets/img/icon-logo.png" width="57" height="30"/></a>
+		</div>
+	</div>
 	<div class="clearfix"></div>
 </div>
 </security:authorize>

@@ -1,19 +1,32 @@
 package mu.codeoffice.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class DefaultMappingController {
 
-	@RequestMapping(method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
 	public String redirect() {
-		return "redirect:/home";
+		return "redirect:/dashboard.html";
 	}
 	
-	@RequestMapping(value = "/badrequest", method = RequestMethod.GET)
+	@RequestMapping(value = "/badrequest.html", method = RequestMethod.GET)
 	public String badRequest() {
 		return "error/400";
+	}
+	
+	@RequestMapping(value = "/accessdenied.html", method = RequestMethod.GET)
+	public String accessdenied(ModelMap model) {
+		model.addAttribute("error", true);
+		return "error/403";
+	}
+	
+	@RequestMapping(value = "/timeout.html", method = RequestMethod.GET)
+	public String timeout(ModelMap model) {
+		model.addAttribute("error", true);
+		return "error/timeout";
 	}
 }

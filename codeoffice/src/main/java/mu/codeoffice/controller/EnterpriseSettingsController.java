@@ -43,77 +43,77 @@ public class EnterpriseSettingsController implements PermissionRequired {
 		}
 	}
 	
-	@RequestMapping(value = "home", method = RequestMethod.GET)
+	@RequestMapping(value = "home.html", method = RequestMethod.GET)
 	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
 		return new ModelAndView("settings/home", model);
 	}
 
-	@RequestMapping(value = "global", method = RequestMethod.GET)
+	@RequestMapping(value = "global.html", method = RequestMethod.GET)
 	public ModelAndView globalView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/global", model);
 	}
 
-	@RequestMapping(value = "globaladvanced", method = RequestMethod.GET)
+	@RequestMapping(value = "globaladvanced.html", method = RequestMethod.GET)
 	public ModelAndView globalAdvancedView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/globaladvanced", model);
 	}
 
-	@RequestMapping(value = "internationalization", method = RequestMethod.GET)
+	@RequestMapping(value = "internationalization.html", method = RequestMethod.GET)
 	public ModelAndView internationalizationView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/internationalization", model);
 	}
 
-	@RequestMapping(value = "announcement", method = RequestMethod.GET)
+	@RequestMapping(value = "announcement.html", method = RequestMethod.GET)
 	public ModelAndView announcementView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/announcement", model);
 	}
 	
-	@RequestMapping(value = "generalproject", method = RequestMethod.GET)
+	@RequestMapping(value = "generalproject.html", method = RequestMethod.GET)
 	public ModelAndView generalProjectView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/generalproject", model);
 	}
 	
-	@RequestMapping(value = "issuelink", method = RequestMethod.GET)
+	@RequestMapping(value = "issuelink.html", method = RequestMethod.GET)
 	public ModelAndView issueLinkView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/issuelink", model);
 	}
 	
-	@RequestMapping(value = "subtask", method = RequestMethod.GET)
+	@RequestMapping(value = "subtask.html", method = RequestMethod.GET)
 	public ModelAndView subtaskView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/subtask", model);
 	}
 	
-	@RequestMapping(value = "attachment", method = RequestMethod.GET)
+	@RequestMapping(value = "attachment.html", method = RequestMethod.GET)
 	public ModelAndView attachmentView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/attachment", model);
 	}
 	
-	@RequestMapping(value = "timetracking", method = RequestMethod.GET)
+	@RequestMapping(value = "timetracking.html", method = RequestMethod.GET)
 	public ModelAndView timetrackingView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/timetracking", model);
 	}
 	
-	@RequestMapping(value = "globalpermission", method = RequestMethod.GET)
+	@RequestMapping(value = "globalpermission.html", method = RequestMethod.GET)
 	public ModelAndView globalPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/globalpermission", model);
 	}
 	
-	@RequestMapping(value = "projectpermission", method = RequestMethod.GET)
+	@RequestMapping(value = "projectpermission.html", method = RequestMethod.GET)
 	public ModelAndView projectPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/projectpermission", model);
 	}
 	
-	@RequestMapping(value = "user", method = RequestMethod.GET)
+	@RequestMapping(value = "user.html", method = RequestMethod.GET)
 	public ModelAndView userView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/user", model);
 	}
 	
-	@RequestMapping(value = "usergroup", method = RequestMethod.GET)
+	@RequestMapping(value = "usergroup.html", method = RequestMethod.GET)
 	public ModelAndView usergroupView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/usergroup", model);
 	}
 	
-	@RequestMapping(value = "usersession", method = RequestMethod.GET)
+	@RequestMapping(value = "usersession.html", method = RequestMethod.GET)
 	public ModelAndView usersessionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("settings/usersession", model);
 	}
