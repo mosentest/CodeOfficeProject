@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.enterprise_administration"/></div>
 <div id="sub-menu">
@@ -22,6 +23,7 @@
 			<div class="sub-element-content">
 				<form:form action="administration/global/edit" modelAttribute="globalSettings" method="POST">
 					<table class="form-table">
+						<tr><td><form:hidden path="id"/></td></tr>
 						<tr class="form-title-row">
 							<td colspan="3"><spring:message code="administration.global.GENERALSETTINGS"/></td>
 						</tr>
@@ -92,11 +94,25 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.emailVisibility"/>:</td>
-							<td class="form-input-col" colspan="2"><form:select path="emailVisibility" items="${emailVisibilities}" /></td>
+							<td class="form-input-col" colspan="2">
+								<form:select path="emailVisibility">
+									<c:forEach items="${emailVisibilities}" var="visibility">
+										<spring:message var="label" code="${visibility.key}"/>
+										<option value="${visibility}" ${visibility eq globalSettings.emailVisibility ? 'selected=selected' : ''}>${label}</option>
+									</c:forEach>
+								</form:select>
+							</td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.commentVisibility"/>:</td>
-							<td class="form-input-col" colspan="2"><form:select path="commentVisibility" items="${commentVisibilities}" /></td>
+							<td class="form-input-col" colspan="2">
+								<form:select path="commentVisibility">
+									<c:forEach items="${commentVisibilities}" var="visibility">
+										<spring:message var="label" code="${visibility.key}"/>
+										<option value="${visibility}" ${visibility eq globalSettings.commentVisibility ? 'selected=selected' : ''}>${label}</option>
+									</c:forEach>
+								</form:select>
+							</td>
 						</tr>
 						<tr>
 							<td></td>

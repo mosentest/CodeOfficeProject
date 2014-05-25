@@ -25,7 +25,10 @@ import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.TimeTrackingSettingsRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
+import mu.codeoffice.security.EnterpriseAuthenticationException;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
@@ -135,22 +138,21 @@ public class SystemSettingsService {
 	}
 
 	@Transactional
+	@CacheEvict(value = "globalSettingsCache", key = "#auth.enterprise.id")
 	public void update(EnterpriseAuthentication auth, GlobalSettings globalSettings) 
 			throws InformationException, AuthenticationException {
+		GlobalSettings settings = globalSettingsRepository.getEnterpriseGlobalSettings(auth.getEnterprise());
+		if (!settings.getId().equals(globalSettings.getId())) {
+			throw new EnterpriseAuthenticationException("Access Denied.");
+		}
 		globalSettings.setEnterprise(auth.getEnterprise());
 		globalSettingsRepository.save(globalSettings);
-		cacheSettings(auth.getEnterprise(), "globalSettings", globalSettings);
 	}
 
 	@Transactional(readOnly = true)
+	@Cacheable(value = "globalSettingsCache", key = "#auth.enterprise.id")
 	public GlobalSettings getGlobalSettings(EnterpriseAuthentication auth) {
-		Object settings = getSettings(auth.getEnterprise(), "globalSettings");
-		if (settings != null) {
-			return (GlobalSettings) settings;
-		}
-		GlobalSettings globalSettings = globalSettingsRepository.getEnterpriseGlobalSettings(auth.getEnterprise());
-		cacheSettings(auth.getEnterprise(), "globalSettings", globalSettings);
-		return globalSettings;
+		return globalSettingsRepository.getEnterpriseGlobalSettings(auth.getEnterprise());
 	}
 
 	@Transactional

@@ -4,6 +4,8 @@ import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.settings.GlobalSettings;
+import mu.codeoffice.enums.CommentVisibility;
+import mu.codeoffice.enums.EmailVisibility;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
@@ -60,6 +62,8 @@ public class SystemAdministrationController implements PermissionRequired {
 		throws AuthenticationException {
 		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("globalSettings", systemSettingsService.getGlobalSettings(auth));
+		model.put("commentVisibilities", CommentVisibility.values());
+		model.put("emailVisibilities", EmailVisibility.values());
 		return new ModelAndView("administration/system_global_form", model);
 	}
 

@@ -8,7 +8,6 @@ public class ExceptionAdvice {
 
 	@ExceptionHandler(Exception.class)
 	public String handle(Exception e) {
-		System.out.println("wtf");
 		return "error/404";
 	}
 }
