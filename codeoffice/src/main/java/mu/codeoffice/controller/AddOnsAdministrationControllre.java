@@ -5,7 +5,7 @@ import javax.servlet.ServletContext;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.Permission;
-import mu.codeoffice.service.SystemAdministrationService;
+import mu.codeoffice.service.SystemSettingsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AddOnsAdministrationControllre implements PermissionRequired {
 
 	@Autowired
-	private SystemAdministrationService systemAdministrationService;
+	private SystemSettingsService systemAdministrationService;
 	
 	@Autowired
 	private MessageSource messageSource;

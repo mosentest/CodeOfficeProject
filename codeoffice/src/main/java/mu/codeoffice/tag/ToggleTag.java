@@ -10,8 +10,6 @@ public class ToggleTag extends SimpleTagSupport {
 	
 	private boolean value;
 	
-	private boolean toggle;
-	
 	private String path;
 	
 	@Override
@@ -24,7 +22,7 @@ public class ToggleTag extends SimpleTagSupport {
 		} else {
 			buffer.append("<span class=\"toggle-off\">");
 		}
-		if (toggle) {
+		if (path != null) {
 			buffer.append("<a class=\"toggleable\" href=\"javascript:void(0);\">");
 			buffer.append(value ? "Enabled" : "Disabled");
 			buffer.append("</a>");
@@ -44,15 +42,6 @@ public class ToggleTag extends SimpleTagSupport {
 	public void setValue(boolean value) {
 		this.value = value;
 	}
-
-	public boolean isToggle() {
-		return toggle;
-	}
-
-	public void setToggle(boolean toggle) {
-		this.toggle = toggle;
-	}
-
 	public String getPath() {
 		return path;
 	}

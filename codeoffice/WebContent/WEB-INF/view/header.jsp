@@ -146,66 +146,9 @@
 </div>
 </security:authorize>
 <div id="middle">
-	<div class="error-message">
-		<c:if test="${not empty sessionScope.ERROR_MESSAGE}">
-			<c:forEach items="${sessionScope.ERROR_MESSAGE}" var="m">
-				<p>${m}</p>
-			</c:forEach>
-			<c:remove var="ERROR_MESSAGE" scope="session"/>
-		</c:if>
-	</div>
-	<div class="warn-message">
-		<c:if test="${not empty sessionScope.WARN_MESSAGE}">
-			<c:forEach items="${sessionScope.WARN_MESSAGE}" var="m">
-				<p>${m}</p>
-			</c:forEach>
-			<c:remove var="WARN_MESSAGE" scope="session"/>
-		</c:if>
-	</div>
-	<div class="notice-message">
-		<c:if test="${not empty sessionScope.NOTICE_MESSAGE}">
-			<c:forEach items="${sessionScope.NOTICE_MESSAGE}" var="m">
-				<p>${m}</p>
-			</c:forEach>
-			<c:remove var="NOTICE_MESSAGE" scope="session"/>
-		</c:if>
-	</div>
-</div>
-
-<div id="middle">
-	<c:if test="${not empty sessionScope.INFO_MESSAGE}">
-	<code:info type="info" message="application.info">
-		<c:forEach items="${sessionScope.INFO_MESSAGE}" var="m">
-			<p>${m}</p>
-		</c:forEach>
-	</code:info>
-	</c:if>
-	<c:if test="${not empty sessionScope.TIP_MESSAGE}">
-	<code:info type="tip" message="application.tip">
-		<c:forEach items="${sessionScope.TIP_MESSAGE}" var="m">
-			<p>${m}</p>
-		</c:forEach>
-	</code:info>
-	</c:if>
-	<c:if test="${not empty sessionScope.WARNING_MESSAGE}">
-	<code:info type="warning" message="application.warning">
-		<c:forEach items="${sessionScope.WARNING_MESSAGE}" var="m">
-			<p>${m}</p>
-		</c:forEach>
-	</code:info>
-	</c:if>
-	<c:if test="${not empty sessionScope.ERROR_MESSAGE}">
-	<code:info type="error" message="application.error">
-		<c:forEach items="${sessionScope.ERROR_MESSAGE}" var="m">
-			<p>${m}</p>
-		</c:forEach>
-	</code:info>
-	</c:if>
-	<c:if test="${not empty sessionScope.ALERT_MESSAGE}">
-	<code:info type="alert" message="application.alert">
-		<c:forEach items="${sessionScope.ALERT_MESSAGE}" var="m">
-			<p>${m}</p>
-		</c:forEach>
-	</code:info>
-	</c:if>
+	<c:if test="${not empty INFO}"><code:info type="info" message="${INFO}"/></c:if>
+	<c:if test="${not empty TIP}"><code:info type="tip" message="${TIP}"/></c:if>
+	<c:if test="${not empty WARNING}"><code:info type="warning" message="${WARNING}"/></c:if>
+	<c:if test="${not empty ERROR}"><code:info type="error" message="${ERROR}"/></c:if>
+	<c:if test="${not empty ALERT}"><code:info type="alert" message="${ALERT}"/></c:if>
 </div>

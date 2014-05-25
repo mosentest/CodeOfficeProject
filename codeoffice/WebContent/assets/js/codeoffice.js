@@ -42,3 +42,7 @@ $(document).ready(function() {
 		$(this).css({'left' : '-9999px'});
 	});
 });
+
+function url(url) {
+	window.location = url;
+}

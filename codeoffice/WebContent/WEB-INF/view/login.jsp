@@ -15,7 +15,7 @@
 <div id="content">
 	<div class="sub-element">
 		<div class="sub-element-info">
-		<div class="sub-element-title"><spring:message code="application.login"/></div>
+			<div class="sub-element-title"><spring:message code="application.login"/></div>
 		</div>
 		<div class="sub-element-content">
 			<div id="login" class="border">

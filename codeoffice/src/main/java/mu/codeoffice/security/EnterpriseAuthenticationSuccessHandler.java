@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mu.codeoffice.entity.settings.Submenu;
-import mu.codeoffice.service.SystemAdministrationService;
+import mu.codeoffice.service.SystemSettingsService;
 import mu.codeoffice.service.EnterpriseUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class EnterpriseAuthenticationSuccessHandler implements AuthenticationSuc
 	private EnterpriseUserService enterpriseUserService;
 	
 	@Autowired
-	private SystemAdministrationService enterpriseSettingsService;
+	private SystemSettingsService enterpriseSettingsService;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request,
@@ -34,7 +34,7 @@ public class EnterpriseAuthenticationSuccessHandler implements AuthenticationSuc
 		session.setAttribute("SETTINGS_SUBMENU", submenu);
 		session.setAttribute("SETTINGS_ANNOUNCEMENT", enterpriseSettingsService.getAnnouncement(auth));
 		
-		response.sendRedirect(request.getContextPath() + "/");
+		response.sendRedirect(request.getContextPath() + "/dashboard.html");
 	}
 
 }

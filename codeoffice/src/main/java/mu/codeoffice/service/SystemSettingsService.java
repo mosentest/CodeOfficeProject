@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class SystemAdministrationService {
+public class SystemSettingsService {
 	
 	private Map<Enterprise, SettingsHolder> cacheManager = new HashMap<>();
 	
@@ -137,6 +137,7 @@ public class SystemAdministrationService {
 	@Transactional
 	public void update(EnterpriseAuthentication auth, GlobalSettings globalSettings) 
 			throws InformationException, AuthenticationException {
+		globalSettings.setEnterprise(auth.getEnterprise());
 		globalSettingsRepository.save(globalSettings);
 		cacheSettings(auth.getEnterprise(), "globalSettings", globalSettings);
 	}
@@ -193,7 +194,7 @@ public class SystemAdministrationService {
 		return timeTrackingSettings;
 	}
 	
-	public Object getSettings(Enterprise enterprise, String key) {
+	private Object getSettings(Enterprise enterprise, String key) {
 		if (cacheManager.get(enterprise) == null) {
 			return null;
 		}

@@ -16,11 +16,13 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.system.globalSettings"/></div>
+				<div class="sub-element-title">
+					<spring:message code="administration.system.globalSettings"/>
+					<input type="button" class="button" onclick="javascript:url('/administration/global/edit.html');" value="<spring:message code="application.edit"/>"/>
+				</div>
 				<div class="sub-element-description">Edit your enterprise global settings.</div>
 			</div>
 			<div class="sub-element-content">
-			
 				<form:form action="" modelAttribute="globalSettings" method="POST">
 					<table class="form-table">
 						<tr class="form-title-row">

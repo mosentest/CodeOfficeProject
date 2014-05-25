@@ -13,9 +13,9 @@
 	}
 </style>
 <div id="content">
-	<div class="element">
-		<div class="title">404 - Not found</div>
-		<div class="content">
+	<div class="sub-element">
+		<div class="sub-element-info"><div class="sub-element-title">404 - Not found</div></div>
+		<div class="sub-element-content">
 			<div id="access-content">
 				<table class="default-table center">
 					<tr>
@@ -34,7 +34,7 @@
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
 						<security:authorize access="isAuthenticated()">
-						<td><a href="/"><spring:message code="application.goto_home_page"/></a></td>
+						<td><a class="link" href="dashboard.html"><spring:message code="application.goto_home_page"/></a></td>
 						</security:authorize>
 					</tr>
 				</table>

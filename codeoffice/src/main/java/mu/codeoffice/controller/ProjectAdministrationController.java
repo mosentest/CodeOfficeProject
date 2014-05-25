@@ -7,7 +7,7 @@ import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.Permission;
-import mu.codeoffice.service.SystemAdministrationService;
+import mu.codeoffice.service.SystemSettingsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProjectAdministrationController implements PermissionRequired {
 
 	@Autowired
-	private SystemAdministrationService systemAdministrationService;
+	private SystemSettingsService systemAdministrationService;
 	
 	@Autowired
 	private MessageSource messageSource;

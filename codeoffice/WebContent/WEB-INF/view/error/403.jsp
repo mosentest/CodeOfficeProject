@@ -13,9 +13,9 @@
 	}
 </style>
 <div id="content">
-	<div class="element">
-		<div class="title">403 - access denied</div>
-		<div class="content">
+	<div class="sub-element">
+		<div class="sub-element-info"><div class="sub-element-title">403 - Access denied</div></div>
+		<div class="sub-element-content">
 			<div id="access-content">
 				<table class="default-table center">
 					<tr>
@@ -37,10 +37,10 @@
 					<tr class="separator-tr"><td></td></tr>
 					<tr>
 						<security:authorize access="isAuthenticated()">
-						<td><a href="/"><spring:message code="application.goto_home_page"/></a></td>
+						<td><a class="link" href="dashboard.html"><spring:message code="application.goto_home_page"/></a></td>
 						</security:authorize>
 						<security:authorize access="isAnonymous()">
-						<td><a href="login"><spring:message code="application.goto_login_page"/></a></td>
+						<td><a class="link" href="login"><spring:message code="application.goto_login_page"/></a></td>
 						</security:authorize>
 					</tr>
 				</table>

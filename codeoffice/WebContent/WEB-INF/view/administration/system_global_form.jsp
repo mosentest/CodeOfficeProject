@@ -4,6 +4,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.enterprise_administration"/></div>
+<div id="sub-menu">
+	<jsp:include page="/WEB-INF/view/administration/administration_submenu.jsp">
+		<jsp:param name="menu" value="system"/>
+	</jsp:include>
+</div>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/system_menu.jsp">
 		<jsp:param name="menu" value="global"/>
@@ -11,24 +16,23 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.global_settings"/></div>
+				<div class="sub-element-title"><spring:message code="administration.system.globalSettings"/></div>
 				<div class="sub-element-description">Edit your enterprise global settings.</div>
 			</div>
 			<div class="sub-element-content">
-			
-				<form:form action="" modelAttribute="globalSettings" method="POST">
+				<form:form action="administration/global/edit" modelAttribute="globalSettings" method="POST">
 					<table class="form-table">
 						<tr class="form-title-row">
 							<td colspan="3"><spring:message code="administration.global.GENERALSETTINGS"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.title"/>:</td>
-							<td class="form-input-col"><form:input path="title"/></td>
+							<td class="form-input-col"><input type="text" name="title" value="${globalSettings.title}"/></td>
 							<td class="form-description-col">description for column</td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enablePublicMode"/>:</td>
-							<td class="form-input-col"><form:checkbox path="enablePublicMode"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enablePublicMode}" path="enablePublicMode"/></td>
 							<td class="form-description-col">description for column</td>
 						</tr>
 						<tr>
@@ -37,7 +41,7 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.captchaOnSignUp"/>:</td>
-							<td class="form-input-col" colspan="2"><form:checkbox path="captchaOnSignUp"/></td>
+							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.captchaOnSignUp}" path="captchaOnSignUp"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.emailFormat"/>:</td>
@@ -49,7 +53,7 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableContactAdministrator"/>:</td>
-							<td class="form-input-col" colspan="2"><form:checkbox path="enableContactAdministrator"/></td>
+							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableContactAdministrator}" path="enableContactAdministrator"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.contactAdministratorMessage"/>:</td>
@@ -57,22 +61,22 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableLogoutConfirmation"/></td>
-							<td class="form-input-col"><form:checkbox path="enableLogoutConfirmation"/></td>
+							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableLogoutConfirmation}" path="enableLogoutConfirmation"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableInlineEdit"/></td>
-							<td class="form-input-col"><form:checkbox path="enableInlineEdit"/></td>
+							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableInlineEdit}" path="enableInlineEdit"/></td>
 						</tr>
 						<tr class="form-title-row">
 							<td colspan="3"><spring:message code="administration.global.GENERALOPTIONS"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableVote"/>:</td>
-							<td class="form-input-col" colspan="2"><form:checkbox path="enableVote"/></td>
+							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableVote}" path="enableVote"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableWatch"/>:</td>
-							<td class="form-input-col" colspan="2"><form:checkbox path="enableWatch"/></td>
+							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableWatch}" path="enableWatch"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.maxProjectNameLength"/>:</td>
@@ -84,7 +88,7 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableUnassignedIssue"/>:</td>
-							<td class="form-input-col" colspan="2"><form:checkbox path="enableUnassignedIssue"/></td>
+							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableUnassignedIssue}" path="enableUnassignedIssue"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.emailVisibility"/>:</td>
