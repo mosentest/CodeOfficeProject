@@ -13,15 +13,15 @@
 </script>
 <div id="content">
 	<div class="subelement">
-		<div class="title"><spring:message code="settings.submenu"/></div>
+		<div class="title"><spring:message code="administration.submenu"/></div>
 		<div class="content">
 			<c:if test="${fn:length(sessionScope.SETTING_SUBMENU) eq 0}"><code:info title="settings.no_submenu"/></c:if>
 			<c:if test="${fn:length(sessionScope.SETTING_SUBMENU) gt 0}">
 			<table class="default-table">
 				<tr>
-					<th><spring:message code="settings.priority"/></th>
-					<th><spring:message code="settings.title"/></th>
-					<th><spring:message code="settings.link"/></th>
+					<th><spring:message code="administration.priority"/></th>
+					<th><spring:message code="administration.title"/></th>
+					<th><spring:message code="administration.link"/></th>
 				</tr>
 				<c:forEach items="${sessionScope.SETTING_SUBMENU}" var="submenu">
 				<tr>

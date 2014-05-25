@@ -130,9 +130,9 @@
 			<list>
 				<value>i18n/message/enterprise</value>
 				<value>i18n/message/project</value>
-				<value>i18n/settings/enums</value>
-				<value>i18n/settings/permissions</value>
-				<value>i18n/settings/settings</value>
+				<value>i18n/administration/enums</value>
+				<value>i18n/administration/permissions</value>
+				<value>i18n/administration/administration</value>
 			</list>
 		</property>
 		<property name="defaultEncoding" value="UTF-8"/>
@@ -159,7 +159,7 @@
 		<security:intercept-url pattern="/" access="permitAll"/>
 		<security:intercept-url pattern="/login.html" access="permitAll"/>
 		<security:intercept-url pattern="/logout.html" access="permitAll"/>
-		<security:intercept-url pattern="/settings/**.html" access="hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN', 'ROLE_GLOBAL_ADMIN')"/>
+		<security:intercept-url pattern="/administration/**.html" access="hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN', 'ROLE_GLOBAL_ADMIN')"/>
 		<security:intercept-url pattern="/accessdenied.html" access="permitAll"/>
 		
 		<!-- previous page after login <security:form-login

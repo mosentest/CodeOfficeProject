@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class EnterpriseSettingsService {
+public class SystemAdministrationService {
 	
 	private Map<Enterprise, SettingsHolder> cacheManager = new HashMap<>();
 	

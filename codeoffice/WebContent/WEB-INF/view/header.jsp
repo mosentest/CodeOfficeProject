@@ -49,7 +49,7 @@
 			<a href="dashboard.html"><img src="assets/img/icon-logo.png" width="57" height="30"/></a>
 		</div>
 		<div class="link imglink">
-			<a href="settings/home.html"><spring:message code="application.administration"/></a>
+			<a href="administration/global.html"><spring:message code="application.administration"/></a>
 		</div>
 		<div class="link imglink">
 			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.dashboards"/>

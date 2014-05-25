@@ -200,6 +200,11 @@ a {
 .link:active {
 	color: #205081;
 }
+.full-link {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
 .link:hover {
 	color: #0B76F0;
 }
@@ -258,6 +263,7 @@ a {
 	width: 82%;
 }
 .vertical-tab .tab-title {
+	border-top: 1px solid #e5e5e5;
 	padding: 3px 10px 10px 10px;
 	line-height: 25px;
 	font-size: 16px;
@@ -564,4 +570,24 @@ a {
 }
 .toggle-on a, .toggle-off a {
 	color: white;
+}
+#sub-menu {
+	margin: 0px auto;
+	background-color: #f5f5f5;
+	width: 100%;
+	border-bottom: 1px solid #cccccc;
+	padding: 10px 20px;
+	font-size: 16px;
+	-webkit-box-sizing: border-box;
+}
+.sub-menu-link {
+	float: left;
+	padding: 0px 10px;
+}
+.sub-menu-link .active {
+	color: black;
+	font-weight: bold;
+}
+.sub-menu-link a {
+	
 }

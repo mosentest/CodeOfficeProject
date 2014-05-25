@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import mu.codeoffice.entity.settings.Submenu;
-import mu.codeoffice.service.EnterpriseSettingsService;
+import mu.codeoffice.service.SystemAdministrationService;
 import mu.codeoffice.service.EnterpriseUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class EnterpriseAuthenticationSuccessHandler implements AuthenticationSuc
 	private EnterpriseUserService enterpriseUserService;
 	
 	@Autowired
-	private EnterpriseSettingsService enterpriseSettingsService;
+	private SystemAdministrationService enterpriseSettingsService;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request,
