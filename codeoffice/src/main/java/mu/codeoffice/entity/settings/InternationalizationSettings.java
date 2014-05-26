@@ -23,6 +23,18 @@ import mu.codeoffice.entity.Enterprise;
 public class InternationalizationSettings implements SettingsEntity, Serializable {
 
 	private static final long serialVersionUID = 4720358394692523462L;
+	
+	public static final TimeZone[] SUPPORTED_TIMEZONE = {
+		TimeZone.getTimeZone("CET"),
+		TimeZone.getTimeZone("CTT"),
+		TimeZone.getTimeZone("PST")
+	};
+	
+	public static final Locale[] SUPPORTED_LOCALE = {
+		Locale.US,
+		Locale.CHINA,
+		new Locale("sv", "SE")
+	};
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,9 +43,6 @@ public class InternationalizationSettings implements SettingsEntity, Serializabl
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
-
-	@Column(name = "default_language")
-	private String defaultLanguage;
 
 	@Column(name = "default_timezone_id")
 	private String defaultTimeZoneID;
@@ -48,10 +57,28 @@ public class InternationalizationSettings implements SettingsEntity, Serializabl
 	private Locale defaultLocale;
 	
 	public InternationalizationSettings() {}
+	
+	public static boolean isSupportedLocale(String localeString) {
+		for (Locale locale : SUPPORTED_LOCALE) {
+			System.out.println(locale.toString());
+			if (locale.toString().equals(localeString)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isSupportedTimeZone(String timeZoneID) {
+		for (TimeZone timeZone : SUPPORTED_TIMEZONE) {
+			if (timeZone.getID().equals(timeZoneID)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public void setDefaultSettings(Properties properties) {
-		defaultLanguage = properties.getProperty("settings.i18n.default.defaultLanguage");
 		defaultTimeZoneID = properties.getProperty("settings.i18n.default.defaultTimeZoneID");
 		defaultLocaleString = properties.getProperty("settings.i18n.default.defaultLocaleString");
 	}
@@ -70,14 +97,6 @@ public class InternationalizationSettings implements SettingsEntity, Serializabl
 
 	public void setEnterprise(Enterprise enterprise) {
 		this.enterprise = enterprise;
-	}
-
-	public String getDefaultLanguage() {
-		return defaultLanguage;
-	}
-
-	public void setDefaultLanguage(String defaultLanguage) {
-		this.defaultLanguage = defaultLanguage;
 	}
 
 	public String getDefaultTimeZoneID() {

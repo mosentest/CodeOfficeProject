@@ -23,60 +23,59 @@
 				<div class="sub-element-description">Edit your enterprise global settings.</div>
 			</div>
 			<div class="sub-element-content">
-				<form:form action="" modelAttribute="globalSettings" method="POST">
-					<table class="form-table">
-						<tr class="form-title-row">
-							<td colspan="3"><spring:message code="administration.global.GENERALSETTINGS"/></td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.title"/>:</td>
-							<td class="form-input-col">${globalSettings.title}</td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.enablePublicMode"/>:</td>
-							<td class="form-input-col"><code:toggle value="${globalSettings.enablePublicMode}"/></td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.maxAuthenticationAllowed"/>:</td>
-							<td class="form-input-col">${globalSettings.maxAuthenticationAllowed}</td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.captchaOnSignUp"/>:</td>
-							<td class="form-input-col"><code:toggle value="${globalSettings.captchaOnSignUp}"/></td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.emailFormat"/>:</td>
-							<td class="form-input-col">${globalSettings.emailFormat}</td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.introduction"/>:</td>
-							<td class="form-input-col">${globalSettings.introduction}</td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.enableContactAdministrator"/>:</td>
-							<td class="form-input-col"><code:toggle value="${globalSettings.enableContactAdministrator}"/></td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.contactAdministratorMessage"/>:</td>
-							<td class="form-input-col">${globalSettings.contactAdministratorMessage}</td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.enableLogoutConfirmation"/></td>
-							<td class="form-input-col"><code:toggle value="${globalSettings.enableLogoutConfirmation}"/></td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.enableInlineEdit"/></td>
-							<td class="form-input-col"><code:toggle value="${globalSettings.enableInlineEdit}"/></td>
-						</tr>
-						<tr class="form-title-row">
-							<td colspan="3"><spring:message code="administration.global.GENERALOPTIONS"/></td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.enableVote"/>:</td>
-							<td class="form-input-col"><code:toggle value="${globalSettings.enableVote}"/></td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.enableWatch"/>:</td>
+				<table class="form-table">
+					<tr class="form-title-row">
+						<td colspan="3"><spring:message code="administration.global.GENERALSETTINGS"/></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.title"/>:</td>
+						<td class="form-input-col">${globalSettings.title}</td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.enablePublicMode"/>:</td>
+						<td class="form-input-col"><code:toggle value="${globalSettings.enablePublicMode}"/></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.maxAuthenticationAllowed"/>:</td>
+						<td class="form-input-col">${globalSettings.maxAuthenticationAllowed}</td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.captchaOnSignUp"/>:</td>
+						<td class="form-input-col"><code:toggle value="${globalSettings.captchaOnSignUp}"/></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.emailFormat"/>:</td>
+						<td class="form-input-col">${globalSettings.emailFormat}</td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.introduction"/>:</td>
+						<td class="form-input-col">${globalSettings.introduction}</td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.enableContactAdministrator"/>:</td>
+						<td class="form-input-col"><code:toggle value="${globalSettings.enableContactAdministrator}"/></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.contactAdministratorMessage"/>:</td>
+						<td class="form-input-col">${globalSettings.contactAdministratorMessage}</td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.enableLogoutConfirmation"/></td>
+						<td class="form-input-col"><code:toggle value="${globalSettings.enableLogoutConfirmation}"/></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.enableInlineEdit"/></td>
+						<td class="form-input-col"><code:toggle value="${globalSettings.enableInlineEdit}"/></td>
+					</tr>
+					<tr class="form-title-row">
+						<td colspan="3"><spring:message code="administration.global.GENERALOPTIONS"/></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.enableVote"/>:</td>
+						<td class="form-input-col"><code:toggle value="${globalSettings.enableVote}"/></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.enableWatch"/>:</td>
 							<td class="form-input-col"><code:toggle value="${globalSettings.enableWatch}"/></td>
 						</tr>
 						<tr>
@@ -100,7 +99,6 @@
 							<td class="form-input-col">${globalSettings.commentVisibility}</td>
 						</tr>
 					</table>
-				</form:form>
 			</div>
 		</div>
 	</div>

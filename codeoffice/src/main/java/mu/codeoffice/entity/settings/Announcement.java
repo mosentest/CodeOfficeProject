@@ -55,12 +55,12 @@ public class Announcement implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public String getAccouncement() {
+	public String getAnnouncement() {
 		return announcement;
 	}
 
-	public void setAccouncement(String accouncement) {
-		this.announcement = accouncement;
+	public void setAnnouncement(String announcement) {
+		this.announcement = announcement;
 	}
 
 	public boolean isEnablePublicMode() {

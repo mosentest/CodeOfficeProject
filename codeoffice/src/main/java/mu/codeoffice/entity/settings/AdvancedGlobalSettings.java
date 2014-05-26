@@ -16,8 +16,8 @@ import javax.persistence.Table;
 import mu.codeoffice.entity.Enterprise;
 
 @Entity
-@Table(name = "settings_global_advanced")
-public class GlobalAdvancedSettings implements SettingsEntity, Serializable {
+@Table(name = "settings_advanced_global")
+public class AdvancedGlobalSettings implements SettingsEntity, Serializable {
 	
 	private static final long serialVersionUID = 727855077877535985L;
 
@@ -62,7 +62,7 @@ public class GlobalAdvancedSettings implements SettingsEntity, Serializable {
 	@Column(name = "issue_stream_max_results")
 	private int issueStreamMaxResults;
 	
-	public GlobalAdvancedSettings() {}
+	public AdvancedGlobalSettings() {}
 	
 	@Override
 	public void setDefaultSettings(Properties properties) {

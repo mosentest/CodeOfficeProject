@@ -13,7 +13,7 @@ import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.AttachmentSettings;
 import mu.codeoffice.entity.settings.GeneralProjectSettings;
-import mu.codeoffice.entity.settings.GlobalAdvancedSettings;
+import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
@@ -31,7 +31,7 @@ import mu.codeoffice.repository.VersionRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
 import mu.codeoffice.repository.settings.AttachmentSettingsRepository;
 import mu.codeoffice.repository.settings.GeneralProjectSettingsRepository;
-import mu.codeoffice.repository.settings.GlobalAdvancedSettingsRepository;
+import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
@@ -74,7 +74,7 @@ public class TestService {
 	private AnnouncementRepository announcementBannerRepository;
 	
 	@Resource
-	private GlobalAdvancedSettingsRepository globalAdvancedSettingsRepository;
+	private AdvancedGlobalSettingsRepository globalAdvancedSettingsRepository;
 	
 	@Resource
 	private GlobalPermissionSettingsRepository globalPermissionRepository;
@@ -139,7 +139,7 @@ public class TestService {
 			GeneralProjectSettings generalProjectSettings = new GeneralProjectSettings();
 			generalProjectSettings.setEnterprise(enterprise);
 			
-			GlobalAdvancedSettings globalAdvancedSettings = new GlobalAdvancedSettings();
+			AdvancedGlobalSettings globalAdvancedSettings = new AdvancedGlobalSettings();
 			globalAdvancedSettings.setEnterprise(enterprise);
 			globalAdvancedSettings.setDefaultSettings(properties);
 			

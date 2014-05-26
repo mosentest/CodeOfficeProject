@@ -1,29 +1,21 @@
 package mu.codeoffice.service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.annotation.Resource;
 
 import mu.codeoffice.common.InformationException;
-import mu.codeoffice.entity.Enterprise;
+import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
-import mu.codeoffice.entity.settings.AttachmentSettings;
-import mu.codeoffice.entity.settings.GeneralProjectSettings;
-import mu.codeoffice.entity.settings.GlobalAdvancedSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
-import mu.codeoffice.entity.settings.TimeTrackingSettings;
+import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
-import mu.codeoffice.repository.settings.AttachmentSettingsRepository;
-import mu.codeoffice.repository.settings.GeneralProjectSettingsRepository;
-import mu.codeoffice.repository.settings.GlobalAdvancedSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
-import mu.codeoffice.repository.settings.TimeTrackingSettingsRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 
@@ -37,22 +29,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SystemSettingsService {
 	
-	private Map<Enterprise, SettingsHolder> cacheManager = new HashMap<>();
-	
 	@Resource
 	private AnnouncementRepository announcementRepository;
 	
 	@Resource
-	private GlobalAdvancedSettingsRepository globalAdvancedSettingsRepository;
+	private AdvancedGlobalSettingsRepository advancedGlobalSettingsRepository;
 	
 	@Resource
 	private GlobalPermissionSettingsRepository globalPermissionRepository;
-	
-	@Resource
-	private AttachmentSettingsRepository attachmentSettingsRepository;
-	
-	@Resource
-	private GeneralProjectSettingsRepository generalProjectSettingsRepository;
 	
 	@Resource
 	private GlobalSettingsRepository globalSettingsRepository;
@@ -62,79 +46,37 @@ public class SystemSettingsService {
 	
 	@Resource
 	private ProjectPermissionSettingsRepository projectPermissionRepository;
-	
-	@Resource
-	private TimeTrackingSettingsRepository timeTrackingSettingsRepository;
 
 	@Transactional
-	public void update(EnterpriseAuthentication auth, Announcement announcement) {
+	public void update(EnterpriseAuthentication auth, Announcement announcement) 
+			throws InformationException, AuthenticationException {
+		Announcement settings = announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
+		if (!settings.getId().equals(announcement.getId())) {
+			throw new EnterpriseAuthenticationException("Access Denied.");
+		}
+		announcement.setEnterprise(auth.getEnterprise());
 		announcementRepository.save(announcement);
-		cacheSettings(auth.getEnterprise(), "announcement", announcement);
 	}
 	
 	@Transactional(readOnly = true)
 	public Announcement getAnnouncement(EnterpriseAuthentication auth) {
-		Object settings = getSettings(auth.getEnterprise(), "announcement");
-		if (settings != null) {
-			return (Announcement) settings;
-		}
-		Announcement announcement = announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
-		cacheSettings(auth.getEnterprise(), "announcement", announcement);
-		return announcement;
+		return announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
 	}
 
 	@Transactional
-	public void update(EnterpriseAuthentication auth, AttachmentSettings attachmentSettings) 
+	public void update(EnterpriseAuthentication auth, AdvancedGlobalSettings advancedGlobalSettings) 
 			throws InformationException, AuthenticationException {
-		attachmentSettingsRepository.save(attachmentSettings);
-		cacheSettings(auth.getEnterprise(), "attachmentSettings", attachmentSettings);
+		AdvancedGlobalSettings settings = advancedGlobalSettingsRepository.getEnterpriseAdvancedGlobalSettings(auth.getEnterprise());
+		if (!settings.getId().equals(advancedGlobalSettings.getId())) {
+			throw new EnterpriseAuthenticationException("Access Denied.");
+		}
+		advancedGlobalSettings.setEnterprise(auth.getEnterprise());
+		advancedGlobalSettingsRepository.save(advancedGlobalSettings);
 	}
 
 	@Transactional(readOnly = true)
-	public AttachmentSettings getAttachmentSettings(EnterpriseAuthentication auth) {
-		Object settings = getSettings(auth.getEnterprise(), "attachmentSettings");
-		if (settings != null) {
-			return (AttachmentSettings) settings;
-		}
-		AttachmentSettings attachmentSettings = attachmentSettingsRepository.getEnterpriseAttachmentSettings(auth.getEnterprise());
-		cacheSettings(auth.getEnterprise(), "attachmentSettings", attachmentSettings);
-		return attachmentSettings;
-	}
-
-	@Transactional
-	public void update(EnterpriseAuthentication auth, GeneralProjectSettings generalProjectSettings) 
-			throws InformationException, AuthenticationException {
-		generalProjectSettingsRepository.save(generalProjectSettings);
-		cacheSettings(auth.getEnterprise(), "generalProjectSettings", generalProjectSettings);
-	}
-
-	@Transactional(readOnly = true)
-	public GeneralProjectSettings getGeneralProjectSettings(EnterpriseAuthentication auth) {
-		Object settings = getSettings(auth.getEnterprise(), "generalProjectSettings");
-		if (settings != null) {
-			return (GeneralProjectSettings) settings;
-		}
-		GeneralProjectSettings generalProjectSettings = generalProjectSettingsRepository.getEnterpriseGeneralProjectSettings(auth.getEnterprise());
-		cacheSettings(auth.getEnterprise(), "generalProjectSettings", generalProjectSettings);
-		return generalProjectSettings;
-	}
-
-	@Transactional
-	public void update(EnterpriseAuthentication auth, GlobalAdvancedSettings globalAdvancedSettings) 
-			throws InformationException, AuthenticationException {
-		globalAdvancedSettingsRepository.save(globalAdvancedSettings);
-		cacheSettings(auth.getEnterprise(), "globalAdvancedSettings", globalAdvancedSettings);
-	}
-
-	@Transactional(readOnly = true)
-	public GlobalAdvancedSettings getGlobalAdvancedSettings(EnterpriseAuthentication auth) {
-		Object settings = getSettings(auth.getEnterprise(), "globalAdvancedSettings");
-		if (settings != null) {
-			return (GlobalAdvancedSettings) settings;
-		}
-		GlobalAdvancedSettings globalAdvancedSettings = globalAdvancedSettingsRepository.getEnterpriseGlobalAdvancedSettings(auth.getEnterprise());
-		cacheSettings(auth.getEnterprise(), "globalAdvancedSettings", globalAdvancedSettings);
-		return globalAdvancedSettings;
+	public AdvancedGlobalSettings getAdvancedGlobalSettings(EnterpriseAuthentication auth) {
+		return advancedGlobalSettingsRepository.getEnterpriseAdvancedGlobalSettings(auth.getEnterprise());
 	}
 
 	@Transactional
@@ -158,74 +100,36 @@ public class SystemSettingsService {
 	@Transactional
 	public void update(EnterpriseAuthentication auth, InternationalizationSettings internationalizationSettings) 
 			throws InformationException, AuthenticationException {
+		InternationalizationSettings settings = 
+				internationalizationSettingsRepository.getEnterpriseInternationalizationSettings(auth.getEnterprise());
+		if (!settings.getId().equals(internationalizationSettings.getId())) {
+			throw new EnterpriseAuthenticationException("Access Denied.");
+		}
+		if (!InternationalizationSettings.isSupportedLocale(internationalizationSettings.getDefaultLocaleString())) {
+			throw new InformationException("Locale '" + internationalizationSettings.getDefaultLocaleString() + "' is not supported.");
+		}
+		if (!InternationalizationSettings.isSupportedTimeZone(internationalizationSettings.getDefaultTimeZoneID())) {
+			throw new InformationException("Time Zone '" + internationalizationSettings.getDefaultTimeZoneID() + "' is not supported.");
+		}
+		internationalizationSettings.setEnterprise(auth.getEnterprise());
 		internationalizationSettingsRepository.save(internationalizationSettings);
-		cacheSettings(auth.getEnterprise(), "internationalization", internationalizationSettings);
 	}
 
 	@Transactional(readOnly = true)
 	public InternationalizationSettings getInternationalizationSettings(EnterpriseAuthentication auth) {
-		Object settings = getSettings(auth.getEnterprise(), "internationalization");
-		if (settings != null) {
-			return (InternationalizationSettings) settings;
-		}
 		InternationalizationSettings internationalizationSettings = 
 				internationalizationSettingsRepository.getEnterpriseInternationalizationSettings(auth.getEnterprise());
-		internationalizationSettings.setDefaultLocale(null);
+		String[] localeString = internationalizationSettings.getDefaultLocaleString().split("_");
+		for (Locale locale : InternationalizationSettings.SUPPORTED_LOCALE) {
+			if (locale.getCountry().equals(localeString[1]) && locale.getLanguage().equals(localeString[0])) {
+				internationalizationSettings.setDefaultLocale(locale);
+				break;
+			}
+		}
 		internationalizationSettings.setDefaultTimeZone(TimeZone.getTimeZone(internationalizationSettings.getDefaultTimeZoneID()));
 		LocaleContextHolder.setTimeZone(internationalizationSettings.getDefaultTimeZone());
 		LocaleContextHolder.setLocale(internationalizationSettings.getDefaultLocale());
-		cacheSettings(auth.getEnterprise(), "internationalization", internationalizationSettings);
 		return internationalizationSettings;
-	}
-
-	@Transactional
-	public void update(EnterpriseAuthentication auth, TimeTrackingSettings timeTrackingSettings) 
-			throws InformationException, AuthenticationException {
-		timeTrackingSettingsRepository.save(timeTrackingSettings);
-		cacheSettings(auth.getEnterprise(), "timeTrackingSettings", timeTrackingSettings);
-	}
-
-	@Transactional(readOnly = true)
-	public TimeTrackingSettings getTimeTrackingSettings(EnterpriseAuthentication auth) {
-		Object settings = getSettings(auth.getEnterprise(), "timeTrackingSettings");
-		if (settings != null) {
-			return (TimeTrackingSettings) settings;
-		}
-		TimeTrackingSettings timeTrackingSettings = timeTrackingSettingsRepository.getEnterpriseTimeTrackingSettings(auth.getEnterprise());
-		cacheSettings(auth.getEnterprise(), "timeTrackingSettings", timeTrackingSettings);
-		return timeTrackingSettings;
-	}
-	
-	private Object getSettings(Enterprise enterprise, String key) {
-		if (cacheManager.get(enterprise) == null) {
-			return null;
-		}
-		return cacheManager.get(enterprise).getSettings(key);
-	}
-	
-	private void cacheSettings(Enterprise enterprise, String key, Object settings) {
-		if (cacheManager.get(enterprise) == null) {
-			cacheManager.put(enterprise, new SettingsHolder());
-		}
-		cacheManager.get(enterprise).putSettings(key, settings);
-	}
-	
-	public static class SettingsHolder {
-		
-		private Map<String, Object> settings;
-		
-		public SettingsHolder() {
-			settings = new HashMap<>();
-		}
-		
-		public void putSettings(String key, Object settings) {
-			this.settings.put(key, settings);
-		}
-		
-		public Object getSettings(String key) {
-			return settings.get(key);
-		}
-		
 	}
 	
 }

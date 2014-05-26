@@ -23,78 +23,78 @@
 			<div class="sub-element-content">
 				<form:form action="administration/global/edit" modelAttribute="globalSettings" method="POST">
 					<table class="form-table">
-						<tr><td><form:hidden path="id"/></td></tr>
+						<form:hidden path="id"/>
 						<tr class="form-title-row">
-							<td colspan="3"><spring:message code="administration.global.GENERALSETTINGS"/></td>
+							<td colspan="2"><spring:message code="administration.global.GENERALSETTINGS"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.title"/>:</td>
 							<td class="form-input-col"><input type="text" name="title" value="${globalSettings.title}"/></td>
-							<td class="form-description-col">description for column</td>
 						</tr>
+						<tr class="form-description-row"><td></td><td>description for column</td></tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enablePublicMode"/>:</td>
 							<td class="form-input-col"><code:toggle value="${globalSettings.enablePublicMode}" path="enablePublicMode"/></td>
-							<td class="form-description-col">description for column</td>
 						</tr>
+						<tr class="form-description-row"><td></td><td>description for column</td></tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.maxAuthenticationAllowed"/>:</td>
-							<td class="form-input-col" colspan="2"><form:input path="maxAuthenticationAllowed"/></td>
+							<td class="form-input-col"><form:input path="maxAuthenticationAllowed"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.captchaOnSignUp"/>:</td>
-							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.captchaOnSignUp}" path="captchaOnSignUp"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.captchaOnSignUp}" path="captchaOnSignUp"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.emailFormat"/>:</td>
-							<td class="form-input-col" colspan="2"><form:input path="emailFormat"/></td>
+							<td class="form-input-col"><form:input path="emailFormat"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.introduction"/>:</td>
-							<td class="form-input-col" colspan="2"><form:textarea path="introduction" cols="30" rows="3"/></td>
+							<td class="form-input-col"><form:textarea path="introduction" cols="30" rows="3"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableContactAdministrator"/>:</td>
-							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableContactAdministrator}" path="enableContactAdministrator"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableContactAdministrator}" path="enableContactAdministrator"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.contactAdministratorMessage"/>:</td>
-							<td class="form-input-col" colspan="2"><form:input path="contactAdministratorMessage"/></td>
+							<td class="form-input-col"><form:input path="contactAdministratorMessage"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableLogoutConfirmation"/></td>
-							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableLogoutConfirmation}" path="enableLogoutConfirmation"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableLogoutConfirmation}" path="enableLogoutConfirmation"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableInlineEdit"/></td>
-							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableInlineEdit}" path="enableInlineEdit"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableInlineEdit}" path="enableInlineEdit"/></td>
 						</tr>
 						<tr class="form-title-row">
-							<td colspan="3"><spring:message code="administration.global.GENERALOPTIONS"/></td>
+							<td colspan="2"><spring:message code="administration.global.GENERALOPTIONS"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableVote"/>:</td>
-							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableVote}" path="enableVote"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableVote}" path="enableVote"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableWatch"/>:</td>
-							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableWatch}" path="enableWatch"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableWatch}" path="enableWatch"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.maxProjectNameLength"/>:</td>
-							<td class="form-input-col" colspan="2"><form:input path="maxProjectNameLength"/></td>
+							<td class="form-input-col"><form:input path="maxProjectNameLength"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.maxProjectKeyLength"/>:</td>
-							<td class="form-input-col" colspan="2"><form:input path="maxProjectKeyLength"/></td>
+							<td class="form-input-col"><form:input path="maxProjectKeyLength"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.enableUnassignedIssue"/>:</td>
-							<td class="form-input-col" colspan="2"><code:toggle value="${globalSettings.enableUnassignedIssue}" path="enableUnassignedIssue"/></td>
+							<td class="form-input-col"><code:toggle value="${globalSettings.enableUnassignedIssue}" path="enableUnassignedIssue"/></td>
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.emailVisibility"/>:</td>
-							<td class="form-input-col" colspan="2">
+							<td class="form-input-col">
 								<form:select path="emailVisibility">
 									<c:forEach items="${emailVisibilities}" var="visibility">
 										<spring:message var="label" code="${visibility.key}"/>
@@ -105,7 +105,7 @@
 						</tr>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.global.commentVisibility"/>:</td>
-							<td class="form-input-col" colspan="2">
+							<td class="form-input-col">
 								<form:select path="commentVisibility">
 									<c:forEach items="${commentVisibilities}" var="visibility">
 										<spring:message var="label" code="${visibility.key}"/>
