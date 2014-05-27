@@ -6,10 +6,11 @@ import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.EnterpriseUser;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface EnterpriseUserRepository extends JpaRepository<EnterpriseUser, Long> {
+public interface EnterpriseUserRepository extends JpaRepository<EnterpriseUser, Long>, JpaSpecificationExecutor<EnterpriseUser> {
 	
 	@Query("SELECT eu FROM EnterpriseUser eu WHERE eu.enterprise = :enterprise")
 	public List<EnterpriseUser> getUsers(@Param("enterprise") Enterprise enterprise);

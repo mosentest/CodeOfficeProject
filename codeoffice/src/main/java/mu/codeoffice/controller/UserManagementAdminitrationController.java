@@ -2,30 +2,51 @@ package mu.codeoffice.controller;
 
 import javax.servlet.ServletContext;
 
+import mu.codeoffice.common.InformationException;
+import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
+import mu.codeoffice.security.GlobalPermission;
 import mu.codeoffice.security.Permission;
-import mu.codeoffice.service.SystemSettingsService;
+import mu.codeoffice.service.EnterpriseUserService;
+import mu.codeoffice.service.UserManagementService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/administration/")
 public class UserManagementAdminitrationController implements PermissionRequired {
 
 	@Autowired
-	private SystemSettingsService systemAdministrationService;
+	private UserManagementService userManagementService;
+	
+	@Autowired
+	private EnterpriseUserService enterpriseUserService;
 	
 	@Autowired
 	private MessageSource messageSource;
 	
 	@Autowired
 	private ServletContext servletContext;
+	
+	private static final int DEFAULT_LIST_SIZE = 20;
+	
+	private static final int[] LIST_SIZE = {
+		20, 30, 50, 60, 80
+	};
 	
 	@Override
 	public void authorize(EnterpriseAuthentication auth, Object object,
@@ -36,6 +57,124 @@ public class UserManagementAdminitrationController implements PermissionRequired
 						messageSource.getMessage("permission.denied_require_permission", new Object[]{ permission.getKey() }, LocaleContextHolder.getLocale()));
 			}
 		}
+	}
+	
+	@RequestMapping(value = "userManagement.html", method = RequestMethod.GET)
+	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.BROWSE_USER);
+		return new ModelAndView("administration/um_home");
+	}
+
+	@RequestMapping(value = "users.html", method = RequestMethod.GET)
+	public ModelAndView usersView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model, 
+			@RequestParam(value = "pageIndex", required = false) Integer pageIndex, 
+			@RequestParam(value = "pageSize", required = false) Integer pageSize,
+			@RequestParam(value = "groupFilter", required = false) Long groupFilter,
+			@RequestParam(value = "sort", required = false) String sort,
+			@RequestParam(value = "account", required = false) String account, 
+			@RequestParam(value = "name", required = false) String name)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.BROWSE_USER);
+		model.put("userPage", userManagementService.filterEnterpriseUsers(auth, account, name, groupFilter, pageIndex, pageSize == null ? DEFAULT_LIST_SIZE : pageSize, sort));
+		model.put("supportedListSize", LIST_SIZE);
+		model.put("groups", userManagementService.getUserGroups(auth));
+		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
+		if (pageSize != null) { model.put("pageSize", pageSize); }
+		if (groupFilter != null) { model.put("groupFilter", groupFilter); }
+		if (account != null) { model.put("account", account); }
+		if (name != null) { model.put("name", name); }
+		return new ModelAndView("administration/um_users", model);
+	}
+
+	@RequestMapping(value = "userGroups.html", method = RequestMethod.GET)
+	public ModelAndView userGroupView(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@RequestParam(value = "pageIndex", required = false) Integer pageIndex, 
+			@RequestParam(value = "pageSize", required = false) Integer pageSize,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "sort", required = false) String sort,
+			ModelMap model)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.BROWSE_USER);
+		model.put("userGroupPage", userManagementService.filterUserGroups(auth, name, pageIndex, pageSize == null ? DEFAULT_LIST_SIZE : pageSize, sort));
+		model.put("supportedListSize", LIST_SIZE);
+		model.put("userGroup", new UserGroup());
+		model.put("groups", userManagementService.getUserGroups(auth));
+		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
+		if (pageSize != null) { model.put("pageSize", pageSize); }
+		if (name != null) { model.put("name", name); }
+		return new ModelAndView("administration/um_userGroups", model);
+	}
+
+	@RequestMapping(value = "userGroup/{userGroupName}.html", method = RequestMethod.GET)
+	public ModelAndView userGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@PathVariable("userGroupName") String userGroupName,
+			@RequestParam(value = "pageIndex", required = false) Integer pageIndex, 
+			ModelMap model)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.BROWSE_USER);
+		UserGroup userGroup = userManagementService.getUserGroup(auth, userGroupName);
+		model.put("userGroup", userGroup);
+		model.put("userPage", enterpriseUserService.getEnterpriseUser(auth, userGroup.getId(), null, null, 
+				pageIndex, DEFAULT_LIST_SIZE, "firstName", true));
+		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
+		return new ModelAndView("administration/um_userGroup", model);
+	}
+
+	@RequestMapping(value = "userGroup/create", method = RequestMethod.POST)
+	public String userGroupCreate(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@ModelAttribute("usergroup") UserGroup userGroup, 
+			RedirectAttributes redirectAttributes, ModelMap model)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		try {
+			userManagementService.createUserGroup(auth, userGroup);
+			redirectAttributes.addFlashAttribute(TIP, "New User Group Added.");
+			return "redirect:/administration/userGroups.html";
+		} catch (InformationException e) {
+			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			return "redirect:/administration/userGroups.html";
+		}
+	}
+
+	@RequestMapping(value = "userGroup/{userGroupName}/edit.html", method = RequestMethod.GET)
+	public String userGroupEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@PathVariable("userGroupName") String userGroupName,
+			RedirectAttributes redirectAttributes, ModelMap model)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		model.put("userGroupPage", userManagementService.getUserGroups(auth));
+		model.put("userGroup", new UserGroup());
+		return "redirect:/administration/userGroups.html";
+	}
+
+	@RequestMapping(value = "userGroup/{userGroupName}/edit", method = RequestMethod.POST)
+	public String userGroupEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@PathVariable("userGroupName") String userGroupName,
+			@ModelAttribute("usergroup") UserGroup userGroup, 
+			RedirectAttributes redirectAttributes, ModelMap model)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		model.put("userGroupPage", userManagementService.getUserGroups(auth));
+		model.put("userGroup", new UserGroup());
+		return "redirect:/administration/userGroups.html";
+	}
+
+	@RequestMapping(value = "userGroup/{userGroupName}/delete", method = RequestMethod.POST)
+	public String userGroupDelete(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@PathVariable("userGroupName") String userGroupName,
+			RedirectAttributes redirectAttributes, ModelMap model)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		model.put("userGroupPage", userManagementService.getUserGroups(auth));
+		model.put("userGroup", new UserGroup());
+		return "redirect:/administration/userGroups.html";
+	}
+
+	@RequestMapping(value = "userSessions.html", method = RequestMethod.GET)
+	public ModelAndView userSessionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		return new ModelAndView("administration/um_userSessions", model);
 	}
 
 }

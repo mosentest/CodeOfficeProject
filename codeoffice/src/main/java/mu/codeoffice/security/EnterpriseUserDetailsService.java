@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EnterpriseUserDetailsService implements UserDetailsService {
 	
-	private static final Logger logger = Logger.getLogger(EnterpriseUser.class);
+	private static final Logger logger = Logger.getLogger(EnterpriseUserDetailsService.class);
 
 	@Resource
 	private EnterpriseUserRepository enterpriseUserRepository;
@@ -33,7 +33,7 @@ public class EnterpriseUserDetailsService implements UserDetailsService {
 			enterpriseUser.getEnterprise().getId();
 			userDetails = new EnterpriseAuthentication(enterpriseUser.getEnterprise(), enterpriseUser, 
 					enterpriseUser.getAccount(), enterpriseUser.getPassword(),
-					true, true, true, true, grantAuthorities(enterpriseUser.getGlobalPermissionValue(), enterpriseUser.getProjectPermissionValue()));
+					true, true, true, true, grantAuthorities(enterpriseUser));
 		} catch (UsernameNotFoundException e) {
 			throw e;
 		} catch (Exception e) {
@@ -43,9 +43,13 @@ public class EnterpriseUserDetailsService implements UserDetailsService {
 		return userDetails;
 	}
 	
-	private List<GrantedAuthority> grantAuthorities(int globalPermissionValue, int projectPermissionValue) {
-		List<GrantedAuthority> globalAuthorities = EnterpriseAuthority.getGrantedAuthorities(GlobalPermission.getPermissions(globalPermissionValue));
-		List<GrantedAuthority> projectAuthorities = EnterpriseAuthority.getGrantedAuthorities(ProjectPermission.getPermissions(projectPermissionValue));
+	private List<GrantedAuthority> grantAuthorities(EnterpriseUser user) {
+		List<GrantedAuthority> globalAuthorities = EnterpriseAuthority.getGrantedAuthorities(GlobalPermission.getPermissions(user.getGlobalPermissionValue()));
+		logger.debug(user.getAccount() + " granted global authorities: ");
+		for (GrantedAuthority grantedAuthority: globalAuthorities) {
+			logger.debug("Global: " + grantedAuthority.getAuthority());
+		}
+		List<GrantedAuthority> projectAuthorities = EnterpriseAuthority.getGrantedAuthorities(ProjectPermission.getPermissions(user.getProjectPermissionValue()));
 		globalAuthorities.addAll(projectAuthorities);
 		return globalAuthorities;
 	}

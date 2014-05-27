@@ -11,7 +11,7 @@ public enum ProjectPermission implements Permission {
 	BROWSE_PROJECT("codeoffice.permission.project.browse_project", "ROLE_PROJECT_BROWSE_PROJECT", "codeoffice.permission.project.project", 268435456, 0),
 	DEVELOPEMENT_TOOLS("codeoffice.permission.project.development_tools", "ROLE_PROJECT_DEV_TOOLS", "codeoffice.permission.project.project", 134217728, 0),
 	WORK_FLOW("codeoffice.permission.project.work_flow", "ROLE_PROJECT_WORKFLOW", "codeoffice.permission.project.project", 67108864, 0),
-	ISSUE_ASSIGN("codeoffice.permission.project.issue_assigne", "ROLE_PROJECT_ISSUE_ASSIGN", "codeoffice.permission.project.issue", 33554432, 0),
+	ISSUE_ASSIGN("codeoffice.permission.project.issue_assign", "ROLE_PROJECT_ISSUE_ASSIGN", "codeoffice.permission.project.issue", 33554432, 0),
 	ASSIGNABLE_USER("codeoffice.permission.project.assignable_user", "ROLE_PROJECT_ASSIGNABLE", "codeoffice.permission.project.issue", 16777216, 0),
 	ISSUE_CLOSE("codeoffice.permission.project.issue_close", "ROLE_PROJECT_ISSUE_CLOSE", "codeoffice.permission.project.issue", 8388608, 0),
 	ISSUE_CREATE("codeoffice.permission.project.issue_create", "ROLE_PROJECT_ISSUE_CREATE", "codeoffice.permission.project.issue", 4194304, 0),
@@ -77,7 +77,7 @@ public enum ProjectPermission implements Permission {
 		}
 		List<ProjectPermission> permissions = new ArrayList<>();
 		for (ProjectPermission permission : values()) {
-			if ((permission.getAuthority() & fullAuthority) > 1) {
+			if ((permission.getAuthority() & fullAuthority) == permission.getAuthority()) {
 				permissions.add(permission);
 			}
 		}

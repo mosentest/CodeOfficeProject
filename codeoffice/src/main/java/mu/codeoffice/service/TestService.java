@@ -1,5 +1,6 @@
 package mu.codeoffice.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -10,10 +11,10 @@ import javax.annotation.Resource;
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.UserGroup;
+import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.AttachmentSettings;
 import mu.codeoffice.entity.settings.GeneralProjectSettings;
-import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
@@ -28,10 +29,10 @@ import mu.codeoffice.repository.ProjectCategoryRepository;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.repository.UserGroupRepository;
 import mu.codeoffice.repository.VersionRepository;
+import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
 import mu.codeoffice.repository.settings.AttachmentSettingsRepository;
 import mu.codeoffice.repository.settings.GeneralProjectSettingsRepository;
-import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
@@ -186,9 +187,11 @@ public class TestService {
 		for (Enterprise enterprise : enterprises) {
 			UserGroup group = new UserGroup();
 			group.setEnterprise(enterprise);
-			group.setTitle("users");
+			group.setName("users");
 			group.setDescription("All enterprise users.");
+			group.setDefaultGroup(true);
 			userGroupRepository.save(group);
+			group.setUsers(new ArrayList<>());
 			
 			EnterpriseUser main = new EnterpriseUser();
 			main.setEnterprise(enterprise);
@@ -203,9 +206,9 @@ public class TestService {
 			main.setPhone("");
 			main.setGlobalPermissionValue(-1);
 			main.setProjectPermissionValue(-1);
-			main.setUserGroups(Arrays.asList(group));
 			main.setPassword("e10adc3949ba59abbe56e057f20f883e");
 			enterpriseUserRepository.save(main);
+			group.getUsers().add(main);
 			
 			for (int i = 1; i <= 6; i++, j++) {
 				EnterpriseUser u = new EnterpriseUser();
@@ -216,17 +219,52 @@ public class TestService {
 				u.setEmail(j + "_" + i + "@" + i + ".com");
 				u.setFirstName("First" + i);
 				u.setLastName("Last" + i);
-				u.setProfilePath(i % 2 == 0 ? "male.jpg" : "femaile.jpg");
+				u.setProfilePath(i % 2 == 0 ? "male.jpg" : "female.jpg");
 				u.setLogin(new Date());
 				u.setPhone("");
 				u.setGlobalPermissionValue(1);
 				u.setProjectPermissionValue(1);
 				u.setPassword("e10adc3949ba59abbe56e057f20f883e");
-				u.setUserGroups(Arrays.asList(group));
 				enterpriseUserRepository.save(u);
+				group.getUsers().add(u);
 			}
-			
+			userGroupRepository.save(group);
 		}
+	}
+	
+	@Transactional
+	public void _4_AddMoreUsersToDefaultEnterprise() {
+		Enterprise enterprise = enterpriseRepository.getOne(1l);
+		UserGroup group = userGroupRepository.getOne(6l);
+		for (int i = 30000000; i < 30000100; i++) {
+			EnterpriseUser u = new EnterpriseUser();
+			u.setEnterprise(enterprise);
+			u.setAccount(Integer.toHexString(i));
+			u.setAddress("address" + Integer.toHexString(i));
+			u.setCreate(new Date());
+			u.setEmail(Integer.toHexString(i) + "@" + i + ".com");
+			u.setFirstName("First" + Integer.toHexString(i));
+			u.setLastName("Last" + Integer.toHexString(i));
+			u.setProfilePath(i % 2 == 0 ? "male.jpg" : "femaile.jpg");
+			u.setLogin(new Date());
+			u.setPhone("");
+			u.setGlobalPermissionValue(1);
+			u.setProjectPermissionValue(1);
+			u.setPassword("e10adc3949ba59abbe56e057f20f883e");
+			u.setUserGroups(Arrays.asList(group));
+			enterpriseUserRepository.save(u);
+		}
+	}
+	
+	@Transactional
+	public void __AddUsersToGroup() {
+		UserGroup userGroups = userGroupRepository.getOne(6l);
+		userGroups.setUsers(new ArrayList<>());
+		List<EnterpriseUser> users = enterpriseUserRepository.getUsers(enterpriseRepository.getOne(1l));
+		for (EnterpriseUser user : users) {
+			userGroups.getUsers().add(user);
+		}
+		userGroupRepository.save(userGroups);
 	}
 	
 }

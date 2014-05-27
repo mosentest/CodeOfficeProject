@@ -1,16 +1,15 @@
 package mu.codeoffice.security;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mu.codeoffice.entity.settings.Submenu;
-import mu.codeoffice.service.SystemSettingsService;
 import mu.codeoffice.service.EnterpriseUserService;
+import mu.codeoffice.service.SystemSettingsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,9 +28,9 @@ public class EnterpriseAuthenticationSuccessHandler implements AuthenticationSuc
 			HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		EnterpriseAuthentication auth = (EnterpriseAuthentication) authentication.getPrincipal();
-		List<Submenu> submenu = enterpriseUserService.getSubmenuSettings(auth);
+		auth.getEnterpriseUser().setLogin(new Date());
+		enterpriseUserService.update(auth.getEnterpriseUser());
 		HttpSession session = request.getSession();
-		session.setAttribute("SETTINGS_SUBMENU", submenu);
 		session.setAttribute("SETTINGS_ANNOUNCEMENT", enterpriseSettingsService.getAnnouncement(auth));
 		
 		response.sendRedirect(request.getContextPath() + "/dashboard.html");

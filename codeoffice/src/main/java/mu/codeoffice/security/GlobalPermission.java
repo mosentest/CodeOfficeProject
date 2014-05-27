@@ -47,7 +47,7 @@ public enum GlobalPermission implements Permission {
 		}
 		List<GlobalPermission> permissions = new ArrayList<>();
 		for (GlobalPermission permission : values()) {
-			if ((permission.getAuthority() & fullAuthority) > 1) {
+			if ((permission.getAuthority() & fullAuthority) == permission.getAuthority()) {
 				permissions.add(permission);
 			}
 		}

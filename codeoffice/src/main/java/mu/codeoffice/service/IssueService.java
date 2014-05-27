@@ -4,10 +4,10 @@ import static mu.codeoffice.query.IssueSpecifications.all;
 import static mu.codeoffice.query.IssueSpecifications.assigned;
 import static mu.codeoffice.query.IssueSpecifications.closed;
 import static mu.codeoffice.query.IssueSpecifications.inProgress;
-import static mu.codeoffice.query.IssueSpecifications.pageSpecification;
 import static mu.codeoffice.query.IssueSpecifications.resolved;
-import static mu.codeoffice.query.IssueSpecifications.sort;
 import static mu.codeoffice.query.IssueSpecifications.unresolved;
+import static mu.codeoffice.query.GenericSpecifications.pageSpecification;
+import static mu.codeoffice.query.GenericSpecifications.sort;
 
 import java.util.ArrayList;
 import java.util.List;

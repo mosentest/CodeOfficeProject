@@ -1,8 +1,9 @@
 package mu.codeoffice.service;
 
 import static mu.codeoffice.query.IssueSpecifications.all;
-import static mu.codeoffice.query.IssueSpecifications.pageSpecification;
-import static mu.codeoffice.query.IssueSpecifications.sort;
+import static mu.codeoffice.query.GenericSpecifications.pageSpecification;
+import static mu.codeoffice.query.GenericSpecifications.sort;
+
 
 import java.util.List;
 import java.util.Map;

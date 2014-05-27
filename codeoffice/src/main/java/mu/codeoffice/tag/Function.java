@@ -6,6 +6,10 @@ import java.util.TimeZone;
 
 public class Function {
 	
+	public static String maskURL(String string) {
+		return string.replace(' ', '-');
+	}
+	
 	public static Integer bitwiseAnd(Integer value, Integer mask) {
 		return (value & mask);
 	}
@@ -20,6 +24,10 @@ public class Function {
 	public static String timeOffsetString(TimeZone timeZone) {
 		long halfHourOffset = timeZone.getOffset(new Date().getTime()) / 1800000;
 		return halfHourOffset / 2 + ":" + halfHourOffset % 2 + "0";
+	}
+	
+	public static String formatString(String string, Object[] arguments) {
+		return String.format(string, arguments);
 	}
 	
 	public static boolean arrayContains(Object[] objects, Object object) {

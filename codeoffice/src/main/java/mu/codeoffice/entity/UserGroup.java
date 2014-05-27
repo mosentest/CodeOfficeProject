@@ -14,14 +14,22 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
+import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 
 @Entity
 @Table(name = "usergroup")
 public class UserGroup implements Serializable {
 
 	private static final long serialVersionUID = -1838588996310300202L;
+	
+	private static final String[] SORTABLE_COLUMNS = {
+		"name", "description", "userCount"
+	};
+	
+	private static final String DEFAULT_COLUMN = "name";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,25 +42,37 @@ public class UserGroup implements Serializable {
 	@Column(name = "default_group")
 	private boolean defaultGroup;
 
-	@Column(name = "title")
-	private String title;
+	@Column(name = "name")
+	private String name;
 
 	@Column(name = "description")
 	private String description;
+
+	@Column(name = "user_count")
+	private int userCount;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
 	private List<GlobalPermissionSettings> globalPermissions;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
-	private List<GlobalPermissionSettings> projectPermissions;
+	private List<ProjectPermissionSettings> projectPermissions;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "usergroup_user", 
-        	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
-        	inverseJoinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"))
+    @JoinTable(name = "usergroup_user", uniqueConstraints = @UniqueConstraint(columnNames = {"usergroup_id", "user_id"}),
+        	joinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"), 
+        	inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<EnterpriseUser> users;
 	
 	public UserGroup() {}
+	
+	public static String getSortColumn(String column) {
+		for (String c : SORTABLE_COLUMNS) {
+			if (c.equals(column)) {
+				return c;
+			}
+		}
+		return DEFAULT_COLUMN;
+	}
 
 	public Long getId() {
 		return id;
@@ -70,12 +90,12 @@ public class UserGroup implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -94,11 +114,11 @@ public class UserGroup implements Serializable {
 		this.users = users;
 	}
 
-	public List<GlobalPermissionSettings> getProjectPermissions() {
+	public List<ProjectPermissionSettings> getProjectPermissions() {
 		return projectPermissions;
 	}
 
-	public void setProjectPermissions(List<GlobalPermissionSettings> projectPermissions) {
+	public void setProjectPermissions(List<ProjectPermissionSettings> projectPermissions) {
 		this.projectPermissions = projectPermissions;
 	}
 
@@ -108,6 +128,23 @@ public class UserGroup implements Serializable {
 
 	public void setDefaultGroup(boolean defaultGroup) {
 		this.defaultGroup = defaultGroup;
+	}
+
+	public int getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(int userCount) {
+		this.userCount = userCount;
+	}
+
+	public List<GlobalPermissionSettings> getGlobalPermissions() {
+		return globalPermissions;
+	}
+
+	public void setGlobalPermissions(
+			List<GlobalPermissionSettings> globalPermissions) {
+		this.globalPermissions = globalPermissions;
 	}
 	
 }

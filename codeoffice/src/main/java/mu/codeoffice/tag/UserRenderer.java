@@ -29,7 +29,7 @@ public class UserRenderer {
 		if (showImage) {
 			String imagePath = user.getProfilePath();
 			if (imagePath.equals("male.jpg") || imagePath.equals("female.jpg")) {
-				imagePath = "img/" + imagePath;
+				imagePath = "assets/img/" + imagePath;
 			}
 			buffer.append(String.format("<span><img src=\"%s\" width=\"%d\" height=\"%d\"></span>", imagePath, width, height));
 		}
@@ -37,7 +37,7 @@ public class UserRenderer {
 			buffer.append("<span class=\"minorspace\">&nbsp;</span>");
 		}
 		if (showLink) {
-			buffer.append(String.format("<a href=\"enterprise/user/%s\">%s</a>", user.getNameLink(), user.getFullName()));
+			buffer.append(String.format("<a class=\"link\" href=\"enterprise/user/%s\">%s</a>", user.getNameLink(), user.getFullName()));
 		} else {
 			buffer.append(String.format("<span>%s</span>", user.getFullName()));
 		}

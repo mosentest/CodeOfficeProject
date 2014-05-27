@@ -29,5 +29,17 @@
 		<function-class>mu.codeoffice.tag.Function</function-class>
 		<function-signature>java.lang.String timeOffsetString(java.util.TimeZone)</function-signature>
 	</function>  
-
+	
+	<function>
+		<name>formatString</name>
+		<function-class>mu.codeoffice.tag.Function</function-class>
+		<function-signature>java.lang.String formatString(java.lang.String, java.lang.Object[])</function-signature>
+	</function>  
+	
+	<function>
+		<name>maskURL</name>
+		<function-class>mu.codeoffice.tag.Function</function-class>
+		<function-signature>java.lang.String maskURL(java.lang.String)</function-signature>
+	</function>  
+	
 </taglib> 

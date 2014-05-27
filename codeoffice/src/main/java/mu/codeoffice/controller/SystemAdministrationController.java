@@ -1,5 +1,10 @@
 package mu.codeoffice.controller;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
@@ -7,6 +12,7 @@ import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
+import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.enums.CommentVisibility;
 import mu.codeoffice.enums.EmailVisibility;
 import mu.codeoffice.security.EnterpriseAuthentication;
@@ -50,6 +56,12 @@ public class SystemAdministrationController implements PermissionRequired {
 						messageSource.getMessage("permission.denied_require_permission", new Object[]{ permission.getKey() }, LocaleContextHolder.getLocale()));
 			}
 		}
+	}
+	
+	@RequestMapping(value = "system.html", method = RequestMethod.GET)
+	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		return new ModelAndView("administration/system_home");
 	}
 
 	@RequestMapping(value = "global.html", method = RequestMethod.GET)
@@ -146,12 +158,14 @@ public class SystemAdministrationController implements PermissionRequired {
 
 	@RequestMapping(value = "announcement.html", method = RequestMethod.GET)
 	public ModelAndView announcementView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("announcementSettings", systemSettingsService.getAnnouncement(auth));
 		return new ModelAndView("administration/system_announcement", model);
 	}
 
 	@RequestMapping(value = "announcement/edit.html", method = RequestMethod.GET)
 	public ModelAndView announcementEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("announcementSettings", systemSettingsService.getAnnouncement(auth));
 		return new ModelAndView("administration/system_announcement_form", model);
 	}
@@ -172,11 +186,23 @@ public class SystemAdministrationController implements PermissionRequired {
 	
 	@RequestMapping(value = "globalPermission.html", method = RequestMethod.GET)
 	public ModelAndView globalPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		return new ModelAndView("administration/system_globalpermission", model);
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
+		return new ModelAndView("administration/system_globalPermission", model);
 	}
 	
 	@RequestMapping(value = "projectPermission.html", method = RequestMethod.GET)
 	public ModelAndView projectPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		List<ProjectPermissionSettings> settings = systemSettingsService.getProjectPermissionSettings(auth);
+		Map<String, List<ProjectPermissionSettings>> projectPermissionSettings = new LinkedHashMap<>();
+		for (ProjectPermissionSettings setting : settings) {
+			if (projectPermissionSettings.get(setting.getProjectPermission().getCategory()) == null) {
+				projectPermissionSettings.put(setting.getProjectPermission().getCategory(), new ArrayList<>());
+			}
+			projectPermissionSettings.get(setting.getProjectPermission().getCategory()).add(setting);
+		}
+		model.put("projectPermissionSettings", projectPermissionSettings);
 		return new ModelAndView("administration/system_projectPermission", model);
 	}
 	

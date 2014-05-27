@@ -16,9 +16,6 @@ import mu.codeoffice.enums.IssuePriority;
 import mu.codeoffice.enums.IssueStatus;
 import mu.codeoffice.enums.IssueType;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class IssueSpecifications {
@@ -105,14 +102,6 @@ public class IssueSpecifications {
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		};
-	}
-	
-	public static Pageable pageSpecification(int pageIndex, int size, Sort sort) {
-		return new PageRequest(pageIndex, size, sort);
-	}
-	
-	public static Sort sort(boolean ascending, String column) {
-		return new Sort(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, column);
 	}
 	
 	private static List<Predicate> toPredicate(Root<Issue> root, CriteriaQuery<?> query, CriteriaBuilder builder, 

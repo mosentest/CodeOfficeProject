@@ -78,27 +78,27 @@
 						<td class="form-label-col"><spring:message code="administration.global.enableWatch"/>:</td>
 							<td class="form-input-col"><code:toggle value="${globalSettings.enableWatch}"/></td>
 						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.maxProjectNameLength"/>:</td>
-							<td class="form-input-col">${globalSettings.maxProjectNameLength}</td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.maxProjectKeyLength"/>:</td>
-							<td class="form-input-col">${globalSettings.maxProjectKeyLength}</td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.enableUnassignedIssue"/>:</td>
-							<td class="form-input-col"><code:toggle value="${globalSettings.enableUnassignedIssue}"/></td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.emailVisibility"/>:</td>
-							<td class="form-input-col">${globalSettings.emailVisibility}</td>
-						</tr>
-						<tr>
-							<td class="form-label-col"><spring:message code="administration.global.commentVisibility"/>:</td>
-							<td class="form-input-col">${globalSettings.commentVisibility}</td>
-						</tr>
-					</table>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.maxProjectNameLength"/>:</td>
+						<td class="form-input-col">${globalSettings.maxProjectNameLength}</td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.maxProjectKeyLength"/>:</td>
+						<td class="form-input-col">${globalSettings.maxProjectKeyLength}</td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.enableUnassignedIssue"/>:</td>
+						<td class="form-input-col"><code:toggle value="${globalSettings.enableUnassignedIssue}"/></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.emailVisibility"/>:</td>
+						<td class="form-input-col">${globalSettings.emailVisibility}</td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="administration.global.commentVisibility"/>:</td>
+						<td class="form-input-col">${globalSettings.commentVisibility}</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>

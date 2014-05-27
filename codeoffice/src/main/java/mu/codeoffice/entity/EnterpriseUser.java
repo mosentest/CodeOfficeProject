@@ -28,6 +28,12 @@ import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 public class EnterpriseUser implements Serializable {
 
 	private static final long serialVersionUID = 7445898962052022294L;
+	
+	private static final String[] SORTABLE_COLUMNS = {
+		"firstName", "lastName", "account", "email", "globalPermissionValue", "projectPermissionValue"
+	};
+	
+	private static final String DEFAULT_COLUMN = "firstName";
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -94,6 +100,15 @@ public class EnterpriseUser implements Serializable {
 	private List<Issue> watching;
     
     public EnterpriseUser() {}
+	
+	public static String getSortColumn(String column) {
+		for (String c : SORTABLE_COLUMNS) {
+			if (c.equals(column)) {
+				return c;
+			}
+		}
+		return DEFAULT_COLUMN;
+	}
     
     @Transient
     public List<mu.codeoffice.security.GlobalPermission> getGlobalPermissions() {

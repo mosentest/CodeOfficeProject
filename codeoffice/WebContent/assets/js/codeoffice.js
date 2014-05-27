@@ -46,3 +46,28 @@ $(document).ready(function() {
 function url(url) {
 	window.location = url;
 }
+function gotoPage(element, pageIndex) {
+	console.log($(element).html());
+	$(element).closest('form').find("input[name='pageIndex']").val(pageIndex);
+	$(element).closest('form').submit();
+}
+function del(url) {
+	if (confirm('delete?')) {
+		url(url);
+	} else {
+		return false;
+	}
+}
+function submitForm(element) {
+	var form = $(element).closest('form');
+	form.find('input').each(function() {
+		if ($(this).val() == '') {
+			$(this).remove();
+		}
+	});
+	form.find('select').each(function() {
+		if ($(this).val() == '') {
+			$(this).remove();
+		}
+	});
+}

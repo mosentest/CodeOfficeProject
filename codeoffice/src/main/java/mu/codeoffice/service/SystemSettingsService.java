@@ -1,5 +1,6 @@
 package mu.codeoffice.service;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -8,8 +9,10 @@ import javax.annotation.Resource;
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
+import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
+import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
@@ -46,8 +49,31 @@ public class SystemSettingsService {
 	
 	@Resource
 	private ProjectPermissionSettingsRepository projectPermissionRepository;
+	
+	@Transactional(readOnly = true)
+	@Cacheable(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	public List<GlobalPermissionSettings> getGlobalPermissionSettings(EnterpriseAuthentication auth) {
+		List<GlobalPermissionSettings> settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise());
+		for (GlobalPermissionSettings setting : settings) {
+			setting.getUserGroups().size();
+			setting.getUsers().size();
+		}
+		return settings;
+	}
+	
+	@Transactional(readOnly = true)
+	@Cacheable(value = "projectPermissionsCache", key = "#auth.enterprise.id")
+	public List<ProjectPermissionSettings> getProjectPermissionSettings(EnterpriseAuthentication auth) {
+		List<ProjectPermissionSettings> settings = projectPermissionRepository.getProjectPermissionSettings(auth.getEnterprise());
+		for (ProjectPermissionSettings setting : settings) {
+			setting.getUserGroups().size();
+			setting.getUsers().size();
+		}
+		return settings;
+	}
 
 	@Transactional
+	@CacheEvict(value = "announcementSettingsCache", key = "#auth.enterprise.id")
 	public void update(EnterpriseAuthentication auth, Announcement announcement) 
 			throws InformationException, AuthenticationException {
 		Announcement settings = announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
@@ -59,11 +85,13 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional(readOnly = true)
+	@Cacheable(value = "announcementSettingsCache", key = "#auth.enterprise.id")
 	public Announcement getAnnouncement(EnterpriseAuthentication auth) {
 		return announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
 	}
 
 	@Transactional
+	@CacheEvict(value = "advancedGlobalSettingsCache", key = "#auth.enterprise.id")
 	public void update(EnterpriseAuthentication auth, AdvancedGlobalSettings advancedGlobalSettings) 
 			throws InformationException, AuthenticationException {
 		AdvancedGlobalSettings settings = advancedGlobalSettingsRepository.getEnterpriseAdvancedGlobalSettings(auth.getEnterprise());
@@ -75,6 +103,7 @@ public class SystemSettingsService {
 	}
 
 	@Transactional(readOnly = true)
+	@Cacheable(value = "advancedGlobalSettingsCache", key = "#auth.enterprise.id")
 	public AdvancedGlobalSettings getAdvancedGlobalSettings(EnterpriseAuthentication auth) {
 		return advancedGlobalSettingsRepository.getEnterpriseAdvancedGlobalSettings(auth.getEnterprise());
 	}
@@ -98,6 +127,7 @@ public class SystemSettingsService {
 	}
 
 	@Transactional
+	@CacheEvict(value = "internationalizationSettingsCache", key = "#auth.enterprise.id")
 	public void update(EnterpriseAuthentication auth, InternationalizationSettings internationalizationSettings) 
 			throws InformationException, AuthenticationException {
 		InternationalizationSettings settings = 
@@ -116,6 +146,7 @@ public class SystemSettingsService {
 	}
 
 	@Transactional(readOnly = true)
+	@Cacheable(value = "internationalizationSettingsCache", key = "#auth.enterprise.id")
 	public InternationalizationSettings getInternationalizationSettings(EnterpriseAuthentication auth) {
 		InternationalizationSettings internationalizationSettings = 
 				internationalizationSettingsRepository.getEnterpriseInternationalizationSettings(auth.getEnterprise());

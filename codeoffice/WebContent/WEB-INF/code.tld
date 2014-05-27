@@ -204,6 +204,17 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>formPage</name>
+		<tag-class>mu.codeoffice.tag.FormPageTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>page</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>org.springframework.data.domain.Page</type>
+		</attribute>
+	</tag>
+	<tag>
 		<name>imagelink</name>
 		<tag-class>mu.codeoffice.tag.ImageLinkTag</tag-class>
 		<body-content>scriptless</body-content>
