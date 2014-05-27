@@ -144,38 +144,22 @@ public class UserManagementAdminitrationController implements PermissionRequired
 		}
 	}
 
-	@RequestMapping(value = "userGroup/{userGroupName}/edit.html", method = RequestMethod.GET)
-	public String userGroupEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("userGroupName") String userGroupName,
-			RedirectAttributes redirectAttributes, ModelMap model)
-			throws AuthenticationException {
-		authorize(auth, null, GlobalPermission.ADMIN);
-		model.put("userGroupPage", userManagementService.getUserGroups(auth));
-		model.put("userGroup", new UserGroup());
-		return "redirect:/administration/userGroups.html";
-	}
-
-	@RequestMapping(value = "userGroup/{userGroupName}/edit", method = RequestMethod.POST)
-	public String userGroupEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("userGroupName") String userGroupName,
-			@ModelAttribute("usergroup") UserGroup userGroup, 
-			RedirectAttributes redirectAttributes, ModelMap model)
-			throws AuthenticationException {
-		authorize(auth, null, GlobalPermission.ADMIN);
-		model.put("userGroupPage", userManagementService.getUserGroups(auth));
-		model.put("userGroup", new UserGroup());
-		return "redirect:/administration/userGroups.html";
-	}
-
 	@RequestMapping(value = "userGroup/{userGroupName}/delete", method = RequestMethod.POST)
 	public String userGroupDelete(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@PathVariable("userGroupName") String userGroupName,
 			RedirectAttributes redirectAttributes, ModelMap model)
 			throws AuthenticationException {
 		authorize(auth, null, GlobalPermission.ADMIN);
-		model.put("userGroupPage", userManagementService.getUserGroups(auth));
-		model.put("userGroup", new UserGroup());
-		return "redirect:/administration/userGroups.html";
+		try {
+			userManagementService.deleteUserGroup(auth, userGroupName);
+			redirectAttributes.addFlashAttribute(TIP, "User Group " + userGroupName + " has been deleted.");
+			return "redirect:/administration/userGroups.html";
+		} catch (AuthenticationException e) {
+			throw e;
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			return "redirect:/administration/userGroups.html";
+		}
 	}
 
 	@RequestMapping(value = "userGroup/manage/{userGroupName}.html", method = RequestMethod.GET)

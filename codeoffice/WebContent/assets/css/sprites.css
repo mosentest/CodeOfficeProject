@@ -1,0 +1,24 @@
+.iconfont-configure:before{content:"\e001";}.iconfont-add:before{content:"\e002";}.iconfont-help:before{content:"\e003";}.iconfont-search:before{content:"\e004";}.iconfont-success:before{content:"\e005";}.iconfont-workbox:before{content:"\e006";}.iconfont-workbox-empty:before{content:"\e007";}.iconfont-email:before{content:"\e008";}.iconfont-appswitcher:before{content:"\e009";}.iconfont-comment:before{content:"\e00a";}.iconfont-add-comment:before{content:"\e00b";}.iconfont-search-small:before{content:"\e00c";}.iconfont-remove:before{content:"\e00d";}.iconfont-close-dialog:before{content:"\e00e";}.iconfont-remove-label:before{content:"\e00f";}.iconfont-time:before{content:"\e010";}.iconfont-error:before{content:"\e011";}.iconfont-info:before{content:"\e012";}.iconfont-approve:before{content:"\e013";}.iconfont-edit:before{content:"\e014";}.iconfont-share:before{content:"\e015";}.iconfont-build:before{content:"\e016";}.iconfont-user:before{content:"\e017";}.iconfont-jira:before{content:"\e018";}.iconfont-doc:before{content:"\e019";}.iconfont-star:before{content:"\e01a";}.iconfont-unstar:before{content:"\e01b";}.iconfont-view:before{content:"\e01c";}.iconfont-watch:before{content:"\e01d";}.iconfont-unwatch:before{content:"\e01e";}.iconfont-view-list:before{content:"\e01f";}.iconfont-view-card:before{content:"\e020";}.iconfont-view-table:before{content:"\e021";}.iconfont-rss:before{content:"\e022";}.iconfont-expanded:before{content:"\e023";}.iconfont-collapsed:before{content:"\e024";}.iconfont-flag:before{content:"\e025";}.iconfont-confluence:before{content:"\e026";}.iconfont-attachment:before{content:"\e027";}.iconfont-calendar:before{content:"\e028";}.iconfont-details:before{content:"\e029";}.iconfont-arrows-up:before{content:"\e02a";}.iconfont-arrows-down:before{content:"\e02b";}.iconfont-link:before{content:"\e02c";}.iconfont-locked:before{content:"\e02d";}.iconfont-unlocked:before{content:"\e02e";}.iconfont-more:before{content:"\e02f";}.iconfont-quote:before{content:"\e030";}.iconfont-warning:before{content:"\e031";}.iconfont-jira-completed-task:before{content:"\e800";}.iconfont-jira-test-session:before{content:"\e801";}.iconfont-devtools-folder-closed:before{content:"\ec00";}.iconfont-devtools-folder-open:before{content:"\ec01";}.iconfont-devtools-file:before{content:"\ec02";}.iconfont-devtools-file-binary:before{content:"\ec03";}.iconfont-devtools-branch:before{content:"\ec04";}.iconfont-devtools-repository:before{content:"\ec05";}.iconfont-devtools-repository-forked:before{content:"\ec06";}.iconfont-devtools-repository-locked:before{content:"\ec07";}.iconfont-devtools-commit:before{content:"\ec08";}.iconfont-devtools-pull-request:before{content:"\ec09";}.iconfont-devtools-tag:before{content:"\ec0a";}.iconfont-devtools-browse-up:before{content:"\ec0b";}.iconfont-devtools-clone:before{content:"\ec0c";}.iconfont-devtools-fork:before{content:"\ec0d";}.iconfont-devtools-submodule:before{content:"\ec0e";}.iconfont-devtools-arrow-right:before{content:"\ec0f";}.iconfont-devtools-arrow-left:before{content:"\ec10";}.iconfont-devtools-task-in-progress:before{content:"\ec11";}.iconfont-devtools-task-cancelled:before{content:"\ec12";}.iconfont-devtools-task-disabled:before{content:"\ec13";}.iconfont-devtools-branch-small:before{content:"\ec14";}.iconfont-devtools-file-commented:before{content:"\ec15";}.iconfont-devtools-compare:before{content:"\ec16";}.iconfont-devtools-checkout:before{content:"\ec17";}.iconfont-devtools-tag-small:before{content:"\ec18";}.iconfont-devtools-side-diff:before{content:"\ec19";}
+.icon-module {
+	background-image: url('../img/sprites/icons-module.png');
+	background-repeat:no-repeat
+}
+.icon-module-menu-indicator {
+	margin-left: 5px;
+	width: 10px;
+	height: 10px;
+	background-position: -5px -222px;
+}
+.icon-module-next {
+	margin-left: 5px;
+	background-position: -5px -348px;
+}
+.icon-close {
+	margin-bottom: -3.5px;
+	width: 16px;
+	height: 16px;
+	background-image: url('../img/information/icon-close.png');
+	background-repeat:no-repeat;
+	background-position: center;
+	display: inline-block;
+}

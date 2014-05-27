@@ -25,15 +25,20 @@ public class UserSpecifications {
 			public Predicate toPredicate(Root<EnterpriseUser> root,
 					CriteriaQuery<?> query, CriteriaBuilder builder) {
 				query.distinct(true);
-				return builder.and(
-						builder.notEqual(root.join(EnterpriseUser_.userGroups, JoinType.LEFT).<String>get("name"), userGroup),
-						builder.equal(root.get(EnterpriseUser_.enterprise), enterprise),
-						builder.not(root.get(EnterpriseUser_.id).in((Object[]) id)),
+				List<Predicate> predicates = new ArrayList<>();
+				predicates.add(builder.equal(root.get(EnterpriseUser_.enterprise), enterprise));
+				predicates.add(builder.notEqual(root.join(EnterpriseUser_.userGroups, JoinType.LEFT).<String>get("name"), userGroup));
+				if (id != null && id.length != 0) {
+					predicates.add(builder.not(root.get(EnterpriseUser_.id).in((Object[]) id)));
+				}
+				predicates.add(
+					builder.or(
 						builder.or(
-								builder.or(
-										builder.like(root.get(EnterpriseUser_.firstName), "%" + searchString + "%"), 
-										builder.like(root.get(EnterpriseUser_.lastName), "%" + searchString + "%")), 
-								builder.like(root.get(EnterpriseUser_.email), "%" + searchString + "%")));
+								builder.like(root.get(EnterpriseUser_.firstName), "%" + searchString + "%"), 
+								builder.like(root.get(EnterpriseUser_.lastName), "%" + searchString + "%")), 
+						builder.like(root.get(EnterpriseUser_.email), "%" + searchString + "%")));
+
+				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 			
 		};

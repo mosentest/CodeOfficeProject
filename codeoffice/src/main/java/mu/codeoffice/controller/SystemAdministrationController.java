@@ -31,6 +31,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -189,6 +190,57 @@ public class SystemAdministrationController implements PermissionRequired {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
 		return new ModelAndView("administration/system_globalPermission", model);
+	}
+	
+	@RequestMapping(value = "globalPermission/{globalPermission}/addGroup.html", method = RequestMethod.GET)
+	public ModelAndView globalPermissionAddGroupView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
+		return new ModelAndView("administration/system_globalPermission", model);
+	}
+	
+	@RequestMapping(value = "globalPermission/{globalPermission}/addUser.html", method = RequestMethod.GET)
+	public ModelAndView globalPermissionAddUserView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
+		return new ModelAndView("administration/system_globalPermission", model);
+	}
+	
+	@RequestMapping(value = "globalPermission/{globalPermission}/addGroup", method = RequestMethod.POST)
+	public String globalPermissionAddGroup(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
+		return "redirect:/administration/globalPermission.html";
+	}
+	
+	@RequestMapping(value = "globalPermission/{globalPermission}/addUser", method = RequestMethod.POST)
+	public String globalPermissionAddUser(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
+		return "redirect:/administration/globalPermission.html";
+	}
+	
+	@RequestMapping(value = "globalPermission/{globalPermission}/removeGroup", method = RequestMethod.POST)
+	public String globalPermissionRemoveGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@RequestParam("userGroupName") String userGroupName, ModelMap model) {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
+		return "redirect:/administration/globalPermission.html";
+	}
+	
+	@RequestMapping(value = "globalPermission/{globalPermission}/removeUser", method = RequestMethod.POST)
+	public String globalPermissionRemoveUser(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@RequestParam("id") Long id,  ModelMap model) {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
+		return "redirect:/administration/globalPermission.html";
+	}
+	
+	@RequestMapping(value = "globalPermission/{globalPermission}/reset", method = RequestMethod.POST)
+	public String globalPermissionReset(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
+		return "redirect:/administration/globalPermission.html";
 	}
 	
 	@RequestMapping(value = "projectPermission.html", method = RequestMethod.GET)

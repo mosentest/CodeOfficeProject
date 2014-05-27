@@ -19,7 +19,6 @@
 		$('#autocomplete').autocomplete({
 			minLength: 2,
 			source: function(request, response) {
-				console.log($("input[name='id']").serialize());
 				$.ajax({
 					url: "administration/userGroup/${userGroupDTO.name}/availableUsers",
 					type: 'GET',
@@ -38,7 +37,7 @@
 				var label = "<div id='label-" + ui.item.id + "' class='plain-label closable-label'>";
 				label += "<span class='plain-label-info'>" + ui.item.firstName + ", " + ui.item.lastName + "</span>";
 				label += "<span class='plain-label-description'>(" + ui.item.email + ")</span>";
-				label += "<span class='icon-close spanlink' onclick='javascript:removeLabel(\"" + ui.item.id + "\");' title='remove'></span>";
+				label += "<span class='spanlink imglink' onclick='javascript:removeLabel(\"" + ui.item.id + "\");' title='remove'><img width=\"12\" height=\"12\" src=\"assets/img/information/icon-close.png\"/></span>";
 				label += "<input type='hidden' name='newUser' value='" + ui.item.id + "'/>";
 				label += "<input type='hidden' name='id' value='" + ui.item.id + "'/>";
 				label += "</div>";
@@ -108,7 +107,7 @@
 								<div id="label-${user.id}" class="plain-label closable-label">
 									<span class="plain-label-info">${user.firstName}, ${user.lastName}</span>
 									<span class="plain-label-description">(${user.email})</span>
-									<span class="icon-close spanlink" onclick="javascript:moveToRemoved('${user.id}')" title="remove"></span>
+									<span class="spanlink imglink" onclick="javascript:moveToRemoved('${user.id}')" title="remove"><img width="12" height="12" src="assets/img/information/icon-close.png"/></span>
 								</div>
 							</c:forEach>
 						</td>

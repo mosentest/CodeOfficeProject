@@ -18,6 +18,8 @@
 <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="assets/css/defaults.css">
+<link rel="stylesheet" href="assets/css/sprites.css">
 <link rel="stylesheet" href="assets/css/custom-theme/jquery-ui-1.10.3.custom.css">
 <script src="assets/js/jquery-2.0.3.js"></script>
 <script src="assets/js/codeoffice.js"></script>
@@ -28,6 +30,13 @@
 <spring:message var="text_settings" code="application.settings"/>
 <spring:message var="text_logout" code="application.logout"/>
 <security:authorize access="isAuthenticated()">
+<div id="banner">
+	<c:if test="${not empty INFO}"><code:info type="info" message="${INFO}" banner="true"/></c:if>
+	<c:if test="${not empty TIP}"><code:info type="tip" message="${TIP}" banner="true"/></c:if>
+	<c:if test="${not empty WARNING}"><code:info type="warning" message="${WARNING}" banner="true"/></c:if>
+	<c:if test="${not empty ERROR}"><code:info type="error" message="${ERROR}" banner="true"/></c:if>
+	<c:if test="${not empty ALERT}"><code:info type="alert" message="${ALERT}" banner="true"/></c:if>
+</div>
 <div id="header">
 	<div class="left">
 		<div class="link settings imglink">
@@ -46,14 +55,14 @@
 			</div>
 		</div>
 		<div class="logo link">
-			<a href="dashboard.html"><img src="assets/img/icon-logo.png" width="57" height="30"/></a>
+			<a href="dashboard.html"><img src="assets/img/core/icon-logo.png" width="57" height="30"/></a>
 		</div>
 		<div class="link imglink">
 			<a href="administration/global.html"><spring:message code="application.administration"/></a>
 		</div>
 		<div class="link imglink">
 			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.dashboards"/>
-			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/core/empty.png"/></a>
 			<div class="dropdown">
 				<ul>
 					<li class="dropdown-title">Dashboard</li>
@@ -69,7 +78,7 @@
 		</div>
 		<div class="link imglink">
 			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.projects"/>
-			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/core/empty.png"/></a>
 			<div class="dropdown">
 				<ul>
 					<li class="dropdown-title">Projects</li>
@@ -85,7 +94,7 @@
 		</div>
 		<div class="link imglink">
 			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.issues"/>
-			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/core/empty.png"/></a>
 			<div class="dropdown">
 				<ul>
 					<li class="dropdown-title">Issues</li>
@@ -101,7 +110,7 @@
 		</div>
 		<div class="link imglink">
 			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.messagecenter"/>
-			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/core/empty.png"/></a>
 			<div class="dropdown">
 				<ul>
 					<li class="dropdown-title">Message center</li>
@@ -126,7 +135,7 @@
 		</div>
 		<div class="link">
 			<a href="enterprise/info.html"><security:authentication property="principal.enterprise.name"/>
-			<img class="icon-module icon-module-menu-indicator" src="assets/img/empty.png"/></a>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/core/empty.png"/></a>
 		</div>
 		<div class="link"><a href="personal/info.html"><security:authentication property="principal.fullname"/></a></div>
 		<div class="link"><a href="logout.html">Logout</a></div>
@@ -139,16 +148,9 @@
 <div id="header">
 	<div class="left">
 		<div class="logo link">
-			<a href="dashboard.html"><img src="assets/img/icon-logo.png" width="57" height="30"/></a>
+			<a href="dashboard.html"><img src="assets/img/core/icon-logo.png" width="57" height="30"/></a>
 		</div>
 	</div>
 	<div class="clearfix"></div>
 </div>
 </security:authorize>
-<div id="middle">
-	<c:if test="${not empty INFO}"><code:info type="info" message="${INFO}"/></c:if>
-	<c:if test="${not empty TIP}"><code:info type="tip" message="${TIP}"/></c:if>
-	<c:if test="${not empty WARNING}"><code:info type="warning" message="${WARNING}"/></c:if>
-	<c:if test="${not empty ERROR}"><code:info type="error" message="${ERROR}"/></c:if>
-	<c:if test="${not empty ALERT}"><code:info type="alert" message="${ALERT}"/></c:if>
-</div>

@@ -11,7 +11,7 @@
 	<br />
 	<br />
 	<br />
-	<img src="assets/img/icon-enterprise.png"/>
+	<img src="assets/img/core/icon-enterprise.png"/>
 	</div>
 </div>
 </footer>

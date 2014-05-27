@@ -51,6 +51,15 @@ function gotoPage(element, pageIndex) {
 	$(element).closest('form').find("input[name='pageIndex']").val(pageIndex);
 	$(element).closest('form').submit();
 }
+function postDelete(url) {
+	if (confirm('delete?')) {
+		$.post(url, function(data, status) {
+			location.reload();
+		}); 
+	} else {
+		return false;
+	}
+}
 function del(url) {
 	if (confirm('delete?')) {
 		url(url);
@@ -70,4 +79,18 @@ function submitForm(element) {
 			$(this).remove();
 		}
 	});
+}
+function deleteForm(url) {
+	if (confirm('delete?')) {
+		$('#deleteForm').attr('action', url);
+		$('#deleteForm').submit();
+	} else {
+		return false;
+	}
+}
+function confirmSubmit(event, message) {
+	if (!confirm(message)) {
+		event.preventDefault();
+		return false;
+	}
 }

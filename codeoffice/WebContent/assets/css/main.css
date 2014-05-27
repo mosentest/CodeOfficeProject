@@ -74,7 +74,7 @@
 	border-top: 1px solid #e5e5e5;
 	height: 2px;
 }
-.current {
+#header .current {
 	background-color: #3774B9;
 }
 
@@ -85,11 +85,6 @@
 	float: right;
 }
 
-/* middle */
-#middle {
-	width: 1200px;
-	margin: 0px auto;
-}
 /* footer */
 #footer {
 	width: 100%;
@@ -105,4 +100,3 @@
 	font-size: 16px;
 	margin: 5px auto 0px auto; 
 }
-/* general */

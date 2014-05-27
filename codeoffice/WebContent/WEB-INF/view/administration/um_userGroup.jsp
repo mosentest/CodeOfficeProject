@@ -26,8 +26,9 @@
 				<div class="sub-element-title">${userGroup.name}
 				<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 				<c:if test="${not userGroup.defaultGroup}">
-				<input type="button" class="button" onclick="javascript:url('/administration/userGroup/${userGroup.name}/edit.html');" value="<spring:message code="application.edit"/>"/>
-				<input type="button" class="button" onclick="javascript:url('/administration/userGroup/${userGroup.name}/delete');" value="<spring:message code="application.delete"/>"/>
+					<form class="inline-form" action="/administration/userGroup/${userGroup.name}/delete" method="POST">
+					<input type="submit" onclick="javascript:confirmSubmit(event, 'Delete?');" class="button" value="<spring:message code="application.delete"/>"/>
+					</form>
 				</c:if>
 				</security:authorize>
 				</div>
@@ -84,7 +85,7 @@
 					<spring:message code="administration.um.group.members"/>
 					<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 					<c:if test="${not userGroup.defaultGroup}">
-					<input type="button" class="button" onclick="javascript:url('/administration/userGroup/${userGroup.name}/member.html');" value="<spring:message code="administration.um.group.editMembers"/>"/>
+					<input type="button" class="button" onclick="javascript:url('/administration/userGroup/manage/${userGroup.name}.html');" value="<spring:message code="administration.um.group.editMembers"/>"/>
 					</c:if>
 					</security:authorize>
 				</div>

@@ -11,6 +11,14 @@
 		<jsp:param name="menu" value="system"/>
 	</jsp:include>
 </div>
+<script>
+	$(document).ready(function() {
+		var hash = '${locationHash}';
+		if (hash != '') {
+			location.hash = hash;
+		}
+	});
+</script>
 <spring:message var="text_add_group" code="administration.um.globalpermission.addGroup"/>
 <spring:message var="text_add_user" code="administration.um.globalpermission.addUser"/>
 <spring:message var="text_view_users" code="administration.um.globalpermission.viewUser"/>
@@ -35,7 +43,7 @@
 						<td><spring:message code="administration.um.globalpermission.operations"/></td>
 					</tr>
 					<c:forEach items="${globalPermissionSettings}" var="permission">
-					<tr class="list-table-item">
+					<tr class="list-table-item" id="${permission.globalPermission}">
 						<c:set var="description">${permission.globalPermission.key}.description</c:set>
 						<td>
 							<span class="title-info"><spring:message code="${permission.globalPermission.key}"/></span><br/>

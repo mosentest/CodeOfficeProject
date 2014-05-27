@@ -14,7 +14,6 @@
 </div>
 <spring:message var="text_project_permissions" code="administration.um.group.projectPermissions"/>
 <spring:message var="text_edit_members" code="administration.um.group.editMembers"/>
-<spring:message var="text_edit" code="application.edit"/>
 <spring:message var="text_delete" code="application.delete"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/um_menu.jsp">
@@ -110,8 +109,7 @@
 									<c:if test="${not userGroup.defaultGroup}">
 										<span class="minorspace">&#183;</span>
 										<a class="link" href="administration/userGroup/manage/${userGroup.name}.html">${text_edit_members}</a><span class="minorspace">&#183;</span>
-										<a class="link" href="#">${text_edit}</a><span class="minorspace">&#183;</span>
-										<a class="link" href="javascript:del('administrator/userGroup/${userGroup.name}/delete')">${text_delete}</a>
+										<a class="link" href="javascript:deleteForm('administration/userGroup/${userGroup.name}/delete');">${text_delete}</a>
 									</c:if>
 									</security:authorize>
 								</td>
@@ -125,5 +123,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
+	<form id="deleteForm" method="POST"></form>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />

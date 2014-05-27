@@ -106,14 +106,9 @@ public class UserManagementService {
 	
 	@Transactional
 	@CacheEvict(value = "userGroupsCache", key = "#auth.enterprise.id")
-	public void deleteUserGroup(EnterpriseAuthentication auth) throws AuthenticationException, InformationException {
-		
-	}
-	
-	@Transactional
-	@CacheEvict(value = "userGroupsCache", key = "#auth.enterprise.id")
-	public void editUserGroup(EnterpriseAuthentication auth) throws AuthenticationException, InformationException {
-		
+	public void deleteUserGroup(EnterpriseAuthentication auth, String userGroupName) throws AuthenticationException, InformationException {
+		UserGroup userGroup = enterpriseUserGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		enterpriseUserGroupRepository.delete(userGroup);
 	}
 	
 	@Transactional(readOnly = true)

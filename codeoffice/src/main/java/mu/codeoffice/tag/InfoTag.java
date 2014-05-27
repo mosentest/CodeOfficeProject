@@ -40,6 +40,8 @@ public class InfoTag extends SimpleTagSupport {
 	
 	private String separator = DEFAULT_ARGUMENT_SEPARATOR;
 	
+	private boolean banner;
+	
 	@Override
 	public void doTag() throws JspException, IOException {
 		JspWriter out = getJspContext().getOut();
@@ -51,7 +53,11 @@ public class InfoTag extends SimpleTagSupport {
 		}
 
 		StringBuilder buffer = new StringBuilder();
-		buffer.append("<div class=\"info-element imglink " + getColor() + "\" >");
+		if (banner) {
+			buffer.append("<div class=\"banner-info-element imglink " + getColor() + "\" >");
+		} else {
+			buffer.append("<div class=\"info-element imglink " + getColor() + "\" >");
+		}
 		buffer.append(getIcon());
 		buffer.append("<span class=\"info-element-title\">" + getTitleMessage() + "</span>");
 		if (getJspBody() != null) {
@@ -92,17 +98,17 @@ public class InfoTag extends SimpleTagSupport {
 	
 	private String getIcon() {
 		if (type.equals(INFO)) {
-			return "<img class=\"info-element-icon\" src=\"assets/img/icon-info.png\">";
+			return "<img class=\"info-element-icon\" src=\"assets/img/information/icon-info.png\">";
 		} else if (type.equals(WARNING)) {
-			return "<img class=\"info-element-icon\" src=\"assets/img/icon-warning.png\">";
+			return "<img class=\"info-element-icon\" src=\"assets/img/information/icon-warning.png\">";
 		} else if (type.equals(ERROR)) {
-			return "<img class=\"info-element-icon\" src=\"assets/img/icon-error.png\">";
+			return "<img class=\"info-element-icon\" src=\"assets/img/information/icon-error.png\">";
 		} else if (type.equals(TIP)) {
-			return "<img class=\"info-element-icon\" src=\"assets/img/icon-tip.png\">";
+			return "<img class=\"info-element-icon\" src=\"assets/img/information/icon-tip.png\">";
 		} else if (type.equals(ALERT)) {
 			return "<span class=\"info-element-icon iconfont-large iconfont-error\"\"></span>";
 		}
-		return "<img class=\"info-element-icon\" src=\"assets/img/icon-info.png\">";
+		return "<img class=\"info-element-icon\" src=\"assets/img/information/icon-info.png\">";
 	}
 
 	public String getType() {
@@ -143,5 +149,13 @@ public class InfoTag extends SimpleTagSupport {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public boolean isBanner() {
+		return banner;
+	}
+
+	public void setBanner(boolean banner) {
+		this.banner = banner;
 	}
 }
