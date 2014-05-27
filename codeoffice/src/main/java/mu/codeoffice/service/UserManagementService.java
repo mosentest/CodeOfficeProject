@@ -7,8 +7,10 @@ import static mu.codeoffice.query.UserSpecifications.availableForGroup;
 import static mu.codeoffice.query.UserSpecifications.search;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -115,10 +117,20 @@ public class UserManagementService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<EnterpriseUser> filterAvailableUserForGroup(EnterpriseAuthentication auth, String userGroupName, String search,
+	public Page<EnterpriseUser> filterAvailableUserForGroup(EnterpriseAuthentication auth, String userGroupName, String search, Long[] id,
 			Integer pageIndex, Integer pageSize, String sort) {
+		UserGroup userGroup = enterpriseUserGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		Set<Long> idSet = new HashSet<>();
+		for (EnterpriseUser user : userGroup.getUsers()) {
+			idSet.add(user.getId());
+		}
+		if (id != null) {
+			for (Long i : id) {
+				idSet.add(i);
+			}
+		}
 		return enterpriseUserRepository.findAll(
-				availableForGroup(auth.getEnterprise(), userGroupName, search),
+				availableForGroup(auth.getEnterprise(), userGroupName, search, idSet.toArray(new Long[idSet.size()])),
 				pageSpecification(pageIndex, pageSize, sort(false, EnterpriseUser.getSortColumn(sort))));
 	}
 	

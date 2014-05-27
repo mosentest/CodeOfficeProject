@@ -19,13 +19,12 @@
 		$('#autocomplete').autocomplete({
 			minLength: 2,
 			source: function(request, response) {
+				console.log($("input[name='id']").serialize());
 				$.ajax({
 					url: "administration/userGroup/${userGroupDTO.name}/availableUsers",
 					type: 'GET',
 					responseType: 'json',
-					data: {
-						search: $('#autocomplete').val(),
-					},
+					data: $('#autocomplete').serialize() + '&' + $("input[name='id']").serialize(),
 					success: function(data) {
 						response(data);
 					}
@@ -40,7 +39,8 @@
 				label += "<span class='plain-label-info'>" + ui.item.firstName + ", " + ui.item.lastName + "</span>";
 				label += "<span class='plain-label-description'>(" + ui.item.email + ")</span>";
 				label += "<span class='icon-close spanlink' onclick='javascript:removeLabel(\"" + ui.item.id + "\");' title='remove'></span>";
-				label += "<input type='hidden' name='newUser' value='" + ui.item.id + "'>";
+				label += "<input type='hidden' name='newUser' value='" + ui.item.id + "'/>";
+				label += "<input type='hidden' name='id' value='" + ui.item.id + "'/>";
 				label += "</div>";
 				$('#new').append(label);
 				return false;
@@ -90,7 +90,7 @@
 				<table class="form-table">
 					<tr>
 						<td class="form-label-col"><spring:message code="administration.um.group.adduser"/>:</td>
-						<td class="form-input-col"><input type="text" id="autocomplete" placeholder="Enter Name/Email here.."/></td>
+						<td class="form-input-col"><input type="text" id="autocomplete" name="search" placeholder="Enter Name/Email here.."/></td>
 					</tr>
 					<tr>
 						<td class="form-label-col"><spring:message code="administration.um.group.newmembers"/>:</td>

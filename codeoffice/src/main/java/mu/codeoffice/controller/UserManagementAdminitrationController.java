@@ -208,9 +208,10 @@ public class UserManagementAdminitrationController implements PermissionRequired
 
 	@RequestMapping(value = "userGroup/{userGroupName}/availableUsers", method = RequestMethod.GET)
 	public @ResponseBody List<UserJSON> getAvailableUsers(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("userGroupName") String userGroupName, @RequestParam("search") String search) {
+			@PathVariable("userGroupName") String userGroupName, 
+			@RequestParam("search") String search, @RequestParam(value = "id", required = false) Long[] id) {
 		authorize(auth, null, GlobalPermission.ADMIN);
-		Page<EnterpriseUser> users = userManagementService.filterAvailableUserForGroup(auth, userGroupName, search, 0, 20, "email");
+		Page<EnterpriseUser> users = userManagementService.filterAvailableUserForGroup(auth, userGroupName, search, id, 0, 20, "email");
 		List<UserJSON> jsonList = new ArrayList<>();
 		for (EnterpriseUser user : users.getContent()) {
 			jsonList.add(user.toJSONObject());

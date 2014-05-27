@@ -18,7 +18,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class UserSpecifications {
 	
-	public static Specification<EnterpriseUser> availableForGroup(final Enterprise enterprise, String userGroup, String searchString) {
+	public static Specification<EnterpriseUser> availableForGroup(final Enterprise enterprise, String userGroup, String searchString, Long[] id) {
 		return new Specification<EnterpriseUser>() {
 
 			@Override
@@ -28,6 +28,7 @@ public class UserSpecifications {
 				return builder.and(
 						builder.notEqual(root.join(EnterpriseUser_.userGroups, JoinType.LEFT).<String>get("name"), userGroup),
 						builder.equal(root.get(EnterpriseUser_.enterprise), enterprise),
+						builder.not(root.get(EnterpriseUser_.id).in((Object[]) id)),
 						builder.or(
 								builder.or(
 										builder.like(root.get(EnterpriseUser_.firstName), "%" + searchString + "%"), 
