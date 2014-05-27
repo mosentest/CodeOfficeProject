@@ -22,10 +22,12 @@ import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.ProjectPermissionSettings;
+import mu.codeoffice.json.JSONSerializable;
+import mu.codeoffice.json.UserJSON;
 
 @Entity
 @Table(name = "enterprise_user")
-public class EnterpriseUser implements Serializable {
+public class EnterpriseUser implements Serializable, JSONSerializable<EnterpriseUser> {
 
 	private static final long serialVersionUID = 7445898962052022294L;
 	
@@ -100,6 +102,16 @@ public class EnterpriseUser implements Serializable {
 	private List<Issue> watching;
     
     public EnterpriseUser() {}
+
+	@Override
+	public UserJSON toJSONObject() {
+		UserJSON json = new UserJSON();
+		json.setEmail(email);
+		json.setId(id);
+		json.setLastName(lastName);
+		json.setFirstName(firstName);
+		return json;
+	}
 	
 	public static String getSortColumn(String column) {
 		for (String c : SORTABLE_COLUMNS) {

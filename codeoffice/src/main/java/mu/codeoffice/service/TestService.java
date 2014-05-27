@@ -256,15 +256,4 @@ public class TestService {
 		}
 	}
 	
-	@Transactional
-	public void __AddUsersToGroup() {
-		UserGroup userGroups = userGroupRepository.getOne(6l);
-		userGroups.setUsers(new ArrayList<>());
-		List<EnterpriseUser> users = enterpriseUserRepository.getUsers(enterpriseRepository.getOne(1l));
-		for (EnterpriseUser user : users) {
-			userGroups.getUsers().add(user);
-		}
-		userGroupRepository.save(userGroups);
-	}
-	
 }

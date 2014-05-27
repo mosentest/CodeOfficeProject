@@ -109,7 +109,7 @@
 									<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 									<c:if test="${not userGroup.defaultGroup}">
 										<span class="minorspace">&#183;</span>
-										<a class="link" href="#">${text_edit_member}</a><span class="minorspace">&#183;</span>
+										<a class="link" href="administration/userGroup/manage/${userGroup.name}.html">${text_edit_members}</a><span class="minorspace">&#183;</span>
 										<a class="link" href="#">${text_edit}</a><span class="minorspace">&#183;</span>
 										<a class="link" href="javascript:del('administrator/userGroup/${userGroup.name}/delete')">${text_delete}</a>
 									</c:if>

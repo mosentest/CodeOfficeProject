@@ -1,9 +1,15 @@
 package mu.codeoffice.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
+import mu.codeoffice.dto.UserGroupDTO;
+import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.UserGroup;
+import mu.codeoffice.json.UserJSON;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
@@ -14,6 +20,7 @@ import mu.codeoffice.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -23,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -168,6 +176,46 @@ public class UserManagementAdminitrationController implements PermissionRequired
 		model.put("userGroupPage", userManagementService.getUserGroups(auth));
 		model.put("userGroup", new UserGroup());
 		return "redirect:/administration/userGroups.html";
+	}
+
+	@RequestMapping(value = "userGroup/manage/{userGroupName}.html", method = RequestMethod.GET)
+	public ModelAndView userGroupMemberRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@PathVariable("userGroupName") String userGroupName,
+			RedirectAttributes redirectAttributes, ModelMap model)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		UserGroup userGroup = userManagementService.getUserGroup(auth, userGroupName);
+		model.put("userGroupDTO", new UserGroupDTO().toDTO(userGroup));
+		return new ModelAndView("administration/um_userGroup_member", model);
+	}
+
+	@RequestMapping(value = "userGroup/manage/{userGroupName}", method = RequestMethod.POST)
+	public String userGroupMember(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@PathVariable("userGroupName") String userGroupName,
+			@ModelAttribute("userGroupDTO") UserGroupDTO userGroupDTO,
+			RedirectAttributes redirectAttributes, ModelMap model)
+			throws AuthenticationException {
+		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		try {
+			userManagementService.update(auth, userGroupName, userGroupDTO);
+			redirectAttributes.addFlashAttribute(TIP, "User Group has been updated.");
+			return "redirect:/administration/userGroups.html";
+		} catch (InformationException e) {
+			redirectAttributes.addFlashAttribute(TIP, e.getMessage());
+			return "redirect:/administration/userGroup/manage" + userGroupName + ".html";
+		}
+	}
+
+	@RequestMapping(value = "userGroup/{userGroupName}/availableUsers", method = RequestMethod.GET)
+	public @ResponseBody List<UserJSON> getAvailableUsers(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@PathVariable("userGroupName") String userGroupName, @RequestParam("search") String search) {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		Page<EnterpriseUser> users = userManagementService.filterAvailableUserForGroup(auth, userGroupName, search, 0, 20, "email");
+		List<UserJSON> jsonList = new ArrayList<>();
+		for (EnterpriseUser user : users.getContent()) {
+			jsonList.add(user.toJSONObject());
+		}
+		return jsonList;
 	}
 
 	@RequestMapping(value = "userSessions.html", method = RequestMethod.GET)

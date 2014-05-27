@@ -73,6 +73,14 @@ a {
 	margin-left: 5px;
 	background-position: -5px -348px;
 }
+.icon-close {
+	width: 16px;
+	height: 8px;
+	background-image: url('../img/icon-close.png');
+	background-repeat:no-repeat;
+	background-position: center;
+	display: inline-block;
+}
 .leftmenu-border {
 	border-right: 1px solid #e5e5e5;
 }
@@ -436,7 +444,7 @@ a {
 	-webkit-box-sizing: border-box;
 }
 .form-input-col {
-	width: 500px;
+	width: 800px;
 	font-weight: bold;
 }
 .form-input-col img {
@@ -731,4 +739,32 @@ a {
 }
 .sub-menu-link a {
 	
+}
+.plain-label, .closable-label {
+	font-weight: normal;
+	padding: 2px 5px;
+	border: 1px solid #cccccc;
+	font-size: 14px;
+	border-radius: 3px;
+	background-color: #f5f5f5;
+	margin: 5px 5px;
+	float: left;
+}
+.plain-label-info, .closable-label {
+	color: #333333;
+}
+.plain-label-description, .closable-label {
+	color: #666666;
+}
+.spanlink:hover {
+	cursor: pointer;
+}
+.autocomplete-link, .autocomplete-link:hover {
+	font-size: 14px !important;
+}
+.autocomplete-link:hover span {
+	color: white !important;
+}
+.ui-menu .ui-menu-item a {
+	line-height: 1;
 }

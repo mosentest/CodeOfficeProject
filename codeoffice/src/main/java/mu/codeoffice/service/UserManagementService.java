@@ -3,13 +3,17 @@ package mu.codeoffice.service;
 import static mu.codeoffice.query.GenericSpecifications.pageSpecification;
 import static mu.codeoffice.query.GenericSpecifications.sort;
 import static mu.codeoffice.query.UserGroupSpecifications.all;
+import static mu.codeoffice.query.UserSpecifications.availableForGroup;
 import static mu.codeoffice.query.UserSpecifications.search;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import mu.codeoffice.common.InformationException;
+import mu.codeoffice.dto.UserGroupDTO;
 import mu.codeoffice.entity.EnterpriseUser;
 import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.repository.EnterpriseUserRepository;
@@ -34,6 +38,40 @@ public class UserManagementService {
 	@Resource
 	private EnterpriseUserRepository enterpriseUserRepository;
 
+	@Transactional
+	@CacheEvict(value = "userGroupsCache", key = "#auth.enterprise.id")
+	public void update(EnterpriseAuthentication auth, String userGroupName, UserGroupDTO userGroupDTO) throws AuthenticationException, InformationException {
+		UserGroup userGroup = enterpriseUserGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		if (userGroup == null) {
+			throw new EnterpriseAuthenticationException("Access Denied.");
+		}
+		if (userGroup.getUsers() == null) {
+			userGroup.setUsers(new ArrayList<>());
+		}
+		if (userGroupDTO.getRemovedUser() != null) {
+			Iterator<EnterpriseUser> it = userGroup.getUsers().iterator();
+			while (it.hasNext()) {
+				Long itId = it.next().getId();
+				for (Long id : userGroupDTO.getRemovedUser()) {
+					if (itId.equals(id)) {
+						it.remove();
+						break;
+					}
+				}
+			}
+		}
+		if (userGroupDTO.getNewUser() != null) {
+			for (Long id : userGroupDTO.getNewUser()) {
+				EnterpriseUser user = enterpriseUserRepository.findById(auth.getEnterprise(), id);
+				if (!userGroup.getUsers().contains(user)) {
+					userGroup.getUsers().add(user);
+				}
+			}
+		}
+		userGroup.setUserCount(userGroup.getUsers().size());
+		enterpriseUserGroupRepository.save(userGroup);
+	}
+	
 	@Transactional
 	@CacheEvict(value = "userGroupsCache", key = "#auth.enterprise.id")
 	public void createUserGroup(EnterpriseAuthentication auth, UserGroup userGroup) throws AuthenticationException, InformationException {
@@ -74,6 +112,14 @@ public class UserManagementService {
 	@CacheEvict(value = "userGroupsCache", key = "#auth.enterprise.id")
 	public void editUserGroup(EnterpriseAuthentication auth) throws AuthenticationException, InformationException {
 		
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<EnterpriseUser> filterAvailableUserForGroup(EnterpriseAuthentication auth, String userGroupName, String search,
+			Integer pageIndex, Integer pageSize, String sort) {
+		return enterpriseUserRepository.findAll(
+				availableForGroup(auth.getEnterprise(), userGroupName, search),
+				pageSpecification(pageIndex, pageSize, sort(false, EnterpriseUser.getSortColumn(sort))));
 	}
 	
 	@Transactional(readOnly = true)
