@@ -31,6 +31,7 @@ import mu.codeoffice.utility.ProjectPermissionEditor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -294,11 +295,12 @@ public class SystemAdministrationController implements PermissionRequired {
 	
 	@RequestMapping(value = "globalPermission/{globalPermission}/availableUsers", method = RequestMethod.GET)
 	public @ResponseBody List<UserJSON> getGlobalAvailableUsers(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("globalPermission") GlobalPermission globalPermission, ModelMap model) {
+			@PathVariable("globalPermission") GlobalPermission globalPermission, 
+			@RequestParam("search") String search, ModelMap model) {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
-		List<User> users = systemSettingsService.getGlobalAvailableUsers(auth, globalPermission);
+		Page<User> users = systemSettingsService.getGlobalAvailableUsers(auth, globalPermission, search);
 		List<UserJSON> jsonList = new ArrayList<>();
-		for (User user : users) {
+		for (User user : users.getContent()) {
 			jsonList.add(user.toJSONObject());
 		}
 		return jsonList;

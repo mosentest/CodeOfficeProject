@@ -40,11 +40,13 @@
 		$('#autocomplete').autocomplete({
 			minLength: 2,
 			source: function(request, response) {
-				;
 				$.ajax({
-					url: "administration/globalPermission/" + $("#add-group-select").find(':selected').val() + "/availableUsers",
+					url: "administration/globalPermission/" + $("#add-user-select").find(':selected').val() + "/availableUsers",
 					type: 'GET',
 					responseType: 'json',
+					data: {
+						search: $('#autocomplete').val()
+					},
 					success: function(data) {
 						response(data);
 					}
@@ -55,6 +57,7 @@
 				return false;
 			},
 			select: function(event, ui) {
+				$('#add-user-form').find("input[name='id']").remove();
 				$('#add-user-form').append("<input type=\"hidden\" name=\"id\" value=\"" + ui.item.id + "\"/>");
 				return false;
 			}
@@ -68,14 +71,14 @@
 			event.preventDefault();
 			return;
 		}
-		$('#add-group-form').attr('action', 'administration/globalPermission/' + $("select[name='globalPermission']").find(':selected').val() + '/addGroup');
+		$('#add-group-form').attr('action', 'administration/globalPermission/' + $('#add-group-select').find(':selected').val() + '/addGroup');
 	}
 	function submitAddUser(event) {
 		if ($("#add-user-form input[name='id']").length == 0) {
 			event.preventDefault();
 			return;
 		}
-		$('#add-user-form').attr('action', 'administration/globalPermission/' + $("select[name='globalPermission']").find(':selected').val() + '/addUser');
+		$('#add-user-form').attr('action', 'administration/globalPermission/' + $('#add-user-select').find(':selected').val() + '/addUser');
 	}
 </script>
 <spring:message var="text_view_users" code="administration.um.globalpermission.viewUser"/>

@@ -19,11 +19,11 @@ import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.repository.UserRepository;
 import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
-import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
+import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
@@ -31,6 +31,8 @@ import mu.codeoffice.security.GlobalPermission;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -173,11 +175,8 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<User> getGlobalAvailableUsers(EnterpriseAuthentication auth, GlobalPermission globalPermission) {
-		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
-		List<UserGroup> userGroups = userGroupRepository.getUserGroups(auth.getEnterprise());
-		userGroups.removeAll(settings.getUserGroups());
-		return null;
+	public Page<User> getGlobalAvailableUsers(EnterpriseAuthentication auth, GlobalPermission globalPermission, String searchString) {
+		return userRepository.findNonGlobalAuthorizedUsers(auth.getEnterprise(), "%" + searchString + "%", globalPermission.getAuthority(), new PageRequest(0, 20));
 	}
 	
 	@Transactional(readOnly = true)
