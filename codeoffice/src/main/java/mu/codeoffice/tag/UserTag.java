@@ -6,11 +6,11 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 
 public class UserTag extends SimpleTagSupport {
 
-	private EnterpriseUser user;
+	private User user;
 	
 	private boolean showImage = true;
 	
@@ -28,11 +28,11 @@ public class UserTag extends SimpleTagSupport {
 		new UserRenderer(out).renderUser(user, showImage, showLink, showSpace, width, height);
 	}
 
-	public EnterpriseUser getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(EnterpriseUser user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

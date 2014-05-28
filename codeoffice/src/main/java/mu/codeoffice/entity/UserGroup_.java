@@ -25,6 +25,6 @@ public class UserGroup_ {
 	
 	public static volatile ListAttribute<UserGroup, GlobalPermissionSettings> projectPermissions;
 
-	public static volatile ListAttribute<UserGroup, EnterpriseUser> users;
+	public static volatile ListAttribute<UserGroup, User> users;
 	
 }

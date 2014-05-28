@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.Enterprise;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
 
 @Entity
@@ -50,7 +50,7 @@ public class GlobalPermissionSettings implements Serializable {
     @JoinTable(name = "globalpermission_user", uniqueConstraints = @UniqueConstraint(columnNames = {"globalpermission_uid", "user_id"}),
         joinColumns = @JoinColumn(name = "globalpermission_uid", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-	private List<EnterpriseUser> users;
+	private List<User> users;
 	
 	public GlobalPermissionSettings() {}
 
@@ -86,11 +86,11 @@ public class GlobalPermissionSettings implements Serializable {
 		this.userGroups = userGroups;
 	}
 
-	public List<EnterpriseUser> getUsers() {
+	public List<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<EnterpriseUser> users) {
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 	

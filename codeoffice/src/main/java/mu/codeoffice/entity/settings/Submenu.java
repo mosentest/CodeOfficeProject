@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import mu.codeoffice.entity.Enterprise;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 
 @Entity
 @Table(name = "settings_submenu")
@@ -30,7 +30,7 @@ public class Submenu implements Serializable {
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")	
-	private EnterpriseUser user;
+	private User user;
 	
 	@Column(name = "title")
 	private String title;
@@ -59,11 +59,11 @@ public class Submenu implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public EnterpriseUser getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(EnterpriseUser user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

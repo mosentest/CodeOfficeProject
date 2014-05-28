@@ -14,7 +14,7 @@ import mu.codeoffice.common.InformationException;
 import mu.codeoffice.data.Summary;
 import mu.codeoffice.dto.ComponentDTO;
 import mu.codeoffice.entity.Component;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
@@ -163,7 +163,7 @@ public class ComponentService extends ProjectStatisticService {
 	}
 
 	@Transactional(readOnly = true)
-	public Map<EnterpriseUser, Integer> getAssigneeSummary(Project project, Component component) {
+	public Map<User, Integer> getAssigneeSummary(Project project, Component component) {
 		return getAssigneeSummary(null, project.getId(), null, null, component.getId(), null, null, null, null, null);
 	}
 }

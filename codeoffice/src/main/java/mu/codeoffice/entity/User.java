@@ -27,7 +27,7 @@ import mu.codeoffice.json.UserJSON;
 
 @Entity
 @Table(name = "enterprise_user")
-public class EnterpriseUser implements Serializable, JSONSerializable<EnterpriseUser> {
+public class User implements Serializable, JSONSerializable<User> {
 
 	private static final long serialVersionUID = 7445898962052022294L;
 	
@@ -101,7 +101,7 @@ public class EnterpriseUser implements Serializable, JSONSerializable<Enterprise
  			inverseJoinColumns = @JoinColumn(name = "issue_id", referencedColumnName = "id"))
 	private List<Issue> watching;
     
-    public EnterpriseUser() {}
+    public User() {}
 
 	@Override
 	public UserJSON toJSONObject() {
@@ -149,10 +149,10 @@ public class EnterpriseUser implements Serializable, JSONSerializable<Enterprise
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof EnterpriseUser)) {
+		if (!(o instanceof User)) {
 			return false;
 		}
-		EnterpriseUser e = (EnterpriseUser) o;
+		User e = (User) o;
 		return e.id != null && this.id != null && e.id.equals(this.id);
 	}
 

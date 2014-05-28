@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import mu.codeoffice.data.Summary;
 import mu.codeoffice.dto.ProjectDTO;
 import mu.codeoffice.entity.Component;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.ProjectActivity;
@@ -45,7 +45,7 @@ public class ProjectService extends ProjectStatisticService {
 	
 	@Transactional(readOnly = true)
 	@Cacheable(value = "projectRoleCache", key = "#project + '_' + #user.id")
-	public int getProjectAuthority(EnterpriseUser user, String project) throws EnterpriseAuthenticationException {
+	public int getProjectAuthority(User user, String project) throws EnterpriseAuthenticationException {
 		try {
 			return 0;
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class ProjectService extends ProjectStatisticService {
 	}
 	
 	@Transactional(readOnly = true)
-	@Cacheable(value = "projectInfoCache", key = "#code + '_' + #auth.enterpriseUser.id")
+	@Cacheable(value = "projectInfoCache", key = "#code + '_' + #auth.user.id")
 	public Project getProjectInfo(String code, EnterpriseAuthentication auth) throws AuthenticationException {
 		Project project = projectRepository.getProject(code, auth.getEnterprise());
 		if (project == null) {
@@ -145,7 +145,7 @@ public class ProjectService extends ProjectStatisticService {
 	}
 
 	@Transactional(readOnly = true)
-	public Map<EnterpriseUser, Integer> getAssigneeSummary(Project project) {
+	public Map<User, Integer> getAssigneeSummary(Project project) {
 		return getAssigneeSummary(null, project.getId(), null, null, null, null, null, null, null, null);
 	}
 	

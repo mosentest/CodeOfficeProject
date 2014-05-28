@@ -40,7 +40,7 @@ public class History implements Serializable {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "creator_id")
-	protected EnterpriseUser creator;
+	protected User creator;
 
 	@Column(name = "create_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -68,11 +68,11 @@ public class History implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public EnterpriseUser getCreator() {
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(EnterpriseUser creator) {
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 

@@ -3,39 +3,38 @@ package mu.codeoffice.security;
 import java.util.Collection;
 
 import mu.codeoffice.entity.Enterprise;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 
-public class EnterpriseAuthentication extends User {
+public class EnterpriseAuthentication extends org.springframework.security.core.userdetails.User {
 
 	private static final long serialVersionUID = 6978257266007790166L;
 	
 	private Enterprise enterprise;
 	
-	private EnterpriseUser enterpriseUser;
+	private User user;
 
-	public EnterpriseAuthentication(Enterprise enterprise, EnterpriseUser enterpriseUser, String username, String password,
+	public EnterpriseAuthentication(Enterprise enterprise, User user, String username, String password,
 			boolean enabled, boolean accountNonExpired,
 			boolean credentialsNonExpired, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired,
 				accountNonLocked, authorities);
 		this.enterprise = enterprise;
-		this.enterpriseUser = enterpriseUser;
+		this.user = user;
 	}
 	
 	public Enterprise getEnterprise() {
 		return enterprise;
 	}
 	
-	public EnterpriseUser getEnterpriseUser() {
-		return enterpriseUser;
+	public User getUser() {
+		return user;
 	}
 	
 	public String getFullname() {
-		return enterpriseUser.getFullName();
+		return user.getFullName();
 	}
 	
 	public boolean authorized(GrantedAuthority authority) {

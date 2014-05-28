@@ -37,7 +37,7 @@ public class IssueAdministrationController implements PermissionRequired {
 	public void authorize(EnterpriseAuthentication auth, Object object,
 			Permission... permissions) throws AuthenticationException {
 		for (Permission permission : permissions) {
-			if (!permission.isAuthorized(auth.getEnterpriseUser().getGlobalPermissionValue())) {
+			if (!permission.isAuthorized(auth.getUser().getGlobalPermissionValue())) {
 				throw new EnterpriseAuthenticationException(
 						messageSource.getMessage("permission.denied_require_permission", new Object[]{ permission.getKey() }, LocaleContextHolder.getLocale()));
 			}

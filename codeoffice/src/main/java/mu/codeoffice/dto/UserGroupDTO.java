@@ -2,7 +2,7 @@ package mu.codeoffice.dto;
 
 import java.util.List;
 
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
 
 public class UserGroupDTO implements DataTransferObject<UserGroup> {
@@ -17,7 +17,7 @@ public class UserGroupDTO implements DataTransferObject<UserGroup> {
 	
 	private Long[] newUser;
 	
-	private List<EnterpriseUser> members;
+	private List<User> members;
 	
 	@Override
 	public UserGroup toObject(DataTransferObject<UserGroup> dto) {
@@ -56,11 +56,11 @@ public class UserGroupDTO implements DataTransferObject<UserGroup> {
 		this.users = users;
 	}
 
-	public List<EnterpriseUser> getMembers() {
+	public List<User> getMembers() {
 		return members;
 	}
 
-	public void setMembers(List<EnterpriseUser> members) {
+	public void setMembers(List<User> members) {
 		this.members = members;
 	}
 

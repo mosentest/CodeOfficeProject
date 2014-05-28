@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 
 import mu.codeoffice.data.Summary;
 import mu.codeoffice.entity.Component;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Version;
 import mu.codeoffice.enums.IssuePriority;
@@ -146,9 +146,9 @@ public abstract class ProjectStatisticService {
 		return map;
 	}
 
-	public Map<EnterpriseUser, Integer> getAssigneeSummary(Iterable<EnterpriseUser> users, Long project, Long version, Long releaseVersion, Long component, Long label, 
+	public Map<User, Integer> getAssigneeSummary(Iterable<User> users, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
-		Map<EnterpriseUser, Integer> map = new LinkedHashMap<>();
+		Map<User, Integer> map = new LinkedHashMap<>();
 		users.forEach(u -> map.put(u, (int) caseRepository.count(
 				all(null, project, version, releaseVersion, component, label, u.getId(), reporter, status, type, priority))));
 		clearZeroValues(map);

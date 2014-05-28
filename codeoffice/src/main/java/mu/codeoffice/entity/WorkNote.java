@@ -32,7 +32,7 @@ public class WorkNote implements Serializable {
 	
 	@ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "creator_id")
-	private EnterpriseUser creator;
+	private User creator;
 	
 	@Column(name = "summary")
 	private String summary;
@@ -109,11 +109,11 @@ public class WorkNote implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public EnterpriseUser getCreator() {
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(EnterpriseUser creator) {
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 	

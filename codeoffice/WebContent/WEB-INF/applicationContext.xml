@@ -199,7 +199,6 @@
 				<bean p:name="announcementSettingsCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 				<bean p:name="internationalizationSettingsCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 				<bean p:name="globalSettingsCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
-				<bean p:name="userGroupsCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 				<bean p:name="projectPermissionsCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 				<bean p:name="globalPermissionsCache" class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"/>
 			</set>

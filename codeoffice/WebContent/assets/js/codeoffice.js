@@ -94,3 +94,11 @@ function confirmSubmit(event, message) {
 		return false;
 	}
 }
+function removeSubmit(event, url, message) {
+	if (!confirm(message)) {
+		event.preventDefault();
+		return false;
+	}
+	$('#remoteForm').attr('action', url);
+	$('#remoteForm').submit();
+}

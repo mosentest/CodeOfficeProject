@@ -1,5 +1,6 @@
 package mu.codeoffice.service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -7,20 +8,25 @@ import java.util.TimeZone;
 import javax.annotation.Resource;
 
 import mu.codeoffice.common.InformationException;
+import mu.codeoffice.entity.User;
+import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
 import mu.codeoffice.entity.settings.ProjectPermissionSettings;
+import mu.codeoffice.repository.UserRepository;
 import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
+import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
+import mu.codeoffice.security.GlobalPermission;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -49,6 +55,130 @@ public class SystemSettingsService {
 	
 	@Resource
 	private ProjectPermissionSettingsRepository projectPermissionRepository;
+
+	@Resource
+	private UserGroupRepository userGroupRepository;
+	
+	@Resource
+	private UserRepository userRepository;
+
+	@Transactional
+	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	public void reset(EnterpriseAuthentication auth, GlobalPermission globalPermission) 
+			throws InformationException, AuthenticationException {
+		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
+		settings.getUserGroups().clear();
+		settings.getUsers().clear();
+		for (UserGroup userGroup : settings.getUserGroups()) {
+			for (User user : userGroup.getUsers()) {
+				user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
+				userRepository.save(user);
+			}
+		}
+		for (User user : settings.getUsers()) {
+			user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
+			userRepository.save(user);
+		}
+		globalPermissionRepository.save(settings);
+	}
+	
+	@Transactional
+	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	public void removeGroup(EnterpriseAuthentication auth, GlobalPermission globalPermission, String userGroupName) 
+			throws InformationException, AuthenticationException {
+		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
+		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		if (userGroup == null) {
+			throw new InformationException("Invalid User Group");
+		}
+		Iterator<UserGroup> it = settings.getUserGroups().iterator();
+		while (it.hasNext()) {
+			if (it.next().equals(userGroup)) {
+				it.remove();
+				break;
+			}
+		}
+		for (User user : userGroup.getUsers()) {
+			user.setGlobalPermissionValue(user.getGlobalPermissionValue() | globalPermission.getAuthority());
+			userRepository.save(user);
+		}
+		globalPermissionRepository.save(settings);
+	}
+	
+	@Transactional
+	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	public void addGroup(EnterpriseAuthentication auth, GlobalPermission globalPermission, String userGroupName) 
+			throws InformationException, AuthenticationException {
+		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
+		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		if (userGroup == null) {
+			throw new InformationException("Invalid User Group");
+		}
+		if (settings.getUserGroups().contains(userGroup)) {
+			throw new InformationException("User Group already included.");
+		}
+		for (User user : userGroup.getUsers()) {
+			user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
+			userRepository.save(user);
+		}
+		settings.getUserGroups().add(userGroup);
+		globalPermissionRepository.save(settings);
+	}
+	
+	@Transactional
+	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	public void removeUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long id) 
+			throws InformationException, AuthenticationException {
+		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
+		User user = userRepository.findById(auth.getEnterprise(), id);
+		if (user == null) {
+			throw new InformationException("Invalid User");
+		}
+		Iterator<User> it = settings.getUsers().iterator();
+		while (it.hasNext()) {
+			if (it.next().equals(user)) {
+				user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
+				userRepository.save(user);
+				it.remove();
+				break;
+			}
+		}
+		globalPermissionRepository.save(settings);
+	}
+	
+	@Transactional
+	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	public void addUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long id) 
+			throws InformationException, AuthenticationException {
+		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
+		User user = userRepository.findById(auth.getEnterprise(), id);
+		if (user == null) {
+			throw new InformationException("Invalid User");
+		}
+		if (settings.getUsers().contains(user)) {
+			throw new InformationException("User already included.");
+		}
+		user.setGlobalPermissionValue(user.getGlobalPermissionValue() | globalPermission.getAuthority());
+		userRepository.save(user);
+		settings.getUsers().add(user);
+		globalPermissionRepository.save(settings);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<UserGroup> getGlobalAvailableUserGroups(EnterpriseAuthentication auth, GlobalPermission globalPermission) {
+		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
+		List<UserGroup> userGroups = userGroupRepository.getUserGroups(auth.getEnterprise());
+		userGroups.removeAll(settings.getUserGroups());
+		return userGroups;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<User> getGlobalAvailableUsers(EnterpriseAuthentication auth, GlobalPermission globalPermission) {
+		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
+		List<UserGroup> userGroups = userGroupRepository.getUserGroups(auth.getEnterprise());
+		userGroups.removeAll(settings.getUserGroups());
+		return null;
+	}
 	
 	@Transactional(readOnly = true)
 	@Cacheable(value = "globalPermissionsCache", key = "#auth.enterprise.id")

@@ -70,7 +70,7 @@ public class Project implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "lead_id")	
-	private EnterpriseUser lead;
+	private User lead;
 	
 	@Column(name = "total_users")
 	private int totalUsers;
@@ -285,11 +285,11 @@ public class Project implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public EnterpriseUser getLead() {
+	public User getLead() {
 		return lead;
 	}
 
-	public void setLead(EnterpriseUser lead) {
+	public void setLead(User lead) {
 		this.lead = lead;
 	}
 	

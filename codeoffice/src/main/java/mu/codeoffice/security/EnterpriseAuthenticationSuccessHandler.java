@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import mu.codeoffice.service.EnterpriseUserService;
+import mu.codeoffice.service.UserService;
 import mu.codeoffice.service.SystemSettingsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class EnterpriseAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Autowired
-	private EnterpriseUserService enterpriseUserService;
+	private UserService userService;
 	
 	@Autowired
 	private SystemSettingsService enterpriseSettingsService;
@@ -28,8 +28,8 @@ public class EnterpriseAuthenticationSuccessHandler implements AuthenticationSuc
 			HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
 		EnterpriseAuthentication auth = (EnterpriseAuthentication) authentication.getPrincipal();
-		auth.getEnterpriseUser().setLogin(new Date());
-		enterpriseUserService.update(auth.getEnterpriseUser());
+		auth.getUser().setLogin(new Date());
+		userService.update(auth.getUser());
 		HttpSession session = request.getSession();
 		session.setAttribute("SETTINGS_ANNOUNCEMENT", enterpriseSettingsService.getAnnouncement(auth));
 		

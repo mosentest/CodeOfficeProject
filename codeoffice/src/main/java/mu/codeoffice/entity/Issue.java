@@ -100,11 +100,11 @@ public class Issue implements Serializable {
 
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "issue_reporter_id")
-	private EnterpriseUser reporter;
+	private User reporter;
 
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "issue_assignee_id")
-	private EnterpriseUser assignee;
+	private User assignee;
 
 	@Column(length = 3)
 	@Enumerated(EnumType.STRING)
@@ -163,10 +163,10 @@ public class Issue implements Serializable {
 	private List<WorkLog> workLogs;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<EnterpriseUser> participants;
+	private List<User> participants;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "watching")
-	private List<EnterpriseUser> watchers;
+	private List<User> watchers;
 	
 	public Issue() {}
 	
@@ -335,11 +335,11 @@ public class Issue implements Serializable {
 		this.versions = versions;
 	}
 
-	public List<EnterpriseUser> getParticipants() {
+	public List<User> getParticipants() {
 		return participants;
 	}
 
-	public void setParticipants(List<EnterpriseUser> participants) {
+	public void setParticipants(List<User> participants) {
 		this.participants = participants;
 	}
 
@@ -383,11 +383,11 @@ public class Issue implements Serializable {
 		this.edited = edited;
 	}
 
-	public List<EnterpriseUser> getWatchers() {
+	public List<User> getWatchers() {
 		return watchers;
 	}
 
-	public void setWatchers(List<EnterpriseUser> watchers) {
+	public void setWatchers(List<User> watchers) {
 		this.watchers = watchers;
 	}
 
@@ -423,19 +423,19 @@ public class Issue implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public EnterpriseUser getReporter() {
+	public User getReporter() {
 		return reporter;
 	}
 
-	public void setReporter(EnterpriseUser reporter) {
+	public void setReporter(User reporter) {
 		this.reporter = reporter;
 	}
 
-	public EnterpriseUser getAssignee() {
+	public User getAssignee() {
 		return assignee;
 	}
 
-	public void setAssignee(EnterpriseUser assignee) {
+	public void setAssignee(User assignee) {
 		this.assignee = assignee;
 	}
 

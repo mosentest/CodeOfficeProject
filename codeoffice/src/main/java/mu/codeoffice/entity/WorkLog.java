@@ -35,7 +35,7 @@ public class WorkLog implements Serializable {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "creator_id")
-	private EnterpriseUser creator;
+	private User creator;
 	
 	@Column(name = "time_spent")
 	private long timeSpent;
@@ -109,11 +109,11 @@ public class WorkLog implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public EnterpriseUser getCreator() {
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(EnterpriseUser creator) {
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 

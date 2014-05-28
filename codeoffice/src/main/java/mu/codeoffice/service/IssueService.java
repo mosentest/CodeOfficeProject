@@ -15,7 +15,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mu.codeoffice.data.AssigneeData;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.Issue;
 import mu.codeoffice.enums.IssuePriority;
 import mu.codeoffice.enums.IssueStatus;
@@ -35,8 +35,8 @@ public class IssueService {
 	
 	public List<AssigneeData> getAssigneeStatus(Long project) {
 		List<AssigneeData> assigneeStatus = new ArrayList<>();
-		List<EnterpriseUser> users = new ArrayList<>();
-		for (EnterpriseUser user : users) {
+		List<User> users = new ArrayList<>();
+		for (User user : users) {
 			int total = (int) caseRepository.count(all(null, project, null, null, null, null, user.getId(), null, null, null, null));
 			if (total == 0) {
 				continue;
@@ -59,14 +59,14 @@ public class IssueService {
 
 	@Transactional(readOnly = true)
 	public Page<Issue> getCaseInProgress(EnterpriseAuthentication auth, Long project, int pageIndex, int size) {
-		Page<Issue> page = caseRepository.findAll(inProgress(project, auth.getEnterpriseUser().getId(), null), 
+		Page<Issue> page = caseRepository.findAll(inProgress(project, auth.getUser().getId(), null), 
 				pageSpecification(pageIndex, size, sort(false, Issue.getSortColumn("id"))));
 		return page;
 	}
 
 	@Transactional(readOnly = true)
 	public Page<Issue> getAssignedCase(EnterpriseAuthentication auth, Long project, int pageIndex, int size) {
-		Page<Issue> page = caseRepository.findAll(assigned(project, auth.getEnterpriseUser().getId(), null), 
+		Page<Issue> page = caseRepository.findAll(assigned(project, auth.getUser().getId(), null), 
 				pageSpecification(pageIndex, size, sort(false, Issue.getSortColumn("id"))));
 		return page;
 	}

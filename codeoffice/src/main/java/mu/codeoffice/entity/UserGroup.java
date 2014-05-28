@@ -18,10 +18,12 @@ import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.ProjectPermissionSettings;
+import mu.codeoffice.json.JSONSerializable;
+import mu.codeoffice.json.UserGroupJSON;
 
 @Entity
 @Table(name = "usergroup")
-public class UserGroup implements Serializable {
+public class UserGroup implements Serializable, JSONSerializable<UserGroup> {
 
 	private static final long serialVersionUID = -1838588996310300202L;
 	
@@ -61,9 +63,26 @@ public class UserGroup implements Serializable {
     @JoinTable(name = "usergroup_user", uniqueConstraints = @UniqueConstraint(columnNames = {"usergroup_id", "user_id"}),
         	joinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"), 
         	inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-	private List<EnterpriseUser> users;
+	private List<User> users;
 	
 	public UserGroup() {}
+
+	@Override
+	public UserGroupJSON toJSONObject() {
+		UserGroupJSON json = new UserGroupJSON();
+		json.setId(id);
+		json.setName(name);
+		return json;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof UserGroup)) {
+			return false;
+		}
+		UserGroup u = (UserGroup) obj;
+		return u.id != null && this.id != null && u.id.equals(this.id);
+	}
 	
 	public static String getSortColumn(String column) {
 		for (String c : SORTABLE_COLUMNS) {
@@ -106,11 +125,11 @@ public class UserGroup implements Serializable {
 		this.description = description;
 	}
 
-	public List<EnterpriseUser> getUsers() {
+	public List<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<EnterpriseUser> users) {
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 

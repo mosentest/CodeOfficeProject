@@ -109,7 +109,7 @@
 									<c:if test="${not userGroup.defaultGroup}">
 										<span class="minorspace">&#183;</span>
 										<a class="link" href="administration/userGroup/manage/${userGroup.name}.html">${text_edit_members}</a><span class="minorspace">&#183;</span>
-										<a class="link" href="javascript:deleteForm('administration/userGroup/${userGroup.name}/delete');">${text_delete}</a>
+										<a class="link" href="javascript:remoteSubmit(event, 'administration/userGroup/${userGroup.name}/delete', 'Delete?');">${text_delete}</a>
 									</c:if>
 									</security:authorize>
 								</td>
@@ -123,6 +123,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	<form id="deleteForm" method="POST"></form>
+	<form id="remoteForm" method="POST"></form>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />

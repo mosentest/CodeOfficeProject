@@ -1,7 +1,7 @@
 package mu.codeoffice.dto;
 
 import mu.codeoffice.entity.Component;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 
 public class ComponentDTO implements DataTransferObject<Component> {
 
@@ -15,11 +15,11 @@ public class ComponentDTO implements DataTransferObject<Component> {
 	
 	private String project;
 	
-	private EnterpriseUser lead;
+	private User lead;
 	
-	private EnterpriseUser defaultReporter;
+	private User defaultReporter;
 	
-	private EnterpriseUser defaultAssignee;
+	private User defaultAssignee;
 	
 	private String[] componentCode;
 	
@@ -59,27 +59,27 @@ public class ComponentDTO implements DataTransferObject<Component> {
 		this.description = description;
 	}
 
-	public EnterpriseUser getLead() {
+	public User getLead() {
 		return lead;
 	}
 
-	public void setLead(EnterpriseUser lead) {
+	public void setLead(User lead) {
 		this.lead = lead;
 	}
 
-	public EnterpriseUser getDefaultReporter() {
+	public User getDefaultReporter() {
 		return defaultReporter;
 	}
 
-	public void setDefaultReporter(EnterpriseUser defaultReporter) {
+	public void setDefaultReporter(User defaultReporter) {
 		this.defaultReporter = defaultReporter;
 	}
 
-	public EnterpriseUser getDefaultAssignee() {
+	public User getDefaultAssignee() {
 		return defaultAssignee;
 	}
 
-	public void setDefaultAssignee(EnterpriseUser defaultAssignee) {
+	public void setDefaultAssignee(User defaultAssignee) {
 		this.defaultAssignee = defaultAssignee;
 	}
 

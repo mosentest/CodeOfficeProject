@@ -35,7 +35,7 @@ public class Attachment implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "uploader_id")
-	private EnterpriseUser uploader;
+	private User uploader;
 	
 	@Column(name = "description")
 	private String description;
@@ -111,11 +111,11 @@ public class Attachment implements Serializable {
 		this.enterprise = enterprise;
 	}
 
-	public EnterpriseUser getUploader() {
+	public User getUploader() {
 		return uploader;
 	}
 
-	public void setUploader(EnterpriseUser uploader) {
+	public void setUploader(User uploader) {
 		this.uploader = uploader;
 	}
 	

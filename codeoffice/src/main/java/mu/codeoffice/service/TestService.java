@@ -9,7 +9,7 @@ import java.util.Properties;
 import javax.annotation.Resource;
 
 import mu.codeoffice.entity.Enterprise;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
@@ -22,12 +22,11 @@ import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.entity.settings.TimeTrackingSettings;
 import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.EnterpriseRepository;
-import mu.codeoffice.repository.EnterpriseUserRepository;
 import mu.codeoffice.repository.IssueRepository;
 import mu.codeoffice.repository.LabelRepository;
 import mu.codeoffice.repository.ProjectCategoryRepository;
 import mu.codeoffice.repository.ProjectRepository;
-import mu.codeoffice.repository.UserGroupRepository;
+import mu.codeoffice.repository.UserRepository;
 import mu.codeoffice.repository.VersionRepository;
 import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
@@ -38,6 +37,7 @@ import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.TimeTrackingSettingsRepository;
+import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.GlobalPermission;
 import mu.codeoffice.security.ProjectPermission;
 
@@ -63,7 +63,7 @@ public class TestService {
 	private LabelRepository labelRepository;
 	
 	@Resource
-	private EnterpriseUserRepository enterpriseUserRepository;
+	private UserRepository userRepository;
 	
 	@Resource
 	private IssueRepository caseRepository;
@@ -193,7 +193,7 @@ public class TestService {
 			userGroupRepository.save(group);
 			group.setUsers(new ArrayList<>());
 			
-			EnterpriseUser main = new EnterpriseUser();
+			User main = new User();
 			main.setEnterprise(enterprise);
 			main.setAccount("admin" + j);
 			main.setAddress("address");
@@ -207,11 +207,11 @@ public class TestService {
 			main.setGlobalPermissionValue(-1);
 			main.setProjectPermissionValue(-1);
 			main.setPassword("e10adc3949ba59abbe56e057f20f883e");
-			enterpriseUserRepository.save(main);
+			userRepository.save(main);
 			group.getUsers().add(main);
 			
 			for (int i = 1; i <= 6; i++, j++) {
-				EnterpriseUser u = new EnterpriseUser();
+				User u = new User();
 				u.setEnterprise(enterprise);
 				u.setAccount("user" + i);
 				u.setAddress("address" + i);
@@ -225,7 +225,7 @@ public class TestService {
 				u.setGlobalPermissionValue(1);
 				u.setProjectPermissionValue(1);
 				u.setPassword("e10adc3949ba59abbe56e057f20f883e");
-				enterpriseUserRepository.save(u);
+				userRepository.save(u);
 				group.getUsers().add(u);
 			}
 			userGroupRepository.save(group);
@@ -237,7 +237,7 @@ public class TestService {
 		Enterprise enterprise = enterpriseRepository.getOne(1l);
 		UserGroup group = userGroupRepository.getOne(6l);
 		for (int i = 30000000; i < 30000100; i++) {
-			EnterpriseUser u = new EnterpriseUser();
+			User u = new User();
 			u.setEnterprise(enterprise);
 			u.setAccount(Integer.toHexString(i));
 			u.setAddress("address" + Integer.toHexString(i));
@@ -252,7 +252,7 @@ public class TestService {
 			u.setProjectPermissionValue(1);
 			u.setPassword("e10adc3949ba59abbe56e057f20f883e");
 			u.setUserGroups(Arrays.asList(group));
-			enterpriseUserRepository.save(u);
+			userRepository.save(u);
 		}
 	}
 	

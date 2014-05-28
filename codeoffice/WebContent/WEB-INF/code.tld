@@ -67,7 +67,7 @@
 			<name>user</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
-			<type>mu.office.entity.EnterpriseUser</type>
+			<type>mu.office.entity.User</type>
 		</attribute>
 		<attribute>
 			<name>showImage</name>

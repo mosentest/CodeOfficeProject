@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import mu.codeoffice.entity.EnterpriseUser;
-import mu.codeoffice.repository.EnterpriseUserRepository;
+import mu.codeoffice.entity.User;
+import mu.codeoffice.repository.UserRepository;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,20 +20,20 @@ public class EnterpriseUserDetailsService implements UserDetailsService {
 	private static final Logger logger = Logger.getLogger(EnterpriseUserDetailsService.class);
 
 	@Resource
-	private EnterpriseUserRepository enterpriseUserRepository;
+	private UserRepository userRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
 		UserDetails userDetails = null;
 		try {
-			EnterpriseUser enterpriseUser = enterpriseUserRepository.findByAccount(account, account);
-			if (enterpriseUser == null) {
+			User user = userRepository.findByAccount(account, account);
+			if (user == null) {
 				throw new UsernameNotFoundException("User '" + account + "' doesn't exist");
 			}
-			enterpriseUser.getEnterprise().getId();
-			userDetails = new EnterpriseAuthentication(enterpriseUser.getEnterprise(), enterpriseUser, 
-					enterpriseUser.getAccount(), enterpriseUser.getPassword(),
-					true, true, true, true, grantAuthorities(enterpriseUser));
+			user.getEnterprise().getId();
+			userDetails = new EnterpriseAuthentication(user.getEnterprise(), user, 
+					user.getAccount(), user.getPassword(),
+					true, true, true, true, grantAuthorities(user));
 		} catch (UsernameNotFoundException e) {
 			throw e;
 		} catch (Exception e) {
@@ -43,7 +43,7 @@ public class EnterpriseUserDetailsService implements UserDetailsService {
 		return userDetails;
 	}
 	
-	private List<GrantedAuthority> grantAuthorities(EnterpriseUser user) {
+	private List<GrantedAuthority> grantAuthorities(User user) {
 		List<GrantedAuthority> globalAuthorities = EnterpriseAuthority.getGrantedAuthorities(GlobalPermission.getPermissions(user.getGlobalPermissionValue()));
 		logger.debug(user.getAccount() + " granted global authorities: ");
 		for (GrantedAuthority grantedAuthority: globalAuthorities) {

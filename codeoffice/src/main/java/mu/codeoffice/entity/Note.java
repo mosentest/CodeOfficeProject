@@ -47,7 +47,7 @@ public class Note implements Serializable {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "creator_id")
-	private EnterpriseUser creator;
+	private User creator;
 	
 	@Column(name = "content")
 	protected String content;
@@ -108,11 +108,11 @@ public class Note implements Serializable {
 		this.edited = edited;
 	}
 
-	public EnterpriseUser getCreator() {
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(EnterpriseUser creator) {
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 	

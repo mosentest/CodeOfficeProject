@@ -7,14 +7,14 @@ import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.dto.UserGroupDTO;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.json.UserJSON;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
 import mu.codeoffice.security.Permission;
-import mu.codeoffice.service.EnterpriseUserService;
+import mu.codeoffice.service.UserService;
 import mu.codeoffice.service.UserManagementService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class UserManagementAdminitrationController implements PermissionRequired
 	private UserManagementService userManagementService;
 	
 	@Autowired
-	private EnterpriseUserService enterpriseUserService;
+	private UserService userService;
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -60,7 +60,7 @@ public class UserManagementAdminitrationController implements PermissionRequired
 	public void authorize(EnterpriseAuthentication auth, Object object,
 			Permission... permissions) throws AuthenticationException {
 		for (Permission permission : permissions) {
-			if (!permission.isAuthorized(auth.getEnterpriseUser().getGlobalPermissionValue())) {
+			if (!permission.isAuthorized(auth.getUser().getGlobalPermissionValue())) {
 				throw new EnterpriseAuthenticationException(
 						messageSource.getMessage("permission.denied_require_permission", new Object[]{ permission.getKey() }, LocaleContextHolder.getLocale()));
 			}
@@ -83,7 +83,7 @@ public class UserManagementAdminitrationController implements PermissionRequired
 			@RequestParam(value = "name", required = false) String name)
 			throws AuthenticationException {
 		authorize(auth, null, GlobalPermission.BROWSE_USER);
-		model.put("userPage", userManagementService.filterEnterpriseUsers(auth, account, name, groupFilter, pageIndex, pageSize == null ? DEFAULT_LIST_SIZE : pageSize, sort));
+		model.put("userPage", userManagementService.filterUsers(auth, account, name, groupFilter, pageIndex, pageSize == null ? DEFAULT_LIST_SIZE : pageSize, sort));
 		model.put("supportedListSize", LIST_SIZE);
 		model.put("groups", userManagementService.getUserGroups(auth));
 		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
@@ -122,7 +122,7 @@ public class UserManagementAdminitrationController implements PermissionRequired
 		authorize(auth, null, GlobalPermission.BROWSE_USER);
 		UserGroup userGroup = userManagementService.getUserGroup(auth, userGroupName);
 		model.put("userGroup", userGroup);
-		model.put("userPage", enterpriseUserService.getEnterpriseUser(auth, userGroup.getId(), null, null, 
+		model.put("userPage", userService.getUser(auth, userGroup.getId(), null, null, 
 				pageIndex, DEFAULT_LIST_SIZE, "firstName", true));
 		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
 		return new ModelAndView("administration/um_userGroup", model);
@@ -195,9 +195,9 @@ public class UserManagementAdminitrationController implements PermissionRequired
 			@PathVariable("userGroupName") String userGroupName, 
 			@RequestParam("search") String search, @RequestParam(value = "id", required = false) Long[] id) {
 		authorize(auth, null, GlobalPermission.ADMIN);
-		Page<EnterpriseUser> users = userManagementService.filterAvailableUserForGroup(auth, userGroupName, search, id, 0, 20, "email");
+		Page<User> users = userManagementService.filterAvailableUserForGroup(auth, userGroupName, search, id, 0, 20, "email");
 		List<UserJSON> jsonList = new ArrayList<>();
-		for (EnterpriseUser user : users.getContent()) {
+		for (User user : users.getContent()) {
 			jsonList.add(user.toJSONObject());
 		}
 		return jsonList;

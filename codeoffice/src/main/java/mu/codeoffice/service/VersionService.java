@@ -15,7 +15,7 @@ import mu.codeoffice.common.InformationException;
 import mu.codeoffice.data.Summary;
 import mu.codeoffice.entity.Issue;
 import mu.codeoffice.entity.Component;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.Label;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.Version;
@@ -205,7 +205,7 @@ public class VersionService extends ProjectStatisticService {
 	}
 
 	@Transactional(readOnly = true)
-	public Map<EnterpriseUser, Integer> getAssigneeSummary(Project project, Long version, Long releaseVersion) {
+	public Map<User, Integer> getAssigneeSummary(Project project, Long version, Long releaseVersion) {
 		return getAssigneeSummary(null, project.getId(), version, releaseVersion, null, null, null, null, null, null);
 	}
 }

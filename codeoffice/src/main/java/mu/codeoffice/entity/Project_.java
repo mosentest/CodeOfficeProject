@@ -33,7 +33,7 @@ public class Project_ {
 
 	public static volatile SingularAttribute<Project, Boolean> completed;
 
-	public static volatile SingularAttribute<Project, EnterpriseUser> lead;
+	public static volatile SingularAttribute<Project, User> lead;
 	
 	public static volatile SingularAttribute<Project, Integer> visibility;
 	

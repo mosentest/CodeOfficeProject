@@ -46,9 +46,9 @@ public class Issue_ {
 	
 	public static volatile SingularAttribute<Issue, IssuePriority> priority;
 	
-	public static volatile SingularAttribute<Issue, EnterpriseUser> reporter;
+	public static volatile SingularAttribute<Issue, User> reporter;
 	
-	public static volatile SingularAttribute<Issue, EnterpriseUser> assignee;
+	public static volatile SingularAttribute<Issue, User> assignee;
 	
 	public static volatile SingularAttribute<Issue, IssueType> type;
 	
@@ -76,8 +76,8 @@ public class Issue_ {
 	
 	public static volatile ListAttribute<Issue, WorkLog> workLogs;
 	
-	public static volatile ListAttribute<Issue, EnterpriseUser> participants;
+	public static volatile ListAttribute<Issue, User> participants;
 	
-	public static volatile ListAttribute<Issue, EnterpriseUser> watchers;
+	public static volatile ListAttribute<Issue, User> watchers;
 
 }

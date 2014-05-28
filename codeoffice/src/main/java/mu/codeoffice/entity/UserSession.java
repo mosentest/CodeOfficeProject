@@ -6,7 +6,7 @@ public class UserSession {
 	
 	private String sessionID;
 	
-	private EnterpriseUser user;
+	private User user;
 	
 	private String type;
 	
@@ -30,11 +30,11 @@ public class UserSession {
 		this.sessionID = sessionID;
 	}
 
-	public EnterpriseUser getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(EnterpriseUser user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

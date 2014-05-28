@@ -33,11 +33,11 @@ public class Message implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "sender_id")	
-	private EnterpriseUser sender;
+	private User sender;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "receiver_id")	
-	private EnterpriseUser receiver;
+	private User receiver;
 
 	@Column(name = "content")
 	private String content;

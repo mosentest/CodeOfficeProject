@@ -16,16 +16,14 @@ import javax.annotation.Resource;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.dto.UserGroupDTO;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
-import mu.codeoffice.repository.EnterpriseUserRepository;
-import mu.codeoffice.repository.settings.EnterpriseUserGroupRepository;
+import mu.codeoffice.repository.UserRepository;
+import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.utility.StringUtil;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
@@ -35,15 +33,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserManagementService {
 
 	@Resource
-	private EnterpriseUserGroupRepository enterpriseUserGroupRepository;
+	private UserGroupRepository userGroupRepository;
 	
 	@Resource
-	private EnterpriseUserRepository enterpriseUserRepository;
+	private UserRepository userRepository;
 
 	@Transactional
-	@CacheEvict(value = "userGroupsCache", key = "#auth.enterprise.id")
 	public void update(EnterpriseAuthentication auth, String userGroupName, UserGroupDTO userGroupDTO) throws AuthenticationException, InformationException {
-		UserGroup userGroup = enterpriseUserGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
 		if (userGroup == null) {
 			throw new EnterpriseAuthenticationException("Access Denied.");
 		}
@@ -51,7 +48,7 @@ public class UserManagementService {
 			userGroup.setUsers(new ArrayList<>());
 		}
 		if (userGroupDTO.getRemovedUser() != null) {
-			Iterator<EnterpriseUser> it = userGroup.getUsers().iterator();
+			Iterator<User> it = userGroup.getUsers().iterator();
 			while (it.hasNext()) {
 				Long itId = it.next().getId();
 				for (Long id : userGroupDTO.getRemovedUser()) {
@@ -64,23 +61,22 @@ public class UserManagementService {
 		}
 		if (userGroupDTO.getNewUser() != null) {
 			for (Long id : userGroupDTO.getNewUser()) {
-				EnterpriseUser user = enterpriseUserRepository.findById(auth.getEnterprise(), id);
+				User user = userRepository.findById(auth.getEnterprise(), id);
 				if (!userGroup.getUsers().contains(user)) {
 					userGroup.getUsers().add(user);
 				}
 			}
 		}
 		userGroup.setUserCount(userGroup.getUsers().size());
-		enterpriseUserGroupRepository.save(userGroup);
+		userGroupRepository.save(userGroup);
 	}
 	
 	@Transactional
-	@CacheEvict(value = "userGroupsCache", key = "#auth.enterprise.id")
 	public void createUserGroup(EnterpriseAuthentication auth, UserGroup userGroup) throws AuthenticationException, InformationException {
 		if (StringUtil.isEmptyString(userGroup.getName()) || !userGroup.getName().matches("[a-zA-Z]+((-)?[a-zA-Z])+")) {
 			throw new InformationException("Group Name Is Invalid.");
 		}
-		if (!enterpriseUserGroupRepository.isNameAvailable(auth.getEnterprise(), userGroup.getName())) {
+		if (!userGroupRepository.isNameAvailable(auth.getEnterprise(), userGroup.getName())) {
 			throw new InformationException("Group Name is Not Available.");
 		}
 		userGroup.setId(null);
@@ -89,12 +85,12 @@ public class UserManagementService {
 		userGroup.setProjectPermissions(null);
 		userGroup.setUserCount(0);
 		userGroup.setDefaultGroup(false);
-		enterpriseUserGroupRepository.save(userGroup);
+		userGroupRepository.save(userGroup);
 	}
 	
 	@Transactional(readOnly = true)
 	public UserGroup getUserGroup(EnterpriseAuthentication auth, String userGroupName) throws AuthenticationException {
-		UserGroup userGroup = enterpriseUserGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
 		if (userGroup == null) {
 			throw new EnterpriseAuthenticationException("Access Denied.");
 		}
@@ -105,18 +101,17 @@ public class UserManagementService {
 	}
 	
 	@Transactional
-	@CacheEvict(value = "userGroupsCache", key = "#auth.enterprise.id")
 	public void deleteUserGroup(EnterpriseAuthentication auth, String userGroupName) throws AuthenticationException, InformationException {
-		UserGroup userGroup = enterpriseUserGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
-		enterpriseUserGroupRepository.delete(userGroup);
+		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		userGroupRepository.delete(userGroup);
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<EnterpriseUser> filterAvailableUserForGroup(EnterpriseAuthentication auth, String userGroupName, String search, Long[] id,
+	public Page<User> filterAvailableUserForGroup(EnterpriseAuthentication auth, String userGroupName, String search, Long[] id,
 			Integer pageIndex, Integer pageSize, String sort) {
-		UserGroup userGroup = enterpriseUserGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
 		Set<Long> idSet = new HashSet<>();
-		for (EnterpriseUser user : userGroup.getUsers()) {
+		for (User user : userGroup.getUsers()) {
 			idSet.add(user.getId());
 		}
 		if (id != null) {
@@ -124,18 +119,18 @@ public class UserManagementService {
 				idSet.add(i);
 			}
 		}
-		return enterpriseUserRepository.findAll(
+		return userRepository.findAll(
 				availableForGroup(auth.getEnterprise(), userGroupName, search, idSet.toArray(new Long[idSet.size()])),
-				pageSpecification(pageIndex, pageSize, sort(false, EnterpriseUser.getSortColumn(sort))));
+				pageSpecification(pageIndex, pageSize, sort(false, User.getSortColumn(sort))));
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<EnterpriseUser> filterEnterpriseUsers(EnterpriseAuthentication auth, String account, String name, Long groupFilter,
+	public Page<User> filterUsers(EnterpriseAuthentication auth, String account, String name, Long groupFilter,
 			Integer pageIndex, Integer pageSize, String sort) {
-		Page<EnterpriseUser> users = enterpriseUserRepository.findAll(
+		Page<User> users = userRepository.findAll(
 				search(auth.getEnterprise(), account, name, groupFilter), 
-				pageSpecification(pageIndex, pageSize, sort(false, EnterpriseUser.getSortColumn(sort))));
-		for (EnterpriseUser user : users) {
+				pageSpecification(pageIndex, pageSize, sort(false, User.getSortColumn(sort))));
+		for (User user : users) {
 			user.getUserGroups().size();
 			user.getGlobalPermissions();
 		}
@@ -143,16 +138,15 @@ public class UserManagementService {
 	}
 	
 	@Transactional(readOnly = true)
-	@Cacheable(value = "userGroupsCache", key = "#auth.enterprise.id")
 	public List<UserGroup> getUserGroups(EnterpriseAuthentication auth) 
 			throws AuthenticationException {
-		return enterpriseUserGroupRepository.getEnterpriseUserGroups(auth.getEnterprise());
+		return userGroupRepository.getUserGroups(auth.getEnterprise());
 	}
 	
 	@Transactional(readOnly = true)
 	public Page<UserGroup> filterUserGroups(EnterpriseAuthentication auth, String name, Integer pageIndex, Integer pageSize, String sort) 
 			throws AuthenticationException {
-		Page<UserGroup> userGroups = enterpriseUserGroupRepository.findAll(
+		Page<UserGroup> userGroups = userGroupRepository.findAll(
 				all(auth.getEnterprise(), name), 
 				pageSpecification(pageIndex, pageSize, sort(false, UserGroup.getSortColumn(sort))));
 		for (UserGroup userGroup : userGroups.getContent()) {

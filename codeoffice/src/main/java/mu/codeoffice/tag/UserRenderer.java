@@ -5,7 +5,7 @@ import java.io.Writer;
 
 import javax.servlet.jsp.JspException;
 
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 
 public class UserRenderer {
 
@@ -15,7 +15,7 @@ public class UserRenderer {
 		this.writer = writer;
 	}
 	
-	public void renderUser(EnterpriseUser user, boolean showImage, 
+	public void renderUser(User user, boolean showImage, 
 			boolean showLink, boolean showSpace, int width, int height) throws JspException, IOException {
 		if (user == null) {
 			writer.write("None");

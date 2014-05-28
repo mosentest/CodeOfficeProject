@@ -50,15 +50,15 @@ public class Component implements Serializable, JSONSerializable<Component> {
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "component_lead_id")
-	private EnterpriseUser lead;
+	private User lead;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "component_reporter_id")
-	private EnterpriseUser defaultReporter;
+	private User defaultReporter;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "component_assignee_id")
-	private EnterpriseUser defaultAssignee;
+	private User defaultAssignee;
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "components")
 	private List<Issue> issues;
@@ -119,27 +119,27 @@ public class Component implements Serializable, JSONSerializable<Component> {
 		this.description = description;
 	}
 
-	public EnterpriseUser getLead() {
+	public User getLead() {
 		return lead;
 	}
 
-	public void setLead(EnterpriseUser lead) {
+	public void setLead(User lead) {
 		this.lead = lead;
 	}
 
-	public EnterpriseUser getDefaultReporter() {
+	public User getDefaultReporter() {
 		return defaultReporter;
 	}
 
-	public void setDefaultReporter(EnterpriseUser defaultReporter) {
+	public void setDefaultReporter(User defaultReporter) {
 		this.defaultReporter = defaultReporter;
 	}
 
-	public EnterpriseUser getDefaultAssignee() {
+	public User getDefaultAssignee() {
 		return defaultAssignee;
 	}
 
-	public void setDefaultAssignee(EnterpriseUser defaultAssignee) {
+	public void setDefaultAssignee(User defaultAssignee) {
 		this.defaultAssignee = defaultAssignee;
 	}
 

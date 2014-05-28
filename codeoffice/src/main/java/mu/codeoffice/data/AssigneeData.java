@@ -1,10 +1,10 @@
 package mu.codeoffice.data;
 
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 
 public class AssigneeData {
 
-	private EnterpriseUser user;
+	private User user;
 	
 	private int inProgress;
 	
@@ -16,7 +16,7 @@ public class AssigneeData {
 
 	public AssigneeData() {}
 	
-	public AssigneeData(EnterpriseUser user) {
+	public AssigneeData(User user) {
 		this.user = user;
 	}
 	
@@ -27,7 +27,7 @@ public class AssigneeData {
 		this.total = total;
 	}
 
-	public EnterpriseUser getUser() {
+	public User getUser() {
 		return user;
 	}
 

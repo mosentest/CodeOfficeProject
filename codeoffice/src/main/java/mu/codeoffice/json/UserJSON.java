@@ -1,8 +1,8 @@
 package mu.codeoffice.json;
 
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 
-public class UserJSON implements JSONObject<EnterpriseUser> {
+public class UserJSON implements JSONObject<User> {
 
 	private Long id;
 	
@@ -13,8 +13,8 @@ public class UserJSON implements JSONObject<EnterpriseUser> {
 	private String email;
 	
 	@Override
-	public EnterpriseUser toObject(JSONObject<EnterpriseUser> json) {
-		EnterpriseUser user = new EnterpriseUser();
+	public User toObject() {
+		User user = new User();
 		user.setId(id);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
@@ -23,7 +23,7 @@ public class UserJSON implements JSONObject<EnterpriseUser> {
 	}
 
 	@Override
-	public UserJSON toJSONObject(EnterpriseUser object) {
+	public UserJSON toJSONObject(User object) {
 		return object.toJSONObject();
 	}
 

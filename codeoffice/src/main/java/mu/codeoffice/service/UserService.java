@@ -6,8 +6,8 @@ import static mu.codeoffice.query.UserSpecifications.generic;
 
 import javax.annotation.Resource;
 
-import mu.codeoffice.entity.EnterpriseUser;
-import mu.codeoffice.repository.EnterpriseUserRepository;
+import mu.codeoffice.entity.User;
+import mu.codeoffice.repository.UserRepository;
 import mu.codeoffice.repository.SubmenuRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 
@@ -16,22 +16,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class EnterpriseUserService {
+public class UserService {
 
 	@Resource
-	private EnterpriseUserRepository enterpriseUserRepository;
+	private UserRepository userRepository;
 	
 	@Resource
 	private SubmenuRepository submenuRepository;
 	
 	@Transactional(readOnly = true)
-	public Page<EnterpriseUser> getEnterpriseUser(EnterpriseAuthentication auth, 
+	public Page<User> getUser(EnterpriseAuthentication auth, 
 			Long userGroup, Long globalPermission, Long projectPermission,
 			Integer pageIndex, Integer pageSize, String sort, boolean ascending) {
-		Page<EnterpriseUser> users = enterpriseUserRepository.findAll(
+		Page<User> users = userRepository.findAll(
 				generic(auth.getEnterprise(), userGroup, globalPermission, projectPermission), 
-				pageSpecification(pageIndex, pageSize, sort(ascending, EnterpriseUser.getSortColumn(sort))));
-		for (EnterpriseUser user : users) {
+				pageSpecification(pageIndex, pageSize, sort(ascending, User.getSortColumn(sort))));
+		for (User user : users) {
 			if (userGroup != null) { user.getUserGroups().size(); }
 			if (globalPermission != null) { user.getProjectPermissions().size(); }
 			if (projectPermission != null) { user.getProjectPermissions().size(); }
@@ -40,9 +40,9 @@ public class EnterpriseUserService {
 	}
 	
 	@Transactional
-	public void update(EnterpriseUser user) {
+	public void update(User user) {
 		if (user.getId() != null) {
-			enterpriseUserRepository.save(user);
+			userRepository.save(user);
 		}
 	}
 	

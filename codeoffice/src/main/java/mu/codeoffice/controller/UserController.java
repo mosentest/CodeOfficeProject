@@ -1,7 +1,7 @@
 package mu.codeoffice.controller;
 
 import mu.codeoffice.security.EnterpriseAuthentication;
-import mu.codeoffice.service.EnterpriseUserService;
+import mu.codeoffice.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -13,10 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/enterprise/")
-public class EnterpriseUserController {
+public class UserController {
 	
 	@Autowired
-	private EnterpriseUserService enterpriseUserSerivce;
+	private UserService UserSerivce;
 
 	@RequestMapping(value = "user/{firstName}_{lastName}/info", method = RequestMethod.GET)
 	public ModelAndView userinfo(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {

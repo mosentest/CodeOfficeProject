@@ -6,7 +6,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import mu.codeoffice.entity.Enterprise;
-import mu.codeoffice.entity.EnterpriseUser;
+import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.Project_;
 
@@ -14,7 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class ProjectSpecifications {
 
-	public static Specification<Project> project(String code, Enterprise enterprise, EnterpriseUser user) {
+	public static Specification<Project> project(String code, Enterprise enterprise, User user) {
 		return new Specification<Project>() {
 
 			@Override
