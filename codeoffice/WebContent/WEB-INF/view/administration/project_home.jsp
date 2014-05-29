@@ -6,11 +6,11 @@
 <div id="title"><spring:message code="administration.enterprise_administration"/></div>
 <div id="sub-menu">
 	<jsp:include page="/WEB-INF/view/administration/administration_submenu.jsp">
-		<jsp:param name="menu" value="user"/>
+		<jsp:param name="menu" value="project"/>
 	</jsp:include>
 </div>
 <div id="content">
-	<jsp:include page="/WEB-INF/view/administration/um_menu.jsp">
+	<jsp:include page="/WEB-INF/view/administration/project_menu.jsp">
 		<jsp:param name="menu" value="home"/>
 	</jsp:include>
 	<div id="maincontent">

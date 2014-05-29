@@ -10,7 +10,9 @@
 	</jsp:include>
 </div>
 <div id="content">
-	<jsp:include page="/WEB-INF/view/administration/system_menu.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/view/administration/system_menu.jsp">
+		<jsp:param name="menu" value="home"/>
+	</jsp:include>
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">

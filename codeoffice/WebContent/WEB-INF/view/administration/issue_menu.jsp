@@ -4,22 +4,23 @@
 <div id="leftmenu">
 <ul class="vertical-navigation">
 <security:authorize access="isAuthenticated()">
-	<li class="tab-title"><spring:message code="administration.issue.title.issueTypes"/></li>
-	<li class="tab ${param.menu eq 'issueType' ? 'active' : ''}"><a class="link" href="administration/issueType.html"><spring:message code="administration.issue.issueType"/></a></li>
-	<li class="tab ${param.menu eq 'issueTypeScheme' ? 'active' : ''}"><a class="link" href="administration/issueTypeScheme.html"><spring:message code="administration.issue.issueTypeScheme"/></a></li>
-	<li class="tab ${param.menu eq 'subtask' ? 'active' : ''}"><a class="link" href="administration/subtask.html"><spring:message code="administration.issue.subtask"/></a></li>
-	<li class="tab-title"><spring:message code="administration.issue.title.screens"/></li>
-	<li class="tab ${param.menu eq 'screen' ? 'active' : ''}"><a class="link" href="administration/screen.html"><spring:message code="administration.issue.screen"/></a></li>
-	<li class="tab ${param.menu eq 'screenScheme' ? 'active' : ''}"><a class="link" href="administration/screenScheme.html"><spring:message code="administration.issue.screenScheme"/></a></li>
-	<li class="tab ${param.menu eq 'issueTypeScreenScheme' ? 'active' : ''}"><a class="link" href="administration/issueTypeScreenScheme.html"><spring:message code="administration.issue.issueTypeScreenScheme"/></a></li>
-	<li class="tab-title"><spring:message code="administration.issue.title.fields"/></li>
-	<li class="tab ${param.menu eq 'customField' ? 'active' : ''}"><a class="link" href="administration/customField.html"><spring:message code="administration.issue.customField"/></a></li>
-	<li class="tab ${param.menu eq 'fieldConfiguration' ? 'active' : ''}"><a class="link" href="administration/fieldConfiguration.html"><spring:message code="administration.issue.fieldConfiguration"/></a></li>
-	<li class="tab ${param.menu eq 'fieldConfigurationScheme' ? 'active' : ''}"><a class="link" href="administration/fieldConfigurationScheme.html"><spring:message code="administration.issue.fieldConfigurationScheme"/></a></li>
-	<li class="tab-title"><spring:message code="administration.issue.title.issueAttributes"/></li>
-	<li class="tab ${param.menu eq 'status' ? 'active' : ''}"><a class="link" href="administration/status.html"><spring:message code="administration.issue.status"/></a></li>
-	<li class="tab ${param.menu eq 'resolution' ? 'active' : ''}"><a class="link" href="administration/resolution.html"><spring:message code="administration.issue.resolution"/></a></li>
-	<li class="tab ${param.menu eq 'priority' ? 'active' : ''}"><a class="link" href="administration/priority.html"><spring:message code="administration.issue.priority"/></a></li>
+	<li class="${param.menu eq 'home' ? 'selected' : ''}"><a class="link" href="administration.home"><spring:message code="administration.home"/></a></li>
+	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.issueTypes"/></div>
+	<li class="${param.menu eq 'issueType' ? 'selected' : ''}"><a class="link" href="administration/issueType.html"><spring:message code="administration.issue.issueType"/></a></li>
+	<li class="${param.menu eq 'issueTypeScheme' ? 'selected' : ''}"><a class="link" href="administration/issueTypeScheme.html"><spring:message code="administration.issue.issueTypeScheme"/></a></li>
+	<li class="${param.menu eq 'subtask' ? 'selected' : ''}"><a class="link" href="administration/subtask.html"><spring:message code="administration.issue.subtask"/></a></li>
+	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.screens"/></div>
+	<li class="${param.menu eq 'screen' ? 'selected' : ''}"><a class="link" href="administration/screen.html"><spring:message code="administration.issue.screen"/></a></li>
+	<li class="${param.menu eq 'screenScheme' ? 'selected' : ''}"><a class="link" href="administration/screenScheme.html"><spring:message code="administration.issue.screenScheme"/></a></li>
+	<li class="${param.menu eq 'issueTypeScreenScheme' ? 'selected' : ''}"><a class="link" href="administration/issueTypeScreenScheme.html"><spring:message code="administration.issue.issueTypeScreenScheme"/></a></li>
+	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.fields"/></div>
+	<li class="${param.menu eq 'customField' ? 'selected' : ''}"><a class="link" href="administration/customField.html"><spring:message code="administration.issue.customField"/></a></li>
+	<li class="${param.menu eq 'fieldConfiguration' ? 'selected' : ''}"><a class="link" href="administration/fieldConfiguration.html"><spring:message code="administration.issue.fieldConfiguration"/></a></li>
+	<li class="${param.menu eq 'fieldConfigurationScheme' ? 'selected' : ''}"><a class="link" href="administration/fieldConfigurationScheme.html"><spring:message code="administration.issue.fieldConfigurationScheme"/></a></li>
+	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.issueAttributes"/></div>
+	<li class="${param.menu eq 'status' ? 'selected' : ''}"><a class="link" href="administration/status.html"><spring:message code="administration.issue.status"/></a></li>
+	<li class="${param.menu eq 'resolution' ? 'selected' : ''}"><a class="link" href="administration/resolution.html"><spring:message code="administration.issue.resolution"/></a></li>
+	<li class="${param.menu eq 'priority' ? 'selected' : ''}"><a class="link" href="administration/priority.html"><spring:message code="administration.issue.priority"/></a></li>
 </security:authorize>
 </ul>
 </div>

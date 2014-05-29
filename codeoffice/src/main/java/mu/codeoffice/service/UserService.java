@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 
 import mu.codeoffice.entity.User;
 import mu.codeoffice.repository.UserRepository;
-import mu.codeoffice.repository.SubmenuRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 
 import org.springframework.data.domain.Page;
@@ -20,9 +19,6 @@ public class UserService {
 
 	@Resource
 	private UserRepository userRepository;
-	
-	@Resource
-	private SubmenuRepository submenuRepository;
 	
 	@Transactional(readOnly = true)
 	public Page<User> getUser(EnterpriseAuthentication auth, 

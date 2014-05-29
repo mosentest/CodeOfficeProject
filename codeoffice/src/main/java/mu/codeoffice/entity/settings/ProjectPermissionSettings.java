@@ -23,7 +23,7 @@ import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
 
 @Entity
-@Table(name = "settings_projectpermission")
+@Table(name = "projectpermission")
 public class ProjectPermissionSettings implements Serializable {
 
 	private static final long serialVersionUID = -3478455507851817587L;
@@ -35,6 +35,10 @@ public class ProjectPermissionSettings implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
+
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "projectpermission_scheme_id")
+	private ProjectPermissionScheme projectPermissionScheme;
 
 	@Column(name = "project_permission")
 	@Enumerated(EnumType.STRING)
@@ -51,6 +55,12 @@ public class ProjectPermissionSettings implements Serializable {
         joinColumns = @JoinColumn(name = "projectpermission_uid", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<User> users;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "projectpermission_projectrole", uniqueConstraints = @UniqueConstraint(columnNames = {"projectpermission_rid", "user_id"}),
+        joinColumns = @JoinColumn(name = "projectpermission_rid", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+	private List<ProjectRole> projectRoles;
 	
 	public ProjectPermissionSettings() {}
 

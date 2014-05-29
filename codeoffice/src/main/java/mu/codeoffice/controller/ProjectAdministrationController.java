@@ -1,11 +1,10 @@
 package mu.codeoffice.controller;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
-import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
+import mu.codeoffice.security.GlobalPermission;
 import mu.codeoffice.security.Permission;
 import mu.codeoffice.service.SystemSettingsService;
 
@@ -43,15 +42,34 @@ public class ProjectAdministrationController implements PermissionRequired {
 			}
 		}
 	}
-	
-	@RequestMapping(value = "workflow.html", method = RequestMethod.GET)
-	public ModelAndView workflowView(@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
-		return new ModelAndView("administration/project_workflow", model);
+
+	@RequestMapping(value = "project.html", method = RequestMethod.GET)
+	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		return new ModelAndView("administration/project_home", model);
 	}
 
-	@RequestMapping(value = "workflowScheme.html", method = RequestMethod.GET)
-	public ModelAndView workflowSchemeView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		model.put("globalSettings", new GlobalSettings());
-		return new ModelAndView("administration/project_workflow_scheme", model);
+	@RequestMapping(value = "permissionSchemes.html", method = RequestMethod.GET)
+	public ModelAndView permissionSchemes(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		return new ModelAndView("administration/project_permissionScheme", model);
+	}
+
+	@RequestMapping(value = "projectRoles.html", method = RequestMethod.GET)
+	public ModelAndView projectRoles(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		return new ModelAndView("administration/project_projectRole", model);
+	}
+
+	@RequestMapping(value = "projects.html", method = RequestMethod.GET)
+	public ModelAndView projects(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		return new ModelAndView("administration/project_projects", model);
+	}
+	
+	@RequestMapping(value = "workflow.html", method = RequestMethod.GET)
+	public ModelAndView workflowView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		authorize(auth, null, GlobalPermission.ADMIN);
+		return new ModelAndView("administration/project_workflow", model);
 	}
 }

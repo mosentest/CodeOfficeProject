@@ -1,9 +1,7 @@
 package mu.codeoffice.controller;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -14,7 +12,6 @@ import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
-import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.enums.CommentVisibility;
 import mu.codeoffice.enums.EmailVisibility;
 import mu.codeoffice.json.UserGroupJSON;
@@ -23,10 +20,8 @@ import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
 import mu.codeoffice.security.Permission;
-import mu.codeoffice.security.ProjectPermission;
 import mu.codeoffice.service.SystemSettingsService;
 import mu.codeoffice.utility.GlobalPermissionEditor;
-import mu.codeoffice.utility.ProjectPermissionEditor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -306,21 +301,6 @@ public class SystemAdministrationController implements PermissionRequired {
 		return jsonList;
 	}
 	
-	@RequestMapping(value = "projectPermission.html", method = RequestMethod.GET)
-	public ModelAndView projectPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		authorize(auth, null, GlobalPermission.ADMIN);
-		List<ProjectPermissionSettings> settings = systemSettingsService.getProjectPermissionSettings(auth);
-		Map<String, List<ProjectPermissionSettings>> projectPermissionSettings = new LinkedHashMap<>();
-		for (ProjectPermissionSettings setting : settings) {
-			if (projectPermissionSettings.get(setting.getProjectPermission().getCategory()) == null) {
-				projectPermissionSettings.put(setting.getProjectPermission().getCategory(), new ArrayList<>());
-			}
-			projectPermissionSettings.get(setting.getProjectPermission().getCategory()).add(setting);
-		}
-		model.put("projectPermissionSettings", projectPermissionSettings);
-		return new ModelAndView("administration/system_projectPermission", model);
-	}
-	
 	@RequestMapping(value = "sharedObjects.html", method = RequestMethod.GET)
 	public ModelAndView shareObjectsView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("administration/system_sharedObjects", model);
@@ -329,7 +309,6 @@ public class SystemAdministrationController implements PermissionRequired {
 	@InitBinder
 	public void binder(WebDataBinder binder) {
 		binder.registerCustomEditor(GlobalPermission.class, new GlobalPermissionEditor());
-		binder.registerCustomEditor(ProjectPermission.class, new ProjectPermissionEditor());
 	}
 
 }

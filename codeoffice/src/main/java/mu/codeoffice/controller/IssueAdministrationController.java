@@ -44,6 +44,11 @@ public class IssueAdministrationController implements PermissionRequired {
 		}
 	}
 	
+	@RequestMapping(value = "issue.html", method = RequestMethod.GET)
+	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
+		return new ModelAndView("administration/issue_home", model);
+	}
+	
 	@RequestMapping(value = "issueType.html", method = RequestMethod.GET)
 	public ModelAndView issueTypeView(@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
 		return new ModelAndView("administration/issue_issueType", model);

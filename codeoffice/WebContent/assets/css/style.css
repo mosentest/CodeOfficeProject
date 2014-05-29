@@ -211,42 +211,36 @@
 	padding: 5px;
 	width: 82%;
 }
-.vertical-navigation .tab-title {
-	border-top: 1px solid #e5e5e5;
+.vertical-navigation-title {
 	padding: 3px 10px 10px 10px;
 	line-height: 25px;
 	font-size: 16px;
 	color: #333333;
 	font-weight: bold;
+	border-top: 1px solid #e5e5e5;
+	cursor: default;
 }
-.vertical-navigation .tab {
-	padding: 3px 10px 5px 10px;
-	line-height: 20px;
+.vertical-navigation-title:hover {
+	background-color: inherit;
 }
-.vertical-navigation .tab a {
-	display: block;
-}
-.vertical-navigation .tab:hover {
-	background-color: #e6e6e6;
+.vertical-navigation li {
+	padding: 6px 10px 10px 10px;
 	cursor: pointer;
 }
-.vertical-navigation .tab:active {
-	background-color: #205081;
-	color: white !important;
+.vertical-navigation li:hover {
+	background-color: #e6e6e6;
 }
-.vertical-navigation .active a {
+.vertical-navigation li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.vertical-navigation li a:hover {
+	color: #205081;
+}
+.vertical-navigation .selected a {
 	color: black !important;
 	font-weight: bold;
-}
-.vertical-navigation .active a:active {
-	color: white !important;
-	font-weight: bold;
-}
-.vertical-navigation .empty-tab {
-	height: 20px;
-}
-.vertical-navigation li a:hover, .vertical-navigation li a:active, .vertical-navigation .active a:hover, .vertical-navigation .active a:active {
-	color: inherit !important;
 }
 #sub-menu {
 	background-color: #f5f5f5;

@@ -20,6 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
+import mu.codeoffice.entity.settings.ProjectPermissionScheme;
+
 @Entity
 @Table(name = "project", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
 public class Project implements Serializable {
@@ -77,6 +79,10 @@ public class Project implements Serializable {
 
 	@Column(name = "total_issues")
 	private int totalIssues;
+
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "projectpermission_scheme_id")
+	private ProjectPermissionScheme projectPermissionScheme;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
 	private List<Component> components;
@@ -291,6 +297,14 @@ public class Project implements Serializable {
 
 	public void setLead(User lead) {
 		this.lead = lead;
+	}
+
+	public ProjectPermissionScheme getProjectPermissionScheme() {
+		return projectPermissionScheme;
+	}
+
+	public void setProjectPermissionScheme(ProjectPermissionScheme projectPermissionScheme) {
+		this.projectPermissionScheme = projectPermissionScheme;
 	}
 	
 }

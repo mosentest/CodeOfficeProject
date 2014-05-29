@@ -1,6 +1,5 @@
 package mu.codeoffice.service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -15,14 +14,12 @@ import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
-import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.repository.UserRepository;
 import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
-import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
@@ -54,9 +51,6 @@ public class SystemSettingsService {
 	
 	@Resource
 	private InternationalizationSettingsRepository internationalizationSettingsRepository;
-	
-	@Resource
-	private ProjectPermissionSettingsRepository projectPermissionRepository;
 
 	@Resource
 	private UserGroupRepository userGroupRepository;
@@ -90,19 +84,15 @@ public class SystemSettingsService {
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
-		if (userGroup == null) {
-			throw new InformationException("Invalid User Group");
-		}
-		Iterator<UserGroup> it = settings.getUserGroups().iterator();
-		while (it.hasNext()) {
-			if (it.next().equals(userGroup)) {
-				it.remove();
-				break;
+		if (settings.getUserGroups().remove(userGroup)) {
+			for (User user : userGroup.getUsers()) {
+				if (!globalPermissionRepository.isUserInUsers(auth.getEnterprise(), globalPermission, user)) {
+					user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
+					userRepository.save(user);
+				}
 			}
-		}
-		for (User user : userGroup.getUsers()) {
-			user.setGlobalPermissionValue(user.getGlobalPermissionValue() | globalPermission.getAuthority());
-			userRepository.save(user);
+		} else {
+			throw new InformationException("Invalid User Group");
 		}
 		globalPermissionRepository.save(settings);
 	}
@@ -120,7 +110,7 @@ public class SystemSettingsService {
 			throw new InformationException("User Group already included.");
 		}
 		for (User user : userGroup.getUsers()) {
-			user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
+			user.setGlobalPermissionValue(user.getGlobalPermissionValue() | globalPermission.getAuthority());
 			userRepository.save(user);
 		}
 		settings.getUserGroups().add(userGroup);
@@ -133,17 +123,13 @@ public class SystemSettingsService {
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		User user = userRepository.findById(auth.getEnterprise(), id);
-		if (user == null) {
-			throw new InformationException("Invalid User");
-		}
-		Iterator<User> it = settings.getUsers().iterator();
-		while (it.hasNext()) {
-			if (it.next().equals(user)) {
+		if (settings.getUsers().remove(user)) {
+			if (!globalPermissionRepository.isUserInGroup(auth.getEnterprise(), globalPermission, user)) {
 				user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
 				userRepository.save(user);
-				it.remove();
-				break;
 			}
+		} else {
+			throw new InformationException("Invalid User");
 		}
 		globalPermissionRepository.save(settings);
 	}
@@ -159,6 +145,9 @@ public class SystemSettingsService {
 		}
 		if (settings.getUsers().contains(user)) {
 			throw new InformationException("User already included.");
+		}
+		if (globalPermissionRepository.isUserInGroup(auth.getEnterprise(), globalPermission, user)) {
+			throw new InformationException("User already included in group.");
 		}
 		user.setGlobalPermissionValue(user.getGlobalPermissionValue() | globalPermission.getAuthority());
 		userRepository.save(user);
@@ -184,17 +173,6 @@ public class SystemSettingsService {
 	public List<GlobalPermissionSettings> getGlobalPermissionSettings(EnterpriseAuthentication auth) {
 		List<GlobalPermissionSettings> settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise());
 		for (GlobalPermissionSettings setting : settings) {
-			setting.getUserGroups().size();
-			setting.getUsers().size();
-		}
-		return settings;
-	}
-	
-	@Transactional(readOnly = true)
-	@Cacheable(value = "projectPermissionsCache", key = "#auth.enterprise.id")
-	public List<ProjectPermissionSettings> getProjectPermissionSettings(EnterpriseAuthentication auth) {
-		List<ProjectPermissionSettings> settings = projectPermissionRepository.getProjectPermissionSettings(auth.getEnterprise());
-		for (ProjectPermissionSettings setting : settings) {
 			setting.getUserGroups().size();
 			setting.getUsers().size();
 		}
