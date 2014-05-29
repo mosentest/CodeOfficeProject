@@ -94,7 +94,7 @@ function confirmSubmit(event, message) {
 		return false;
 	}
 }
-function removeSubmit(event, url, message) {
+function remoteSubmit(event, url, message) {
 	if (!confirm(message)) {
 		event.preventDefault();
 		return false;

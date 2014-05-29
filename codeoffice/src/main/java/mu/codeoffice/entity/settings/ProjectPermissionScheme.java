@@ -34,14 +34,20 @@ public class ProjectPermissionScheme implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "creator_id")
 	private User creator;
+
+	@Column(name = "default_schema")
+	private boolean defaultScheme;
 
 	@Column(name = "name")
 	private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "projectPermissionScheme")
+	@Column(name = "description")
+	private String description;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectPermissionScheme")
 	private List<Project> projects;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectPermissionScheme")
@@ -67,6 +73,14 @@ public class ProjectPermissionScheme implements Serializable {
 
 	public User getCreator() {
 		return creator;
+	}
+
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setCreator(User creator) {
@@ -96,6 +110,14 @@ public class ProjectPermissionScheme implements Serializable {
 	public void setProjectPermissionSettings(
 			List<ProjectPermissionSettings> projectPermissionSettings) {
 		this.projectPermissionSettings = projectPermissionSettings;
+	}
+
+	public boolean isDefaultScheme() {
+		return defaultScheme;
+	}
+
+	public void setDefaultScheme(boolean defaultScheme) {
+		this.defaultScheme = defaultScheme;
 	}
 
 }

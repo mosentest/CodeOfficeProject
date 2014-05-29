@@ -18,7 +18,9 @@ import mu.codeoffice.entity.settings.GeneralProjectSettings;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
+import mu.codeoffice.entity.settings.ProjectPermissionScheme;
 import mu.codeoffice.entity.settings.ProjectPermissionSettings;
+import mu.codeoffice.entity.settings.ProjectRole;
 import mu.codeoffice.entity.settings.TimeTrackingSettings;
 import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.EnterpriseRepository;
@@ -35,7 +37,9 @@ import mu.codeoffice.repository.settings.GeneralProjectSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
+import mu.codeoffice.repository.settings.ProjectPermissionSchemeRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
+import mu.codeoffice.repository.settings.ProjectRoleRepository;
 import mu.codeoffice.repository.settings.TimeTrackingSettingsRepository;
 import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.GlobalPermission;
@@ -91,9 +95,15 @@ public class TestService {
 	
 	@Resource
 	private InternationalizationSettingsRepository internationalizationSettingsRepository;
-	
+
 	@Resource
-	private ProjectPermissionSettingsRepository projectPermissionRepository;
+	private ProjectRoleRepository projectRoleRepository;
+
+	@Resource
+	private ProjectPermissionSchemeRepository projectPermissionSchemeRepository;
+
+	@Resource
+	private ProjectPermissionSettingsRepository projectPermissionSettingsRepository;
 	
 	@Resource
 	private TimeTrackingSettingsRepository timeTrackingSettingsRepository;
@@ -169,13 +179,6 @@ public class TestService {
 				globalPermissionSettings.setEnterprise(enterprise);
 				globalPermissionSettings.setGlobalPermission(permission);
 				globalPermissionRepository.save(globalPermissionSettings);
-			}
-			
-			for (ProjectPermission permission : ProjectPermission.values()) {
-				ProjectPermissionSettings projectPermissionSettings = new ProjectPermissionSettings();
-				projectPermissionSettings.setEnterprise(enterprise);
-				projectPermissionSettings.setProjectPermission(permission);
-				projectPermissionRepository.save(projectPermissionSettings);
 			}
 		}
 	}
@@ -253,6 +256,52 @@ public class TestService {
 			u.setPassword("e10adc3949ba59abbe56e057f20f883e");
 			u.setUserGroups(Arrays.asList(group));
 			userRepository.save(u);
+		}
+	}
+	
+	@Transactional
+	public void _5_AddProjectPermissionScheme() {
+		Enterprise enterprise = enterpriseRepository.getOne(1l);
+		User user = userRepository.getOne(30l);
+		
+		ProjectPermissionScheme s1 = new ProjectPermissionScheme();
+		s1.setCreator(user);
+		s1.setEnterprise(enterprise);
+		s1.setName("Scheme 1");
+		projectPermissionSchemeRepository.save(s1);
+		
+		ProjectPermissionScheme s2 = new ProjectPermissionScheme();
+		s2.setCreator(user);
+		s2.setEnterprise(enterprise);
+		s2.setName("Scheme 2");
+		projectPermissionSchemeRepository.save(s2);
+		
+		ProjectRole r1 = new ProjectRole();
+		r1.setName("Administrator");
+		r1.setEnterprise(enterprise);
+		r1.setDescription("Description project role 1");
+		projectRoleRepository.save(r1);
+		
+		ProjectRole r2 = new ProjectRole();
+		r2.setName("Developer");
+		r2.setEnterprise(enterprise);
+		r2.setDescription("Description project role 2");
+		projectRoleRepository.save(r2);
+
+		for (ProjectPermission permission : ProjectPermission.values()) {
+			ProjectPermissionSettings projectPermissionSettings = new ProjectPermissionSettings();
+			projectPermissionSettings.setEnterprise(enterprise);
+			projectPermissionSettings.setProjectPermissionScheme(s1);
+			projectPermissionSettings.setProjectPermission(permission);
+			projectPermissionSettingsRepository.save(projectPermissionSettings);
+		}
+
+		for (ProjectPermission permission : ProjectPermission.values()) {
+			ProjectPermissionSettings projectPermissionSettings = new ProjectPermissionSettings();
+			projectPermissionSettings.setEnterprise(enterprise);
+			projectPermissionSettings.setProjectPermissionScheme(s2);
+			projectPermissionSettings.setProjectPermission(permission);
+			projectPermissionSettingsRepository.save(projectPermissionSettings);
 		}
 	}
 	

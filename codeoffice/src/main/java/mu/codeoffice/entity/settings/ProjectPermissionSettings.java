@@ -103,5 +103,21 @@ public class ProjectPermissionSettings implements Serializable {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+
+	public ProjectPermissionScheme getProjectPermissionScheme() {
+		return projectPermissionScheme;
+	}
+
+	public void setProjectPermissionScheme(ProjectPermissionScheme projectPermissionScheme) {
+		this.projectPermissionScheme = projectPermissionScheme;
+	}
+
+	public List<ProjectRole> getProjectRoles() {
+		return projectRoles;
+	}
+
+	public void setProjectRoles(List<ProjectRole> projectRoles) {
+		this.projectRoles = projectRoles;
+	}
 	
 }

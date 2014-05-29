@@ -93,7 +93,7 @@ public class SystemAdministrationController implements PermissionRequired {
 	@RequestMapping(value = "global/edit", method = RequestMethod.POST)
 	public String globalEdit(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@ModelAttribute("globalSettings") GlobalSettings globalSettings,
-			RedirectAttributes redirectAttributes, ModelMap model) throws AuthenticationException {
+			RedirectAttributes redirectAttributes) throws AuthenticationException {
 		authorize(auth, null, GlobalPermission.ADMIN);
 		try {
 			systemSettingsService.update(auth, globalSettings);
@@ -122,7 +122,7 @@ public class SystemAdministrationController implements PermissionRequired {
 	@RequestMapping(value = "advancedGlobal/edit", method = RequestMethod.POST)
 	public String advancedGlobalEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@ModelAttribute("advancedGlobalSettings") AdvancedGlobalSettings advancedGlobalSettings,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		try {
 			systemSettingsService.update(auth, advancedGlobalSettings);
 			redirectAttributes.addFlashAttribute(TIP, "Advanced global settings has been updated");
@@ -152,7 +152,7 @@ public class SystemAdministrationController implements PermissionRequired {
 	@RequestMapping(value = "internationalization/edit", method = RequestMethod.POST)
 	public String internationalizationEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@ModelAttribute("internationalizationSettings") InternationalizationSettings internationalizationSettings,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		authorize(auth, null, GlobalPermission.ADMIN);
 		try {
 			systemSettingsService.update(auth, internationalizationSettings);
@@ -181,7 +181,7 @@ public class SystemAdministrationController implements PermissionRequired {
 	@RequestMapping(value = "announcement/edit", method = RequestMethod.POST)
 	public String announcementEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@ModelAttribute("announcementSettings") Announcement announcement, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		try {
 			systemSettingsService.update(auth, announcement);
 			redirectAttributes.addFlashAttribute(TIP, "Announcement has been updated");
@@ -203,82 +203,77 @@ public class SystemAdministrationController implements PermissionRequired {
 	public String globalPermissionRemoveGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@PathVariable("globalPermission") GlobalPermission globalPermission,
 			@RequestParam("userGroupName") String userGroupName, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.removeGroup(auth, globalPermission, userGroupName);
 			redirectAttributes.addFlashAttribute(TIP, "Group '" + userGroupName + "' has been removed");
-			return "redirect:/administration/globalPermission.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
-			return "redirect:/administration/globalPermission.html";
 		}
+		return "redirect:/administration/globalPermission.html";
 	}
 	
 	@RequestMapping(value = "globalPermission/{globalPermission}/addGroup", method = RequestMethod.GET)
 	public String globalPermissionAddGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@PathVariable("globalPermission") GlobalPermission globalPermission,
 			@RequestParam("userGroupName") String userGroupName, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.addGroup(auth, globalPermission, userGroupName);
 			redirectAttributes.addFlashAttribute(TIP, "Group '" + userGroupName + "' has been updated");
-			return "redirect:/administration/globalPermission.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
-			return "redirect:/administration/globalPermission.html";
 		}
+		return "redirect:/administration/globalPermission.html";
 	}
 	
 	@RequestMapping(value = "globalPermission/{globalPermission}/addUser", method = RequestMethod.GET)
 	public String globalPermissionAddUser(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("id") Long id,  @PathVariable("globalPermission") GlobalPermission globalPermission,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.addUser(auth, globalPermission, id);
 			redirectAttributes.addFlashAttribute(TIP, "Permission '" + globalPermission + "' has been updated");
-			return "redirect:/administration/globalPermission.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
-			return "redirect:/administration/globalPermission.html";
 		}
+		return "redirect:/administration/globalPermission.html";
 	}
 		
 	@RequestMapping(value = "globalPermission/{globalPermission}/removeUser", method = RequestMethod.GET)
 	public String globalPermissionRemoveUser(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("id") Long id,  @PathVariable("globalPermission") GlobalPermission globalPermission,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.removeUser(auth, globalPermission, id);
 			redirectAttributes.addFlashAttribute(TIP, "Permission '" + globalPermission + "' has been updated");
-			return "redirect:/administration/globalPermission.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
-			return "redirect:/administration/globalPermission.html";
 		}
+		return "redirect:/administration/globalPermission.html";
 	}
 	
 	@RequestMapping(value = "globalPermission/{globalPermission}/reset", method = RequestMethod.GET)
 	public String globalPermissionReset(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@PathVariable("globalPermission") GlobalPermission globalPermission,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.reset(auth, globalPermission);
 			redirectAttributes.addFlashAttribute(TIP, "Permission '" + globalPermission + "' has been reset.");
-			return "redirect:/administration/globalPermission.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
-			return "redirect:/administration/globalPermission.html";
 		}
+		return "redirect:/administration/globalPermission.html";
 	}
 	
 	@RequestMapping(value = "globalPermission/{globalPermission}/availableGroups", method = RequestMethod.GET)
 	public @ResponseBody List<UserGroupJSON> getGlobalAvailableUserGroups(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("globalPermission") GlobalPermission globalPermission, ModelMap model) {
+			@PathVariable("globalPermission") GlobalPermission globalPermission) {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		List<UserGroup> userGroups = systemSettingsService.getGlobalAvailableUserGroups(auth, globalPermission);
 		List<UserGroupJSON> jsonList = new ArrayList<>();
@@ -291,7 +286,7 @@ public class SystemAdministrationController implements PermissionRequired {
 	@RequestMapping(value = "globalPermission/{globalPermission}/availableUsers", method = RequestMethod.GET)
 	public @ResponseBody List<UserJSON> getGlobalAvailableUsers(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@PathVariable("globalPermission") GlobalPermission globalPermission, 
-			@RequestParam("search") String search, ModelMap model) {
+			@RequestParam("search") String search) {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		Page<User> users = systemSettingsService.getGlobalAvailableUsers(auth, globalPermission, search);
 		List<UserJSON> jsonList = new ArrayList<>();

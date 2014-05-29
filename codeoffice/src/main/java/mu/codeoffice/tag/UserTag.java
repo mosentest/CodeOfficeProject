@@ -18,9 +18,9 @@ public class UserTag extends SimpleTagSupport {
 	
 	private boolean showSpace = true;
 	
-	private int width = 36;
+	private int width = 24;
 	
-	private int height = 36;
+	private int height = 24;
 	
 	@Override
 	public void doTag() throws JspException, IOException {

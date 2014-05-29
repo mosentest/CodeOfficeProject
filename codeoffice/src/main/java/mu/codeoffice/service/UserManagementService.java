@@ -44,6 +44,9 @@ public class UserManagementService {
 		if (userGroup == null) {
 			throw new EnterpriseAuthenticationException("Access Denied.");
 		}
+		if (userGroup.isDefaultGroup()) {
+			throw new InformationException("Can not update default Group");
+		}
 		if (userGroup.getUsers() == null) {
 			userGroup.setUsers(new ArrayList<>());
 		}
@@ -103,6 +106,9 @@ public class UserManagementService {
 	@Transactional
 	public void deleteUserGroup(EnterpriseAuthentication auth, String userGroupName) throws AuthenticationException, InformationException {
 		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		if (userGroup.isDefaultGroup()) {
+			throw new InformationException("Can not delete default Group");
+		}
 		userGroupRepository.delete(userGroup);
 	}
 	
