@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <div id="leftmenu">
-<ul class="vertical-tab">
+<ul class="vertical-navigation">
 <security:authorize access="isAuthenticated()">
 	<li class="tab-title"><spring:message code="administration.issue.title.issueTypes"/></li>
 	<li class="tab ${param.menu eq 'issueType' ? 'active' : ''}"><a class="link" href="administration/issueType.html"><spring:message code="administration.issue.issueType"/></a></li>

@@ -154,11 +154,6 @@
 .link:active {
 	color: #205081;
 }
-.full-link {
-	display: block;
-	width: 100%;
-	height: 100%;
-}
 .link:hover {
 	color: #0B76F0;
 }
@@ -216,7 +211,7 @@
 	padding: 5px;
 	width: 82%;
 }
-.vertical-tab .tab-title {
+.vertical-navigation .tab-title {
 	border-top: 1px solid #e5e5e5;
 	padding: 3px 10px 10px 10px;
 	line-height: 25px;
@@ -224,59 +219,66 @@
 	color: #333333;
 	font-weight: bold;
 }
-.vertical-tab .tab {
+.vertical-navigation .tab {
 	padding: 3px 10px 5px 10px;
 	line-height: 20px;
 }
-.vertical-tab .tab a {
+.vertical-navigation .tab a {
 	display: block;
 }
-.vertical-tab .tab:hover {
+.vertical-navigation .tab:hover {
 	background-color: #e6e6e6;
 	cursor: pointer;
 }
-.vertical-tab .tab:active {
+.vertical-navigation .tab:active {
 	background-color: #205081;
 	color: white !important;
 }
-.vertical-tab .active a {
+.vertical-navigation .active a {
 	color: black !important;
 	font-weight: bold;
 }
-.vertical-tab .active a:active {
+.vertical-navigation .active a:active {
 	color: white !important;
 	font-weight: bold;
 }
-.vertical-tab .empty-tab {
+.vertical-navigation .empty-tab {
 	height: 20px;
 }
-.vertical-tab li a:hover, .vertical-tab li a:active, .vertical-tab .active a:hover, .vertical-tab .active a:active {
+.vertical-navigation li a:hover, .vertical-navigation li a:active, .vertical-navigation .active a:hover, .vertical-navigation .active a:active {
 	color: inherit !important;
 }
-.horizontal-tab {
-	margin-left: 30px;
-}
-.horizontal-tab li {
-	display: inline;
-}
-.horizontal-tab li a, .horizontal-tab .active a {
-	display: block;
-	cursor: pointer;
-	border: 1px solid #cccccc;
-	float: left;
-	padding: 5px 12px;
-}
-.horizontal-tab .active a {
-	background-color: #205081 !important;
-	color: white !important;
-	border: 1px solid #205081;
-}
-.tab-content {
-	float: left;
-	border-top: 1px solid #cccccc;
+#sub-menu {
+	background-color: #f5f5f5;
 	width: 100%;
-	padding-top: 10px;
-	color: #333333;
+	border-bottom: 1px solid #cccccc;
+	font-size: 16px;
+}
+.horizontal-navigation {
+	margin-left: 30px;
+	background-color: #f5f5f5;
+}
+.horizontal-navigation li {
+	display: inline-block;
+	cursor: pointer;
+	float: left;
+}
+.horizontal-navigation li a {
+	padding: 9px 15px;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.horizontal-navigation .selected a {
+	color: black !important;
+	font-weight: bold;
+}
+.horizontal-navigation li:hover {
+	background-color: #e5e5e5;
+	color: #205081 !important;
+}
+.horizontal-navigation a:hover {
+	color: #205081;
 }
 #title {
 	margin: 0px auto;
@@ -318,25 +320,38 @@
 	float: left;
 	margin: 10px;
 }
+.panel-content {
+	background-color: #f5f5f5;
+	padding: 50px 0px 50px;
+	-webkit-box-sizing: border-box;
+}
+.panel-element {
+	-webkit-box-sizing: border-box;
+	padding: 20px 10px;
+	margin: 0px auto;
+	width: 600px;
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+	background-color: #ffffff;
+}
 .sub-element {
 	border: none;
 }
-.sub-element .sub-element-info {
+.sub-element-info, .panel-element-info {
 	border-bottom: 1px solid #E5E5E5;
 	padding: 5px 10px;
 	-webkit-box-sizing: border-box;
-	color: #333333;
 }
-.sub-element-title, .element-block-title {
+.sub-element-title, .element-block-title, .panel-element-title {
 	font-family: "codeoffice-title", sans-serif;
 	font-size: 20px;
 }
-.sub-element .sub-element-description {
+.sub-element .sub-element-description, .panel-element-description {
 	font-size: 14px;
 	padding-left: 10px;
 	-webkit-box-sizing: border-box;
 }
-.sub-element-content .element-block-content {
+.sub-element-content .element-block-content, .panel-element-content {
 	border: none;
 	width: 98%;
 	margin: 0px auto;
@@ -345,26 +360,26 @@
 	border: 1px solid #E5E5E5;
 	background-color: #FDFDFD;
 }
-.element > .info {
+.element-info {
 	background-color: #f5f5f5;
 	font-size: 14px;
 	width: 100%;
 	border-bottom: 1px solid #cccccc;
 	padding: 2px 10px;
 }
-.element > .title {
+.element-title {
 	color: #FFFFFF;
 	background-color: #3774B9;
 	font-size: 16px;
 	padding: 10px 6px;
 }
-.element .content {
+.element-content {
 }
 .form-table {
 	border-spacing: 0px;
     border-collapse: collapse;
 	font-size: 16px;
-	color: #333;
+	width: 100%;
 }
 .form-title-row, .key-value-title-row {
 	font-weight: bold;
@@ -464,7 +479,6 @@
 	font-weight: bold;
 }
 .list-table {
-	color: #333333;
 	width: 100%; 
 	border-collapse: collapse; 
 	border-spacing: 0px;
@@ -603,7 +617,7 @@
 }
 .info-element-error {
 	background-color: #fffdf6;
-	color: #333;
+	color: #333333;
 	border-color: #d04437;
 }
 .info-element-alert {
@@ -663,26 +677,6 @@
 }
 .toggle-on a, .toggle-off a {
 	color: white;
-}
-#sub-menu {
-	margin: 0px auto;
-	background-color: #f5f5f5;
-	width: 100%;
-	border-bottom: 1px solid #cccccc;
-	padding: 5px 10px;
-	font-size: 16px;
-	-webkit-box-sizing: border-box;
-}
-.sub-menu-link {
-	float: left;
-	padding: 0px 10px;
-}
-.sub-menu-link .active {
-	color: black;
-	font-weight: bold;
-}
-.sub-menu-link a {
-	
 }
 .plain-label, .closable-label {
 	font-weight: normal;

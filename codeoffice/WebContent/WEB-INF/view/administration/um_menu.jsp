@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <div id="leftmenu">
-<ul class="vertical-tab">
+<ul class="vertical-navigation">
 <security:authorize access="isAuthenticated()">
 	<li class="tab-title"><spring:message code="administration.um.title.general"/></li>
 	<security:authorize access="hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')">

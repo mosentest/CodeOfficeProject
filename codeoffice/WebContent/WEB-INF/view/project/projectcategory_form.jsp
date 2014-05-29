@@ -13,7 +13,7 @@
 		<div class="info"><spring:message code="project.home"/></div>
 		<div class="content">
 			<div class="leftmenu">
-				<ul class="vertical-tab">
+				<ul class="vertical-navigation">
 					<li class="tab"><a href="enterprise/project"><spring:message code="project.home"/></a></li>
 					<security:authorize access="hasAnyRole('ROLE_MANAGER', 'ROLE_PROJECT_MANAGER', 'ROLE_ADMIN')">
 						<li class="tab ${edit ? '' : 'active'}">

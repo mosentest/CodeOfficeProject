@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <div class="leftmenu">
-	<ul class="vertical-tab">
+	<ul class="vertical-navigation">
 		<li class="tab ${param.menu eq 'home' ? 'active' : ''}"><a href="enterprise/project"><spring:message code="project.home"/></a></li>
 		<li class="tab ${param.menu eq 'projectcategories' ? 'active' : ''}"><a href="enterprise/category"><spring:message code="category.project_categories"/></a></li>
 		<li class="empty-tab"></li>

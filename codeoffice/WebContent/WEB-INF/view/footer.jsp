@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 </body>
 <footer>
-<div id="footer">
+<div id="footer" class="${param.cssClass}">
 	<div id="copyright">
 	<spring:message code="application.copyright"/>
 	<br />
@@ -11,7 +11,7 @@
 	<br />
 	<br />
 	<br />
-	<img src="assets/img/core/icon-enterprise.png"/>
+	<a id="footer-logo" href="/">&nbsp;</a>
 	</div>
 </div>
 </footer>

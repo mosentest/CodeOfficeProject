@@ -25,7 +25,6 @@
 						var select = $("select[name='userGroupName']");
 						$("select[name='userGroupName'] option").remove();
 						$.each(data, function(key, value) {
-							console.log(value);
 							select.append($("<option></option>").attr('value', value.name).text(value.name));
 						});
 					}

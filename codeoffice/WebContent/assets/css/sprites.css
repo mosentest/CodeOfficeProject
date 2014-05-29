@@ -22,3 +22,8 @@
 	background-position: center;
 	display: inline-block;
 }
+.icon-hirozontal-navigation {
+	background-image: url('../img/core/icon-horizontal-navigation.png');
+	background-repeat:no-repeat;
+	background-position: bottom;
+}
