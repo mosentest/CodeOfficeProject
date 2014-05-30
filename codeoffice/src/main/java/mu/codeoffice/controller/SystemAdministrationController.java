@@ -12,6 +12,7 @@ import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
+import mu.codeoffice.enums.AnnouncementLevel;
 import mu.codeoffice.enums.CommentVisibility;
 import mu.codeoffice.enums.EmailVisibility;
 import mu.codeoffice.json.UserGroupJSON;
@@ -177,6 +178,7 @@ public class SystemAdministrationController implements PermissionRequired {
 	public ModelAndView announcementEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("announcementSettings", systemSettingsService.getAnnouncement(auth));
+		model.put("announcementLevels", AnnouncementLevel.values());
 		return new ModelAndView("administration/system_announcement_form", model);
 	}
 

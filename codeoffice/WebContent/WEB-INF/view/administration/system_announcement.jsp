@@ -36,6 +36,10 @@
 						<td class="form-input-col">${announcementSettings.announcement}</td>
 					</tr>
 					<tr>
+						<td class="form-label-col"><spring:message code="administration.announcement.announcementLevel"/>:</td>
+						<td class="form-input-col"><spring:message code="${announcementSettings.announcementLevel.key}"/></td>
+					</tr>
+					<tr>
 						<td class="form-label-col"><spring:message code="administration.announcement.enablePublicMode"/>:</td>
 						<td class="form-input-col"><code:toggle value="${announcementSettings.enablePublicMode}"/></td>
 					</tr>

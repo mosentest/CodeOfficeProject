@@ -14,6 +14,7 @@ import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
+import mu.codeoffice.enums.AnnouncementLevel;
 import mu.codeoffice.repository.UserRepository;
 import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
@@ -186,6 +187,9 @@ public class SystemSettingsService {
 		Announcement settings = announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
 		if (!settings.getId().equals(announcement.getId())) {
 			throw new EnterpriseAuthenticationException("Access Denied.");
+		}
+		if (announcement.getAnnouncementLevel() == null) {
+			announcement.setAnnouncementLevel(AnnouncementLevel.INFO);
 		}
 		announcement.setEnterprise(auth.getEnterprise());
 		announcementRepository.save(announcement);

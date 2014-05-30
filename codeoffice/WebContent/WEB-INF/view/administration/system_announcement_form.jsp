@@ -38,6 +38,16 @@
 							<td class="form-input-col" colspan="2"><form:textarea path="announcement" cols="30" rows="3"/></td>
 						</tr>
 						<tr>
+							<td class="form-label-col"><spring:message code="administration.announcement.announcement"/>:</td>
+							<td class="form-input-col" colspan="2">
+								<form:select path="announcementLevel">
+									<c:forEach items="${announcementLevels}" var="level">
+										<option value="${level}" ${level eq announcementSettings.announcementLevel ? 'selected=selected' : ''} ><spring:message code="${level.key}"/></option>
+									</c:forEach>
+								</form:select>
+							</td>
+						</tr>
+						<tr>
 							<td class="form-label-col"><spring:message code="administration.announcement.enablePublicMode"/>:</td>
 							<td class="form-input-col"><code:toggle value="${announcementSettings.enablePublicMode}" path="enablePublicMode"/></td>
 						</tr>

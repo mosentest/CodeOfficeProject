@@ -5,6 +5,8 @@ import java.util.Properties;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import mu.codeoffice.entity.Enterprise;
+import mu.codeoffice.enums.AnnouncementLevel;
 
 @Entity
 @Table(name = "settings_announcement")
@@ -35,13 +38,19 @@ public class Announcement implements Serializable, SettingsEntity, GlobalSession
 	@Column(name = "enable_public_mode")
 	private boolean enablePublicMode;
 
+	@Column(name = "announcement_level")
+	@Enumerated(EnumType.STRING)
+	private AnnouncementLevel announcementLevel;
+
 	@Column(name = "enabled")
 	private boolean enabled;
 	
 	public Announcement() {}
 
 	@Override
-	public void setDefaultSettings(Properties properties) {}
+	public void setDefaultSettings(Properties properties) {
+		announcementLevel = AnnouncementLevel.valueOf(properties.getProperty("settings.announcement.default.announcementLevel"));
+	}
 
 	@Override
 	public String getSessionAttrKey() {
@@ -86,6 +95,14 @@ public class Announcement implements Serializable, SettingsEntity, GlobalSession
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public AnnouncementLevel getAnnouncementLevel() {
+		return announcementLevel;
+	}
+
+	public void setAnnouncementLevel(AnnouncementLevel announcementLevel) {
+		this.announcementLevel = announcementLevel;
 	}
 	
 }
