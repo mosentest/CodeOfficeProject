@@ -176,8 +176,8 @@
 				invalidate-session="true" 
 				logout-success-url="/login.html" 
 				logout-url="/logout.html"/>
-		<security:session-management invalid-session-url="/timeout" >
-			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+		<security:session-management invalid-session-url="/login.html" session-fixation-protection="none">
+			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/login.html?error=expired"/>
 		</security:session-management>
 	
 	</security:http>

@@ -11,7 +11,10 @@
 			<form action="<c:url value='j_spring_security_check'/>" method="POST">
 				<table class="form-table">
 					<tr>
-						<td colspan="2" class="errorMessage">${error}</td>
+						<td colspan="2" class="errorMessage">
+							<c:if test="${error eq 'expired'}"><spring:message code="application.sessionExpired"/></c:if>
+							<c:if test="${error eq 'invalid'}"><spring:message code="application.invalidSession"/></c:if>
+						</td>
 					</tr>
 					<tr>
 						<td><label for="account">Account/Email</label></td>
