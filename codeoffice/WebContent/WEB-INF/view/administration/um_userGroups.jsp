@@ -12,7 +12,6 @@
 		<jsp:param name="menu" value="user"/>
 	</jsp:include>
 </div>
-<spring:message var="text_project_permissions" code="administration.um.group.projectPermissions"/>
 <spring:message var="text_edit_members" code="administration.um.group.editMembers"/>
 <spring:message var="text_delete" code="application.delete"/>
 <div id="content">
@@ -74,21 +73,20 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="list-content">
-					<c:if test="${userGroupPage.totalElements eq 0}"><spring:message code="administration.um.no_group_to_display"/></c:if>
-					<c:if test="${userGroupPage.totalElements gt 0}">
 					<form action="administration/users.html" method="GET">
 						<input type="hidden" id="pageIndex" name="pageIndex" value="${pageIndex}"/>
 						<c:if test="${not empty pageSize}"><input type="hidden" name="pageSize" value="${pageSize}"/></c:if>
 						<c:if test="${not empty name}"><input type="hidden" name="name" value="${name}"/></c:if>
 						<table class="list-table">
 							<tr class="list-table-page">
-								<td colspan="5"><code:formPage page="${userGroupPage}"/></td>
+								<td colspan="6"><code:formPage page="${userGroupPage}"/></td>
 							</tr>
 							<tr class="list-table-header">
 								<td><spring:message code="administration.um.group.name"/></td>
 								<td><spring:message code="administration.um.group.description"/></td>
 								<td><spring:message code="administration.um.group.userCount"/></td>
 								<td><spring:message code="administration.um.group.globalPermissions"/></td>
+								<td><spring:message code="administration.um.group.permissionSchemes"/></td>
 								<td><spring:message code="administration.um.group.operations"/></td>
 							</tr>
 							<c:forEach items="${userGroupPage.content}" var="userGroup">
@@ -104,10 +102,15 @@
 									</ul>
 								</td>
 								<td>
-									<a class="link" href="#">${text_project_permissions}</a>
+									<ul class="info-ul-list">
+										<c:forEach items="${userGroup.projectPermissionSchemes}" var="scheme">
+											<li><a class="link" href="administration/permissionScheme/${scheme.name}.html">${scheme.name}</a></li>
+										</c:forEach>
+									</ul>
+								</td>
+								<td>
 									<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 									<c:if test="${not userGroup.defaultGroup}">
-										<span class="minorspace">&#183;</span>
 										<a class="link" href="administration/userGroup/manage/${userGroup.name}.html">${text_edit_members}</a><span class="minorspace">&#183;</span>
 										<a class="link" href="javascript:remoteSubmit(event, 'administration/userGroup/${userGroup.name}/delete', 'Delete?');">${text_delete}</a>
 									</c:if>
@@ -117,7 +120,6 @@
 							</c:forEach>
 						</table>
 					</form>
-					</c:if>
 				</div>
 			</div>
 		</div>

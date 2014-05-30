@@ -2,6 +2,7 @@ package mu.codeoffice.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -14,8 +15,9 @@ import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
 import mu.codeoffice.security.Permission;
-import mu.codeoffice.service.UserService;
+import mu.codeoffice.security.SessionObject;
 import mu.codeoffice.service.UserManagementService;
+import mu.codeoffice.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -75,7 +77,7 @@ public class UserManagementAdminitrationController implements PermissionRequired
 
 	@RequestMapping(value = "users.html", method = RequestMethod.GET)
 	public ModelAndView usersView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model, 
-			@RequestParam(value = "pageIndex", required = false) Integer pageIndex, 
+			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
 			@RequestParam(value = "pageSize", required = false) Integer pageSize,
 			@RequestParam(value = "groupFilter", required = false) Long groupFilter,
 			@RequestParam(value = "sort", required = false) String sort,
@@ -96,7 +98,7 @@ public class UserManagementAdminitrationController implements PermissionRequired
 
 	@RequestMapping(value = "userGroups.html", method = RequestMethod.GET)
 	public ModelAndView userGroupView(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam(value = "pageIndex", required = false) Integer pageIndex, 
+			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
 			@RequestParam(value = "pageSize", required = false) Integer pageSize,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "sort", required = false) String sort,
@@ -116,7 +118,7 @@ public class UserManagementAdminitrationController implements PermissionRequired
 	@RequestMapping(value = "userGroup/{userGroupName}.html", method = RequestMethod.GET)
 	public ModelAndView userGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@PathVariable("userGroupName") String userGroupName,
-			@RequestParam(value = "pageIndex", required = false) Integer pageIndex, 
+			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
 			ModelMap model)
 			throws AuthenticationException {
 		authorize(auth, null, GlobalPermission.BROWSE_USER);
@@ -201,10 +203,32 @@ public class UserManagementAdminitrationController implements PermissionRequired
 		return jsonList;
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "userSessions.html", method = RequestMethod.GET)
-	public ModelAndView userSessionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model)
+	public ModelAndView userSessionView(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex,
+			@RequestParam(value = "pageSize", required = false, defaultValue = "30") Integer pageSize, 
+			@RequestParam(value = "name", required = false) String name, 
+			ModelMap model)
 			throws AuthenticationException {
 		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
+		int offset = (pageIndex == 0 || pageSize == 0) ? 0 :pageIndex * pageSize;
+		Map<Long, SessionObject> sessionMap = (Map<Long, SessionObject>) servletContext.getAttribute(auth.getEnterprise().getCode() + "_SESSIONS");
+		List<SessionObject> filtered = new ArrayList<>();
+		int i = 0;
+		for (Map.Entry<Long, SessionObject> entry : sessionMap.entrySet()) {
+			boolean valid = (name == null || entry.getValue().getUser().getFullName().contains(name));
+			if (valid) {
+				if (i >= offset) {
+					filtered.add(entry.getValue());
+					if (filtered.size() == pageSize) {
+						break;
+					}
+				}
+				i++;
+			}
+		}
+		model.put("userSessions", filtered);
 		return new ModelAndView("administration/um_userSessions", model);
 	}
 

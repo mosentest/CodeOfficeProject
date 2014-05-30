@@ -98,6 +98,7 @@ public class SystemAdministrationController implements PermissionRequired {
 		try {
 			systemSettingsService.update(auth, globalSettings);
 			redirectAttributes.addFlashAttribute(TIP, "Global settings has been updated");
+			servletContext.setAttribute(globalSettings.getSessionAttrKey(), globalSettings);
 			return "redirect:/administration/global.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
@@ -126,6 +127,7 @@ public class SystemAdministrationController implements PermissionRequired {
 		try {
 			systemSettingsService.update(auth, advancedGlobalSettings);
 			redirectAttributes.addFlashAttribute(TIP, "Advanced global settings has been updated");
+			servletContext.setAttribute(advancedGlobalSettings.getSessionAttrKey(), advancedGlobalSettings);
 			return "redirect:/administration/advancedGlobal.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
@@ -185,6 +187,7 @@ public class SystemAdministrationController implements PermissionRequired {
 		try {
 			systemSettingsService.update(auth, announcement);
 			redirectAttributes.addFlashAttribute(TIP, "Announcement has been updated");
+			servletContext.setAttribute(announcement.getSessionAttrKey(), announcement);
 			return "redirect:/administration/announcement.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());

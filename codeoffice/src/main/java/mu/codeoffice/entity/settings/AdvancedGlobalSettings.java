@@ -17,7 +17,7 @@ import mu.codeoffice.entity.Enterprise;
 
 @Entity
 @Table(name = "settings_advanced_global")
-public class AdvancedGlobalSettings implements SettingsEntity, Serializable {
+public class AdvancedGlobalSettings implements SettingsEntity, Serializable, GlobalSessionObject {
 	
 	private static final long serialVersionUID = 727855077877535985L;
 
@@ -25,7 +25,7 @@ public class AdvancedGlobalSettings implements SettingsEntity, Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
@@ -77,6 +77,11 @@ public class AdvancedGlobalSettings implements SettingsEntity, Serializable {
 		autocompleteMaxResults = Integer.parseInt(properties.getProperty("settings.globaladvanced.default.autocompleteMaxResults"));
 		activityStreamMaxResults = Integer.parseInt(properties.getProperty("settings.globaladvanced.default.activityStreamMaxResults"));
 		issueStreamMaxResults = Integer.parseInt(properties.getProperty("settings.globaladvanced.default.issueStreamMaxResults"));
+	}
+	
+	@Override
+	public String getSessionAttrKey() {
+		return enterprise.getCode() + "_ADVANCEDGLOBAL";
 	}
 
 	public Long getId() {

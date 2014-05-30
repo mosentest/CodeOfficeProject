@@ -29,8 +29,6 @@ public class UserService {
 				pageSpecification(pageIndex, pageSize, sort(ascending, User.getSortColumn(sort))));
 		for (User user : users) {
 			if (userGroup != null) { user.getUserGroups().size(); }
-			if (globalPermission != null) { user.getProjectPermissions().size(); }
-			if (projectPermission != null) { user.getProjectPermissions().size(); }
 		}
 		return users;
 	}

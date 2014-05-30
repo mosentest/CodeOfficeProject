@@ -151,6 +151,7 @@
 					</div>
 					<div class="clearfix"></div>
 				</div>
+				related projects
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="administration.um.globalpermission.permission"/></td>
@@ -159,10 +160,10 @@
 						<td><spring:message code="administration.um.globalpermission.operations"/></td>
 					</tr>
 					<c:forEach items="${globalPermissionSettings}" var="permission">
-					<tr class="list-table-item" id="${permission.globalPermission}">
-						<c:set var="description">${permission.globalPermission.key}.description</c:set>
+					<tr class="list-table-item" id="${permission.projectPermission}">
+						<c:set var="description">${permission.projectPermission.key}.description</c:set>
 						<td>
-							<span class="title-info"><spring:message code="${permission.globalPermission.key}"/></span><br/>
+							<span class="title-info"><spring:message code="${permission.projectPermission.key}"/></span><br/>
 							<span class="description-info"><spring:message code="${description}"/></span></td>
 						<td>
 							<ul class="info-ul-list">
@@ -184,7 +185,7 @@
 								</c:forEach>
 							</ul>
 						</td>
-						<td><a class="link" href="administration/globalPermission/${permission.globalPermission}/reset">${text_reset}</a>	</td>
+						<td><a class="link" href="administration/globalPermission/${permission.globalPermission}/reset">${text_reset}</a></td>
 					</tr>
 					</c:forEach>
 				</table>

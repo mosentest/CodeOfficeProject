@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,6 +21,7 @@ import javax.persistence.UniqueConstraint;
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.User;
+import mu.codeoffice.entity.UserGroup;
 
 @Entity
 @Table(name = "projectpermission_scheme", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
@@ -52,6 +55,12 @@ public class ProjectPermissionScheme implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectPermissionScheme")
 	private List<ProjectPermissionSettings> projectPermissionSettings;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "projecpermission_scheme_usergroup", uniqueConstraints = @UniqueConstraint(columnNames = {"projecpermission_scheme_id", "usergroup_id"}),
+        joinColumns = @JoinColumn(name = "projecpermission_scheme_id", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"))
+	private List<UserGroup> userGroups;
     
     public ProjectPermissionScheme() {}
 
@@ -118,6 +127,14 @@ public class ProjectPermissionScheme implements Serializable {
 
 	public void setDefaultScheme(boolean defaultScheme) {
 		this.defaultScheme = defaultScheme;
+	}
+
+	public List<UserGroup> getUserGroups() {
+		return userGroups;
+	}
+
+	public void setUserGroups(List<UserGroup> userGroups) {
+		this.userGroups = userGroups;
 	}
 
 }

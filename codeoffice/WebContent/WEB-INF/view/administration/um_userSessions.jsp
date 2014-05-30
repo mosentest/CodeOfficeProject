@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.enterprise_administration"/></div>
 <div id="sub-menu">
@@ -20,6 +22,29 @@
 				<div class="sub-element-description">View and Manage User Sessions</div>
 			</div>
 			<div class="sub-element-content">
+				<table class="list-table">
+					<tr class="list-table-page">
+						<td colspan="6">showing n items</td>
+					</tr>
+					<tr class="list-table-header">
+						<td><spring:message code="administration.um.session.id"/></td>
+						<td><spring:message code="administration.um.session.user"/></td>
+						<td><spring:message code="administration.um.session.ip"/></td>
+						<td><spring:message code="administration.um.session.requests"/></td>
+						<td><spring:message code="administration.um.session.lastAccess"/></td>
+						<td><spring:message code="administration.um.session.sessionCreation"/></td>
+					</tr>
+					<c:forEach items="${userSessions}" var="userSession">
+					<tr class="list-table-item">
+						<td>${userSession.sessionID}</td>
+						<td><code:user user="${userSession.user}"/></td>
+						<td>${userSession.ip}</td>
+						<td>${userSession.requests}</td>
+						<td><fmt:formatDate value="${userSession.access}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><fmt:formatDate value="${userSession.create}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					</tr>
+					</c:forEach>
+				</table>
 			</div>
 		</div>
 	</div>

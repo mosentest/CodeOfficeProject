@@ -208,7 +208,6 @@ public class TestService {
 			main.setLogin(new Date());
 			main.setPhone("");
 			main.setGlobalPermissionValue(-1);
-			main.setProjectPermissionValue(-1);
 			main.setPassword("e10adc3949ba59abbe56e057f20f883e");
 			userRepository.save(main);
 			group.getUsers().add(main);
@@ -226,7 +225,6 @@ public class TestService {
 				u.setLogin(new Date());
 				u.setPhone("");
 				u.setGlobalPermissionValue(1);
-				u.setProjectPermissionValue(1);
 				u.setPassword("e10adc3949ba59abbe56e057f20f883e");
 				userRepository.save(u);
 				group.getUsers().add(u);
@@ -252,7 +250,6 @@ public class TestService {
 			u.setLogin(new Date());
 			u.setPhone("");
 			u.setGlobalPermissionValue(1);
-			u.setProjectPermissionValue(1);
 			u.setPassword("e10adc3949ba59abbe56e057f20f883e");
 			u.setUserGroups(Arrays.asList(group));
 			userRepository.save(u);

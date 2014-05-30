@@ -51,22 +51,6 @@ function gotoPage(element, pageIndex) {
 	$(element).closest('form').find("input[name='pageIndex']").val(pageIndex);
 	$(element).closest('form').submit();
 }
-function postDelete(url) {
-	if (confirm('delete?')) {
-		$.post(url, function(data, status) {
-			location.reload();
-		}); 
-	} else {
-		return false;
-	}
-}
-function del(url) {
-	if (confirm('delete?')) {
-		url(url);
-	} else {
-		return false;
-	}
-}
 function submitForm(element) {
 	var form = $(element).closest('form');
 	form.find('input').each(function() {

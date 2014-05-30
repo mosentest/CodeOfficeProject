@@ -26,7 +26,7 @@
 				<div class="sub-element-title">${userGroup.name}
 				<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 				<c:if test="${not userGroup.defaultGroup}">
-					<form class="inline-form" action="/administration/userGroup/${userGroup.name}/delete" method="POST">
+					<form class="inline-form" action="administration/userGroup/${userGroup.name}/delete" method="POST">
 					<input type="submit" onclick="javascript:confirmSubmit(event, 'Delete?');" class="button" value="<spring:message code="application.delete"/>"/>
 					</form>
 				</c:if>
@@ -60,19 +60,18 @@
 					</tr>
 					</c:if>
 					<tr class="form-title-row">
-						<td><spring:message code="administration.um.group.PROJECTPERMISSONS"/></td>
-						<c:if test="${fn:length(userGroup.projectPermissions) eq 0}">
+						<td><spring:message code="administration.um.group.PERMISSIONSCHEMES"/></td>
+						<c:if test="${fn:length(userGroup.projectPermissionSchemes) eq 0}">
 						<td><spring:message code="application.none"/></td>
 						</c:if>
 					</tr>
-					<c:if test="${fn:length(userGroup.projectPermissions) gt 0 }">
+					<c:if test="${fn:length(userGroup.projectPermissionSchemes) gt 0 }">
 					<tr>
 						<td class="form-label-col"></td>
 						<td class="form-input-col">
 							<ul class="info-ul-list">
-							<c:forEach items="${userGroup.projectPermissions}" var="permission">
-								<li><a class="link" href="administration/projectPermissions.html#${permission.projectPermission}">
-									<spring:message code="${permission.projectPermission.key}"/></a></li>
+							<c:forEach items="${userGroup.projectPermissionSchemes}" var="scheme">
+								<li><a class="link" href="administration/permissionScheme/${scheme.name}.html">${scheme.name}</a></li>
 							</c:forEach>
 							</ul>
 						</td>

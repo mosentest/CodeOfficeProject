@@ -21,7 +21,6 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
-import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.json.JSONSerializable;
 import mu.codeoffice.json.UserJSON;
 
@@ -83,14 +82,8 @@ public class User implements Serializable, JSONSerializable<User> {
     @Column(name = "global_permission_value")
     private int globalPermissionValue;
 
-    @Column(name = "project_permission_value")
-    private int projectPermissionValue;
-
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private List<GlobalPermissionSettings> globalPermissions;
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	private List<ProjectPermissionSettings> projectPermissions;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private List<UserGroup> userGroups;
@@ -275,22 +268,6 @@ public class User implements Serializable, JSONSerializable<User> {
 
 	public void setWatching(List<Issue> watching) {
 		this.watching = watching;
-	}
-
-	public int getProjectPermissionValue() {
-		return projectPermissionValue;
-	}
-
-	public void setProjectPermissionValue(int projectPermissionValue) {
-		this.projectPermissionValue = projectPermissionValue;
-	}
-
-	public List<ProjectPermissionSettings> getProjectPermissions() {
-		return projectPermissions;
-	}
-
-	public void setProjectPermissions(List<ProjectPermissionSettings> projectPermissions) {
-		this.projectPermissions = projectPermissions;
 	}
 	
 }

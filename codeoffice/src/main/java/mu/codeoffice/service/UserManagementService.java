@@ -85,7 +85,6 @@ public class UserManagementService {
 		userGroup.setId(null);
 		userGroup.setEnterprise(auth.getEnterprise());
 		userGroup.setGlobalPermissions(null);
-		userGroup.setProjectPermissions(null);
 		userGroup.setUserCount(0);
 		userGroup.setDefaultGroup(false);
 		userGroupRepository.save(userGroup);
@@ -99,7 +98,7 @@ public class UserManagementService {
 		}
 		userGroup.getUsers().size();
 		userGroup.getGlobalPermissions().size();
-		userGroup.getProjectPermissions().size();
+		userGroup.getProjectPermissionSchemes().size();
 		return userGroup;
 	}
 	
@@ -157,6 +156,7 @@ public class UserManagementService {
 				pageSpecification(pageIndex, pageSize, sort(false, UserGroup.getSortColumn(sort))));
 		for (UserGroup userGroup : userGroups.getContent()) {
 			userGroup.getGlobalPermissions().size();
+			userGroup.getProjectPermissionSchemes().size();
 		}
 		return userGroups;
 	}

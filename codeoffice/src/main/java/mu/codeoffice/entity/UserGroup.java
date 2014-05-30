@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
-import mu.codeoffice.entity.settings.ProjectPermissionSettings;
+import mu.codeoffice.entity.settings.ProjectPermissionScheme;
 import mu.codeoffice.json.JSONSerializable;
 import mu.codeoffice.json.UserGroupJSON;
 
@@ -57,7 +57,7 @@ public class UserGroup implements Serializable, JSONSerializable<UserGroup> {
 	private List<GlobalPermissionSettings> globalPermissions;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "userGroups")
-	private List<ProjectPermissionSettings> projectPermissions;
+	private List<ProjectPermissionScheme> projectPermissionSchemes;
 
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "usergroup_user", uniqueConstraints = @UniqueConstraint(columnNames = {"usergroup_id", "user_id"}),
@@ -133,12 +133,12 @@ public class UserGroup implements Serializable, JSONSerializable<UserGroup> {
 		this.users = users;
 	}
 
-	public List<ProjectPermissionSettings> getProjectPermissions() {
-		return projectPermissions;
+	public List<ProjectPermissionScheme> getProjectPermissionSchemes() {
+		return projectPermissionSchemes;
 	}
 
-	public void setProjectPermissions(List<ProjectPermissionSettings> projectPermissions) {
-		this.projectPermissions = projectPermissions;
+	public void setProjectPermissionSchemes(List<ProjectPermissionScheme> projectPermissionSchemes) {
+		this.projectPermissionSchemes = projectPermissionSchemes;
 	}
 
 	public boolean isDefaultGroup() {

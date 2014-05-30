@@ -49,8 +49,6 @@ public class EnterpriseUserDetailsService implements UserDetailsService {
 		for (GrantedAuthority grantedAuthority: globalAuthorities) {
 			logger.debug("Global: " + grantedAuthority.getAuthority());
 		}
-		List<GrantedAuthority> projectAuthorities = EnterpriseAuthority.getGrantedAuthorities(ProjectPermission.getPermissions(user.getProjectPermissionValue()));
-		globalAuthorities.addAll(projectAuthorities);
 		return globalAuthorities;
 	}
 

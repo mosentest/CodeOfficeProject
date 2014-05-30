@@ -1,6 +1,7 @@
 package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
+import java.util.Properties;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import mu.codeoffice.entity.Enterprise;
 
 @Entity
 @Table(name = "settings_announcement")
-public class Announcement implements Serializable {
+public class Announcement implements Serializable, SettingsEntity, GlobalSessionObject {
 
 	private static final long serialVersionUID = -680703454866696090L;
 
@@ -24,7 +25,7 @@ public class Announcement implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 	
@@ -38,6 +39,14 @@ public class Announcement implements Serializable {
 	private boolean enabled;
 	
 	public Announcement() {}
+
+	@Override
+	public void setDefaultSettings(Properties properties) {}
+
+	@Override
+	public String getSessionAttrKey() {
+		return enterprise.getCode() + "_ANNOUNCEMENT";
+	}
 
 	public Long getId() {
 		return id;

@@ -22,39 +22,29 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.project.projectPermissionScheme"/></div>
-				<div class="sub-element-description">Edit Project Permission Scheme Settings.</div>
+				<div class="sub-element-title">${permissionScheme.name}
+				<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
+				<input type="submit" onclick="javascript:url('administration/permissionScheme/${permissionScheme.name}/clone');"
+					class="button" value="<spring:message code="application.clone"/>"/>
+				<c:if test="${not permissionScheme.defaultScheme}">
+					<form class="inline-form" action="administration/permissionScheme/${permissionScheme.name}/delete" method="POST">
+					<input type="submit" onclick="javascript:confirmSubmit(event, 'Delete?');" class="button" value="<spring:message code="application.delete"/>"/>
+					</form>
+				</c:if>
+				</security:authorize>
+				</div>
+				<div class="sub-element-description">${permissionScheme.description}</div>
 			</div>
 			<div class="sub-element-content">
-				<div class="filter-content">
-					<form:form action="administration/permissionScheme/create" modelAttribute="permissionScheme" method="POST">
-						<table class="minor-form-table">
-							<tr class="minor-form-title-row">
-								<td colspan="2"><spring:message code="administration.project.permissionscheme.createPermissionScheme"/></td>
-							</tr>
-							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.project.permissionscheme.name"/></td>
-								<td class="minor-form-input-col"><form:input path="name"/></td>
-							</tr>
-							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.project.permissionscheme.description"/></td>
-								<td class="minor-form-input-col"><form:input path="description" class="long-field" /></td>
-							</tr>
-							<tr>
-								<td colspan="2"><input type="submit" class="button" value="<spring:message code="application.create"/>"/></td>
-							</tr>
-						</table>
-					</form:form>
-				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.project.permissionscheme.name"/></td>
-						<td><spring:message code="administration.project.permissionscheme.description"/></td>
-						<td><spring:message code="administration.project.permissionscheme.creator"/></td>
-						<td><spring:message code="administration.project.permissionscheme.relatedProjects"/></td>
+						<td><spring:message code="administration.project.permissionscheme.permission"/></td>
+						<td><spring:message code="administration.project.permissionscheme.groups"/></td>
+						<td><spring:message code="administration.project.permissionscheme.users"/></td>
+						<td><spring:message code="administration.project.permissionscheme.projectRoles"/></td>
 						<td><spring:message code="administration.project.permissionscheme.operations"/></td>
 					</tr>
-					<c:forEach items="${permissionSchemes}" var="scheme">
+					<c:forEach items="${permissionScheme.projectPermissionSettings}" var="scheme">
 					<tr class="list-table-item">
 						<td class="info-value">${scheme.name}</td>
 						<td>${scheme.description}</td>
