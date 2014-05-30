@@ -6,9 +6,8 @@
 	border-bottom: 1px solid #2e3d54;
 	clear: both;
 }
-#header .logo {
+#header .logo img {
 	margin-top: -7px;
-	height: 28px !important; 
 }
 #header .quicksearch {
 	float: left;

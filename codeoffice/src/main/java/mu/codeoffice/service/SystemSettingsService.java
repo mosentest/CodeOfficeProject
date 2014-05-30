@@ -1,7 +1,9 @@
 package mu.codeoffice.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.annotation.Resource;
@@ -37,6 +39,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SystemSettingsService {
+	
+	private final Map<Long, CacheSettings> cacheManager = new HashMap<>();
 	
 	@Resource
 	private AnnouncementRepository announcementRepository;
@@ -181,7 +185,6 @@ public class SystemSettingsService {
 	}
 
 	@Transactional
-	@CacheEvict(value = "announcementSettingsCache", key = "#auth.enterprise.id")
 	public void update(EnterpriseAuthentication auth, Announcement announcement) 
 			throws InformationException, AuthenticationException {
 		Announcement settings = announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
@@ -196,17 +199,22 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional(readOnly = true)
-	@Cacheable(value = "announcementSettingsCache", key = "#auth.enterprise.id")
 	public Announcement getAnnouncement(EnterpriseAuthentication auth) {
 		return announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
 	}
 
 	@Transactional
-	@CacheEvict(value = "advancedGlobalSettingsCache", key = "#auth.enterprise.id")
 	public void update(EnterpriseAuthentication auth, AdvancedGlobalSettings advancedGlobalSettings) 
 			throws InformationException, AuthenticationException {
-		AdvancedGlobalSettings settings = advancedGlobalSettingsRepository.getEnterpriseAdvancedGlobalSettings(auth.getEnterprise());
-		if (!settings.getId().equals(advancedGlobalSettings.getId())) {
+		AdvancedGlobalSettings settings = null;
+		CacheSettings cacheSettings = cacheManager.get(auth.getEnterprise().getId());
+		if (cacheSettings != null && cacheSettings.getAdvancedGlobalSettings() != null) {
+			settings = cacheSettings.getAdvancedGlobalSettings();
+		} else {
+			settings = advancedGlobalSettingsRepository.getEnterpriseAdvancedGlobalSettings(auth.getEnterprise());
+		}
+		
+		if (settings == null || !settings.getId().equals(advancedGlobalSettings.getId())) {
 			throw new EnterpriseAuthenticationException("Access Denied.");
 		}
 		advancedGlobalSettings.setEnterprise(auth.getEnterprise());
@@ -214,17 +222,30 @@ public class SystemSettingsService {
 	}
 
 	@Transactional(readOnly = true)
-	@Cacheable(value = "advancedGlobalSettingsCache", key = "#auth.enterprise.id")
 	public AdvancedGlobalSettings getAdvancedGlobalSettings(EnterpriseAuthentication auth) {
-		return advancedGlobalSettingsRepository.getEnterpriseAdvancedGlobalSettings(auth.getEnterprise());
+		CacheSettings cacheSettings = cacheManager.get(auth.getEnterprise().getId());
+		if (cacheSettings != null && cacheSettings.getAdvancedGlobalSettings() != null) {
+			return cacheSettings.getAdvancedGlobalSettings();
+		}
+		AdvancedGlobalSettings advancedGlobalSettings = advancedGlobalSettingsRepository.getEnterpriseAdvancedGlobalSettings(auth.getEnterprise());
+		if (cacheSettings == null) {
+			cacheManager.put(auth.getEnterprise().getId(), new CacheSettings());
+		}
+		cacheManager.get(auth.getEnterprise().getId()).setAdvancedGlobalSettings(advancedGlobalSettings);
+		return advancedGlobalSettings;
 	}
 
 	@Transactional
-	@CacheEvict(value = "globalSettingsCache", key = "#auth.enterprise.id")
 	public void update(EnterpriseAuthentication auth, GlobalSettings globalSettings) 
 			throws InformationException, AuthenticationException {
-		GlobalSettings settings = globalSettingsRepository.getEnterpriseGlobalSettings(auth.getEnterprise());
-		if (!settings.getId().equals(globalSettings.getId())) {
+		GlobalSettings settings = null;
+		CacheSettings cacheSettings = cacheManager.get(auth.getEnterprise().getId());
+		if (cacheSettings != null && cacheSettings.getGlobalSettings() != null) {
+			settings = cacheSettings.getGlobalSettings();
+		} else {
+			settings = globalSettingsRepository.getEnterpriseGlobalSettings(auth.getEnterprise());
+		}
+		if (settings == null || !settings.getId().equals(globalSettings.getId())) {
 			throw new EnterpriseAuthenticationException("Access Denied.");
 		}
 		globalSettings.setEnterprise(auth.getEnterprise());
@@ -232,9 +253,17 @@ public class SystemSettingsService {
 	}
 
 	@Transactional(readOnly = true)
-	@Cacheable(value = "globalSettingsCache", key = "#auth.enterprise.id")
 	public GlobalSettings getGlobalSettings(EnterpriseAuthentication auth) {
-		return globalSettingsRepository.getEnterpriseGlobalSettings(auth.getEnterprise());
+		CacheSettings cacheSettings = cacheManager.get(auth.getEnterprise().getId());
+		if (cacheSettings != null && cacheSettings.getGlobalSettings() != null) {
+			return cacheSettings.getGlobalSettings();
+		}
+		GlobalSettings globalSettings = globalSettingsRepository.getEnterpriseGlobalSettings(auth.getEnterprise());
+		if (cacheSettings == null) {
+			cacheManager.put(auth.getEnterprise().getId(), new CacheSettings());
+		}
+		cacheManager.get(auth.getEnterprise().getId()).setGlobalSettings(globalSettings);
+		return globalSettings;
 	}
 
 	@Transactional
@@ -243,7 +272,7 @@ public class SystemSettingsService {
 			throws InformationException, AuthenticationException {
 		InternationalizationSettings settings = 
 				internationalizationSettingsRepository.getEnterpriseInternationalizationSettings(auth.getEnterprise());
-		if (!settings.getId().equals(internationalizationSettings.getId())) {
+		if (settings == null || !settings.getId().equals(internationalizationSettings.getId())) {
 			throw new EnterpriseAuthenticationException("Access Denied.");
 		}
 		if (!InternationalizationSettings.isSupportedLocale(internationalizationSettings.getDefaultLocaleString())) {
@@ -272,6 +301,32 @@ public class SystemSettingsService {
 		LocaleContextHolder.setTimeZone(internationalizationSettings.getDefaultTimeZone());
 		LocaleContextHolder.setLocale(internationalizationSettings.getDefaultLocale());
 		return internationalizationSettings;
+	}
+	
+	private class CacheSettings {
+		
+		private GlobalSettings globalSettings;
+		
+		private AdvancedGlobalSettings advancedGlobalSettings;
+		
+		public CacheSettings() {}
+
+		public GlobalSettings getGlobalSettings() {
+			return globalSettings;
+		}
+
+		public void setGlobalSettings(GlobalSettings globalSettings) {
+			this.globalSettings = globalSettings;
+		}
+
+		public AdvancedGlobalSettings getAdvancedGlobalSettings() {
+			return advancedGlobalSettings;
+		}
+
+		public void setAdvancedGlobalSettings(AdvancedGlobalSettings advancedGlobalSettings) {
+			this.advancedGlobalSettings = advancedGlobalSettings;
+		}
+		
 	}
 	
 }

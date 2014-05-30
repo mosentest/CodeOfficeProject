@@ -170,14 +170,14 @@ public class SystemAdministrationController implements PermissionRequired {
 	@RequestMapping(value = "announcement.html", method = RequestMethod.GET)
 	public ModelAndView announcementView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		authorize(auth, null, GlobalPermission.ADMIN);
-		model.put("announcementSettings", systemSettingsService.getAnnouncement(auth));
+		model.put("announcementSettings", servletContext.getAttribute(Announcement.getSessionAttrKey(auth.getEnterprise())));
 		return new ModelAndView("administration/system_announcement", model);
 	}
 
 	@RequestMapping(value = "announcement/edit.html", method = RequestMethod.GET)
 	public ModelAndView announcementEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		authorize(auth, null, GlobalPermission.ADMIN);
-		model.put("announcementSettings", systemSettingsService.getAnnouncement(auth));
+		model.put("announcementSettings", servletContext.getAttribute(Announcement.getSessionAttrKey(auth.getEnterprise())));
 		model.put("announcementLevels", AnnouncementLevel.values());
 		return new ModelAndView("administration/system_announcement_form", model);
 	}
@@ -189,7 +189,8 @@ public class SystemAdministrationController implements PermissionRequired {
 		try {
 			systemSettingsService.update(auth, announcement);
 			redirectAttributes.addFlashAttribute(TIP, "Announcement has been updated");
-			servletContext.setAttribute(announcement.getSessionAttrKey(), announcement);
+			Announcement enterpriseAnnouncement = (Announcement) servletContext.getAttribute(Announcement.getSessionAttrKey(auth.getEnterprise()));
+			announcement.copyInformationTo(enterpriseAnnouncement);
 			return "redirect:/administration/announcement.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());

@@ -51,6 +51,17 @@ public class Announcement implements Serializable, SettingsEntity, GlobalSession
 	public void setDefaultSettings(Properties properties) {
 		announcementLevel = AnnouncementLevel.valueOf(properties.getProperty("settings.announcement.default.announcementLevel"));
 	}
+	
+	public void copyInformationTo(Announcement announcement) {
+		announcement.setAnnouncement(this.announcement);
+		announcement.setEnabled(this.enabled);
+		announcement.setEnablePublicMode(this.enablePublicMode);
+		announcement.setAnnouncementLevel(this.announcementLevel);
+	}
+	
+	public static String getSessionAttrKey(Enterprise enterprise) {
+		return enterprise.getCode() + "_ANNOUNCEMENT";
+	}
 
 	@Override
 	public String getSessionAttrKey() {

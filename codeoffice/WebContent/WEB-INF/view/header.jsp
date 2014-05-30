@@ -30,6 +30,9 @@
 <spring:message var="text_settings" code="application.settings"/>
 <spring:message var="text_logout" code="application.logout"/>
 <security:authorize access="isAuthenticated()">
+<c:if test="${sessionScope.ANNOUNCEMENT.enabled}">
+<code:info type="${sessionScope.ANNOUNCEMENT.announcementLevel.info}" banner="true" message="${sessionScope.ANNOUNCEMENT.announcement}"/>
+</c:if>
 <div id="banner">
 	<c:if test="${not empty INFO}"><code:info type="info" message="${INFO}" banner="true"/></c:if>
 	<c:if test="${not empty TIP}"><code:info type="tip" message="${TIP}" banner="true"/></c:if>

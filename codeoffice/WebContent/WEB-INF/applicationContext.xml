@@ -91,6 +91,9 @@
 	
 	<jpa:repositories base-package="mu.codeoffice.repository"/>
 	
+	<mvc:interceptors>
+		<bean class="mu.codeoffice.utility.AccessInterceptor"/>
+	</mvc:interceptors> 
 	<!-- transaction configurations end -->
 	
 	<!-- springmvc mappers configurations -->
