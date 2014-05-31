@@ -10,9 +10,6 @@ body, div, span, p, ul, table, input, td, tr, a, li, dl, dt, button, textarea, t
 ul {
 	list-style: none;
 }
-li {
-	line-height: 1.5em;
-}
 fieldset {
 	border: none;
 }

@@ -88,7 +88,7 @@ public class IssueStatus implements Serializable {
 		this.description = description;
 	}
 
-	public boolean isStatusPriority() {
+	public boolean isDefaultStatus() {
 		return defaultStatus;
 	}
 

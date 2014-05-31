@@ -22,7 +22,34 @@
 				<div class="sub-element-title"><spring:message code="administration.issue.issueLinks"/></div>
 				<div class="sub-element-description">Edit your enterprise global settings.</div>
 			</div>
-			<div class="sub-element-content"></div>
+			<div class="sub-element-content">
+				<table class="list-table">
+					<tr class="list-table-header">
+						<td><spring:message code="administration.issue.issuestatus.name"/></td>
+						<td><spring:message code="administration.issue.issuestatus.description"/></td>
+						<td><spring:message code="administration.issue.issuestatus.icon"/></td>
+						<td><spring:message code="administration.issue.issuestatus.color"/></td>
+						<td><spring:message code="administration.issue.issuestatus.order"/></td>
+						<td><spring:message code="administration.issue.issuestatus.operations"/></td>
+					</tr>
+					<c:forEach items="${issueStatus}" var="status">
+					<tr class="list-table-item">
+						<td class="title-info">${status.name}</td>
+						<td class="description-info">${status.description}</td>
+						<td><img src="assets/img/office/status/${status.icon}.png"/></td>
+						<td><span class="color-info" style="background-color: #${status.color};">&nbsp;</span></td>
+						<td>${status.statusOrder}</td>
+						<td>
+							<a class="link" href="administration/issueStatus/${status.name}/edit.html">${text_edit}</a>
+							<c:if test="${not status.defaultStatus}">
+							<span class="minorspace">&#183;</span>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueStatus/${status.name}/delete', 'Delete?');">${text_delete}</a>
+							</c:if>
+						</td>
+					</tr>
+					</c:forEach>
+				</table>
+			</div>
 		</div>
 	</div>
 	<div class="clearfix"></div>

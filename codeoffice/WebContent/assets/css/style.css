@@ -502,6 +502,11 @@
 	color: #666666;
 	font-size: 14px;
 }
+.color-info {
+	width: 80px;
+	height: 20px;
+	display: inline-block;
+}
 .title-info {
 	color: #333333;
 	font-size: 16px;
@@ -545,6 +550,9 @@
 .info-ul-list {
 	list-style-type: disc;
 	list-style-position: inside;
+}
+.default-ul-list {
+	line-height: 1.5em;
 }
 .info-ul-list-span {
 	padding-left: 18px;

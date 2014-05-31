@@ -39,7 +39,7 @@
 							<span class="description-info">${scheme.description}</span></c:if>
 						</td>
 						<td>
-							<ul>
+							<ul class="default-ul-list">
 								<c:forEach items="${scheme.issueTypes}" var="issueType">
 								<li class="imglink">
 									<img src="assets/img/office/type/${issueType.icon}.png">

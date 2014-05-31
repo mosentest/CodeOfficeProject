@@ -19,6 +19,9 @@ import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
 import mu.codeoffice.entity.settings.IssueLinkType;
+import mu.codeoffice.entity.settings.IssuePriority;
+import mu.codeoffice.entity.settings.IssueResolution;
+import mu.codeoffice.entity.settings.IssueStatus;
 import mu.codeoffice.entity.settings.IssueType;
 import mu.codeoffice.entity.settings.IssueTypeScheme;
 import mu.codeoffice.entity.settings.ProjectPermissionScheme;
@@ -41,6 +44,9 @@ import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
 import mu.codeoffice.repository.settings.IssueLinkTypeRepository;
+import mu.codeoffice.repository.settings.IssuePriorityRepository;
+import mu.codeoffice.repository.settings.IssueResolutionRepository;
+import mu.codeoffice.repository.settings.IssueStatusRepository;
 import mu.codeoffice.repository.settings.IssueTypeRepository;
 import mu.codeoffice.repository.settings.IssueTypeSchemeRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSchemeRepository;
@@ -125,6 +131,15 @@ public class TestService {
 	
 	@Resource
 	private IssueTypeSchemeRepository issueTypeSchemeRepository;
+
+	@Resource
+	private IssueStatusRepository issueStatusRepository;
+
+	@Resource
+	private IssueResolutionRepository issueResolutionRepository;
+	
+	@Resource
+	private IssuePriorityRepository issuePriorityRepository;
 	
 	@Resource(name = "applicationProperties")
 	private Properties properties;
@@ -434,6 +449,164 @@ public class TestService {
 		
 		issueTypeSchemeRepository.save(s1);
 		issueTypeSchemeRepository.save(s2);
+	}
+	
+	@Transactional
+	public void _7_IssueSettings() {
+		Enterprise enterprise = enterpriseRepository.getOne(1l);
+
+		IssueStatus s1 = new IssueStatus();
+		s1.setEnterprise(enterprise);
+		s1.setDefaultStatus(true);
+		s1.setDescription("description 1");
+		s1.setColor("14892c");
+		s1.setName("Open");
+		s1.setIcon("open");
+		s1.setStatusOrder(0);
+		IssueStatus s2 = new IssueStatus();
+		s2.setEnterprise(enterprise);
+		s2.setDefaultStatus(true);
+		s2.setDescription("description 2");
+		s2.setColor("d04437");
+		s2.setName("Resolved");
+		s2.setIcon("resolved");
+		s2.setStatusOrder(1);
+		IssueStatus s3 = new IssueStatus();
+		s3.setEnterprise(enterprise);
+		s3.setDefaultStatus(true);
+		s3.setDescription("description 3");
+		s3.setColor("8c9fb2");
+		s3.setName("Reopened");
+		s3.setIcon("reopened");
+		s3.setStatusOrder(2);
+		IssueStatus s4 = new IssueStatus();
+		s4.setEnterprise(enterprise);
+		s4.setDefaultStatus(true);
+		s4.setDescription("description 4");
+		s4.setColor("ffeaae");
+		s4.setName("InProgress");
+		s4.setIcon("inprogress");
+		s4.setStatusOrder(3);
+		IssueStatus s5 = new IssueStatus();
+		s5.setEnterprise(enterprise);
+		s5.setDefaultStatus(true);
+		s5.setDescription("description 5");
+		s5.setColor("14892c");
+		s5.setName("Closed");
+		s5.setIcon("closed");
+		s5.setStatusOrder(4);
+		IssueStatus s6 = new IssueStatus();
+		s6.setEnterprise(enterprise);
+		s6.setDefaultStatus(true);
+		s6.setDescription("description 6");
+		s6.setColor("14892c");
+		s6.setName("NeedInfo");
+		s6.setIcon("needinfo");
+		s6.setStatusOrder(5);
+
+		issueStatusRepository.save(s1);
+		issueStatusRepository.save(s2);
+		issueStatusRepository.save(s3);
+		issueStatusRepository.save(s4);
+		issueStatusRepository.save(s5);
+		issueStatusRepository.save(s6);
+
+		IssuePriority p1 = new IssuePriority();
+		p1.setEnterprise(enterprise);
+		p1.setDefaultPriority(true);
+		p1.setDescription("description 1");
+		p1.setColor("14892c");
+		p1.setName("Critical");
+		p1.setIcon("critical");
+		p1.setPriorityOrder(0);
+		IssuePriority p2 = new IssuePriority();
+		p2.setEnterprise(enterprise);
+		p2.setDefaultPriority(true);
+		p2.setDescription("description 2");
+		p2.setColor("d04437");
+		p2.setName("Major");
+		p2.setIcon("major");
+		p2.setPriorityOrder(1);
+		IssuePriority p3 = new IssuePriority();
+		p3.setEnterprise(enterprise);
+		p3.setDefaultPriority(true);
+		p3.setDescription("description 3");
+		p3.setColor("8c9fb2");
+		p3.setName("Blocker");
+		p3.setIcon("blocker");
+		p3.setPriorityOrder(2);
+		IssuePriority p4 = new IssuePriority();
+		p4.setEnterprise(enterprise);
+		p4.setDefaultPriority(true);
+		p4.setDescription("description 4");
+		p4.setColor("ffeaae");
+		p4.setName("Minor");
+		p4.setIcon("minor");
+		p4.setPriorityOrder(3);
+		IssuePriority p5 = new IssuePriority();
+		p5.setEnterprise(enterprise);
+		p5.setDefaultPriority(true);
+		p5.setDescription("description 5");
+		p5.setColor("14892c");
+		p5.setName("Trivial");
+		p5.setIcon("trivial");
+		p5.setPriorityOrder(4);
+
+		issuePriorityRepository.save(p1);
+		issuePriorityRepository.save(p2);
+		issuePriorityRepository.save(p3);
+		issuePriorityRepository.save(p4);
+		issuePriorityRepository.save(p5);
+
+		IssueResolution r1 = new IssueResolution();
+		r1.setEnterprise(enterprise);
+		r1.setDefaultResolution(true);
+		r1.setDescription("description 1");
+		r1.setColor("14892c");
+		r1.setName("Implemented");
+		r1.setResolutionOrder(0);
+		IssueResolution r2 = new IssueResolution();
+		r2.setEnterprise(enterprise);
+		r2.setDefaultResolution(true);
+		r2.setDescription("description 2");
+		r2.setColor("d04437");
+		r2.setName("Duplicated");
+		r2.setResolutionOrder(0);
+		IssueResolution r3 = new IssueResolution();
+		r3.setEnterprise(enterprise);
+		r3.setDefaultResolution(true);
+		r3.setDescription("description 3");
+		r3.setColor("8c9fb2");
+		r3.setName("Fixed");
+		r3.setResolutionOrder(0);
+		IssueResolution r4 = new IssueResolution();
+		r4.setEnterprise(enterprise);
+		r4.setDefaultResolution(true);
+		r4.setDescription("description 4");
+		r4.setColor("ffeaae");
+		r4.setName("Won't Fix");
+		r4.setResolutionOrder(0);
+		IssueResolution r5 = new IssueResolution();
+		r5.setEnterprise(enterprise);
+		r5.setDefaultResolution(true);
+		r5.setDescription("description 5");
+		r5.setColor("14892c");
+		r5.setName("By Design");
+		r5.setResolutionOrder(0);
+		IssueResolution r6 = new IssueResolution();
+		r6.setEnterprise(enterprise);
+		r6.setDefaultResolution(true);
+		r6.setDescription("description 6");
+		r6.setColor("14892c");
+		r6.setName("Unresolved");
+		r6.setResolutionOrder(0);
+
+		issueResolutionRepository.save(r1);
+		issueResolutionRepository.save(r2);
+		issueResolutionRepository.save(r3);
+		issueResolutionRepository.save(r4);
+		issueResolutionRepository.save(r5);
+		issueResolutionRepository.save(r6);
 	}
 	
 }
