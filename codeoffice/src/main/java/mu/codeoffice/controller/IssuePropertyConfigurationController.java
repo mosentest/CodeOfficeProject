@@ -47,17 +47,20 @@ public class IssuePropertyConfigurationController {
 
 	@RequestMapping(value = "status.html", method = RequestMethod.GET)
 	public ModelAndView statusView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		model.put("issueStatus", issuePropertyConfigurationService.getIssueStatus(auth));
 		return new ModelAndView("administration/issue_status", model);
 	}
 
-	@RequestMapping(value = "resolution.html", method = RequestMethod.GET)
+	@RequestMapping(value = "resolutions.html", method = RequestMethod.GET)
 	public ModelAndView resolutionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		return new ModelAndView("administration/issue_resolution", model);
+		model.put("issueResolutions", issuePropertyConfigurationService.getIssueResolutions(auth));
+		return new ModelAndView("administration/issue_resolutions", model);
 	}
 	
-	@RequestMapping(value = "priority.html", method = RequestMethod.GET)
+	@RequestMapping(value = "priorities.html", method = RequestMethod.GET)
 	public ModelAndView priorityView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		return new ModelAndView("administration/issue_priority", model);
+		model.put("issuePriorities", issuePropertyConfigurationService.getIssuePriorities(auth));
+		return new ModelAndView("administration/issue_priorities", model);
 	}
 	
 }

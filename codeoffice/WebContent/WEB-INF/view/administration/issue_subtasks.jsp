@@ -29,16 +29,17 @@
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="administration.issue.issuetype.name"/></td>
+						<td><spring:message code="administration.issue.issuetype.icon"/></td>
 						<td><spring:message code="administration.issue.issuetype.type"/></td>
 						<td><spring:message code="administration.issue.issuetype.operations"/></td>
 					</tr>
 					<c:forEach items="${issueTypes}" var="issueType">
 					<tr class="list-table-item">
-						<td class="imglink">
-							<img src="assets/img/office/type/${issueType.icon}.png"/>
+						<td>
 							<span class="title-info">${issueType.name}</span>
 							<c:if test="${not empty issueType.description}"><br /><span class="description-info">${issueType.description}</span></c:if>
 						</td>
+						<td><img src="assets/img/office/type/${issueType.icon}.png"/></td>
 						<td>${issueType.standard ? text_standard : text_subtask}</td>
 						<td>
 							<a class="link" href="administration/issueType/${issueType.name}/edit.html">${text_edit}</a>

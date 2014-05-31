@@ -6,9 +6,15 @@ import javax.annotation.Resource;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.settings.IssueLinkType;
+import mu.codeoffice.entity.settings.IssuePriority;
+import mu.codeoffice.entity.settings.IssueResolution;
+import mu.codeoffice.entity.settings.IssueStatus;
 import mu.codeoffice.entity.settings.IssueType;
 import mu.codeoffice.entity.settings.IssueTypeScheme;
 import mu.codeoffice.repository.settings.IssueLinkTypeRepository;
+import mu.codeoffice.repository.settings.IssuePriorityRepository;
+import mu.codeoffice.repository.settings.IssueResolutionRepository;
+import mu.codeoffice.repository.settings.IssueStatusRepository;
 import mu.codeoffice.repository.settings.IssueTypeRepository;
 import mu.codeoffice.repository.settings.IssueTypeSchemeRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
@@ -28,6 +34,15 @@ public class IssuePropertyConfigurationService {
 	
 	@Resource
 	private IssueTypeSchemeRepository issueTypeSchemeRepository;
+
+	@Resource
+	private IssueStatusRepository issueStatusRepository;
+
+	@Resource
+	private IssueResolutionRepository issueResolutionRepository;
+	
+	@Resource
+	private IssuePriorityRepository issuePriorityRepository;
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
@@ -152,6 +167,21 @@ public class IssuePropertyConfigurationService {
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
 	public List<IssueLinkType> getIssueLinkTypes(EnterpriseAuthentication auth) {
 		return issueLinkTypeRepository.getIssueLinkTypes(auth.getEnterprise());
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public List<IssueStatus> getIssueStatus(EnterpriseAuthentication auth) {
+		return issueStatusRepository.getIssueStatus(auth.getEnterprise());
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public List<IssueResolution> getIssueResolutions(EnterpriseAuthentication auth) {
+		return issueResolutionRepository.getIssueResolutions(auth.getEnterprise());
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public List<IssuePriority> getIssuePriorities(EnterpriseAuthentication auth) {
+		return issuePriorityRepository.getIssuePriorities(auth.getEnterprise());
 	}
 	
 }

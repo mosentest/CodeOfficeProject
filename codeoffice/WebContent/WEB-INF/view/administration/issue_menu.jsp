@@ -20,8 +20,8 @@
 	<li class="${param.menu eq 'fieldConfigurationScheme' ? 'selected' : ''}"><a class="link" href="administration/fieldConfigurationScheme.html"><spring:message code="administration.issue.fieldConfigurationScheme"/></a></li>
 	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.issueAttributes"/></div>
 	<li class="${param.menu eq 'status' ? 'selected' : ''}"><a class="link" href="administration/status.html"><spring:message code="administration.issue.status"/></a></li>
-	<li class="${param.menu eq 'resolution' ? 'selected' : ''}"><a class="link" href="administration/resolution.html"><spring:message code="administration.issue.resolution"/></a></li>
-	<li class="${param.menu eq 'priority' ? 'selected' : ''}"><a class="link" href="administration/priority.html"><spring:message code="administration.issue.priority"/></a></li>
+	<li class="${param.menu eq 'resolution' ? 'selected' : ''}"><a class="link" href="administration/resolutions.html"><spring:message code="administration.issue.resolutions"/></a></li>
+	<li class="${param.menu eq 'priority' ? 'selected' : ''}"><a class="link" href="administration/priorities.html"><spring:message code="administration.issue.priorities"/></a></li>
 </security:authorize>
 </ul>
 </div>
