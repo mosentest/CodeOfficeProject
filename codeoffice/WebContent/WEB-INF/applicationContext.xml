@@ -157,18 +157,13 @@
 	</bean>
 	
 	<!-- Spring Security start -->  
-	
+	<security:global-method-security pre-post-annotations="enabled"/>
 	<security:http auto-config="true" use-expressions="true" access-denied-page="/accessdenied.html" >
 		<security:intercept-url pattern="/" access="permitAll"/>
 		<security:intercept-url pattern="/login.html" access="permitAll"/>
 		<security:intercept-url pattern="/logout.html" access="permitAll"/>
-		<security:intercept-url pattern="/administration/**.html" access="hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN', 'ROLE_GLOBAL_ADMIN')"/>
 		<security:intercept-url pattern="/accessdenied.html" access="permitAll"/>
 		
-		<!-- previous page after login <security:form-login
-				login-page="/enterprise/login" 
-				authentication-failure-url="/enterprise/accessdenied" 
-				default-target-url="/enterprise"/> -->
 		<security:form-login
 				login-page="/login.html" 
 				authentication-failure-url="/accessdenied.html" 
@@ -187,7 +182,11 @@
 	<security:authentication-manager>
 		<security:authentication-provider ref="enterpriseUserAuthenticationProvider"/>
 	</security:authentication-manager>
+	
+	<bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+	
 	<bean id ="enterpriseAuthenticationSuccessHandler" class="mu.codeoffice.security.EnterpriseAuthenticationSuccessHandler"/>
+	
 	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
 	
 	<!-- Spring Security end -->
@@ -210,13 +209,7 @@
 	
 	<!-- Spring cache end -->
 	
-	<!-- web socket messaging -->
-	<!-- 
-	<websocket:message-broker application-destination-prefix="/app">to annotated messages
-    <websocket:stomp-endpoint path="/portfolio">websocket url
-      <websocket:sockjs/>
-    </websocket:stomp-endpoint>
-    <websocket:stomp-broker-relay prefix="/queue/,/topic/"/>destination prefix 
-  </websocket:message-broker> -->
+	<!-- service beans -->
+	<bean id="issuePropertyConfigurationService" class="mu.codeoffice.service.IssuePropertyConfigurationService"/>
 	<!--  -->
 </beans>

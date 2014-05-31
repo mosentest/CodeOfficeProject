@@ -6,9 +6,10 @@
 <security:authorize access="isAuthenticated()">
 	<li class="${param.menu eq 'home' ? 'selected' : ''}"><a class="link" href="administration.home"><spring:message code="administration.home"/></a></li>
 	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.issueTypes"/></div>
-	<li class="${param.menu eq 'issueType' ? 'selected' : ''}"><a class="link" href="administration/issueType.html"><spring:message code="administration.issue.issueType"/></a></li>
-	<li class="${param.menu eq 'issueTypeScheme' ? 'selected' : ''}"><a class="link" href="administration/issueTypeScheme.html"><spring:message code="administration.issue.issueTypeScheme"/></a></li>
-	<li class="${param.menu eq 'subtask' ? 'selected' : ''}"><a class="link" href="administration/subtask.html"><spring:message code="administration.issue.subtask"/></a></li>
+	<li class="${param.menu eq 'issueType' ? 'selected' : ''}"><a class="link" href="administration/issueTypes.html"><spring:message code="administration.issue.issueTypes"/></a></li>
+	<li class="${param.menu eq 'issueTypeScheme' ? 'selected' : ''}"><a class="link" href="administration/issueTypeSchemes.html"><spring:message code="administration.issue.issueTypeSchemes"/></a></li>
+	<li class="${param.menu eq 'subtask' ? 'selected' : ''}"><a class="link" href="administration/subtasks.html"><spring:message code="administration.issue.subtasks"/></a></li>
+	<li class="${param.menu eq 'issueLink' ? 'selected' : ''}"><a class="link" href="administration/issueLinks.html"><spring:message code="administration.issue.issueLinks"/></a></li>
 	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.screens"/></div>
 	<li class="${param.menu eq 'screen' ? 'selected' : ''}"><a class="link" href="administration/screen.html"><spring:message code="administration.issue.screen"/></a></li>
 	<li class="${param.menu eq 'screenScheme' ? 'selected' : ''}"><a class="link" href="administration/screenScheme.html"><spring:message code="administration.issue.screenScheme"/></a></li>

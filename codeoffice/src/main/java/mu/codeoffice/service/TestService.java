@@ -18,6 +18,9 @@ import mu.codeoffice.entity.settings.GeneralProjectSettings;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
+import mu.codeoffice.entity.settings.IssueLinkType;
+import mu.codeoffice.entity.settings.IssueType;
+import mu.codeoffice.entity.settings.IssueTypeScheme;
 import mu.codeoffice.entity.settings.ProjectPermissionScheme;
 import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.entity.settings.ProjectRole;
@@ -37,6 +40,9 @@ import mu.codeoffice.repository.settings.GeneralProjectSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
+import mu.codeoffice.repository.settings.IssueLinkTypeRepository;
+import mu.codeoffice.repository.settings.IssueTypeRepository;
+import mu.codeoffice.repository.settings.IssueTypeSchemeRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSchemeRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.ProjectRoleRepository;
@@ -110,6 +116,15 @@ public class TestService {
 	
 	@Resource
 	private UserGroupRepository userGroupRepository;
+
+	@Resource
+	private IssueLinkTypeRepository issueLinkTypeRepository;
+
+	@Resource
+	private IssueTypeRepository issueTypeRepository;
+	
+	@Resource
+	private IssueTypeSchemeRepository issueTypeSchemeRepository;
 	
 	@Resource(name = "applicationProperties")
 	private Properties properties;
@@ -300,6 +315,125 @@ public class TestService {
 			projectPermissionSettings.setProjectPermission(permission);
 			projectPermissionSettingsRepository.save(projectPermissionSettings);
 		}
+	}
+	
+	@Transactional
+	public void _6_CreateIssueTypeAndLinks() {
+		Enterprise enterprise = enterpriseRepository.getOne(1l);
+
+		IssueLinkType l1 = new IssueLinkType();
+		l1.setEnterprise(enterprise);
+		l1.setName("Block");
+		l1.setInwardLink("blocks");
+		l1.setOutwardLink("blocked by");
+		IssueLinkType l2 = new IssueLinkType();
+		l2.setEnterprise(enterprise);
+		l2.setName("Epic");
+		l2.setInwardLink("belongs to Epic");
+		l2.setOutwardLink("is the Epic for");
+		IssueLinkType l3 = new IssueLinkType();
+		l3.setEnterprise(enterprise);
+		l3.setName("Cause");
+		l3.setInwardLink("causes");
+		l3.setOutwardLink("caused by");
+		IssueLinkType l4 = new IssueLinkType();
+		l4.setEnterprise(enterprise);
+		l4.setName("Duplicate");
+		l4.setInwardLink("duplicates");
+		l4.setOutwardLink("is duplicated by");
+		IssueLinkType l5 = new IssueLinkType();
+		l5.setEnterprise(enterprise);
+		l5.setName("Design");
+		l5.setInwardLink("has design on");
+		l5.setOutwardLink("is design for");
+		IssueLinkType l6 = new IssueLinkType();
+		l6.setEnterprise(enterprise);
+		l6.setName("Depent");
+		l6.setInwardLink("depends on");
+		l6.setOutwardLink("is depended of");
+
+		issueLinkTypeRepository.save(l1);
+		issueLinkTypeRepository.save(l2);
+		issueLinkTypeRepository.save(l3);
+		issueLinkTypeRepository.save(l4);
+		issueLinkTypeRepository.save(l5);
+		issueLinkTypeRepository.save(l6);
+
+		IssueType t1 = new IssueType();
+		t1.setEnterprise(enterprise);
+		t1.setDescription("description 1");
+		t1.setIcon("blank");
+		t1.setName("Blank");
+		IssueType t2 = new IssueType();
+		t2.setEnterprise(enterprise);
+		t2.setDescription("description 2");
+		t2.setIcon("defect");
+		t2.setName("Defect");
+		IssueType t3 = new IssueType();
+		t3.setEnterprise(enterprise);
+		t3.setDescription("description 3");
+		t3.setIcon("documentation");
+		t3.setName("Documentation");
+		IssueType t4 = new IssueType();
+		t4.setEnterprise(enterprise);
+		t4.setDescription("description 4");
+		t4.setIcon("newfeature");
+		t4.setName("New Feature");
+		IssueType t5 = new IssueType();
+		t5.setEnterprise(enterprise);
+		t5.setDescription("description 5");
+		t5.setIcon("generic");
+		t5.setName("Generic");
+		IssueType t6 = new IssueType();
+		t6.setEnterprise(enterprise);
+		t6.setDescription("description 6");
+		t6.setIcon("improvement");
+		t6.setName("Improvement");
+		IssueType t7 = new IssueType();
+		t7.setEnterprise(enterprise);
+		t7.setDescription("description 7");
+		t7.setIcon("bug");
+		t7.setName("Bug");
+		IssueType t8 = new IssueType();
+		t8.setEnterprise(enterprise);
+		t8.setDescription("description 8");
+		t8.setIcon("epic");
+		t8.setName("Epic");
+		IssueType t9 = new IssueType();
+		t9.setEnterprise(enterprise);
+		t9.setDescription("description 9");
+		t9.setIcon("subtask");
+		t9.setName("Subtask");
+		t9.setStandard(true);
+		IssueType t10 = new IssueType();
+		t10.setEnterprise(enterprise);
+		t10.setDescription("description 10");
+		t10.setIcon("requirement");
+		t10.setName("Requirement");
+		t10.setStandard(true);
+
+		issueTypeRepository.save(t1);
+		issueTypeRepository.save(t2);
+		issueTypeRepository.save(t3);
+		issueTypeRepository.save(t4);
+		issueTypeRepository.save(t5);
+		issueTypeRepository.save(t6);
+		issueTypeRepository.save(t7);
+		issueTypeRepository.save(t8);
+		issueTypeRepository.save(t9);
+		issueTypeRepository.save(t10);
+
+		IssueTypeScheme s1 = new IssueTypeScheme();
+		s1.setEnterprise(enterprise);
+		s1.setName("Default Scheme");
+		s1.setIssueTypes(Arrays.asList(t1, t2, t3, t4, t5, t6, t7, t8));
+		IssueTypeScheme s2 = new IssueTypeScheme();
+		s2.setEnterprise(enterprise);
+		s2.setName("Template Scheme");
+		s2.setIssueTypes(Arrays.asList(t1, t2, t3, t4, t5, t6));
+		
+		issueTypeSchemeRepository.save(s1);
+		issueTypeSchemeRepository.save(s2);
 	}
 	
 }

@@ -160,10 +160,10 @@
 						<td><spring:message code="administration.um.globalpermission.operations"/></td>
 					</tr>
 					<c:forEach items="${globalPermissionSettings}" var="permission">
-					<tr class="list-table-item" id="${permission.projectPermission}">
-						<c:set var="description">${permission.projectPermission.key}.description</c:set>
+					<tr class="list-table-item" id="${permission.globalPermission}">
+						<c:set var="description">${permission.globalPermission.key}.description</c:set>
 						<td>
-							<span class="title-info"><spring:message code="${permission.projectPermission.key}"/></span><br/>
+							<span class="title-info"><spring:message code="${permission.globalPermission.key}"/></span><br/>
 							<span class="description-info"><spring:message code="${description}"/></span></td>
 						<td>
 							<ul class="info-ul-list">

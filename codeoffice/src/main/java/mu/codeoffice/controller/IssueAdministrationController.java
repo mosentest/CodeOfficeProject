@@ -3,7 +3,6 @@ package mu.codeoffice.controller;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.Permission;
@@ -48,22 +47,6 @@ public class IssueAdministrationController implements PermissionRequired {
 	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
 		return new ModelAndView("administration/issue_home", model);
 	}
-	
-	@RequestMapping(value = "issueType.html", method = RequestMethod.GET)
-	public ModelAndView issueTypeView(@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
-		return new ModelAndView("administration/issue_issueType", model);
-	}
-
-	@RequestMapping(value = "issueTypeScheme.html", method = RequestMethod.GET)
-	public ModelAndView issueTypeSchemeView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		model.put("globalSettings", new GlobalSettings());
-		return new ModelAndView("administration/issue_issueTypeScheme", model);
-	}
-
-	@RequestMapping(value = "subtask.html", method = RequestMethod.GET)
-	public ModelAndView subtaskView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		return new ModelAndView("administration/issue_subtask", model);
-	}
 
 	@RequestMapping(value = "screen.html", method = RequestMethod.GET)
 	public ModelAndView screenView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
@@ -93,20 +76,5 @@ public class IssueAdministrationController implements PermissionRequired {
 	@RequestMapping(value = "fieldConfigurationScheme.html", method = RequestMethod.GET)
 	public ModelAndView fieldConfigurationSchemeView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("administration/issue_fieldConfigurationScheme", model);
-	}
-
-	@RequestMapping(value = "status.html", method = RequestMethod.GET)
-	public ModelAndView statusView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		return new ModelAndView("administration/issue_status", model);
-	}
-
-	@RequestMapping(value = "resolution.html", method = RequestMethod.GET)
-	public ModelAndView resolutionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		return new ModelAndView("administration/issue_resolution", model);
-	}
-	
-	@RequestMapping(value = "priority.html", method = RequestMethod.GET)
-	public ModelAndView priorityView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		return new ModelAndView("administration/issue_priority", model);
 	}
 }

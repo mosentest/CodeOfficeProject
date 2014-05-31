@@ -6,6 +6,9 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
+import mu.codeoffice.entity.settings.IssueTypeScheme;
+import mu.codeoffice.entity.settings.ProjectPermissionScheme;
+
 @StaticMetamodel(Project.class)
 public class Project_ {
 
@@ -40,6 +43,10 @@ public class Project_ {
 	public static volatile SingularAttribute<Project, Integer> totalUsers;
 	
 	public static volatile SingularAttribute<Project, Integer> totalIssues;
+	
+	public static volatile SingularAttribute<Project, IssueTypeScheme> issueTypeScheme;
+	
+	public static volatile SingularAttribute<Project, ProjectPermissionScheme> projectPermissionScheme;
 	
 	public static volatile ListAttribute<Project, Component> components;
 	
