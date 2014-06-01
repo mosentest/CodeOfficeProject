@@ -62,10 +62,8 @@
 						<td>${issueLink.inwardLink}</td>
 						<td>
 							<a class="link" href="administration/issueLink/${issueLink.name}/edit.html">${text_edit}</a>
-							<c:if test="${not issueLink.defaultLink}">
 							<span class="minorspace">&#183;</span>
 							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueLink/${issueLink.name}/delete', 'Delete?');">${text_delete}</a>
-							</c:if>
 						</td>
 					</tr>
 					</c:forEach>

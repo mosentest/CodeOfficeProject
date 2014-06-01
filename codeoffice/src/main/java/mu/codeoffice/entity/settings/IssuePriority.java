@@ -45,15 +45,12 @@ public class IssuePriority implements Serializable {
 	@Size(max = 200)
 	private String description;
 
-	@Column(name = "default_priority")
-	private boolean defaultPriority;
-
 	@Column(name = "icon")
 	private String icon;
 	
 	@Column(name = "priority_order")
 	@Range(min = 0)
-	private int priorityOrder;
+	private int order;
 
 	@Column(name = "color")
 	@Pattern(regexp = "([a-f]|[A-F]|[0-9]){6}")
@@ -110,20 +107,12 @@ public class IssuePriority implements Serializable {
 		this.description = description;
 	}
 
-	public boolean isDefaultPriority() {
-		return defaultPriority;
+	public int getOrder() {
+		return order;
 	}
 
-	public void setDefaultPriority(boolean defaultPriority) {
-		this.defaultPriority = defaultPriority;
-	}
-
-	public int getPriorityOrder() {
-		return priorityOrder;
-	}
-
-	public void setPriorityOrder(int priorityOrder) {
-		this.priorityOrder = priorityOrder;
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 	public String getColor() {

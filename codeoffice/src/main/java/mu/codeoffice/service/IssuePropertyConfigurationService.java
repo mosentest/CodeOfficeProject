@@ -47,33 +47,60 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
 	public void create(EnterpriseAuthentication auth, IssueLink issueLink) throws AuthenticationException, InformationException {
-		
+		if (!issueLinkRepository.isNameAvailable(auth.getEnterprise(), issueLink.getName().toLowerCase(), 0l)) {
+			throw new InformationException("Issue Link Name is not available");
+		}
+		issueLink.setId(null);
+		issueLink.setEnterprise(auth.getEnterprise());
+		issueLinkRepository.save(issueLink);
 	}
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
 	public void create(EnterpriseAuthentication auth, IssueStatus issueStatus) throws AuthenticationException, InformationException {
-		
+		if (!issueStatusRepository.isNameAvailable(auth.getEnterprise(), issueStatus.getName().toLowerCase(), 0l)) {
+			throw new InformationException("Issue Status Name is not available");
+		}
+		if (!IssueStatus.isValidIcon(issueStatus.getIcon())) {
+			throw new InformationException("Icon is invalid.");
+		}
+		issueStatus.setOrder(issueStatusRepository.getOrder(auth.getEnterprise()));
+		issueStatus.setId(null);
+		issueStatus.setEnterprise(auth.getEnterprise());
+		issueStatusRepository.save(issueStatus);
 	}
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
 	public void create(EnterpriseAuthentication auth, IssuePriority issuePriority) throws AuthenticationException, InformationException {
-		
+		if (!issuePriorityRepository.isNameAvailable(auth.getEnterprise(), issuePriority.getName().toLowerCase(), 0l)) {
+			throw new InformationException("Issue Priority Name is not available");
+		}
+		if (!IssuePriority.isValidIcon(issuePriority.getIcon())) {
+			throw new InformationException("Icon is invalid.");
+		}
+		issuePriority.setOrder(issuePriorityRepository.getOrder(auth.getEnterprise()));
+		issuePriority.setId(null);
+		issuePriority.setEnterprise(auth.getEnterprise());
+		issuePriorityRepository.save(issuePriority);
 	}
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
 	public void create(EnterpriseAuthentication auth, IssueResolution issueResolution) throws AuthenticationException, InformationException {
+		if (!issueResolutionRepository.isNameAvailable(auth.getEnterprise(), issueResolution.getName().toLowerCase(), 0l)) {
+			throw new InformationException("Issue Resolution Name is not available");
+		}
+		issueResolution.setOrder(issueResolutionRepository.getOrder(auth.getEnterprise()));
+		issueResolution.setId(null);
+		issueResolution.setEnterprise(auth.getEnterprise());
+		issueResolutionRepository.save(issueResolution);
 	}
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
 	public void create(EnterpriseAuthentication auth, IssueType issueType) throws AuthenticationException, InformationException {
-		if (StringUtil.isEmptyString(issueType.getName())) {
-			throw new InformationException("Name can not be empty.");
-		}
-		if (!issueLinkRepository.isNameAvailable(auth.getEnterprise(), issueType.getName(), 0l)) {
+		if (!issueLinkRepository.isNameAvailable(auth.getEnterprise(), issueType.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Name already exist.");
 		}
 		if (!IssueType.isValidIcon(issueType.getIcon())) {

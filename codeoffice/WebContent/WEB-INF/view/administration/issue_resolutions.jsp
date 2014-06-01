@@ -91,13 +91,11 @@
 						<td class="title-info">${resolution.name}</td>
 						<td class="description-info">${resolution.description}</td>
 						<td><span class="color-info" style="background-color: #${resolution.color};">&nbsp;</span></td>
-						<td>${resolution.resolutionOrder}</td>
+						<td>${resolution.order}</td>
 						<td>
 							<a class="link" href="administration/issueResolution/${resolution.name}/edit.html">${text_edit}</a>
-							<c:if test="${not resolution.defaultResolution}">
 							<span class="minorspace">&#183;</span>
 							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueResolution/${resolution.name}/delete', 'Delete?');">${text_delete}</a>
-							</c:if>
 						</td>
 					</tr>
 					</c:forEach>

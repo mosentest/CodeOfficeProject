@@ -14,10 +14,13 @@ public interface IssueStatusRepository extends JpaRepository<IssueStatus, Long> 
 	@Query("SELECT t FROM IssueStatus t WHERE t.enterprise = :enterprise AND t.name = :name")
 	public IssueStatus getIssueStatus(@Param("enterprise") Enterprise enterprise, @Param("name") String name);
 
-	@Query("SELECT COUNT(t) = 0 FROM IssueStatus t WHERE t.enterprise = :enterprise AND t.name = :name AND t.id <> :id")
+	@Query("SELECT COUNT(t) = 0 FROM IssueStatus t WHERE t.enterprise = :enterprise AND LOWER(t.name) = :name AND t.id <> :id")
 	public boolean isNameAvailable(@Param("enterprise") Enterprise enterprise, @Param("name") String name, @Param("id") Long id);
 
-	@Query("SELECT t FROM IssueStatus t WHERE t.enterprise = :enterprise ORDER BY t.statusOrder")
+	@Query("SELECT t FROM IssueStatus t WHERE t.enterprise = :enterprise ORDER BY t.order")
 	public List<IssueStatus> getIssueStatus(@Param("enterprise") Enterprise enterprise);
+	
+	@Query("SELECT COUNT(t) FROM IssueStatus t WHERE t.enterprise = :enterprise")
+	public int getOrder(@Param("enterprise") Enterprise enterprise);
 	
 }

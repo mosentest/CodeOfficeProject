@@ -120,13 +120,11 @@
 						<td class="description-info">${status.description}</td>
 						<td><img src="assets/img/office/status/${status.icon}.png"/></td>
 						<td><span class="color-info" style="background-color: #${status.color};">&nbsp;</span></td>
-						<td>${status.statusOrder}</td>
+						<td>${status.order}</td>
 						<td>
 							<a class="link" href="administration/issueStatus/${status.name}/edit.html">${text_edit}</a>
-							<c:if test="${not status.defaultStatus}">
 							<span class="minorspace">&#183;</span>
 							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueStatus/${status.name}/delete', 'Delete?');">${text_delete}</a>
-							</c:if>
 						</td>
 					</tr>
 					</c:forEach>

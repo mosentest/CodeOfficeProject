@@ -47,9 +47,6 @@ public class IssueLink implements Serializable {
 	@Size(max = 50)
 	@NotEmpty
 	private String inwardLink;
-
-	@Column(name = "default_link")
-	private boolean defaultLink;
 	
 	public IssueLink() {}
 
@@ -91,14 +88,6 @@ public class IssueLink implements Serializable {
 
 	public void setInwardLink(String inwardLink) {
 		this.inwardLink = inwardLink;
-	}
-
-	public boolean isDefaultLink() {
-		return defaultLink;
-	}
-
-	public void setDefaultLink(boolean defaultLink) {
-		this.defaultLink = defaultLink;
 	}
 	
 }

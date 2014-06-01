@@ -14,10 +14,13 @@ public interface IssuePriorityRepository extends JpaRepository<IssuePriority, Lo
 	@Query("SELECT p FROM IssuePriority p WHERE p.enterprise = :enterprise AND p.name = :name")
 	public IssuePriority getIssuePriority(@Param("enterprise") Enterprise enterprise, @Param("name") String name);
 
-	@Query("SELECT COUNT(p) = 0 FROM IssuePriority p WHERE p.enterprise = :enterprise AND p.name = :name AND p.id <> :id")
+	@Query("SELECT COUNT(p) = 0 FROM IssuePriority p WHERE p.enterprise = :enterprise AND LOWER(p.name) = :name AND p.id <> :id")
 	public boolean isNameAvailable(@Param("enterprise") Enterprise enterprise, @Param("name") String name, @Param("id") Long id);
 
-	@Query("SELECT p FROM IssuePriority p WHERE p.enterprise = :enterprise ORDER By p.priorityOrder")
+	@Query("SELECT p FROM IssuePriority p WHERE p.enterprise = :enterprise ORDER By p.order")
 	public List<IssuePriority> getIssuePriorities(@Param("enterprise") Enterprise enterprise);
+
+	@Query("SELECT COUNT(p) FROM IssuePriority p WHERE p.enterprise = :enterprise")
+	public int getOrder(@Param("enterprise") Enterprise enterprise);
 	
 }

@@ -68,7 +68,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 			}
 		}
-		return "redirect:/administration/types.html";
+		return "redirect:/administration/subtasks.html";
 	}
 
 	@RequestMapping(value = "status/create", method = RequestMethod.POST)

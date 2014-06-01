@@ -53,9 +53,6 @@ public class IssueType implements Serializable {
 	@Column(name = "is_standard")
 	private boolean isStandard;
 
-	@Column(name = "default_type")
-	private boolean defaultType;
-
 	@Column(name = "icon")
 	@NotEmpty
 	private String icon;
@@ -128,14 +125,6 @@ public class IssueType implements Serializable {
 
 	public void setIssueTypeSchemes(List<IssueTypeScheme> issueTypeSchemes) {
 		this.issueTypeSchemes = issueTypeSchemes;
-	}
-
-	public boolean isDefaultType() {
-		return defaultType;
-	}
-
-	public void setDefaultType(boolean defaultType) {
-		this.defaultType = defaultType;
 	}
 
 }

@@ -120,13 +120,11 @@
 						<td class="description-info">${priority.description}</td>
 						<td><img src="assets/img/office/priority/${priority.icon}.png"/></td>
 						<td><span class="color-info" style="background-color: #${priority.color};">&nbsp;</span></td>
-						<td>${priority.priorityOrder}</td>
+						<td>${priority.order}</td>
 						<td>
 							<a class="link" href="administration/issuePriority/${priority.name}/edit.html">${text_edit}</a>
-							<c:if test="${not status.defaultPriority}">
 							<span class="minorspace">&#183;</span>
 							<a class="link" href="javascript:remoteSubmit(event, 'administration/issuePriority/${priority.name}/delete', 'Delete?');">${text_delete}</a>
-							</c:if>
 						</td>
 					</tr>
 					</c:forEach>

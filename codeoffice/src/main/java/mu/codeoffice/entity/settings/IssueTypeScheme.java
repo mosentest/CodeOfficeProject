@@ -41,9 +41,6 @@ public class IssueTypeScheme implements Serializable {
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "default_scheme")
-	private boolean defaultScheme;
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "issueTypeScheme")
 	private List<Project> projects;
 	
@@ -94,14 +91,6 @@ public class IssueTypeScheme implements Serializable {
 
 	public void setIssueTypes(List<IssueType> issueTypes) {
 		this.issueTypes = issueTypes;
-	}
-
-	public boolean isDefaultScheme() {
-		return defaultScheme;
-	}
-
-	public void setDefaultScheme(boolean defaultScheme) {
-		this.defaultScheme = defaultScheme;
 	}
 
 	public String getDescription() {

@@ -43,10 +43,7 @@ public class IssueResolution implements Serializable {
 	
 	@Column(name = "resolution_order")
 	@Range(min = 0)
-	private int resolutionOrder;
-
-	@Column(name = "default_resolution")
-	private boolean defaultResolution;
+	private int order;
 	
 	@Column(name = "color")
 	@Pattern(regexp = "([a-f]|[A-F]|[0-9]){6}")
@@ -78,20 +75,12 @@ public class IssueResolution implements Serializable {
 		this.name = name;
 	}
 
-	public int getResolutionOrder() {
-		return resolutionOrder;
+	public int getOrder() {
+		return order;
 	}
 
-	public void setResolutionOrder(int resolutionOrder) {
-		this.resolutionOrder = resolutionOrder;
-	}
-
-	public boolean isDefaultResolution() {
-		return defaultResolution;
-	}
-
-	public void setDefaultResolution(boolean defaultResolution) {
-		this.defaultResolution = defaultResolution;
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 	public String getDescription() {

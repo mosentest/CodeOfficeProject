@@ -93,10 +93,8 @@
 						<td>${issueType.standard ? text_standard : text_subtask}</td>
 						<td>
 							<a class="link" href="administration/issueType/${issueType.name}/edit.html">${text_edit}</a>
-							<c:if test="${not issueType.defaultType}">
 							<span class="minorspace">&#183;</span>
 							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueType/${issueType.name}/delete', 'Delete?');">${text_delete}</a>
-							</c:if>
 						</td>
 					</tr>
 					</c:forEach>
