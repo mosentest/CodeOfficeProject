@@ -122,9 +122,9 @@
 						<td><span class="color-info" style="background-color: #${status.color};">&nbsp;</span></td>
 						<td>${status.order}</td>
 						<td>
-							<a class="link" href="administration/issueStatus/${status.name}/edit.html">${text_edit}</a>
+							<a class="link" href="administration/status/edit.html?status=${status.name}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueStatus/${status.name}/delete', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/status/delete?status=${status.name}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

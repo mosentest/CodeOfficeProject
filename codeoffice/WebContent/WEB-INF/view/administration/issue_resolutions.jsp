@@ -93,9 +93,9 @@
 						<td><span class="color-info" style="background-color: #${resolution.color};">&nbsp;</span></td>
 						<td>${resolution.order}</td>
 						<td>
-							<a class="link" href="administration/issueResolution/${resolution.name}/edit.html">${text_edit}</a>
+							<a class="link" href="administration/resolution/edit.html?resolution=${resolution.name}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueResolution/${resolution.name}/delete', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/resolution/delete?resolution=${resolution.name}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

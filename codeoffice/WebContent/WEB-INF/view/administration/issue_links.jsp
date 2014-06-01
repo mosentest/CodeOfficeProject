@@ -55,15 +55,15 @@
 						<td><spring:message code="administration.issue.issuelink.inwardDescription"/></td>
 						<td><spring:message code="administration.issue.issuelink.operations"/></td>
 					</tr>
-					<c:forEach items="${issueLinks}" var="issueLink">
+					<c:forEach items="${issueLinks}" var="link">
 					<tr class="list-table-item">
-						<td><span class="title-info">${issueLink.name}</span></td>
-						<td>${issueLink.outwardLink}</td>
-						<td>${issueLink.inwardLink}</td>
+						<td><span class="title-info">${link.name}</span></td>
+						<td>${link.outwardLink}</td>
+						<td>${link.inwardLink}</td>
 						<td>
-							<a class="link" href="administration/issueLink/${issueLink.name}/edit.html">${text_edit}</a>
+							<a class="link" href="administration/link/edit.html?link=${link.name}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueLink/${issueLink.name}/delete', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/link/delete?link=${link.name}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

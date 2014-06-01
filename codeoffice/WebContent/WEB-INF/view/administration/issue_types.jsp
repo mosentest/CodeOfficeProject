@@ -83,25 +83,25 @@
 						<td><spring:message code="administration.issue.issuetype.relatedSchemes"/></td>
 						<td><spring:message code="administration.issue.issuetype.operations"/></td>
 					</tr>
-					<c:forEach items="${issueTypes}" var="issueType">
+					<c:forEach items="${issueTypes}" var="type">
 					<tr class="list-table-item">
 						<td>
-							<span class="title-info">${issueType.name}</span>
-							<c:if test="${not empty issueType.description}"><br /><span class="description-info">${issueType.description}</span></c:if>
+							<span class="title-info">${type.name}</span>
+							<c:if test="${not empty type.description}"><br /><span class="description-info">${type.description}</span></c:if>
 						</td>
-						<td><img src="assets/img/office/type/${issueType.icon}.png"/></td>
-						<td>${issueType.standard ? text_standard : text_subtask}</td>
+						<td><img src="assets/img/office/type/${type.icon}.png"/></td>
+						<td>${type.standard ? text_standard : text_subtask}</td>
 						<td>
 							<ul class="info-ul-list">
-								<c:forEach items="${issueType.issueTypeSchemes}" var="scheme">
-								<li><a class="link" href="administration/issueTypeScheme/${scheme.name}.html">${scheme.name}</a></li>
+								<c:forEach items="${type.issueTypeSchemes}" var="scheme">
+								<li><a class="link" href="administration/typeScheme.html?typeScheme=${scheme.name}">${scheme.name}</a></li>
 								</c:forEach>
 							</ul>
 						</td>
 						<td>
-							<a class="link" href="administration/issueType/${issueType.name}/edit.html">${text_edit}</a>
+							<a class="link" href="administration/type/edit.html?type=${type.name}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueType/${issueType.name}/delete', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/type/delete?type=${type.name}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

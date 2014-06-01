@@ -122,9 +122,9 @@
 						<td><span class="color-info" style="background-color: #${priority.color};">&nbsp;</span></td>
 						<td>${priority.order}</td>
 						<td>
-							<a class="link" href="administration/issuePriority/${priority.name}/edit.html">${text_edit}</a>
+							<a class="link" href="administration/priority/edit.html?priority=${priority.name}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/issuePriority/${priority.name}/delete', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/priority/delete?priority=${priority.name}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>
