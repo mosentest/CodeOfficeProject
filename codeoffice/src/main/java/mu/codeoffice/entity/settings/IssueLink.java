@@ -12,12 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
 
 @Entity
 @Table(name = "settings_issuelink", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
-public class IssueLinkType implements Serializable {
+public class IssueLink implements Serializable {
 
 	private static final long serialVersionUID = 8782629757866371748L;
 
@@ -30,18 +32,22 @@ public class IssueLinkType implements Serializable {
 	private Enterprise enterprise;
 	
 	@Column(name = "name")
+	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
+	@Size(max = 20)
 	private String name;
 
 	@Column(name = "outward_link")
+	@Size(max = 200)
 	private String outwardLink;
 
 	@Column(name = "inward_link")
+	@Size(max = 200)
 	private String inwardLink;
 
 	@Column(name = "default_link")
 	private boolean defaultLink;
 	
-	public IssueLinkType() {}
+	public IssueLink() {}
 
 	public Long getId() {
 		return id;

@@ -32,6 +32,12 @@ public class UserGroupDTO implements DataTransferObject<UserGroup> {
 		return this;
 	}
 
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	public String getName() {
 		return name;
 	}

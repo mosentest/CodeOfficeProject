@@ -12,12 +12,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
+
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "settings_issuepriority", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class IssuePriority implements Serializable {
+	
+	public static final String[] ICONS = {
+		"blocker", "critical", "major", "minor", "trivial" 
+	};
 
 	private static final long serialVersionUID = -8322633157968172805L;
 	@Id
@@ -29,9 +37,12 @@ public class IssuePriority implements Serializable {
 	private Enterprise enterprise;
 	
 	@Column(name = "name")
+	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
+	@Size(max = 20)
 	private String name;
 
 	@Column(name = "description")
+	@Size(max = 200)
 	private String description;
 
 	@Column(name = "default_priority")
@@ -41,12 +52,23 @@ public class IssuePriority implements Serializable {
 	private String icon;
 	
 	@Column(name = "priority_order")
+	@Range(min = 0)
 	private int priorityOrder;
 
 	@Column(name = "color")
+	@Pattern(regexp = "([a-f]|[A-F]|[0-9]){6}")
 	private String color;
 	
 	public IssuePriority() {}
+	
+	public static boolean isValidIcon(String icon) {
+		for (String string : ICONS) {
+			if (string.equals(icon)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public Long getId() {
 		return id;

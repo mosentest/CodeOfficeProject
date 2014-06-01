@@ -153,7 +153,7 @@ public class Issue implements Serializable {
 	private List<IssueHistory> histories;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
-	private List<IssueLink> issueLinks;
+	private List<IssueLinking> issueLinks;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
 	@OrderBy("create DESC")
@@ -407,11 +407,11 @@ public class Issue implements Serializable {
 		this.releaseVersion = releaseVersion;
 	}
 
-	public List<IssueLink> getIssueLinks() {
+	public List<IssueLinking> getIssueLinks() {
 		return issueLinks;
 	}
 
-	public void setIssueLinks(List<IssueLink> issueLinks) {
+	public void setIssueLinks(List<IssueLinking> issueLinks) {
 		this.issueLinks = issueLinks;
 	}
 

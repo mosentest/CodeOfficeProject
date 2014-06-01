@@ -23,6 +23,18 @@ $(document).ready(function() {
 		$(this).next('.dropdown').find('ul').css({'left' : position.left - 10, 'top' : position.top + 27});
 		return false;
 	});
+	$('.dropdown ul').mouseleave(function() {
+		$(this).css({'left' : '-9999px'});
+	});
+	$('.image-select-indicator').click(function() {
+		$('.image-select-ul-list').css({'left' : '-9999px'});
+		var position = $(this).position();
+		$(this).next('.image-select-ul-list').css({'left' : position.left, 'top' : position.top + 27});
+		return false;
+	});
+	$('.image-select-ul-list').mouseleave(function() {
+		$(this).css({'left' : '-9999px'});
+	});
 	$('.toggleable').click(function() {
 		var input = $(this).next('input');
 		var checked = input.attr('checked');
@@ -37,9 +49,6 @@ $(document).ready(function() {
 			$(this).text('Disabled');
 			input.attr('checked', false);
 		}
-	});
-	$('.dropdown ul').mouseleave(function() {
-		$(this).css({'left' : '-9999px'});
 	});
 });
 

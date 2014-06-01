@@ -32,7 +32,7 @@
 						<td><spring:message code="administration.issue.issuestatus.order"/></td>
 						<td><spring:message code="administration.issue.issuestatus.operations"/></td>
 					</tr>
-					<c:forEach items="${issueStatus}" var="status">
+					<c:forEach items="${issueStatuses}" var="status">
 					<tr class="list-table-item">
 						<td class="title-info">${status.name}</td>
 						<td class="description-info">${status.description}</td>

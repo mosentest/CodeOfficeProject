@@ -14,4 +14,10 @@ public class ProjectDTO implements DataTransferObject<Project> {
 		return null;
 	}
 
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

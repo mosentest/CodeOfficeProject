@@ -8,6 +8,17 @@
 	<short-name>CO</short-name>
 	<uri>http://www.codeoffice.com/codelib</uri>
 	<tag>
+		<name>formError</name>
+		<tag-class>mu.codeoffice.tag.FormErrorTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>errors</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.util.List</type>
+		</attribute>
+	</tag>
+	<tag>
 		<name>info</name>
 		<tag-class>mu.codeoffice.tag.InfoTag</tag-class>
 		<body-content>scriptless</body-content>

@@ -24,11 +24,12 @@
 			</div>
 			<div class="sub-element-content">
 				<div class="filter-content">
-					<form:form action="administration/issueLink/create" modelAttribute="issueLink" method="POST">
+					<form:form action="administration/link/create" modelAttribute="issueLink" method="POST">
 						<table class="minor-form-table">
 							<tr class="minor-form-title-row">
 								<td colspan="2"><spring:message code="administration.issue.issuelink.createIssueLink"/></td>
 							</tr>
+							<code:formError errors="${formErrors}"/>
 							<tr>
 								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.name"/></td>
 								<td class="minor-form-input-col"><form:input path="name"/></td>

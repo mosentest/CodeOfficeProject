@@ -375,6 +375,9 @@
 	font-size: 16px;
 	width: 100%;
 }
+.form-error-row {
+	color: #d04437;
+}
 .form-title-row, .key-value-title-row {
 	color: black;
 	font-weight: bold;
@@ -817,4 +820,27 @@
 }
 .color-palette-secondary-pink {
 	background-color: #f691b2;
+}
+.image-select-indicator {
+	border: 1px solid #999999;
+	border-radius: 3px;
+	padding: 5px 10px;
+	width: 200px;
+}
+.image-select-ul-list {
+	position: absolute;
+	left: -9999px;
+	border: 1px solid #999999;
+	border-radius: 3px;
+	background-color: white;
+	width: 220px;
+	text-align: left;
+}
+.image-select-ul-list li {
+	padding: 3px 5px;
+}
+.image-select-ul-list li:hover {
+	color: white;
+	background-color: #205081;
+	cursor: default;
 }

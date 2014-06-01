@@ -10,6 +10,14 @@
 		<jsp:param name="menu" value="issue"/>
 	</jsp:include>
 </div>
+<script>
+	function selectTypeIcon(icon) {
+		$('#typeIcon-icon').attr('src', 'assets/img/office/type/' + icon + ".png");
+		$('#typeIcon-text').text(icon);
+		$('.image-select-ul-list').css({'left' : '-9999px'});
+		$("input[name='icon']").val(icon);
+	}
+</script>
 <spring:message var="text_standard" code="administration.issue.issuetype.standard" />
 <spring:message var="text_subtask" code="administration.issue.issuetype.subtask" />
 <spring:message var="text_edit" code="application.edit" />
@@ -25,6 +33,48 @@
 				<div class="sub-element-description">Edit your enterprise global settings.</div>
 			</div>
 			<div class="sub-element-content">
+				<div class="filter-content">
+					<form:form action="administration/type/create" modelAttribute="issueType" method="POST">
+						<table class="minor-form-table">
+							<tr class="minor-form-title-row">
+								<td colspan="2"><spring:message code="administration.issue.issuetype.createIssueType"/></td>
+							</tr>
+							<code:formError errors="${formErrors}"/>
+							<tr>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.name"/></td>
+								<td class="minor-form-input-col"><form:input path="name"/></td>
+							</tr>
+							<tr>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.description"/></td>
+								<td class="minor-form-input-col"><form:input path="description" class="long-field" /></td>
+							</tr>
+							<tr>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.icon"/></td>
+								<td class="minor-form-input-col">
+									<form:hidden path="icon"/>
+									<span class="image-select-indicator imglink" id="typeIcon">
+										<img id="typeIcon-icon" src="assets/img/office/type/${icons[0]}.png"/>
+										<span id="typeIcon-text" class="text">${icons[0]}</span>
+										<img class="icon-module icon-module-menu-indicator" src="assets/img/core/empty.png"/>
+									</span>
+									<div class="image-select-ul-list">
+										<ul>
+											<c:forEach items="${icons}" var="icon">
+											<li class="imglink" onclick="javascript:selectTypeIcon('${icon}');">
+												<img src="assets/img/office/type/${icon}.png"/>
+												<span class="text">${icon}</span>
+											</li>
+											</c:forEach>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2"><input type="submit" class="button" value="<spring:message code="application.create"/>"/></td>
+							</tr>
+						</table>
+					</form:form>
+				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="administration.issue.issuetype.name"/></td>

@@ -15,11 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import mu.codeoffice.entity.settings.IssueLinkType;
-
 @Entity
 @Table(name = "issuelink")
-public class IssueLink implements Serializable {
+public class IssueLinking implements Serializable {
 
 	private static final long serialVersionUID = -6567864973408779465L;
 
@@ -37,7 +35,7 @@ public class IssueLink implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "linktype_id")
-	private IssueLinkType linkType;
+	private IssueLinking linkType;
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="issuelink_linked", uniqueConstraints = @UniqueConstraint(columnNames = {"issuelink_id", "linked_id"}),
@@ -45,7 +43,7 @@ public class IssueLink implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "linked_id", referencedColumnName = "id"))
 	private List<Issue> issues;
 	
-	public IssueLink() {}
+	public IssueLinking() {}
 
 	public Long getId() {
 		return id;
@@ -63,11 +61,11 @@ public class IssueLink implements Serializable {
 		this.issueObject = issueObject;
 	}
 
-	public IssueLinkType getLinkType() {
+	public IssueLinking getLinkType() {
 		return linkType;
 	}
 
-	public void setLinkType(IssueLinkType linkType) {
+	public void setLinkType(IssueLinking linkType) {
 		this.linkType = linkType;
 	}
 

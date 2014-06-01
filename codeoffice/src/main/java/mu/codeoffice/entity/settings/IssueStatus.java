@@ -12,12 +12,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "settings_issuestatus", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class IssueStatus implements Serializable {
+	
+	public static final String[] ICONS = {
+		"assigned", "closed", "document", "down", "email", "generic", "information", "inprogress",
+		"invisible", "needinfo", "open", "reopened", "resolved", "trash", "unassigned", "up", "visible"
+	};
 
 	private static final long serialVersionUID = -8322633157968172805L;
 	@Id
@@ -29,24 +39,39 @@ public class IssueStatus implements Serializable {
 	private Enterprise enterprise;
 	
 	@Column(name = "name")
+	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
+	@Size(max = 20)
 	private String name;
 
 	@Column(name = "description")
+	@Size(max = 200)
 	private String description;
 
 	@Column(name = "default_status")
 	private boolean defaultStatus;
 
 	@Column(name = "icon")
+	@NotEmpty
 	private String icon;
 	
 	@Column(name = "status_order")
+	@Range(min = 0)
 	private int statusOrder;
 
 	@Column(name = "color")
+	@Pattern(regexp = "([a-f]|[A-F]|[0-9]){6}")
 	private String color;
 	
 	public IssueStatus() {}
+	
+	public static boolean isValidIcon(String icon) {
+		for (String string : ICONS) {
+			if (string.equals(icon)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public Long getId() {
 		return id;

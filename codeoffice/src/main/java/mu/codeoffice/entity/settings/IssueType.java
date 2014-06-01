@@ -14,20 +14,25 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "settings_issuetype", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class IssueType implements Serializable {
+
+	private static final long serialVersionUID = -8322633157968172805L;
 	
-	private static final String[] VALID_ICONS = {
+	public static final String[] ICONS = {
 		"all_unassigned", "blank", "bug", "defect", "delete", "documentation",
 		"epic", "exclamation", "generic", "health", "improvement", "newfeature",
 		"removefeature", "requirement", "sales", "story", "subtask", "task", "taskagile", "undefined"
 	};
-
-	private static final long serialVersionUID = -8322633157968172805L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -37,9 +42,12 @@ public class IssueType implements Serializable {
 	private Enterprise enterprise;
 	
 	@Column(name = "name")
+	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
+	@Size(max = 20)
 	private String name;
 
 	@Column(name = "description")
+	@Size(max = 200)
 	private String description;
 
 	@Column(name = "is_standard")
@@ -49,6 +57,7 @@ public class IssueType implements Serializable {
 	private boolean defaultType;
 
 	@Column(name = "icon")
+	@NotEmpty
 	private String icon;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "issueTypes")
@@ -57,7 +66,7 @@ public class IssueType implements Serializable {
 	public IssueType() {}
 	
 	public static boolean isValidIcon(String icon) {
-		for (String string : VALID_ICONS) {
+		for (String string : ICONS) {
 			if (string.equals(icon)) {
 				return true;
 			}

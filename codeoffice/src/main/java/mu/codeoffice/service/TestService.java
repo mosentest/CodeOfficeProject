@@ -18,7 +18,7 @@ import mu.codeoffice.entity.settings.GeneralProjectSettings;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
-import mu.codeoffice.entity.settings.IssueLinkType;
+import mu.codeoffice.entity.settings.IssueLink;
 import mu.codeoffice.entity.settings.IssuePriority;
 import mu.codeoffice.entity.settings.IssueResolution;
 import mu.codeoffice.entity.settings.IssueStatus;
@@ -43,7 +43,7 @@ import mu.codeoffice.repository.settings.GeneralProjectSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
-import mu.codeoffice.repository.settings.IssueLinkTypeRepository;
+import mu.codeoffice.repository.settings.IssueLinkRepository;
 import mu.codeoffice.repository.settings.IssuePriorityRepository;
 import mu.codeoffice.repository.settings.IssueResolutionRepository;
 import mu.codeoffice.repository.settings.IssueStatusRepository;
@@ -124,7 +124,7 @@ public class TestService {
 	private UserGroupRepository userGroupRepository;
 
 	@Resource
-	private IssueLinkTypeRepository issueLinkTypeRepository;
+	private IssueLinkRepository issueLinkTypeRepository;
 
 	@Resource
 	private IssueTypeRepository issueTypeRepository;
@@ -336,32 +336,32 @@ public class TestService {
 	public void _6_CreateIssueTypeAndLinks() {
 		Enterprise enterprise = enterpriseRepository.getOne(1l);
 
-		IssueLinkType l1 = new IssueLinkType();
+		IssueLink l1 = new IssueLink();
 		l1.setEnterprise(enterprise);
 		l1.setName("Block");
 		l1.setInwardLink("blocks");
 		l1.setOutwardLink("blocked by");
-		IssueLinkType l2 = new IssueLinkType();
+		IssueLink l2 = new IssueLink();
 		l2.setEnterprise(enterprise);
 		l2.setName("Epic");
 		l2.setInwardLink("belongs to Epic");
 		l2.setOutwardLink("is the Epic for");
-		IssueLinkType l3 = new IssueLinkType();
+		IssueLink l3 = new IssueLink();
 		l3.setEnterprise(enterprise);
 		l3.setName("Cause");
 		l3.setInwardLink("causes");
 		l3.setOutwardLink("caused by");
-		IssueLinkType l4 = new IssueLinkType();
+		IssueLink l4 = new IssueLink();
 		l4.setEnterprise(enterprise);
 		l4.setName("Duplicate");
 		l4.setInwardLink("duplicates");
 		l4.setOutwardLink("is duplicated by");
-		IssueLinkType l5 = new IssueLinkType();
+		IssueLink l5 = new IssueLink();
 		l5.setEnterprise(enterprise);
 		l5.setName("Design");
 		l5.setInwardLink("has design on");
 		l5.setOutwardLink("is design for");
-		IssueLinkType l6 = new IssueLinkType();
+		IssueLink l6 = new IssueLink();
 		l6.setEnterprise(enterprise);
 		l6.setName("Depent");
 		l6.setInwardLink("depends on");

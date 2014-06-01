@@ -5,13 +5,13 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mu.codeoffice.common.InformationException;
-import mu.codeoffice.entity.settings.IssueLinkType;
+import mu.codeoffice.entity.settings.IssueLink;
 import mu.codeoffice.entity.settings.IssuePriority;
 import mu.codeoffice.entity.settings.IssueResolution;
 import mu.codeoffice.entity.settings.IssueStatus;
 import mu.codeoffice.entity.settings.IssueType;
 import mu.codeoffice.entity.settings.IssueTypeScheme;
-import mu.codeoffice.repository.settings.IssueLinkTypeRepository;
+import mu.codeoffice.repository.settings.IssueLinkRepository;
 import mu.codeoffice.repository.settings.IssuePriorityRepository;
 import mu.codeoffice.repository.settings.IssueResolutionRepository;
 import mu.codeoffice.repository.settings.IssueStatusRepository;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class IssuePropertyConfigurationService {
 
 	@Resource
-	private IssueLinkTypeRepository issueLinkTypeRepository;
+	private IssueLinkRepository issueLinkRepository;
 
 	@Resource
 	private IssueTypeRepository issueTypeRepository;
@@ -46,19 +46,41 @@ public class IssuePropertyConfigurationService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
-	public void create(EnterpriseAuthentication auth, IssueType issueType, boolean isSubTask) throws AuthenticationException, InformationException {
-		if (!issueLinkTypeRepository.isNameAvailable(auth.getEnterprise(), issueType.getName(), 0l)) {
-			throw new InformationException("Name already exist.");
-		}
+	public void create(EnterpriseAuthentication auth, IssueLink issueLink) throws AuthenticationException, InformationException {
+		
+	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public void create(EnterpriseAuthentication auth, IssueStatus issueStatus) throws AuthenticationException, InformationException {
+		
+	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public void create(EnterpriseAuthentication auth, IssuePriority issuePriority) throws AuthenticationException, InformationException {
+		
+	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public void create(EnterpriseAuthentication auth, IssueResolution issueResolution) throws AuthenticationException, InformationException {
+	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public void create(EnterpriseAuthentication auth, IssueType issueType) throws AuthenticationException, InformationException {
 		if (StringUtil.isEmptyString(issueType.getName())) {
 			throw new InformationException("Name can not be empty.");
+		}
+		if (!issueLinkRepository.isNameAvailable(auth.getEnterprise(), issueType.getName(), 0l)) {
+			throw new InformationException("Name already exist.");
 		}
 		if (!IssueType.isValidIcon(issueType.getIcon())) {
 			throw new InformationException("Icon is invalid.");
 		}
 		issueType.setEnterprise(auth.getEnterprise());
 		issueType.setId(null);
-		issueType.setStandard(isSubTask);
 		issueTypeRepository.save(issueType);
 	}
 	
@@ -94,47 +116,32 @@ public class IssuePropertyConfigurationService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
-	public void create(EnterpriseAuthentication auth, IssueLinkType issueLinkType) throws AuthenticationException, InformationException {
-		if (!issueLinkTypeRepository.isNameAvailable(auth.getEnterprise(), issueLinkType.getName(), 0l)) {
-			throw new InformationException("Name already exist.");
-		}
-		if (StringUtil.isEmptyString(issueLinkType.getName()) || StringUtil.isEmptyString(issueLinkType.getInwardLink()) || 
-				StringUtil.isEmptyString(issueLinkType.getOutwardLink())) {
-			throw new InformationException("Fields can not be empty.");
-		}
-		issueLinkType.setEnterprise(auth.getEnterprise());
-		issueLinkType.setId(null);
-		issueLinkTypeRepository.save(issueLinkType);
-	}
-	
-	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
-	public void update(EnterpriseAuthentication auth, IssueLinkType issueLinkType) throws AuthenticationException, InformationException {
-		IssueLinkType original = issueLinkTypeRepository.getIssueLinkType(auth.getEnterprise(), issueLinkType.getName());
+	public void update(EnterpriseAuthentication auth, IssueLink issueLink) throws AuthenticationException, InformationException {
+		IssueLink original = issueLinkRepository.getIssueLink(auth.getEnterprise(), issueLink.getName());
 		if (original == null) {
 			throw new InformationException("Issue Link Type not exist.");
 		}
-		if (!issueLinkTypeRepository.isNameAvailable(auth.getEnterprise(), issueLinkType.getName(), original.getId())) {
+		if (!issueLinkRepository.isNameAvailable(auth.getEnterprise(), issueLink.getName(), original.getId())) {
 			throw new InformationException("Name already exist.");
 		}
-		if (StringUtil.isEmptyString(issueLinkType.getInwardLink()) || StringUtil.isEmptyString(issueLinkType.getOutwardLink())) {
+		if (StringUtil.isEmptyString(issueLink.getInwardLink()) || StringUtil.isEmptyString(issueLink.getOutwardLink())) {
 			throw new InformationException("Fields can not be empty.");
 		}
-		original.setInwardLink(issueLinkType.getInwardLink());
-		original.setOutwardLink(issueLinkType.getOutwardLink());
-		original.setName(issueLinkType.getName());
-		issueLinkTypeRepository.save(original);
+		original.setInwardLink(issueLink.getInwardLink());
+		original.setOutwardLink(issueLink.getOutwardLink());
+		original.setName(issueLink.getName());
+		issueLinkRepository.save(original);
 	}
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
-	public void deleteIssueLinkType(EnterpriseAuthentication auth, String issueLinkTypeName) throws AuthenticationException, InformationException {
-		IssueLinkType original = issueLinkTypeRepository.getIssueLinkType(auth.getEnterprise(), issueLinkTypeName);
+	public void deleteissueLink(EnterpriseAuthentication auth, String issueLinkName) throws AuthenticationException, InformationException {
+		IssueLink original = issueLinkRepository.getIssueLink(auth.getEnterprise(), issueLinkName);
 		if (original == null) {
 			throw new InformationException("Issue Link Type not exist.");
 		}
 		//CHECKE FOR USAGE
-		issueLinkTypeRepository.delete(original);
+		issueLinkRepository.delete(original);
 	}
 
 	@Transactional(readOnly = true)
@@ -156,8 +163,8 @@ public class IssuePropertyConfigurationService {
 
 	@Transactional(readOnly = true)
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
-	public IssueLinkType getIssueLinkType(EnterpriseAuthentication auth, String name) {
-		return issueLinkTypeRepository.getIssueLinkType(auth.getEnterprise(), name);
+	public IssueLink getIssueLink(EnterpriseAuthentication auth, String name) {
+		return issueLinkRepository.getIssueLink(auth.getEnterprise(), name);
 	}
 
 	@Transactional(readOnly = true)
@@ -195,8 +202,8 @@ public class IssuePropertyConfigurationService {
 	}
 
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
-	public List<IssueLinkType> getIssueLinkTypes(EnterpriseAuthentication auth) {
-		return issueLinkTypeRepository.getIssueLinkTypes(auth.getEnterprise());
+	public List<IssueLink> getIssueLinks(EnterpriseAuthentication auth) {
+		return issueLinkRepository.getIssueLinks(auth.getEnterprise());
 	}
 
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")

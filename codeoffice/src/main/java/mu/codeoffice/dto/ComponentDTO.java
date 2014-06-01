@@ -35,6 +35,12 @@ public class ComponentDTO implements DataTransferObject<Component> {
 		return null;
 	}
 
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	public String getCode() {
 		return code;
 	}

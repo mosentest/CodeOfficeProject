@@ -133,6 +133,7 @@
 			<list>
 				<value>i18n/message/enterprise</value>
 				<value>i18n/message/project</value>
+				<value>i18n/message/validation</value>
 				<value>i18n/administration/enums</value>
 				<value>i18n/administration/permissions</value>
 				<value>i18n/administration/administration</value>
