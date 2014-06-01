@@ -42,7 +42,7 @@
 							</tr>
 							<code:formError errors="${formErrors}"/>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.name"/></td>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.name"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="name"/></td>
 							</tr>
 							<tr>
@@ -50,7 +50,7 @@
 								<td class="minor-form-input-col"><form:input path="description" class="long-field" /></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.icon"/></td>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.icon"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col">
 									<form:hidden path="icon"/>
 									<span class="image-select-indicator imglink" id="typeIcon">

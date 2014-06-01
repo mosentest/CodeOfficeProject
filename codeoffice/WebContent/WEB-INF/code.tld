@@ -8,6 +8,11 @@
 	<short-name>CO</short-name>
 	<uri>http://www.codeoffice.com/codelib</uri>
 	<tag>
+		<name>colorTable</name>
+		<tag-class>mu.codeoffice.tag.ColorTableTag</tag-class>
+		<body-content>scriptless</body-content>
+	</tag>
+	<tag>
 		<name>formError</name>
 		<tag-class>mu.codeoffice.tag.FormErrorTag</tag-class>
 		<body-content>scriptless</body-content>

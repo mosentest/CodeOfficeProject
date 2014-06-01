@@ -10,6 +10,28 @@
 		<jsp:param name="menu" value="issue"/>
 	</jsp:include>
 </div>
+<script>
+	function showColorPanel(link) {
+		var colorPanel = $('#color-panel');
+		if (colorPanel.is(':visible')) {
+			$(link).text('[Show Color Panel]');
+			colorPanel.hide();
+		} else {
+			$(link).text('[Hide Color Panel]');
+			colorPanel.show();
+		}
+	}
+	$(document).ready(function() {
+		$('.color-info-choose').click(function() {
+			var colorInfo = $('#color-info');
+			console.log(colorInfo.attr('class'));
+			console.log(colorInfo.attr('class').split(' ')[0]);
+			console.log($(this).attr('class').split(' ')[1]);
+			colorInfo.attr('class', colorInfo.attr('class').split(' ')[0] + " " + $(this).attr('class').split(' ')[1]);
+			$("input[name='color']").val(rgb2hex(colorInfo.css('background-color')).slice(1));
+		});
+	});
+</script>
 <spring:message var="text_edit" code="application.edit" />
 <spring:message var="text_delete" code="application.delete" />
 <div id="content">
@@ -23,6 +45,39 @@
 				<div class="sub-element-description">Edit your enterprise global settings.</div>
 			</div>
 			<div class="sub-element-content">
+				<div class="filter-content">
+					<div class="fl-l">
+					<form:form action="administration/resolution/create" modelAttribute="issueResolution" method="POST">
+						<table class="minor-form-table">
+							<tr class="minor-form-title-row">
+								<td colspan="2"><spring:message code="administration.issue.issueresolution.createResolution"/></td>
+							</tr>
+							<code:formError errors="${formErrors}"/>
+							<tr>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issueresolution.name"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-input-col"><form:input path="name"/></td>
+							</tr>
+							<tr>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issueresolution.description"/></td>
+								<td class="minor-form-input-col"><form:input path="description" class="long-field" /></td>
+							</tr>
+							<tr>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issueresolution.color"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-input-col imglink">
+									<form:hidden path="color" value="205081"/>
+									<span class="color-info color-palette-primary-blue" id="color-info" ></span>
+									<a class="link" href="javascript:void(0);" onclick="javascript:showColorPanel(this);">[Show Color Panel]</a>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2"><input type="submit" class="button" value="<spring:message code="application.create"/>"/></td>
+							</tr>
+						</table>
+					</form:form>
+					</div>
+					<div class="fl-l" id="color-panel" style="display: none;"><code:colorTable/></div>
+					<div class="clearfix"></div>
+				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="administration.issue.issueresolution.name"/></td>

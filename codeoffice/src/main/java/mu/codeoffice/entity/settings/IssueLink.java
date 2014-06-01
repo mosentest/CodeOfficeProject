@@ -17,6 +17,8 @@ import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "settings_issuelink", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class IssueLink implements Serializable {
@@ -37,11 +39,13 @@ public class IssueLink implements Serializable {
 	private String name;
 
 	@Column(name = "outward_link")
-	@Size(max = 200)
+	@NotEmpty
+	@Size(max = 50)
 	private String outwardLink;
 
 	@Column(name = "inward_link")
-	@Size(max = 200)
+	@Size(max = 50)
+	@NotEmpty
 	private String inwardLink;
 
 	@Column(name = "default_link")

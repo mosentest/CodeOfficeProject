@@ -31,15 +31,15 @@
 							</tr>
 							<code:formError errors="${formErrors}"/>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.name"/></td>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.name"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="name"/></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.outwardDescription"/></td>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.outwardDescription"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="outwardLink" class="long-field" /></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.inwardDescription"/></td>
+								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.inwardDescription"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="inwardLink" class="long-field" /></td>
 							</tr>
 							<tr>
