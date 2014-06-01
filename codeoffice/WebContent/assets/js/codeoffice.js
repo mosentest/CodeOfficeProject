@@ -11,6 +11,7 @@ $(document).ready(function() {
 		if (left.height() >= main.height()) {
 			left.addClass('leftmenu-border');
 			main.addClass('noborder');
+			main.height(left.height());
 		} else {
 			main.addClass('maincontent-border');
 			left.addClass('noborder');

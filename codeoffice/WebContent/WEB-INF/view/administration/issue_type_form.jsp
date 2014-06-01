@@ -17,35 +17,30 @@
 		<jsp:param name="menu" value="issueType"/>
 	</jsp:include>
 	<div id="maincontent">
-		<div class="sub-element">
-			<div class="sub-element-info">
-				<div class="sub-element-title">${issueStatus.name}</div>
-				<div class="sub-element-description">${issueStatus.description}</div>
-			</div>
-			<div class="sub-element-content">
-				<table class="form-table">
-					<tr>
-						<td><spring:message code="administration.issue.issuetype.name"/></td>
-						<td><spring:message code="administration.issue.issuetype.icon"/></td>
-						<td><spring:message code="administration.issue.issuetype.type"/></td>
-						<td><spring:message code="administration.issue.issuetype.relatedSchemes"/></td>
-					</tr>
-					<tr>
-						<td>
-							<span class="title-info">${issueType.name}</span>
-							<c:if test="${not empty issueType.description}"><br /><span class="description-info">${issueType.description}</span></c:if>
-						</td>
-						<td><img src="assets/img/office/type/${issueType.icon}.png"/></td>
-						<td>${issueType.standard ? text_standard : text_subtask}</td>
-						<td>
-							<ul class="info-ul-list">
-								<c:forEach items="${issueType.issueTypeSchemes}" var="scheme">
-								<li><a class="link" href="administration/issueTypeScheme/${scheme.name}.html">${scheme.name}</a></li>
-								</c:forEach>
-							</ul>
-						</td>
-					</tr>
-				</table>
+		<div class="panel-content">
+			<div class="panel-element">
+				<div class="panel-element-title">
+					<div class="panel-element-info">${issueType.name}</div>
+					<div class="panel-element-description">${issueType.description}</div>
+				</div>
+				<div class="panel-element-content">
+					<table class="form-table">
+						<tr>
+							<td><spring:message code="administration.issue.issuetype.name"/></td>
+							<td><spring:message code="administration.issue.issuetype.icon"/></td>
+							<td><spring:message code="administration.issue.issuetype.type"/></td>
+							<td><spring:message code="administration.issue.issuetype.relatedSchemes"/></td>
+						</tr>
+						<tr>
+							<td>
+								<span class="title-info">${issueType.name}</span>
+								<c:if test="${not empty issueType.description}"><br /><span class="description-info">${issueType.description}</span></c:if>
+							</td>
+							<td><img src="assets/img/office/type/${issueType.icon}.png"/></td>
+							<td>${issueType.standard ? text_standard : text_subtask}</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
