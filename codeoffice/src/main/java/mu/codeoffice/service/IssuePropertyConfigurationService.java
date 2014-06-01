@@ -150,6 +150,36 @@ public class IssuePropertyConfigurationService {
 
 	@Transactional(readOnly = true)
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public IssueType getIssueType(EnterpriseAuthentication auth, String name) {
+		return issueTypeRepository.getIssueType(auth.getEnterprise(), name);
+	}
+
+	@Transactional(readOnly = true)
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public IssueLinkType getIssueLinkType(EnterpriseAuthentication auth, String name) {
+		return issueLinkTypeRepository.getIssueLinkType(auth.getEnterprise(), name);
+	}
+
+	@Transactional(readOnly = true)
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public IssueStatus getIssueStatus(EnterpriseAuthentication auth, String name) {
+		return issueStatusRepository.getIssueStatus(auth.getEnterprise(), name);
+	}
+
+	@Transactional(readOnly = true)
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public IssueResolution getIssueResolution(EnterpriseAuthentication auth, String name) {
+		return issueResolutionRepository.getIssueResolution(auth.getEnterprise(), name);
+	}
+
+	@Transactional(readOnly = true)
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
+	public IssuePriority getIssuePriority(EnterpriseAuthentication auth, String name) {
+		return issuePriorityRepository.getIssuePriority(auth.getEnterprise(), name);
+	}
+
+	@Transactional(readOnly = true)
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN',)")
 	public List<IssueType> getSubTaskTypes(EnterpriseAuthentication auth) {
 		return issueTypeRepository.getSubTaskTypes(auth.getEnterprise());
 	}
