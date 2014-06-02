@@ -6,6 +6,7 @@ import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.settings.IssuePriority;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -16,6 +17,10 @@ public interface IssuePriorityRepository extends JpaRepository<IssuePriority, Lo
 
 	@Query("SELECT p FROM IssuePriority p WHERE p.enterprise = :enterprise AND p.name = :name")
 	public IssuePriority getIssuePriority(@Param("enterprise") Enterprise enterprise, @Param("name") String name);
+
+	@Modifying
+	@Query("UPDATE IssuePriority p SET p.order = p.order - 1 WHERE p.enterprise = :enterprise AND p.order > :order")
+	public int resetOrder(@Param("enterprise") Enterprise enterprise, @Param("order") int order);
 
 	@Query("SELECT COUNT(p) = 0 FROM IssuePriority p WHERE p.enterprise = :enterprise AND LOWER(p.name) = :name AND p.id <> :id")
 	public boolean isNameAvailable(@Param("enterprise") Enterprise enterprise, @Param("name") String name, @Param("id") Long id);

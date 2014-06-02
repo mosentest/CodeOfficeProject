@@ -220,6 +220,7 @@ public class IssuePropertyConfigurationService {
 			throw new InformationException("Issue Status not exist.");
 		}
 		//CHECKE FOR USAGE
+		issueStatusRepository.resetOrder(auth.getEnterprise(), original.getOrder());
 		issueStatusRepository.delete(original);
 	}
 	
@@ -231,6 +232,7 @@ public class IssuePropertyConfigurationService {
 			throw new InformationException("Issue Resolution not exist.");
 		}
 		//CHECKE FOR USAGE
+		issueResolutionRepository.resetOrder(auth.getEnterprise(), original.getOrder());
 		issueResolutionRepository.delete(original);
 	}
 	
@@ -242,6 +244,7 @@ public class IssuePropertyConfigurationService {
 			throw new InformationException("Issue Priority not exist.");
 		}
 		//CHECKE FOR USAGE
+		issuePriorityRepository.resetOrder(auth.getEnterprise(), original.getOrder());
 		issuePriorityRepository.delete(original);
 	}
 	
