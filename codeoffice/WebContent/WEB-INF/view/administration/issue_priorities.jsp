@@ -70,7 +70,7 @@
 							<tr>
 								<td class="minor-form-label-col"><spring:message code="administration.issue.issuepriority.icon"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col">
-									<form:hidden path="icon"/>
+									<form:hidden path="icon" value="${icons[0]}"/>
 									<span class="image-select-indicator imglink" id="typeIcon">
 										<img id="typeIcon-icon" src="assets/img/office/priority/${icons[0]}.png"/>
 										<span id="typeIcon-text" class="text">${icons[0]}</span>
@@ -133,5 +133,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
+	<form id="remoteForm" method="POST"></form>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />

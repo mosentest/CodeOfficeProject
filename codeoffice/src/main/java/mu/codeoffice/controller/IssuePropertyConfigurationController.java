@@ -40,7 +40,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			@RequestParam("type") String type,
 			RedirectAttributes redirectAttributes, ModelMap model) {
 		try {
-			issuePropertyConfigurationService.deleteIssueType(auth, type);
+			issuePropertyConfigurationService.deleteIssueType(auth, type, true);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type has been deleted.");
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
@@ -53,12 +53,12 @@ public class IssuePropertyConfigurationController implements GenericController {
 			@RequestParam("type") String type,
 			RedirectAttributes redirectAttributes, ModelMap model) {
 		try {
-			issuePropertyConfigurationService.deleteIssueType(auth, type);
+			issuePropertyConfigurationService.deleteIssueType(auth, type, false);
 			redirectAttributes.addFlashAttribute(TIP, "Sub task type has been deleted.");
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 		}
-		return "redirect:/administration/sbutasks.html";
+		return "redirect:/administration/subtasks.html";
 	}
 
 	@RequestMapping(value = "status/delete", method = RequestMethod.POST)
@@ -110,7 +110,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 		}
-		return "redirect:/administration/link.html";
+		return "redirect:/administration/links.html";
 	}
 	
 	@RequestMapping(value = "type/create", method = RequestMethod.POST)
@@ -220,7 +220,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "type/edit.html", method = RequestMethod.GET)
 	public ModelAndView typeEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("type") String type, RedirectAttributes redirectAttributes, ModelMap model) {
-		IssueType issueType = issuePropertyConfigurationService.getIssueType(auth, type);
+		IssueType issueType = issuePropertyConfigurationService.getIssueType(auth, type, true);
 		if (issueType == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Issue Type no found.");
 			return new ModelAndView("redirect:/administration/types.html");
@@ -233,7 +233,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "subtask/edit.html", method = RequestMethod.GET)
 	public ModelAndView subtaskEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("type") String type, RedirectAttributes redirectAttributes, ModelMap model) {
-		IssueType issueType = issuePropertyConfigurationService.getIssueType(auth, type);
+		IssueType issueType = issuePropertyConfigurationService.getIssueType(auth, type, false);
 		if (issueType == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Sub task no found.");
 			return new ModelAndView("redirect:/administration/subtasks.html");
@@ -302,7 +302,8 @@ public class IssuePropertyConfigurationController implements GenericController {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
 			try {
-				issuePropertyConfigurationService.update(auth, issueType);
+				issueType.setStandard(true);
+				issuePropertyConfigurationService.update(auth, issueType, true);
 				redirectAttributes.addFlashAttribute(TIP, "Issue Type has been updated.");
 				return "redirect:/administration/types.html";
 			} catch (InformationException e) {
@@ -321,7 +322,8 @@ public class IssuePropertyConfigurationController implements GenericController {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
 			try {
-				issuePropertyConfigurationService.update(auth, issueType);
+				issueType.setStandard(false);
+				issuePropertyConfigurationService.update(auth, issueType, false);
 				redirectAttributes.addFlashAttribute(TIP, "Sub task has been updated.");
 				return "redirect:/administration/subtasks.html";
 			} catch (InformationException e) {
@@ -386,7 +388,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 			}
 		}
-		return "redirect:/administration/type/resolution.html?resolution=" + resolution;
+		return "redirect:/administration/resolution/edit.html?resolution=" + resolution;
 	}
 	
 	@RequestMapping(value = "priority/edit", method = RequestMethod.POST)
@@ -400,12 +402,12 @@ public class IssuePropertyConfigurationController implements GenericController {
 			try {
 				issuePropertyConfigurationService.update(auth, issuePriority);
 				redirectAttributes.addFlashAttribute(TIP, "Issue Priority has been updated.");
-				return "redirect:/administration/prioritys.html";
+				return "redirect:/administration/priorities.html";
 			} catch (InformationException e) {
 				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 			}
 		}
-		return "redirect:/administration/type/priority.html?priority=" + priority;
+		return "redirect:/administration/priority/edit.html?priority=" + priority;
 	}
 	
 	@RequestMapping(value = "types.html", method = RequestMethod.GET)

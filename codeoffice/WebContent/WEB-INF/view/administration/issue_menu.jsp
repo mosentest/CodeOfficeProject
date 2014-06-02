@@ -6,10 +6,10 @@
 <security:authorize access="isAuthenticated()">
 	<li class="${param.menu eq 'home' ? 'selected' : ''}"><a class="link" href="administration.home"><spring:message code="administration.home"/></a></li>
 	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.issueTypes"/></div>
-	<li class="${param.menu eq 'issueType' ? 'selected' : ''}"><a class="link" href="administration/types.html"><spring:message code="administration.issue.issueTypes"/></a></li>
-	<li class="${param.menu eq 'issueTypeScheme' ? 'selected' : ''}"><a class="link" href="administration/typeSchemes.html"><spring:message code="administration.issue.issueTypeSchemes"/></a></li>
+	<li class="${param.menu eq 'type' ? 'selected' : ''}"><a class="link" href="administration/types.html"><spring:message code="administration.issue.issueTypes"/></a></li>
+	<li class="${param.menu eq 'typeScheme' ? 'selected' : ''}"><a class="link" href="administration/typeSchemes.html"><spring:message code="administration.issue.issueTypeSchemes"/></a></li>
 	<li class="${param.menu eq 'subtask' ? 'selected' : ''}"><a class="link" href="administration/subtasks.html"><spring:message code="administration.issue.subtasks"/></a></li>
-	<li class="${param.menu eq 'issueLink' ? 'selected' : ''}"><a class="link" href="administration/links.html"><spring:message code="administration.issue.issueLinks"/></a></li>
+	<li class="${param.menu eq 'link' ? 'selected' : ''}"><a class="link" href="administration/links.html"><spring:message code="administration.issue.issueLinks"/></a></li>
 	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.screens"/></div>
 	<li class="${param.menu eq 'screen' ? 'selected' : ''}"><a class="link" href="administration/screen.html"><spring:message code="administration.issue.screen"/></a></li>
 	<li class="${param.menu eq 'screenScheme' ? 'selected' : ''}"><a class="link" href="administration/screenScheme.html"><spring:message code="administration.issue.screenScheme"/></a></li>

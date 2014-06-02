@@ -11,6 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface IssueResolutionRepository extends JpaRepository<IssueResolution, Long> {
 
+	@Query("SELECT r FROM IssueResolution r WHERE r.enterprise = :enterprise AND r.id = :id")
+	public IssueResolution getIssueResolution(@Param("enterprise") Enterprise enterprise, @Param("id") Long id);
+
 	@Query("SELECT r FROM IssueResolution r WHERE r.enterprise = :enterprise AND r.name = :name")
 	public IssueResolution getIssueResolution(@Param("enterprise") Enterprise enterprise, @Param("name") String name);
 

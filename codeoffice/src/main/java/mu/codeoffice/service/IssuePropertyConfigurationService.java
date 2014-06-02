@@ -46,7 +46,7 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueStatus issueStatus) throws AuthenticationException, InformationException {
-		IssueStatus original = issueStatusRepository.getIssueStatus(auth.getEnterprise(), issueStatus.getName());
+		IssueStatus original = issueStatusRepository.getIssueStatus(auth.getEnterprise(), issueStatus.getId());
 		if (original == null) {
 			throw new InformationException("Issue Status not exist.");
 		}
@@ -66,7 +66,7 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueResolution issueResolution) throws AuthenticationException, InformationException {
-		IssueResolution original = issueResolutionRepository.getIssueResolution(auth.getEnterprise(), issueResolution.getName());
+		IssueResolution original = issueResolutionRepository.getIssueResolution(auth.getEnterprise(), issueResolution.getId());
 		if (original == null) {
 			throw new InformationException("Issue Resolution not exist.");
 		}
@@ -82,7 +82,7 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssuePriority issuePriority) throws AuthenticationException, InformationException {
-		IssuePriority original = issuePriorityRepository.getIssuePriority(auth.getEnterprise(), issuePriority.getName());
+		IssuePriority original = issuePriorityRepository.getIssuePriority(auth.getEnterprise(), issuePriority.getId());
 		if (original == null) {
 			throw new InformationException("Issue Priority not exist.");
 		}
@@ -102,7 +102,7 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueLink issueLink) throws AuthenticationException, InformationException {
-		IssueLink original = issueLinkRepository.getIssueLink(auth.getEnterprise(), issueLink.getName());
+		IssueLink original = issueLinkRepository.getIssueLink(auth.getEnterprise(), issueLink.getId());
 		if (original == null) {
 			throw new InformationException("Issue Link not exist.");
 		}
@@ -117,8 +117,8 @@ public class IssuePropertyConfigurationService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void update(EnterpriseAuthentication auth, IssueType issueType) throws AuthenticationException, InformationException {
-		IssueType original = issueTypeRepository.getIssueType(auth.getEnterprise(), issueType.getName());
+	public void update(EnterpriseAuthentication auth, IssueType issueType, boolean standard) throws AuthenticationException, InformationException {
+		IssueType original = issueTypeRepository.getIssueType(auth.getEnterprise(), issueType.getId(), standard);
 		if (original == null) {
 			throw new InformationException("Issue Type not exist.");
 		}
@@ -203,8 +203,8 @@ public class IssuePropertyConfigurationService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void deleteIssueType(EnterpriseAuthentication auth, String issueTypeName) throws AuthenticationException, InformationException {
-		IssueType original = issueTypeRepository.getIssueType(auth.getEnterprise(), issueTypeName);
+	public void deleteIssueType(EnterpriseAuthentication auth, String issueTypeName, boolean standard) throws AuthenticationException, InformationException {
+		IssueType original = issueTypeRepository.getIssueType(auth.getEnterprise(), issueTypeName, standard);
 		if (original == null) {
 			throw new InformationException("Issue Type not exist.");
 		}
@@ -269,8 +269,8 @@ public class IssuePropertyConfigurationService {
 
 	@Transactional(readOnly = true)
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
-	public IssueType getIssueType(EnterpriseAuthentication auth, String name) {
-		return issueTypeRepository.getIssueType(auth.getEnterprise(), name);
+	public IssueType getIssueType(EnterpriseAuthentication auth, String name, boolean standard) {
+		return issueTypeRepository.getIssueType(auth.getEnterprise(), name, standard);
 	}
 
 	@Transactional(readOnly = true)

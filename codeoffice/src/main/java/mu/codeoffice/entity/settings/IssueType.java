@@ -51,7 +51,7 @@ public class IssueType implements Serializable {
 	private String description;
 
 	@Column(name = "is_standard")
-	private boolean isStandard;
+	private boolean standard;
 
 	@Column(name = "icon")
 	@NotEmpty
@@ -96,11 +96,11 @@ public class IssueType implements Serializable {
 	}
 
 	public boolean isStandard() {
-		return isStandard;
+		return standard;
 	}
 
-	public void setStandard(boolean isStandard) {
-		this.isStandard = isStandard;
+	public void setStandard(boolean standard) {
+		this.standard = standard;
 	}
 
 	public String getIcon() {

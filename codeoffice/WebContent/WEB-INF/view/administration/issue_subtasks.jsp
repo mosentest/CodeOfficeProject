@@ -52,7 +52,7 @@
 							<tr>
 								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.icon"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col">
-									<form:hidden path="icon"/>
+									<form:hidden path="icon" value="${icons[0]}"/>
 									<span class="image-select-indicator imglink" id="typeIcon">
 										<img id="typeIcon-icon" src="assets/img/office/type/${icons[0]}.png"/>
 										<span id="typeIcon-text" class="text">${icons[0]}</span>

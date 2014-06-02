@@ -11,6 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface IssuePriorityRepository extends JpaRepository<IssuePriority, Long> {
 
+	@Query("SELECT p FROM IssuePriority p WHERE p.enterprise = :enterprise AND p.id = :id")
+	public IssuePriority getIssuePriority(@Param("enterprise") Enterprise enterprise, @Param("id") Long id);
+
 	@Query("SELECT p FROM IssuePriority p WHERE p.enterprise = :enterprise AND p.name = :name")
 	public IssuePriority getIssuePriority(@Param("enterprise") Enterprise enterprise, @Param("name") String name);
 

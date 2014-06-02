@@ -14,7 +14,7 @@
 <spring:message var="text_delete" code="application.delete" />
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/issue_menu.jsp">
-		<jsp:param name="menu" value="issueLink"/>
+		<jsp:param name="menu" value="link"/>
 	</jsp:include>
 	<div id="maincontent">
 		<div class="sub-element">
@@ -72,5 +72,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
+	<form id="remoteForm" method="POST"></form>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />

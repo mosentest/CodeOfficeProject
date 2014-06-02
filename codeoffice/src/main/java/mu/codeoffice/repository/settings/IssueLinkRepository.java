@@ -11,6 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface IssueLinkRepository  extends JpaRepository<IssueLink, Long> {
 
+	@Query("SELECT l FROM IssueLink l WHERE l.enterprise = :enterprise AND l.id = :id")
+	public IssueLink getIssueLink(@Param("enterprise") Enterprise enterprise, @Param("id") Long id);
+
 	@Query("SELECT l FROM IssueLink l WHERE l.enterprise = :enterprise AND l.name = :name")
 	public IssueLink getIssueLink(@Param("enterprise") Enterprise enterprise, @Param("name") String name);
 	

@@ -104,5 +104,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
+	<form id="remoteForm" method="POST"></form>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />
