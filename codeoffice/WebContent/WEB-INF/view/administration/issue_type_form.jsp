@@ -37,15 +37,15 @@
 						<form:hidden path="id"/>
 						<code:formError errors="${formErrors}"/>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.name"/><span class="icon-required">&nbsp;</span></td>
+							<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.name"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col"><form:input path="name"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.description"/></td>
+							<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.description"/>:</td>
 							<td class="minor-form-input-col"><form:textarea path="description" rows="3" cols="30"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.icon"/><span class="icon-required">&nbsp;</span></td>
+							<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.icon"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col">
 								<form:hidden path="icon"/>
 								<span class="image-select-indicator imglink" id="typeIcon">
@@ -79,6 +79,5 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	<form id="remoteForm" method="POST"></form>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />

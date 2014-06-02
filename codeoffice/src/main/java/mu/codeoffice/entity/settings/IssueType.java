@@ -70,6 +70,15 @@ public class IssueType implements Serializable {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof IssueType)) {
+			return false;
+		}
+		IssueType t = (IssueType) obj;
+		return t.id != null && this.id != null && t.id.equals(this.id);
+	}
 
 	public Long getId() {
 		return id;

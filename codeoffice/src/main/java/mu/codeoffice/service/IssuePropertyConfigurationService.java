@@ -45,6 +45,21 @@ public class IssuePropertyConfigurationService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	public void update(EnterpriseAuthentication auth, IssueTypeScheme issueTypeScheme) throws AuthenticationException, InformationException {
+		IssueTypeScheme original = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), issueTypeScheme.getId());
+		if (original == null) {
+			throw new InformationException("Issue Type Scheme not exist.");
+		}
+		if (!issueTypeSchemeRepository.isNameAvailable(auth.getEnterprise(), issueTypeScheme.getName().toLowerCase(), 0l)) {
+			throw new InformationException("Issue Type Scheme Name is not available");
+		}
+		original.setName(issueTypeScheme.getName());
+		original.setDescription(issueTypeScheme.getDescription());
+		issueTypeSchemeRepository.save(issueTypeScheme);
+	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueStatus issueStatus) throws AuthenticationException, InformationException {
 		IssueStatus original = issueStatusRepository.getIssueStatus(auth.getEnterprise(), issueStatus.getId());
 		if (original == null) {
@@ -136,6 +151,23 @@ public class IssuePropertyConfigurationService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	public void create(EnterpriseAuthentication auth, IssueTypeScheme issueTypeScheme) throws AuthenticationException, InformationException {
+		if (!issueTypeSchemeRepository.isNameAvailable(auth.getEnterprise(), issueTypeScheme.getName().toLowerCase(), 0l)) {
+			throw new InformationException("Issue Type Scheme Name is not available");
+		}
+		issueTypeScheme.setId(null);
+		issueTypeScheme.setEnterprise(auth.getEnterprise());
+		issueTypeScheme.setProjects(null);
+		for (IssueType issueType : issueTypeScheme.getIssueTypes()) {
+			if (!issueTypeRepository.isValid(auth.getEnterprise(), issueType.getId())) {
+				throw new InformationException("Issue type is invalid.");
+			}
+		}
+		issueTypeSchemeRepository.save(issueTypeScheme);
+	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssueLink issueLink) throws AuthenticationException, InformationException {
 		if (!issueLinkRepository.isNameAvailable(auth.getEnterprise(), issueLink.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Issue Link Name is not available");
@@ -199,6 +231,20 @@ public class IssuePropertyConfigurationService {
 		issueType.setEnterprise(auth.getEnterprise());
 		issueType.setId(null);
 		issueTypeRepository.save(issueType);
+	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	public void deleteIssueTypeScheme(EnterpriseAuthentication auth, String issueTypeScheme) throws AuthenticationException, InformationException {
+		IssueTypeScheme original = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), issueTypeScheme);
+		if (original == null) {
+			throw new InformationException("Issue Type Scheme not exist.");
+		}
+		if (original.getProjects().size() > 0) {
+			throw new InformationException("Can not delete, Issue Type Scheme has related projects.");
+		}
+		//CHECKE FOR USAGE
+		issueTypeSchemeRepository.delete(original);
 	}
 	
 	@Transactional
@@ -269,6 +315,15 @@ public class IssuePropertyConfigurationService {
 		}
 		return list;
 	}
+
+	@Transactional(readOnly = true)
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	public IssueTypeScheme getIssueTypeScheme(EnterpriseAuthentication auth, String name) {
+		IssueTypeScheme scheme = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), name);
+		scheme.getIssueTypes().size();
+		scheme.getProjects().size();
+		return scheme;
+	}	
 
 	@Transactional(readOnly = true)
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")

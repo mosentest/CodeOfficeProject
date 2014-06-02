@@ -24,6 +24,9 @@
 				<div class="sub-element-title"><spring:message code="administration.issue.issueTypeSchemes"/></div>
 				<div class="sub-element-description">Edit your enterprise global settings.</div>
 			</div>
+			<div class="filter-content">
+				<a class="link" href="administration/typeScheme/create"><spring:message code="administration.issue.issuetypescheme.createIssueTypeScheme"/></a>
+			</div>
 			<div class="sub-element-content">
 				<table class="list-table">
 					<tr class="list-table-header">
@@ -56,15 +59,13 @@
 							</ul>
 						</td>
 						<td>
-							<a class="link" href="administration/issueTypeScheme/${scheme.name}/edit.html">${text_edit}</a>
+							<a class="link" href="administration/typeScheme/edit.html?scheme=${scheme.name}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/issueTypeScheme/${scheme.name}/associate.html">${text_associate}</a>
+							<a class="link" href="administration/typeScheme/associate.html?scheme=${scheme.name}">${text_associate}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/issueTypeScheme/${scheme.name}/clone">${text_clone}</a>
-							<c:if test="${not scheme.defaultScheme}">
+							<a class="link" href="administration/typeScheme/clone?scheme=${scheme.name}">${text_clone}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/issueTypeScheme/${scheme.name}/delete', 'Delete?');">${text_delete}</a>
-							</c:if>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/typeScheme/delete?scheme=${scheme.name}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>
@@ -73,5 +74,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
+	<form id="remoteForm" method="POST"></form>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />

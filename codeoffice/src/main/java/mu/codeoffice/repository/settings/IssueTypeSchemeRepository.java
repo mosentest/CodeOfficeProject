@@ -11,6 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface IssueTypeSchemeRepository extends JpaRepository<IssueTypeScheme, Long> {
 
+	@Query("SELECT s FROM IssueTypeScheme s WHERE s.enterprise = :enterprise AND s.id = :id")
+	public IssueTypeScheme getIssueTypeScheme(@Param("enterprise") Enterprise enterprise, @Param("id") Long id);
+
 	@Query("SELECT s FROM IssueTypeScheme s WHERE s.enterprise = :enterprise AND s.name = :name")
 	public IssueTypeScheme getIssueTypeScheme(@Param("enterprise") Enterprise enterprise, @Param("name") String name);
 

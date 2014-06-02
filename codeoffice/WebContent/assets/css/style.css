@@ -439,6 +439,17 @@
 .minor-form-table td {
 	border-spacing: 0px;
 }
+.form-top-col {
+	vertical-align: top;
+}
+.list-types li {
+	border: 1px solid #e5e5e5;
+	padding: 3px 5px;
+	margin: 3px 5px;
+}
+.list-types li:hover {
+	cursor: pointer;
+}
 .key-value-table {
 	border-spacing: 0px;
     border-collapse: collapse;

@@ -1,5 +1,8 @@
 package mu.codeoffice.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import mu.codeoffice.common.InformationException;
@@ -8,6 +11,7 @@ import mu.codeoffice.entity.settings.IssuePriority;
 import mu.codeoffice.entity.settings.IssueResolution;
 import mu.codeoffice.entity.settings.IssueStatus;
 import mu.codeoffice.entity.settings.IssueType;
+import mu.codeoffice.entity.settings.IssueTypeScheme;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.IssuePropertyConfigurationService;
 
@@ -34,6 +38,18 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@Autowired
 	private MessageSource messageSource;
 
+	@RequestMapping(value = "typeScheme/delete", method = RequestMethod.POST)
+	public String typeSchemeDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@RequestParam("scheme") String scheme,
+			RedirectAttributes redirectAttributes, ModelMap model) {
+		try {
+			issuePropertyConfigurationService.deleteIssueTypeScheme(auth, scheme);
+			redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme has been deleted.");
+		} catch (InformationException e) {
+			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+		}
+		return "redirect:/administration/typeSchemes.html";
+	}
 
 	@RequestMapping(value = "type/delete", method = RequestMethod.POST)
 	public String typeDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
@@ -111,6 +127,13 @@ public class IssuePropertyConfigurationController implements GenericController {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 		}
 		return "redirect:/administration/links.html";
+	}
+
+	@RequestMapping(value = "typeScheme/create.html", method = RequestMethod.GET)
+	public ModelAndView typeSchemeCreateRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		model.put("issueTypeScheme", new IssueTypeScheme());
+		model.put("issueTypes", issuePropertyConfigurationService.getIssueTypes(auth));
+		return new ModelAndView("administration/issue_typeScheme_form", model);
 	}
 	
 	@RequestMapping(value = "type/create", method = RequestMethod.POST)
@@ -217,6 +240,19 @@ public class IssuePropertyConfigurationController implements GenericController {
 		return "redirect:/administration/links.html";
 	}
 
+	@RequestMapping(value = "typeScheme/edit.html", method = RequestMethod.GET)
+	public ModelAndView typeSchemeEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes, ModelMap model) {
+		IssueTypeScheme typeScheme = issuePropertyConfigurationService.getIssueTypeScheme(auth, scheme);
+		model.put("issueTypeScheme", typeScheme);
+		List<IssueType> issueTypes = issuePropertyConfigurationService.getIssueTypes(auth)
+				.stream()
+				.filter(t -> !typeScheme.getIssueTypes().contains(t))
+				.collect(Collectors.toList()); 
+		model.put("issueTypes", issueTypes);
+		return new ModelAndView("administration/issue_typeScheme_form", model);
+	}
+
 	@RequestMapping(value = "type/edit.html", method = RequestMethod.GET)
 	public ModelAndView typeEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("type") String type, RedirectAttributes redirectAttributes, ModelMap model) {
@@ -291,6 +327,25 @@ public class IssuePropertyConfigurationController implements GenericController {
 		model.put("issuePriority", issuePriority);
 		model.put("icons", IssuePriority.ICONS);
 		return new ModelAndView("administration/issue_priority_form", model);
+	}
+
+	@RequestMapping(value = "typeScheme/edit", method = RequestMethod.POST)
+	public String typeSchemeEdit(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@RequestParam("scheme") String scheme,
+			@ModelAttribute("issueTypeScheme") @Valid IssueTypeScheme issueTypeScheme, BindingResult result, 
+			RedirectAttributes redirectAttributes, ModelMap model) {
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
+		} else {
+			try {
+				issuePropertyConfigurationService.update(auth, issueTypeScheme);
+				redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme has been updated.");
+				return "redirect:/administration/typeSchemes.html";
+			} catch (InformationException e) {
+				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			}
+		}
+		return "redirect:/administration/typeScheme/edit.html?scheme=" + scheme;
 	}
 
 	@RequestMapping(value = "type/edit", method = RequestMethod.POST)
