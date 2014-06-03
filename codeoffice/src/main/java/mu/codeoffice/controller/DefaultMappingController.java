@@ -19,6 +19,11 @@ public class DefaultMappingController {
 		return "redirect:/dashboard.html";
 	}
 	
+	@RequestMapping(value = "/notfound.html", method = RequestMethod.GET)
+	public String notFound() {
+		return "error/404";
+	}
+	
 	@RequestMapping(value = "/badrequest.html", method = RequestMethod.GET)
 	public String badRequest() {
 		return "error/400";

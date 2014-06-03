@@ -12,6 +12,8 @@ public class ExceptionAdvice {
 	@ExceptionHandler(Exception.class)
 	public String handle(Exception e) {
 		logger.debug(e.getMessage());
-		return "error/404";
+		return "redirect:/notfound.html";
 	}
+	
+	
 }
