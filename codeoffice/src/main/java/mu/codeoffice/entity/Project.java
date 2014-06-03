@@ -22,6 +22,7 @@ import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.settings.IssueTypeScheme;
 import mu.codeoffice.entity.settings.ProjectPermissionScheme;
+import mu.codeoffice.entity.settings.WorkFlow;
 
 @Entity
 @Table(name = "project", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
@@ -88,6 +89,10 @@ public class Project implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "issuetype_scheme_id")
 	private IssueTypeScheme issueTypeScheme;
+
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "workflow_id")
+	private WorkFlow workFlow;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
 	private List<Component> components;
@@ -318,6 +323,14 @@ public class Project implements Serializable {
 
 	public void setIssueTypeScheme(IssueTypeScheme issueTypeScheme) {
 		this.issueTypeScheme = issueTypeScheme;
+	}
+
+	public WorkFlow getWorkFlow() {
+		return workFlow;
+	}
+
+	public void setWorkFlow(WorkFlow workFlow) {
+		this.workFlow = workFlow;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -58,6 +60,9 @@ public class IssueStatus implements Serializable {
 	@Column(name = "color")
 	@Pattern(regexp = "([a-f]|[A-F]|[0-9]){6}")
 	private String color;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "issueStatus")
+	private List<WorkFlow> workFlows;
 	
 	public IssueStatus() {}
 	
@@ -124,6 +129,14 @@ public class IssueStatus implements Serializable {
 
 	public void setOrder(int order) {
 		this.order = order;
+	}
+
+	public List<WorkFlow> getWorkFlows() {
+		return workFlows;
+	}
+
+	public void setWorkFlows(List<WorkFlow> workFlows) {
+		this.workFlows = workFlows;
 	}
 
 }

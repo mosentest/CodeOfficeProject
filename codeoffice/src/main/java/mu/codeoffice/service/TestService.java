@@ -28,6 +28,7 @@ import mu.codeoffice.entity.settings.ProjectPermissionScheme;
 import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.entity.settings.ProjectRole;
 import mu.codeoffice.entity.settings.TimeTrackingSettings;
+import mu.codeoffice.entity.settings.WorkFlow;
 import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.EnterpriseRepository;
 import mu.codeoffice.repository.IssueRepository;
@@ -54,6 +55,7 @@ import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.ProjectRoleRepository;
 import mu.codeoffice.repository.settings.TimeTrackingSettingsRepository;
 import mu.codeoffice.repository.settings.UserGroupRepository;
+import mu.codeoffice.repository.settings.WorkFlowRepository;
 import mu.codeoffice.security.GlobalPermission;
 import mu.codeoffice.security.ProjectPermission;
 
@@ -140,6 +142,9 @@ public class TestService {
 	
 	@Resource
 	private IssuePriorityRepository issuePriorityRepository;
+	
+	@Resource
+	private WorkFlowRepository workFlowRepository;
 	
 	@Resource(name = "applicationProperties")
 	private Properties properties;
@@ -590,6 +595,44 @@ public class TestService {
 		issueResolutionRepository.save(r4);
 		issueResolutionRepository.save(r5);
 		issueResolutionRepository.save(r6);
+	}
+	
+	@Transactional
+	public void _8_CreateWorkFlows() {
+		Enterprise enterprise = enterpriseRepository.getOne(1l);
+		User user = userRepository.getOne(30l);
+		List<IssueStatus> issueStatus = issueStatusRepository.findAll();
+
+		WorkFlow w1 = new WorkFlow();
+		w1.setEnterprise(enterprise);
+		w1.setCreator(user);
+		w1.setModified(new Date());
+		w1.setName("Work Flow 1");
+		w1.setDescription("Description work flow 1");
+		w1.setDefaultStatus(issueStatus.get(3));
+		w1.setDestinationStatus(issueStatus.get(0));
+		w1.setIssueStatus(issueStatus);
+		WorkFlow w2 = new WorkFlow();
+		w2.setEnterprise(enterprise);
+		w2.setCreator(user);
+		w2.setModified(null);
+		w2.setName("Work Flow 2");
+		w2.setDefaultStatus(issueStatus.get(2));
+		w2.setDestinationStatus(issueStatus.get(4));
+		w2.setIssueStatus(issueStatus);
+		WorkFlow w3 = new WorkFlow();
+		w3.setEnterprise(enterprise);
+		w3.setCreator(user);
+		w3.setModified(new Date());
+		w3.setName("Work Flow 3");
+		w3.setDescription("Description work flow 3");
+		w3.setDefaultStatus(issueStatus.get(5));
+		w3.setDestinationStatus(issueStatus.get(1));
+		w3.setIssueStatus(issueStatus);
+
+		workFlowRepository.save(w1);
+		workFlowRepository.save(w2);
+		workFlowRepository.save(w3);
 	}
 	
 }

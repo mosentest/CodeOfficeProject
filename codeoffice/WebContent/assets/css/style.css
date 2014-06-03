@@ -872,3 +872,12 @@
 	background-color: #205081;
 	cursor: default;
 }
+.loungez {
+	padding: 1px 5px;
+	border-radius: 3px;
+	color: white;
+	display: inline-block;
+	width: 100px;
+	text-align: center;
+	font-weight: bold;
+}
