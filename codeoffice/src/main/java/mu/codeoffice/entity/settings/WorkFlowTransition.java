@@ -19,7 +19,8 @@ import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.security.ProjectPermission;
 
 @Entity
-@Table(name = "settings_workflow_transition", uniqueConstraints = @UniqueConstraint(columnNames = {"transition", "workflow_id"}))
+@Table(name = "settings_workflow_transition", 
+	uniqueConstraints = @UniqueConstraint(columnNames = {"transition", "from_status_id", "to_status_id", "workflow_id"}))
 public class WorkFlowTransition implements Serializable {
 
 	private static final long serialVersionUID = 3289713503926256712L;

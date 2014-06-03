@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -59,14 +60,10 @@ public class WorkFlow implements Serializable {
 	@JoinColumn(name = "default_status_id")
 	private IssueStatus defaultStatus;
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "destination_status_id")
-	private IssueStatus destinationStatus;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workFlow")
 	private List<WorkFlowTransition> transitions;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "workflow_status", uniqueConstraints = @UniqueConstraint(columnNames = {"workflow_id", "status_id"}),
         joinColumns = @JoinColumn(name = "workflow_id", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "status_id", referencedColumnName = "id"))
@@ -123,14 +120,6 @@ public class WorkFlow implements Serializable {
 
 	public void setDefaultStatus(IssueStatus defaultStatus) {
 		this.defaultStatus = defaultStatus;
-	}
-
-	public IssueStatus getDestinationStatus() {
-		return destinationStatus;
-	}
-
-	public void setDestinationStatus(IssueStatus destinationStatus) {
-		this.destinationStatus = destinationStatus;
 	}
 
 	public List<WorkFlowTransition> getTransitions() {

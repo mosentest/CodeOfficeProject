@@ -37,7 +37,6 @@
 						<td><spring:message code="administration.project.workflow.modified"/></td>
 						<td><spring:message code="administration.project.workflow.steps"/></td>
 						<td><spring:message code="administration.project.workflow.defaultStatus"/></td>
-						<td><spring:message code="administration.project.workflow.destinationStatus"/></td>
 						<td><spring:message code="administration.project.workflow.involvedIssueStatus"/></td>
 						<td><spring:message code="administration.project.workflow.operations"/></td>
 					</tr>
@@ -53,7 +52,6 @@
 						</td>
 						<td class="info-number">${workFlow.steps}</td>
 						<td><span class="loungez" style="background-color: #${workFlow.defaultStatus.color}">${workFlow.defaultStatus.name}</span></td>
-						<td><span class="loungez" style="background-color: #${workFlow.destinationStatus.color}">${workFlow.destinationStatus.name}</span></td>
 						<td>
 							<ul class="info-ul-list">
 								<c:forEach items="${workFlow.issueStatus}" var="issueStatus">
@@ -62,13 +60,13 @@
 							</ul>
 						</td>
 						<td>
-							<a class="link" href="administration/workFlow/view.html?workflow=${workFlow.name}">${text_view}</a>
+							<a class="link" href="administration/workFlow/${workFlow.name}.html">${text_view}</a>
 							<span class="minorspace">&#183;</span>
 							<a class="link" href="administration/workFlow/edit.html?workflow=${workFlow.name}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
 							<a class="link" href="administration/workFlow/clone?workflow=${workFlow.name}">${text_clone}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/workFlow/delete?scheme=${workFlow.name}', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/workFlow/delete?workflow=${workFlow.name}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

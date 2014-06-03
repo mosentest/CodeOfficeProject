@@ -29,6 +29,7 @@ import mu.codeoffice.entity.settings.ProjectPermissionSettings;
 import mu.codeoffice.entity.settings.ProjectRole;
 import mu.codeoffice.entity.settings.TimeTrackingSettings;
 import mu.codeoffice.entity.settings.WorkFlow;
+import mu.codeoffice.entity.settings.WorkFlowTransition;
 import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.EnterpriseRepository;
 import mu.codeoffice.repository.IssueRepository;
@@ -56,6 +57,7 @@ import mu.codeoffice.repository.settings.ProjectRoleRepository;
 import mu.codeoffice.repository.settings.TimeTrackingSettingsRepository;
 import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.repository.settings.WorkFlowRepository;
+import mu.codeoffice.repository.settings.WorkFlowTransitionRepository;
 import mu.codeoffice.security.GlobalPermission;
 import mu.codeoffice.security.ProjectPermission;
 
@@ -142,9 +144,12 @@ public class TestService {
 	
 	@Resource
 	private IssuePriorityRepository issuePriorityRepository;
-	
+
 	@Resource
 	private WorkFlowRepository workFlowRepository;
+	
+	@Resource
+	private WorkFlowTransitionRepository workFlowTransitionRepository;
 	
 	@Resource(name = "applicationProperties")
 	private Properties properties;
@@ -610,7 +615,6 @@ public class TestService {
 		w1.setName("Work Flow 1");
 		w1.setDescription("Description work flow 1");
 		w1.setDefaultStatus(issueStatus.get(3));
-		w1.setDestinationStatus(issueStatus.get(0));
 		w1.setIssueStatus(issueStatus);
 		WorkFlow w2 = new WorkFlow();
 		w2.setEnterprise(enterprise);
@@ -618,7 +622,6 @@ public class TestService {
 		w2.setModified(null);
 		w2.setName("Work Flow 2");
 		w2.setDefaultStatus(issueStatus.get(2));
-		w2.setDestinationStatus(issueStatus.get(4));
 		w2.setIssueStatus(issueStatus);
 		WorkFlow w3 = new WorkFlow();
 		w3.setEnterprise(enterprise);
@@ -627,12 +630,63 @@ public class TestService {
 		w3.setName("Work Flow 3");
 		w3.setDescription("Description work flow 3");
 		w3.setDefaultStatus(issueStatus.get(5));
-		w3.setDestinationStatus(issueStatus.get(1));
 		w3.setIssueStatus(issueStatus);
 
 		workFlowRepository.save(w1);
 		workFlowRepository.save(w2);
 		workFlowRepository.save(w3);
+	}
+	
+	@Transactional
+	public void _9_CreateWorkFlowTransitions() {
+		Enterprise enterprise = enterpriseRepository.getOne(1l);
+		List<IssueStatus> issueStatus = issueStatusRepository.findAll();
+		List<WorkFlow> workFlows = workFlowRepository.findAll();
+		for (WorkFlow workFlow : workFlows) {
+			WorkFlowTransition t1 = new WorkFlowTransition();
+			t1.setEnterprise(enterprise);
+			t1.setWorkFlow(workFlow);
+			t1.setFrom(workFlow.getDefaultStatus());
+			t1.setTo(issueStatus.get(1));
+			t1.setTransition("To status 1 ");
+			WorkFlowTransition t2 = new WorkFlowTransition();
+			t2.setEnterprise(enterprise);
+			t2.setWorkFlow(workFlow);
+			t2.setFrom(workFlow.getDefaultStatus());
+			t2.setTo(issueStatus.get(0));
+			t2.setTransition("To status 0 ");
+			WorkFlowTransition t3 = new WorkFlowTransition();
+			t3.setEnterprise(enterprise);
+			t3.setWorkFlow(workFlow);
+			t3.setFrom(workFlow.getDefaultStatus());
+			t3.setTo(issueStatus.get(4));
+			t3.setTransition("To status 4 ");
+			WorkFlowTransition t4 = new WorkFlowTransition();
+			t4.setEnterprise(enterprise);
+			t4.setWorkFlow(workFlow);
+			t4.setFrom(issueStatus.get(4));
+			t4.setTo(issueStatus.get(1));
+			t4.setTransition("To status 1 ");
+			WorkFlowTransition t5 = new WorkFlowTransition();
+			t5.setEnterprise(enterprise);
+			t5.setWorkFlow(workFlow);
+			t5.setFrom(issueStatus.get(0));
+			t5.setTo(issueStatus.get(3));
+			t5.setTransition("To status 3 ");
+			WorkFlowTransition t6 = new WorkFlowTransition();
+			t6.setEnterprise(enterprise);
+			t6.setWorkFlow(workFlow);
+			t6.setFrom(issueStatus.get(1));
+			t6.setTo(issueStatus.get(5));
+			t6.setTransition("To status 5 ");
+
+			workFlowTransitionRepository.save(t1);
+			workFlowTransitionRepository.save(t2);
+			workFlowTransitionRepository.save(t3);
+			workFlowTransitionRepository.save(t4);
+			workFlowTransitionRepository.save(t5);
+			workFlowTransitionRepository.save(t6);
+		}
 	}
 	
 }

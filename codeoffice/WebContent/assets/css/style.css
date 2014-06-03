@@ -873,11 +873,14 @@
 	cursor: default;
 }
 .loungez {
-	padding: 1px 5px;
+	padding: 2px 5px;
 	border-radius: 3px;
 	color: white;
 	display: inline-block;
 	width: 100px;
 	text-align: center;
 	font-weight: bold;
+}
+.ul-list-high li {
+	margin: 3px 0px;
 }
