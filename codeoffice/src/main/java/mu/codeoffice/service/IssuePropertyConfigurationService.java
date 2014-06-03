@@ -1,6 +1,8 @@
 package mu.codeoffice.service;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -45,17 +47,58 @@ public class IssuePropertyConfigurationService {
 	
 	@Transactional
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	public void cloneIssueTypeScheme(EnterpriseAuthentication auth, String issueTypeScheme) throws AuthenticationException, InformationException {
+		IssueTypeScheme original = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), issueTypeScheme);
+		if (original == null) {
+			throw new InformationException("Issue Type Scheme not exist.");
+		}
+		if (!issueTypeSchemeRepository.isNameAvailable(auth.getEnterprise(), ("CLONE - " + issueTypeScheme).toLowerCase(), 0l)) {
+			throw new InformationException("Issue Type Scheme Name is not available");
+		}
+		IssueTypeScheme scheme = new IssueTypeScheme();
+		scheme.setEnterprise(auth.getEnterprise());
+		scheme.setName("CLONE - " + issueTypeScheme);
+		scheme.setDescription(original.getDescription());
+		List<Long> idList = original.getIssueTypes()
+				.stream()
+				.filter(t -> t.getId() != null)
+				.map(t -> t.getId())
+				.collect(Collectors.toList());
+		if (idList.size() != 0) {
+			scheme.setIssueTypes(issueTypeRepository.getIssueTypes(auth.getEnterprise(), idList));
+		}
+		issueTypeSchemeRepository.save(scheme);
+	}
+	
+	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueTypeScheme issueTypeScheme) throws AuthenticationException, InformationException {
 		IssueTypeScheme original = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), issueTypeScheme.getId());
 		if (original == null) {
 			throw new InformationException("Issue Type Scheme not exist.");
 		}
-		if (!issueTypeSchemeRepository.isNameAvailable(auth.getEnterprise(), issueTypeScheme.getName().toLowerCase(), 0l)) {
+		if (!issueTypeSchemeRepository.isNameAvailable(auth.getEnterprise(), issueTypeScheme.getName().toLowerCase(), original.getId())) {
 			throw new InformationException("Issue Type Scheme Name is not available");
 		}
 		original.setName(issueTypeScheme.getName());
 		original.setDescription(issueTypeScheme.getDescription());
-		issueTypeSchemeRepository.save(issueTypeScheme);
+		for (Iterator<IssueType> it = original.getIssueTypes().iterator(); it.hasNext(); ) {
+			IssueType type = it.next();
+			if (!issueTypeScheme.getIssueTypes().contains(type)) {
+				it.remove();
+			} else {
+				issueTypeScheme.getIssueTypes().remove(type);
+			}
+		}
+		List<Long> idList = issueTypeScheme.getIssueTypes()
+				.stream()
+				.filter(t -> t.getId() != null)
+				.map(t -> t.getId())
+				.collect(Collectors.toList());
+		if (idList.size() != 0) {
+			original.getIssueTypes().addAll(issueTypeRepository.getIssueTypes(auth.getEnterprise(), idList));
+		}
+		issueTypeSchemeRepository.save(original);
 	}
 	
 	@Transactional
@@ -158,10 +201,13 @@ public class IssuePropertyConfigurationService {
 		issueTypeScheme.setId(null);
 		issueTypeScheme.setEnterprise(auth.getEnterprise());
 		issueTypeScheme.setProjects(null);
-		for (IssueType issueType : issueTypeScheme.getIssueTypes()) {
-			if (!issueTypeRepository.isValid(auth.getEnterprise(), issueType.getId())) {
-				throw new InformationException("Issue type is invalid.");
-			}
+		List<Long> idList = issueTypeScheme.getIssueTypes()
+				.stream()
+				.filter(t -> t.getId() != null)
+				.map(t -> t.getId())
+				.collect(Collectors.toList());
+		if (idList.size() != 0) {
+			issueTypeScheme.setIssueTypes(issueTypeRepository.getIssueTypes(auth.getEnterprise(), idList));
 		}
 		issueTypeSchemeRepository.save(issueTypeScheme);
 	}
@@ -243,6 +289,8 @@ public class IssuePropertyConfigurationService {
 		if (original.getProjects().size() > 0) {
 			throw new InformationException("Can not delete, Issue Type Scheme has related projects.");
 		}
+		original.getIssueTypes().clear();
+		issueTypeSchemeRepository.save(original);
 		//CHECKE FOR USAGE
 		issueTypeSchemeRepository.delete(original);
 	}

@@ -16,7 +16,7 @@
 <spring:message var="text_associate" code="administration.issue.issuetypescheme.associate" />
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/issue_menu.jsp">
-		<jsp:param name="menu" value="issueTypeScheme"/>
+		<jsp:param name="menu" value="typeScheme"/>
 	</jsp:include>
 	<div id="maincontent">
 		<div class="sub-element">
@@ -25,7 +25,7 @@
 				<div class="sub-element-description">Edit your enterprise global settings.</div>
 			</div>
 			<div class="filter-content">
-				<a class="link" href="administration/typeScheme/create"><spring:message code="administration.issue.issuetypescheme.createIssueTypeScheme"/></a>
+				<a class="link" href="administration/typeScheme/create.html"><spring:message code="administration.issue.issuetypescheme.createIssueTypeScheme"/></a>
 			</div>
 			<div class="sub-element-content">
 				<table class="list-table">

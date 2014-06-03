@@ -38,6 +38,45 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@Autowired
 	private MessageSource messageSource;
 
+	@RequestMapping(value = "typeScheme/clone", method = RequestMethod.GET)
+	public String typeSchemeClone(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@RequestParam("scheme") String scheme,
+			RedirectAttributes redirectAttributes, ModelMap model) {
+		try {
+			issuePropertyConfigurationService.cloneIssueTypeScheme(auth, scheme);
+			redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme '" + scheme + "' has been cloned.");
+		} catch (InformationException e) {
+			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+		}
+		return "redirect:/administration/typeSchemes.html";
+	}
+
+	@RequestMapping(value = "typeScheme/associate.html", method = RequestMethod.GET)
+	public ModelAndView typeSchemeAssociateRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@RequestParam("scheme") String scheme,
+			RedirectAttributes redirectAttributes, ModelMap model) {
+		IssueTypeScheme issueTypeScheme = issuePropertyConfigurationService.getIssueTypeScheme(auth, scheme);
+		if (issueTypeScheme == null) {
+			redirectAttributes.addFlashAttribute(ERROR, "Issue Type Scheme doesn't exist.");
+			return new ModelAndView("redirect:/administration/typeSchemes.html");
+		}
+		model.put("issueTypeScheme", issueTypeScheme);
+		return new ModelAndView("administration/typeScheme/associate");
+	}
+
+	@RequestMapping(value = "typeScheme/associate", method = RequestMethod.POST)
+	public String typeSchemeAssociate(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@RequestParam("scheme") String scheme,
+			RedirectAttributes redirectAttributes, ModelMap model) {
+		try {
+			issuePropertyConfigurationService.deleteIssueTypeScheme(auth, scheme);
+			redirectAttributes.addFlashAttribute(TIP, "Projects has been added.");
+		} catch (InformationException e) {
+			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+		}
+		return "redirect:/administration/typeSchemes.html";
+	}
+
 	@RequestMapping(value = "typeScheme/delete", method = RequestMethod.POST)
 	public String typeSchemeDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("scheme") String scheme,
@@ -134,6 +173,24 @@ public class IssuePropertyConfigurationController implements GenericController {
 		model.put("issueTypeScheme", new IssueTypeScheme());
 		model.put("issueTypes", issuePropertyConfigurationService.getIssueTypes(auth));
 		return new ModelAndView("administration/issue_typeScheme_form", model);
+	}
+	
+	@RequestMapping(value = "typeScheme/create", method = RequestMethod.POST)
+	public String typeSchemeCreate(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			@ModelAttribute("issueTypeScheme") @Valid IssueTypeScheme issueTypeScheme, BindingResult result, 
+			RedirectAttributes redirectAttributes, ModelMap model) {
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
+		} else {
+			try {
+				issuePropertyConfigurationService.create(auth, issueTypeScheme);
+				redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme has been created.");
+				return "redirect:/administration/typeSchemes.html";
+			} catch (InformationException e) {
+				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			}
+		}
+		return "redirect:/administration/typeScheme/create.html";
 	}
 	
 	@RequestMapping(value = "type/create", method = RequestMethod.POST)

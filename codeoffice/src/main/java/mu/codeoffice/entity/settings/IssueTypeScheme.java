@@ -3,6 +3,7 @@ package mu.codeoffice.entity.settings;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
@@ -38,8 +38,7 @@ public class IssueTypeScheme implements Serializable {
 	private Enterprise enterprise;
 	
 	@Column(name = "name")
-	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
-	@Size(max = 20)
+	@Size(max = 30)
 	private String name;
 
 	@Column(name = "description")
@@ -49,7 +48,7 @@ public class IssueTypeScheme implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "issueTypeScheme")
 	private List<Project> projects;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "issuetype_scheme_types", uniqueConstraints = @UniqueConstraint(columnNames = {"issuetype_scheme_id", "type_id"}),
         joinColumns = @JoinColumn(name = "issuetype_scheme_id", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "type_id", referencedColumnName = "id"))

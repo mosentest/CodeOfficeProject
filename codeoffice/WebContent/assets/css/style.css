@@ -442,10 +442,16 @@
 .form-top-col {
 	vertical-align: top;
 }
+.list-types {
+	border: 1px solid #e5e5e5;
+	padding: 3px 5px;
+	background-color: #e5e5e5;
+}
 .list-types li {
 	border: 1px solid #e5e5e5;
 	padding: 3px 5px;
 	margin: 3px 5px;
+	background-color: white;
 }
 .list-types li:hover {
 	cursor: pointer;

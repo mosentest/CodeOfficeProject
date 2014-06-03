@@ -12,12 +12,12 @@
 </div>
 <script>
 	$(function() {
-		$('#selected-types, #available-types').sortable({
+		$('#available-types, #selected-types').sortable({
 			connectWith: '.list-types'
 		}).disableSelection();
 	});
 	function clearTypes() {
-		$('#available-types').remove();
+		$('#available-types').find("input[type='hidden']").remove();
 	}
 </script>
 <spring:message var="text_standard" code="administration.issue.issuetype.standard" />
@@ -29,7 +29,7 @@
 </c:set>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/issue_menu.jsp">
-		<jsp:param name="menu" value="type"/>
+		<jsp:param name="menu" value="typeScheme"/>
 	</jsp:include>
 	<div id="maincontent">
 		<div class="panel-content">
