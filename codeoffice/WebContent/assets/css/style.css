@@ -484,6 +484,20 @@
 .key-value-description-row td {
 	padding: 0px 10px 5px 10px;
 }
+.permission-table {
+	border-spacing: 0px;
+    border-collapse: collapse;
+}
+.permission-table td {
+	border: 1px solid #e5e5e5;
+	width: 100px;
+	text-align: center;
+}
+.permission-table-title {
+	font-weight: bold;
+	width: 150px;
+	padding: 5px 5px;
+}
 .filter-content {
 	padding: 10px 10px;
 	-webkit-box-sizing: border-box;
@@ -853,7 +867,8 @@
 	border: 1px solid #999999;
 	border-radius: 3px;
 	padding: 5px 10px;
-	width: 200px;
+	width: 160px;
+	display: inline-block;
 }
 .image-select-ul-list {
 	position: absolute;
@@ -883,4 +898,8 @@
 }
 .ul-list-high li {
 	margin: 3px 0px;
+}
+.multiple-select {
+	width: 250px !important;
+	height: 120px;
 }

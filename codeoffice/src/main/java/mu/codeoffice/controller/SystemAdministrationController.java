@@ -18,15 +18,12 @@ import mu.codeoffice.enums.EmailVisibility;
 import mu.codeoffice.json.UserGroupJSON;
 import mu.codeoffice.json.UserJSON;
 import mu.codeoffice.security.EnterpriseAuthentication;
-import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
-import mu.codeoffice.security.Permission;
 import mu.codeoffice.service.SystemSettingsService;
 import mu.codeoffice.utility.GlobalPermissionEditor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
@@ -45,7 +42,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/administration/")
-public class SystemAdministrationController implements PermissionRequired {
+public class SystemAdministrationController implements GenericController {
 
 	@Autowired
 	private SystemSettingsService systemSettingsService;
@@ -56,27 +53,14 @@ public class SystemAdministrationController implements PermissionRequired {
 	@Autowired
 	private ServletContext servletContext;
 	
-	@Override
-	public void authorize(EnterpriseAuthentication auth, Object object,
-			Permission... permissions) throws AuthenticationException {
-		for (Permission permission : permissions) {
-			if (!permission.isAuthorized(auth.getUser().getGlobalPermissionValue())) {
-				throw new EnterpriseAuthenticationException(
-						messageSource.getMessage("permission.denied_require_permission", new Object[]{ permission.getKey() }, LocaleContextHolder.getLocale()));
-			}
-		}
-	}
-	
 	@RequestMapping(value = "system.html", method = RequestMethod.GET)
 	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		return new ModelAndView("administration/system_home");
 	}
 
 	@RequestMapping(value = "global.html", method = RequestMethod.GET)
 	public ModelAndView globalView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model)
 		throws AuthenticationException {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("globalSettings", systemSettingsService.getGlobalSettings(auth));
 		return new ModelAndView("administration/system_global", model);
 	}
@@ -84,7 +68,6 @@ public class SystemAdministrationController implements PermissionRequired {
 	@RequestMapping(value = "global/edit.html", method = RequestMethod.GET)
 	public ModelAndView globalEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) 
 		throws AuthenticationException {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("globalSettings", systemSettingsService.getGlobalSettings(auth));
 		model.put("commentVisibilities", CommentVisibility.values());
 		model.put("emailVisibilities", EmailVisibility.values());
@@ -95,7 +78,6 @@ public class SystemAdministrationController implements PermissionRequired {
 	public String globalEdit(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@ModelAttribute("globalSettings") GlobalSettings globalSettings,
 			RedirectAttributes redirectAttributes) throws AuthenticationException {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		try {
 			systemSettingsService.update(auth, globalSettings);
 			redirectAttributes.addFlashAttribute(TIP, "Global settings has been updated");
@@ -109,14 +91,12 @@ public class SystemAdministrationController implements PermissionRequired {
 
 	@RequestMapping(value = "advancedGlobal.html", method = RequestMethod.GET)
 	public ModelAndView globalAdvancedView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("advancedGlobalSettings", systemSettingsService.getAdvancedGlobalSettings(auth));
 		return new ModelAndView("administration/system_advancedGlobal", model);
 	}
 
 	@RequestMapping(value = "advancedGlobal/edit.html", method = RequestMethod.GET)
 	public ModelAndView advancedGlobalEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("advancedGlobalSettings", systemSettingsService.getAdvancedGlobalSettings(auth));
 		return new ModelAndView("administration/system_advancedGlobal_form", model);
 	}
@@ -138,14 +118,12 @@ public class SystemAdministrationController implements PermissionRequired {
 
 	@RequestMapping(value = "internationalization.html", method = RequestMethod.GET)
 	public ModelAndView internationalizationView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("internationalizationSettings", systemSettingsService.getInternationalizationSettings(auth));
 		return new ModelAndView("administration/system_internationalization", model);
 	}
 
 	@RequestMapping(value = "internationalization/edit.html", method = RequestMethod.GET)
 	public ModelAndView internationalizationEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("internationalizationSettings", systemSettingsService.getInternationalizationSettings(auth));
 		model.put("supportedLocale", InternationalizationSettings.SUPPORTED_LOCALE);
 		model.put("supportedTimeZone", InternationalizationSettings.SUPPORTED_TIMEZONE);
@@ -156,7 +134,6 @@ public class SystemAdministrationController implements PermissionRequired {
 	public String internationalizationEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@ModelAttribute("internationalizationSettings") InternationalizationSettings internationalizationSettings,
 			RedirectAttributes redirectAttributes) {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		try {
 			systemSettingsService.update(auth, internationalizationSettings);
 			redirectAttributes.addFlashAttribute(TIP, "Internationalization settings has been updated");
@@ -169,14 +146,12 @@ public class SystemAdministrationController implements PermissionRequired {
 
 	@RequestMapping(value = "announcement.html", method = RequestMethod.GET)
 	public ModelAndView announcementView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("announcementSettings", servletContext.getAttribute(Announcement.getSessionAttrKey(auth.getEnterprise())));
 		return new ModelAndView("administration/system_announcement", model);
 	}
 
 	@RequestMapping(value = "announcement/edit.html", method = RequestMethod.GET)
 	public ModelAndView announcementEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		authorize(auth, null, GlobalPermission.ADMIN);
 		model.put("announcementSettings", servletContext.getAttribute(Announcement.getSessionAttrKey(auth.getEnterprise())));
 		model.put("announcementLevels", AnnouncementLevel.values());
 		return new ModelAndView("administration/system_announcement_form", model);
@@ -200,9 +175,14 @@ public class SystemAdministrationController implements PermissionRequired {
 	
 	@RequestMapping(value = "globalPermission.html", method = RequestMethod.GET)
 	public ModelAndView globalPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
 		return new ModelAndView("administration/system_globalPermission", model);
+	}
+
+	@RequestMapping(value = "globalPermission/scheme.html", method = RequestMethod.GET)
+	public ModelAndView globalPermissionScheme(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		model.put("globalPermissions", GlobalPermission.values());
+		return new ModelAndView("administration/system_globalPermission_scheme", model);
 	}
 	
 	@RequestMapping(value = "globalPermission/{globalPermission}/removeGroup", method = RequestMethod.GET)
@@ -210,7 +190,6 @@ public class SystemAdministrationController implements PermissionRequired {
 			@PathVariable("globalPermission") GlobalPermission globalPermission,
 			@RequestParam("userGroupName") String userGroupName, 
 			RedirectAttributes redirectAttributes) {
-		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.removeGroup(auth, globalPermission, userGroupName);
 			redirectAttributes.addFlashAttribute(TIP, "Group '" + userGroupName + "' has been removed");
@@ -225,7 +204,6 @@ public class SystemAdministrationController implements PermissionRequired {
 			@PathVariable("globalPermission") GlobalPermission globalPermission,
 			@RequestParam("userGroupName") String userGroupName, 
 			RedirectAttributes redirectAttributes) {
-		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.addGroup(auth, globalPermission, userGroupName);
 			redirectAttributes.addFlashAttribute(TIP, "Group '" + userGroupName + "' has been updated");
@@ -239,7 +217,6 @@ public class SystemAdministrationController implements PermissionRequired {
 	public String globalPermissionAddUser(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("id") Long id,  @PathVariable("globalPermission") GlobalPermission globalPermission,
 			RedirectAttributes redirectAttributes) {
-		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.addUser(auth, globalPermission, id);
 			redirectAttributes.addFlashAttribute(TIP, "Permission '" + globalPermission + "' has been updated");
@@ -253,7 +230,6 @@ public class SystemAdministrationController implements PermissionRequired {
 	public String globalPermissionRemoveUser(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("id") Long id,  @PathVariable("globalPermission") GlobalPermission globalPermission,
 			RedirectAttributes redirectAttributes) {
-		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.removeUser(auth, globalPermission, id);
 			redirectAttributes.addFlashAttribute(TIP, "Permission '" + globalPermission + "' has been updated");
@@ -267,7 +243,6 @@ public class SystemAdministrationController implements PermissionRequired {
 	public String globalPermissionReset(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@PathVariable("globalPermission") GlobalPermission globalPermission,
 			RedirectAttributes redirectAttributes) {
-		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		try {
 			systemSettingsService.reset(auth, globalPermission);
 			redirectAttributes.addFlashAttribute(TIP, "Permission '" + globalPermission + "' has been reset.");
@@ -280,7 +255,6 @@ public class SystemAdministrationController implements PermissionRequired {
 	@RequestMapping(value = "globalPermission/{globalPermission}/availableGroups", method = RequestMethod.GET)
 	public @ResponseBody List<UserGroupJSON> getGlobalAvailableUserGroups(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@PathVariable("globalPermission") GlobalPermission globalPermission) {
-		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		List<UserGroup> userGroups = systemSettingsService.getGlobalAvailableUserGroups(auth, globalPermission);
 		List<UserGroupJSON> jsonList = new ArrayList<>();
 		for (UserGroup group : userGroups) {
@@ -293,7 +267,6 @@ public class SystemAdministrationController implements PermissionRequired {
 	public @ResponseBody List<UserJSON> getGlobalAvailableUsers(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@PathVariable("globalPermission") GlobalPermission globalPermission, 
 			@RequestParam("search") String search) {
-		authorize(auth, null, GlobalPermission.SYSTEM_ADMIN);
 		Page<User> users = systemSettingsService.getGlobalAvailableUsers(auth, globalPermission, search);
 		List<UserJSON> jsonList = new ArrayList<>();
 		for (User user : users.getContent()) {

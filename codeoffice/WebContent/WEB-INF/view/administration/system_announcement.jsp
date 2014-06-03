@@ -16,8 +16,8 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title">
-					<spring:message code="administration.system.announcementSettings"/>
+				<div class="sub-element-title imglink">
+					<span><spring:message code="administration.system.announcementSettings"/></span>
 					<input type="button" class="button" onclick="javascript:url('/administration/announcement/edit.html');" value="<spring:message code="application.edit"/>"/>
 				</div>
 				<div class="sub-element-description">Edit your announcement settings.</div>

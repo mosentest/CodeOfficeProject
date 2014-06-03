@@ -10,8 +10,12 @@ public class Function {
 		return string.replace(' ', '-');
 	}
 	
-	public static Integer bitwiseAnd(Integer value, Integer mask) {
+	public static int bitwiseAnd(Integer value, Integer mask) {
 		return (value & mask);
+	}
+	
+	public static boolean bitOn(Integer value, Integer mask) {
+		return bitwiseAnd(value, mask) == mask;
 	}
 
 	public static boolean listContains(List<Object> objects, Object object) {

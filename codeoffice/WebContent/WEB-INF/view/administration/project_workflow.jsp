@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.enterprise_administration"/></div>
 <div id="sub-menu">
@@ -12,6 +13,14 @@
 		<jsp:param name="menu" value="project"/>
 	</jsp:include>
 </div>
+<script>
+	function selectTypeIcon(icon, id) {
+		$('#typeIcon-icon_' + id).attr('src', 'assets/img/office/status/' + icon + ".png");
+		$('#typeIcon-text_' + id).text(icon);
+		$('.image-select-ul-list').css({'left' : '-9999px'});
+		$("input[name='" + id + "']").val(icon);
+	}
+</script>
 <spring:message var="text_view" code="application.view" />
 <spring:message var="text_edit" code="application.edit" />
 <spring:message var="text_delete" code="application.delete" />
@@ -23,12 +32,77 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title">
+				<div class="sub-element-title imglink">
+					<span>${workFlow.name}</span>
 					<input type="button" class="button" onclick="javascript:url('/administration/workFlow/edit.html?workflow=${workFlow.name}');" value="${text_edit}"/>
 					<input type="button" class="button" onclick="javascript:url('/administration/workFlow/clone?workflow=${workFlow.name}');" value="${text_clone}"/>
 					<input type="button" class="button" onclick="javascript:remoteSubmit(event, 'administration/workFlow/delete?workflow=${workFlow.name}', 'Delete?');" value="${text_delete}"/>				
 				</div>
 				<div class="sub-element-description">${workFlow.description}</div>
+			</div>
+			<div class="filter-table">
+				<c:if test="${fn:length(issueStatus) gt 0}">
+				<form:form action="administration/workFlow/transition/create" modelAttribute="workFlowTransition" method="POST">
+				<table class="filter-table">
+					<tr class="filter-table-title"></tr>
+					<tr class="filter-table-label">
+						<td><spring:message code="administration.project.workflow.transition"/>:</td>
+						<td><spring:message code="application.from"/>:</td>
+						<td><spring:message code="application.to"/>:</td>
+						<td><spring:message code="administration.project.workflow.requiredPermissions"/>:</td>
+					</tr>
+					<tr class="filter-table-input">
+						<td class="form-top-col"><form:input path="transition"/></td>
+						<td class="form-top-col">
+							<form:hidden path="from"/>
+							<span class="image-select-indicator imglink" id="typeIcon_from">
+								<img id="typeIcon-icon_from" src="assets/img/office/status/${issueStatus[0].icon}.png"/>
+								<span id="typeIcon-text_from" class="text">${issueStatus[0].name}</span>
+								<img class="icon-module icon-module-menu-indicator" src="assets/img/core/empty.png"/>
+							</span>
+							<div class="image-select-ul-list">
+								<ul>
+									<c:forEach items="${issueStatus}" var="status">
+									<li class="imglink" onclick="javascript:selectTypeIcon('${status.icon}', 'from');">
+										<img src="assets/img/office/status/${status.icon}.png"/>
+										<span class="text">${status.name}</span>
+									</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</td>
+						<td class="form-top-col">
+							<form:hidden path="to"/>
+							<span class="image-select-indicator imglink" id="typeIcon_to">
+								<img id="typeIcon-icon_to" src="assets/img/office/status/${issueStatus[0].icon}.png"/>
+								<span id="typeIcon-text_to" class="text">${issueStatus[0].name}</span>
+								<img class="icon-module icon-module-menu-indicator" src="assets/img/core/empty.png"/>
+							</span>
+							<div class="image-select-ul-list">
+								<ul>
+									<c:forEach items="${issueStatus}" var="status">
+									<li class="imglink" onclick="javascript:selectTypeIcon('${status.icon}', 'to');">
+										<img src="assets/img/office/status/${status.icon}.png"/>
+										<span class="text">${status.name}</span>
+									</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</td>
+						<td class="form-top-col">
+							<form:select path="requiredPermissions" multiple="true" cssClass="multiple-select">
+								<c:forEach items="${projectPermissions}" var="permission">
+									<option value="${permission}"><spring:message code="${permission.key}"/></option>
+								</c:forEach>
+							</form:select>
+						</td>
+					</tr>
+					<tr class="filter-table-input">
+						<td colspan="4"><input type="submit" class="button" value="<spring:message code="administration.project.workflow.addTransition"/>"/></td>
+					</tr>
+				</table>
+				</form:form>
+				</c:if>
 			</div>
 			<div class="sub-element-content">
 				<table class="list-table">

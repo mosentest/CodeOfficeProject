@@ -9,6 +9,8 @@ import mu.codeoffice.entity.settings.IssueStatus;
 import mu.codeoffice.entity.settings.WorkFlow;
 import mu.codeoffice.entity.settings.WorkFlowTransition;
 import mu.codeoffice.security.EnterpriseAuthentication;
+import mu.codeoffice.security.ProjectPermission;
+import mu.codeoffice.service.IssuePropertyConfigurationService;
 import mu.codeoffice.service.WorkFlowService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class WorkFlowController {
 
 	@Autowired
 	private WorkFlowService workFlowService;
+	
+	@Autowired
+	private IssuePropertyConfigurationService issuePropertyConfigurationService;
 
 	@RequestMapping(value = "workFlow/{name}.html", method = RequestMethod.GET)
 	public ModelAndView workflow(@AuthenticationPrincipal EnterpriseAuthentication auth, 
@@ -41,6 +46,9 @@ public class WorkFlowController {
 			transitionMap.get(transition.getFrom()).add(transition);
 		}
 		model.put("transitionMap", transitionMap);
+		model.put("issueStatus", issuePropertyConfigurationService.getIssueStatus(auth));
+		model.put("projectPermissions", ProjectPermission.values());
+		model.put("workFlowTransition", new WorkFlowTransition());
 		return new ModelAndView("administration/project_workflow", model);
 	}
 

@@ -33,6 +33,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,6 +66,7 @@ public class SystemSettingsService {
 
 	@Transactional
 	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
 	public void reset(EnterpriseAuthentication auth, GlobalPermission globalPermission) 
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
@@ -85,6 +87,7 @@ public class SystemSettingsService {
 	
 	@Transactional
 	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
 	public void removeGroup(EnterpriseAuthentication auth, GlobalPermission globalPermission, String userGroupName) 
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
@@ -104,6 +107,7 @@ public class SystemSettingsService {
 	
 	@Transactional
 	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
 	public void addGroup(EnterpriseAuthentication auth, GlobalPermission globalPermission, String userGroupName) 
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
@@ -124,6 +128,7 @@ public class SystemSettingsService {
 	
 	@Transactional
 	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
 	public void removeUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long id) 
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
@@ -141,6 +146,7 @@ public class SystemSettingsService {
 	
 	@Transactional
 	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
 	public void addUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long id) 
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
@@ -161,14 +167,13 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional(readOnly = true)
+	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
 	public List<UserGroup> getGlobalAvailableUserGroups(EnterpriseAuthentication auth, GlobalPermission globalPermission) {
-		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
-		List<UserGroup> userGroups = userGroupRepository.getUserGroups(auth.getEnterprise());
-		userGroups.removeAll(settings.getUserGroups());
-		return userGroups;
+		return userGroupRepository.getUserGroups(auth.getEnterprise());
 	}
 	
 	@Transactional(readOnly = true)
+	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
 	public Page<User> getGlobalAvailableUsers(EnterpriseAuthentication auth, GlobalPermission globalPermission, String searchString) {
 		return userRepository.findNonGlobalAuthorizedUsers(auth.getEnterprise(), "%" + searchString + "%", globalPermission.getAuthority(), new PageRequest(0, 20));
 	}
@@ -185,6 +190,7 @@ public class SystemSettingsService {
 	}
 
 	@Transactional
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public void update(EnterpriseAuthentication auth, Announcement announcement) 
 			throws InformationException, AuthenticationException {
 		Announcement settings = announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
@@ -199,11 +205,13 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional(readOnly = true)
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public Announcement getAnnouncement(EnterpriseAuthentication auth) {
 		return announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
 	}
 
 	@Transactional
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public void update(EnterpriseAuthentication auth, AdvancedGlobalSettings advancedGlobalSettings) 
 			throws InformationException, AuthenticationException {
 		AdvancedGlobalSettings settings = null;
@@ -222,6 +230,7 @@ public class SystemSettingsService {
 	}
 
 	@Transactional(readOnly = true)
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public AdvancedGlobalSettings getAdvancedGlobalSettings(EnterpriseAuthentication auth) {
 		CacheSettings cacheSettings = cacheManager.get(auth.getEnterprise().getId());
 		if (cacheSettings != null && cacheSettings.getAdvancedGlobalSettings() != null) {
@@ -236,6 +245,7 @@ public class SystemSettingsService {
 	}
 
 	@Transactional
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public void update(EnterpriseAuthentication auth, GlobalSettings globalSettings) 
 			throws InformationException, AuthenticationException {
 		GlobalSettings settings = null;
@@ -253,6 +263,7 @@ public class SystemSettingsService {
 	}
 
 	@Transactional(readOnly = true)
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public GlobalSettings getGlobalSettings(EnterpriseAuthentication auth) {
 		CacheSettings cacheSettings = cacheManager.get(auth.getEnterprise().getId());
 		if (cacheSettings != null && cacheSettings.getGlobalSettings() != null) {
@@ -268,6 +279,7 @@ public class SystemSettingsService {
 
 	@Transactional
 	@CacheEvict(value = "internationalizationSettingsCache", key = "#auth.enterprise.id")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public void update(EnterpriseAuthentication auth, InternationalizationSettings internationalizationSettings) 
 			throws InformationException, AuthenticationException {
 		InternationalizationSettings settings = 
@@ -287,6 +299,7 @@ public class SystemSettingsService {
 
 	@Transactional(readOnly = true)
 	@Cacheable(value = "internationalizationSettingsCache", key = "#auth.enterprise.id")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public InternationalizationSettings getInternationalizationSettings(EnterpriseAuthentication auth) {
 		InternationalizationSettings internationalizationSettings = 
 				internationalizationSettingsRepository.getEnterpriseInternationalizationSettings(auth.getEnterprise());

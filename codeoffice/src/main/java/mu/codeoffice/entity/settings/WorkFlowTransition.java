@@ -3,7 +3,9 @@ package mu.codeoffice.entity.settings;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.Enterprise;
@@ -48,11 +49,10 @@ public class WorkFlowTransition implements Serializable {
 	@JoinColumn(name = "to_status_id")
 	private IssueStatus to;
 
-	//@ManyToMany(fetch = FetchType.LAZY)
-    //@JoinTable(name = "workflow_transition_permission", uniqueConstraints = @UniqueConstraint(columnNames = {"workflow_transition_permission", "permission_id"}),
-    //    joinColumns = @JoinColumn(name = "workflow_transition_permission_id", referencedColumnName = "id"), 
-    //    sinverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
-	@Transient
+	@ElementCollection(targetClass = ProjectPermission.class)
+	@CollectionTable(name = "settings_workflow_transition_permission",
+	    joinColumns = @JoinColumn(name = "workflow_transition_id"))
+	@Column(name = "permission_id")
 	private List<ProjectPermission> requiredPermissions;
 	
 	public WorkFlowTransition() {}

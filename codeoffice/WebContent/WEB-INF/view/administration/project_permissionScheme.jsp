@@ -22,16 +22,13 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title">${permissionScheme.name}
-				<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
+				<div class="sub-element-title imglink">
+				<span>${permissionScheme.name}</span>
 				<input type="submit" onclick="javascript:url('administration/permissionScheme/${permissionScheme.name}/clone');"
 					class="button" value="<spring:message code="application.clone"/>"/>
-				<c:if test="${not permissionScheme.defaultScheme}">
-					<form class="inline-form" action="administration/permissionScheme/${permissionScheme.name}/delete" method="POST">
+				<form class="inline-form" action="administration/permissionScheme/${permissionScheme.name}/delete" method="POST">
 					<input type="submit" onclick="javascript:confirmSubmit(event, 'Delete?');" class="button" value="<spring:message code="application.delete"/>"/>
-					</form>
-				</c:if>
-				</security:authorize>
+				</form>
 				</div>
 				<div class="sub-element-description">${permissionScheme.description}</div>
 			</div>

@@ -46,7 +46,7 @@ public class IssuePropertyConfigurationService {
 	private IssuePriorityRepository issuePriorityRepository;
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void cloneIssueTypeScheme(EnterpriseAuthentication auth, String issueTypeScheme) throws AuthenticationException, InformationException {
 		IssueTypeScheme original = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), issueTypeScheme);
 		if (original == null) {
@@ -71,7 +71,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueTypeScheme issueTypeScheme) throws AuthenticationException, InformationException {
 		IssueTypeScheme original = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), issueTypeScheme.getId());
 		if (original == null) {
@@ -102,7 +102,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueStatus issueStatus) throws AuthenticationException, InformationException {
 		IssueStatus original = issueStatusRepository.getIssueStatus(auth.getEnterprise(), issueStatus.getId());
 		if (original == null) {
@@ -122,7 +122,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueResolution issueResolution) throws AuthenticationException, InformationException {
 		IssueResolution original = issueResolutionRepository.getIssueResolution(auth.getEnterprise(), issueResolution.getId());
 		if (original == null) {
@@ -138,7 +138,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssuePriority issuePriority) throws AuthenticationException, InformationException {
 		IssuePriority original = issuePriorityRepository.getIssuePriority(auth.getEnterprise(), issuePriority.getId());
 		if (original == null) {
@@ -158,7 +158,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueLink issueLink) throws AuthenticationException, InformationException {
 		IssueLink original = issueLinkRepository.getIssueLink(auth.getEnterprise(), issueLink.getId());
 		if (original == null) {
@@ -174,7 +174,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueType issueType, boolean standard) throws AuthenticationException, InformationException {
 		IssueType original = issueTypeRepository.getIssueType(auth.getEnterprise(), issueType.getId(), standard);
 		if (original == null) {
@@ -193,7 +193,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssueTypeScheme issueTypeScheme) throws AuthenticationException, InformationException {
 		if (!issueTypeSchemeRepository.isNameAvailable(auth.getEnterprise(), issueTypeScheme.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Issue Type Scheme Name is not available");
@@ -213,7 +213,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssueLink issueLink) throws AuthenticationException, InformationException {
 		if (!issueLinkRepository.isNameAvailable(auth.getEnterprise(), issueLink.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Issue Link Name is not available");
@@ -224,7 +224,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssueStatus issueStatus) throws AuthenticationException, InformationException {
 		if (!issueStatusRepository.isNameAvailable(auth.getEnterprise(), issueStatus.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Issue Status Name is not available");
@@ -239,7 +239,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssuePriority issuePriority) throws AuthenticationException, InformationException {
 		if (!issuePriorityRepository.isNameAvailable(auth.getEnterprise(), issuePriority.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Issue Priority Name is not available");
@@ -254,7 +254,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssueResolution issueResolution) throws AuthenticationException, InformationException {
 		if (!issueResolutionRepository.isNameAvailable(auth.getEnterprise(), issueResolution.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Issue Resolution Name is not available");
@@ -266,7 +266,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssueType issueType) throws AuthenticationException, InformationException {
 		if (!issueLinkRepository.isNameAvailable(auth.getEnterprise(), issueType.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Name already exist.");
@@ -280,7 +280,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void deleteIssueTypeScheme(EnterpriseAuthentication auth, String issueTypeScheme) throws AuthenticationException, InformationException {
 		IssueTypeScheme original = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), issueTypeScheme);
 		if (original == null) {
@@ -296,7 +296,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void deleteIssueType(EnterpriseAuthentication auth, String issueTypeName, boolean standard) throws AuthenticationException, InformationException {
 		IssueType original = issueTypeRepository.getIssueType(auth.getEnterprise(), issueTypeName, standard);
 		if (original == null) {
@@ -307,7 +307,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void deleteIssueStatus(EnterpriseAuthentication auth, String issueStatus) throws AuthenticationException, InformationException {
 		IssueStatus original = issueStatusRepository.getIssueStatus(auth.getEnterprise(), issueStatus);
 		if (original == null) {
@@ -319,7 +319,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void deleteIssueResolution(EnterpriseAuthentication auth, String issueResolution) throws AuthenticationException, InformationException {
 		IssueResolution original = issueResolutionRepository.getIssueResolution(auth.getEnterprise(), issueResolution);
 		if (original == null) {
@@ -331,7 +331,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void deleteIssuePriority(EnterpriseAuthentication auth, String issuePriority) throws AuthenticationException, InformationException {
 		IssuePriority original = issuePriorityRepository.getIssuePriority(auth.getEnterprise(), issuePriority);
 		if (original == null) {
@@ -343,7 +343,7 @@ public class IssuePropertyConfigurationService {
 	}
 	
 	@Transactional
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void deleteIssueLink(EnterpriseAuthentication auth, String issueLink) throws AuthenticationException, InformationException {
 		IssueLink original = issueLinkRepository.getIssueLink(auth.getEnterprise(), issueLink);
 		if (original == null) {
@@ -354,7 +354,7 @@ public class IssuePropertyConfigurationService {
 	}
 
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public List<IssueTypeScheme> getIssueTypeSchemes(EnterpriseAuthentication auth) {
 		List<IssueTypeScheme> list = issueTypeSchemeRepository.getIssueTypeSchemes(auth.getEnterprise());
 		for (IssueTypeScheme scheme : list) {
@@ -365,7 +365,7 @@ public class IssuePropertyConfigurationService {
 	}
 
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public IssueTypeScheme getIssueTypeScheme(EnterpriseAuthentication auth, String name) {
 		IssueTypeScheme scheme = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), name);
 		scheme.getIssueTypes().size();
@@ -374,43 +374,43 @@ public class IssuePropertyConfigurationService {
 	}	
 
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public IssueType getIssueType(EnterpriseAuthentication auth, String name, boolean standard) {
 		return issueTypeRepository.getIssueType(auth.getEnterprise(), name, standard);
 	}
 
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public IssueLink getIssueLink(EnterpriseAuthentication auth, String name) {
 		return issueLinkRepository.getIssueLink(auth.getEnterprise(), name);
 	}
 
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public IssueStatus getIssueStatus(EnterpriseAuthentication auth, String name) {
 		return issueStatusRepository.getIssueStatus(auth.getEnterprise(), name);
 	}
 
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public IssueResolution getIssueResolution(EnterpriseAuthentication auth, String name) {
 		return issueResolutionRepository.getIssueResolution(auth.getEnterprise(), name);
 	}
 
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public IssuePriority getIssuePriority(EnterpriseAuthentication auth, String name) {
 		return issuePriorityRepository.getIssuePriority(auth.getEnterprise(), name);
 	}
 
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public List<IssueType> getSubTaskTypes(EnterpriseAuthentication auth) {
 		return issueTypeRepository.getSubTaskTypes(auth.getEnterprise());
 	}
 
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public List<IssueType> getIssueTypes(EnterpriseAuthentication auth) {
 		List<IssueType> list = issueTypeRepository.getIssueTypes(auth.getEnterprise());
 		for (IssueType type : list) {
@@ -419,22 +419,22 @@ public class IssuePropertyConfigurationService {
 		return list;
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public List<IssueLink> getIssueLinks(EnterpriseAuthentication auth) {
 		return issueLinkRepository.getIssueLinks(auth.getEnterprise());
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public List<IssueStatus> getIssueStatus(EnterpriseAuthentication auth) {
 		return issueStatusRepository.getIssueStatus(auth.getEnterprise());
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public List<IssueResolution> getIssueResolutions(EnterpriseAuthentication auth) {
 		return issueResolutionRepository.getIssueResolutions(auth.getEnterprise());
 	}
 
-	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public List<IssuePriority> getIssuePriorities(EnterpriseAuthentication auth) {
 		return issuePriorityRepository.getIssuePriorities(auth.getEnterprise());
 	}

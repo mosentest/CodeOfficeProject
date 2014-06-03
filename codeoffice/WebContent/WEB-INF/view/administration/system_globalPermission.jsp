@@ -150,8 +150,8 @@
 					</form>
 					</div>
 					<div class="clearfix"></div>
+					<a class="link" href="administration/globalPermission/scheme.html"><spring:message code="administration.system.globalpermission.viewScheme"/></a>
 				</div>
-				related projects
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="administration.um.globalpermission.permission"/></td>

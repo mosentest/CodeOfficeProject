@@ -23,14 +23,13 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title">${userGroup.name}
-				<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
+				<div class="sub-element-title imglink">
+				<span>${userGroup.name}</span>
 				<c:if test="${not userGroup.defaultGroup}">
 					<form class="inline-form" action="administration/userGroup/${userGroup.name}/delete" method="POST">
 					<input type="submit" onclick="javascript:confirmSubmit(event, 'Delete?');" class="button" value="<spring:message code="application.delete"/>"/>
 					</form>
 				</c:if>
-				</security:authorize>
 				</div>
 				<div class="sub-element-description">${userGroup.description}</div>
 			</div>
