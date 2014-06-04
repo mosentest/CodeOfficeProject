@@ -1,6 +1,7 @@
 package mu.codeoffice.entity.settings;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,7 +17,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.Project;
@@ -41,13 +45,16 @@ public class ProjectPermissionScheme implements Serializable {
 	@JoinColumn(name = "creator_id")
 	private User creator;
 
-	@Column(name = "default_schema")
-	private boolean defaultScheme;
+	@Column(name = "modified_date")
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date modified;
 
 	@Column(name = "name")
+	@Size(max = 30)
 	private String name;
 
 	@Column(name = "description")
+	@Size(max = 300)
 	private String description;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectPermissionScheme")
@@ -56,7 +63,7 @@ public class ProjectPermissionScheme implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectPermissionScheme")
 	private List<ProjectPermissionSettings> projectPermissionSettings;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "projecpermission_scheme_usergroup", uniqueConstraints = @UniqueConstraint(columnNames = {"projecpermission_scheme_id", "usergroup_id"}),
         joinColumns = @JoinColumn(name = "projecpermission_scheme_id", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"))
@@ -121,20 +128,20 @@ public class ProjectPermissionScheme implements Serializable {
 		this.projectPermissionSettings = projectPermissionSettings;
 	}
 
-	public boolean isDefaultScheme() {
-		return defaultScheme;
-	}
-
-	public void setDefaultScheme(boolean defaultScheme) {
-		this.defaultScheme = defaultScheme;
-	}
-
 	public List<UserGroup> getUserGroups() {
 		return userGroups;
 	}
 
 	public void setUserGroups(List<UserGroup> userGroups) {
 		this.userGroups = userGroups;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 
 }

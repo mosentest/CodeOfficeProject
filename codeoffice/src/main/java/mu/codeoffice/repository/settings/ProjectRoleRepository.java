@@ -13,5 +13,8 @@ public interface ProjectRoleRepository extends JpaRepository<ProjectRole, Long> 
 
 	@Query("SELECT pr FROM ProjectRole pr WHERE pr.enterprise = :enterprise")
 	public List<ProjectRole> getProjectRoles(@Param("enterprise") Enterprise enterprise);
+
+	@Query("SELECT r FROM ProjectRole r WHERE r.enterprise = :enterprise AND r.id IN :idList")
+	public List<ProjectRole> getProjectRoles(@Param("enterprise") Enterprise enterprise, @Param("idList") List<Long> idList);
 	
 }

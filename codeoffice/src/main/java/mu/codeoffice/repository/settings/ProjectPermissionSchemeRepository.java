@@ -11,8 +11,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProjectPermissionSchemeRepository extends JpaRepository<ProjectPermissionScheme, Long> {
 
-	@Query("SELECT COUNT(pps) = 0 FROM ProjectPermissionScheme pps WHERE pps.enterprise = :enterprise AND pps.name = :schemeName")
-	public boolean isNameAvailable(@Param("enterprise") Enterprise enterprise, @Param("schemeName") String schemeName);
+	@Query("SELECT COUNT(pps) = 0 FROM ProjectPermissionScheme pps WHERE pps.enterprise = :enterprise AND LOWER(pps.name) = :schemeName AND pps.id <> :id")
+	public boolean isNameAvailable(@Param("enterprise") Enterprise enterprise, @Param("schemeName") String schemeName, @Param("id") Long id);
 
 	@Query("SELECT pps FROM ProjectPermissionScheme pps WHERE pps.enterprise = :enterprise")
 	public List<ProjectPermissionScheme> getProjectPermissionSchemes(@Param("enterprise") Enterprise enterprise);

@@ -8,9 +8,7 @@ import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.dto.UserGroupDTO;
-import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
-import mu.codeoffice.json.UserJSON;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
@@ -22,7 +20,6 @@ import mu.codeoffice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -32,7 +29,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -79,18 +75,19 @@ public class UserManagementAdminitrationController implements PermissionRequired
 	public ModelAndView usersView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model, 
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
 			@RequestParam(value = "pageSize", required = false) Integer pageSize,
-			@RequestParam(value = "groupFilter", required = false) Long groupFilter,
+			@RequestParam(value = "groupFilter", required = false) Long group,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "account", required = false) String account, 
 			@RequestParam(value = "name", required = false) String name)
 			throws AuthenticationException {
 		authorize(auth, null, GlobalPermission.BROWSE_USER);
-		model.put("userPage", userManagementService.filterUsers(auth, account, name, groupFilter, pageIndex, pageSize == null ? DEFAULT_LIST_SIZE : pageSize, sort));
+		model.put("userPage", userService.groupSearch(auth, group, account, name,
+				pageIndex, DEFAULT_LIST_SIZE, "firstName", true));
 		model.put("supportedListSize", LIST_SIZE);
 		model.put("groups", userManagementService.getUserGroups(auth));
 		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
 		if (pageSize != null) { model.put("pageSize", pageSize); }
-		if (groupFilter != null) { model.put("groupFilter", groupFilter); }
+		if (group != null) { model.put("groupFilter", group); }
 		if (account != null) { model.put("account", account); }
 		if (name != null) { model.put("name", name); }
 		return new ModelAndView("administration/um_users", model);
@@ -115,16 +112,16 @@ public class UserManagementAdminitrationController implements PermissionRequired
 		return new ModelAndView("administration/um_userGroups", model);
 	}
 
-	@RequestMapping(value = "userGroup/{userGroupName}.html", method = RequestMethod.GET)
+	@RequestMapping(value = "userGroup/{group}.html", method = RequestMethod.GET)
 	public ModelAndView userGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@PathVariable("userGroupName") String userGroupName,
+			@PathVariable("group") String group,
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
 			ModelMap model)
 			throws AuthenticationException {
 		authorize(auth, null, GlobalPermission.BROWSE_USER);
-		UserGroup userGroup = userManagementService.getUserGroup(auth, userGroupName);
+		UserGroup userGroup = userManagementService.getUserGroup(auth, group);
 		model.put("userGroup", userGroup);
-		model.put("userPage", userService.getUser(auth, userGroup.getId(), null, null, 
+		model.put("userPage", userService.groupSearch(auth, userGroup.getId(), null, null,
 				pageIndex, DEFAULT_LIST_SIZE, "firstName", true));
 		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
 		return new ModelAndView("administration/um_userGroup", model);
@@ -188,19 +185,6 @@ public class UserManagementAdminitrationController implements PermissionRequired
 			redirectAttributes.addFlashAttribute(TIP, e.getMessage());
 			return "redirect:/administration/userGroup/manage" + userGroupName + ".html";
 		}
-	}
-
-	@RequestMapping(value = "userGroup/{userGroupName}/availableUsers", method = RequestMethod.GET)
-	public @ResponseBody List<UserJSON> getAvailableUsers(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("userGroupName") String userGroupName, 
-			@RequestParam("search") String search, @RequestParam(value = "id", required = false) Long[] id) {
-		authorize(auth, null, GlobalPermission.ADMIN);
-		Page<User> users = userManagementService.filterAvailableUserForGroup(auth, userGroupName, search, id, 0, 20, "email");
-		List<UserJSON> jsonList = new ArrayList<>();
-		for (User user : users.getContent()) {
-			jsonList.add(user.toJSONObject());
-		}
-		return jsonList;
 	}
 
 	@SuppressWarnings("unchecked")

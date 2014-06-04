@@ -40,8 +40,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "typeScheme/clone", method = RequestMethod.GET)
 	public String typeSchemeClone(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("scheme") String scheme,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes) {
 		try {
 			issuePropertyConfigurationService.cloneIssueTypeScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme '" + scheme + "' has been cloned.");
@@ -53,7 +52,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "typeScheme/associate.html", method = RequestMethod.GET)
 	public ModelAndView typeSchemeAssociateRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("scheme") String scheme,
+			@RequestParam("scheme") String scheme, 
 			RedirectAttributes redirectAttributes, ModelMap model) {
 		IssueTypeScheme issueTypeScheme = issuePropertyConfigurationService.getIssueTypeScheme(auth, scheme);
 		if (issueTypeScheme == null) {
@@ -66,8 +65,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "typeScheme/associate", method = RequestMethod.POST)
 	public String typeSchemeAssociate(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("scheme") String scheme,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes) {
 		try {
 			issuePropertyConfigurationService.deleteIssueTypeScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Projects has been added.");
@@ -79,8 +77,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "typeScheme/delete", method = RequestMethod.POST)
 	public String typeSchemeDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("scheme") String scheme,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes) {
 		try {
 			issuePropertyConfigurationService.deleteIssueTypeScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme has been deleted.");
@@ -92,8 +89,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "type/delete", method = RequestMethod.POST)
 	public String typeDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("type") String type,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			@RequestParam("type") String type, RedirectAttributes redirectAttributes) {
 		try {
 			issuePropertyConfigurationService.deleteIssueType(auth, type, true);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type has been deleted.");
@@ -105,8 +101,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "subtask/delete", method = RequestMethod.POST)
 	public String subtaskDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("type") String type,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			@RequestParam("type") String type, RedirectAttributes redirectAttributes) {
 		try {
 			issuePropertyConfigurationService.deleteIssueType(auth, type, false);
 			redirectAttributes.addFlashAttribute(TIP, "Sub task type has been deleted.");
@@ -118,8 +113,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "status/delete", method = RequestMethod.POST)
 	public String statusDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("status") String status,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			@RequestParam("status") String status, RedirectAttributes redirectAttributes) {
 		try {
 			issuePropertyConfigurationService.deleteIssueStatus(auth, status);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Status has been deleted.");
@@ -131,8 +125,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "priority/delete", method = RequestMethod.POST)
 	public String priorityDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("priority") String priority,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			@RequestParam("priority") String priority, RedirectAttributes redirectAttributes) {
 		try {
 			issuePropertyConfigurationService.deleteIssuePriority(auth, priority);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type has been deleted.");
@@ -144,8 +137,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "resolution/delete", method = RequestMethod.POST)
 	public String resolutionDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("resolution") String resolution, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			@RequestParam("resolution") String resolution, RedirectAttributes redirectAttributes) {
 		try {
 			issuePropertyConfigurationService.deleteIssueResolution(auth, resolution);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Resolution has been deleted.");
@@ -157,8 +149,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 
 	@RequestMapping(value = "link/delete", method = RequestMethod.POST)
 	public String linkCDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("link") String link,
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			@RequestParam("link") String link, RedirectAttributes redirectAttributes) {
 		try {
 			issuePropertyConfigurationService.deleteIssueLink(auth, link);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Link has been deleted.");
@@ -178,7 +169,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "typeScheme/create", method = RequestMethod.POST)
 	public String typeSchemeCreate(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@ModelAttribute("issueTypeScheme") @Valid IssueTypeScheme issueTypeScheme, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -196,7 +187,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "type/create", method = RequestMethod.POST)
 	public String typeCreate(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@ModelAttribute("issueType") @Valid IssueType issueType, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -214,7 +205,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "subtask/create", method = RequestMethod.POST)
 	public String subtaskCreate(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@ModelAttribute("issueType") @Valid IssueType issueType, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -232,7 +223,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "status/create", method = RequestMethod.POST)
 	public String statusCreate(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@ModelAttribute("issueStatus") @Valid IssueStatus issueStatus, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -249,7 +240,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "priority/create", method = RequestMethod.POST)
 	public String priorityCreate(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@ModelAttribute("issuePriority") @Valid IssuePriority issuePriority, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -266,7 +257,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "resolution/create", method = RequestMethod.POST)
 	public String resolutionCreate(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@ModelAttribute("issueResolution") @Valid IssueResolution issueResolution, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -283,7 +274,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "link/create", method = RequestMethod.POST)
 	public String linkCreate(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@ModelAttribute("issueLink") @Valid IssueLink issueLink, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -390,7 +381,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String typeSchemeEdit(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("scheme") String scheme,
 			@ModelAttribute("issueTypeScheme") @Valid IssueTypeScheme issueTypeScheme, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -409,7 +400,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String typeEdit(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("type") String type,
 			@ModelAttribute("issueType") @Valid IssueType issueType, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -429,7 +420,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String subtaskEdit(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("type") String type,
 			@ModelAttribute("issueType") @Valid IssueType issueType, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -449,7 +440,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String issueLinkEdit(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("link") String link,
 			@ModelAttribute("issueLink") @Valid IssueLink issueLink, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -469,7 +460,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String statusEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("status") String status,
 			@ModelAttribute("issueStatus") @Valid IssueStatus issueStatus, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -488,7 +479,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String resolutionEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("resolution") String resolution,
 			@ModelAttribute("issueResolution") @Valid IssueResolution issueResolution, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -507,7 +498,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String priorityEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("priority") String priority,
 			@ModelAttribute("issuePriority") @Valid IssuePriority issuePriority, BindingResult result, 
-			RedirectAttributes redirectAttributes, ModelMap model) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {

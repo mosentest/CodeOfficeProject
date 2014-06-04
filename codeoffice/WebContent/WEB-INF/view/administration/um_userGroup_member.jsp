@@ -17,13 +17,15 @@
 <script>
 	$(document).ready(function() {
 		$('#autocomplete').autocomplete({
-			minLength: 2,
+			minLength: 3,
 			source: function(request, response) {
 				$.ajax({
-					url: "administration/userGroup/${userGroupDTO.name}/availableUsers",
+					url: "ajax/search/users",
 					type: 'GET',
 					responseType: 'json',
-					data: $('#autocomplete').serialize() + '&' + $("input[name='id']").serialize(),
+					data: {
+						query: $('#autocomplete').val()
+					},
 					success: function(data) {
 						response(data);
 					}

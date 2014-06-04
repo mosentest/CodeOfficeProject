@@ -24,9 +24,9 @@
 			<div class="sub-element-info">
 				<div class="sub-element-title imglink">
 				<span>${permissionScheme.name}</span>
-				<input type="submit" onclick="javascript:url('administration/permissionScheme/${permissionScheme.name}/clone');"
+				<input type="submit" onclick="javascript:url('administration/permissionScheme/clone?scheme=${permissionScheme.name}');"
 					class="button" value="<spring:message code="application.clone"/>"/>
-				<form class="inline-form" action="administration/permissionScheme/${permissionScheme.name}/delete" method="POST">
+				<form class="inline-form" action="administration/permissionScheme/delete?scheme=${permissionScheme.name}" method="POST">
 					<input type="submit" onclick="javascript:confirmSubmit(event, 'Delete?');" class="button" value="<spring:message code="application.delete"/>"/>
 				</form>
 				</div>
@@ -53,17 +53,7 @@
 							</c:forEach>
 							</ul>
 						</td>
-						<td>
-						<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
-							<a class="link" href="administration/permissionScheme/${scheme.name}.html">${text_view_permission}</a>
-							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/permissionScheme/${scheme.name}/clone">${text_clone}</a>
-							<c:if test="${not scheme.defaultScheme}">
-								<span class="minorspace">&#183;</span>
-								<a class="link" href="javascript:remoteSubmit(event, 'administration/permissionScheme/${scheme.name}/delete', 'Delete?');">${text_delete}</a>
-							</c:if>
-						</security:authorize>
-						</td>
+						<td></td>
 					</tr>
 					</c:forEach>
 				</table>

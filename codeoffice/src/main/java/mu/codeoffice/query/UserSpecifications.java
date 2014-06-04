@@ -18,56 +18,26 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class UserSpecifications {
 	
-	public static Specification<User> availableForGroup(final Enterprise enterprise, String userGroup, String searchString, Long[] id) {
+	public static Specification<User> search(final Enterprise enterprise, String queryString) {
 		return new Specification<User>() {
 
 			@Override
 			public Predicate toPredicate(Root<User> root,
 					CriteriaQuery<?> query, CriteriaBuilder builder) {
 				query.distinct(true);
-				List<Predicate> predicates = new ArrayList<>();
-				predicates.add(builder.equal(root.get(User_.enterprise), enterprise));
-				predicates.add(builder.notEqual(root.join(User_.userGroups, JoinType.LEFT).<String>get("name"), userGroup));
-				if (id != null && id.length != 0) {
-					predicates.add(builder.not(root.get(User_.id).in((Object[]) id)));
-				}
-				predicates.add(
-					builder.or(
+				return builder.and(
+						builder.equal(root.get(User_.enterprise), enterprise),
 						builder.or(
-								builder.like(root.get(User_.firstName), "%" + searchString + "%"), 
-								builder.like(root.get(User_.lastName), "%" + searchString + "%")), 
-						builder.like(root.get(User_.email), "%" + searchString + "%")));
-
-				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
-			}
-			
-		};
-	}
-
-	public static Specification<User> generic(final Enterprise enterprise, Long userGroup, Long globalPermission, Long projectPermission) {
-		return new Specification<User>() {
-
-			@Override
-			public Predicate toPredicate(Root<User> root,
-					CriteriaQuery<?> query, CriteriaBuilder builder) {
-				List<Predicate> predicates = new ArrayList<>();
-				if (globalPermission != null) {
-					predicates.add(builder.equal(root.join(User_.globalPermissions, JoinType.LEFT).<String>get("id"), globalPermission));
-				}
-				if (projectPermission != null) {
-					predicates.add(builder.equal(root.join(User_.projectPermissions, JoinType.LEFT).<String>get("id"), projectPermission));
-				}
-				if (userGroup != null) {
-					predicates.add(builder.equal(root.join(User_.userGroups, JoinType.LEFT).<String>get("id"), userGroup));
-				}
-				predicates.add(builder.equal(root.get(User_.enterprise), enterprise));
-				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+								builder.or(
+										builder.like(root.get(User_.firstName), "%" + queryString + "%"), 
+										builder.like(root.get(User_.lastName), "%" + queryString + "%")), 
+								builder.like(root.get(User_.email), "%" + queryString + "%")));
 			}
 			
 		};
 	}
 	
-	public static Specification<User> search(final Enterprise enterprise, final String account, final String name, final Long groupFilter) {
+	public static Specification<User> groupFilter(final Enterprise enterprise, final Long group, final String account, final String name) {
 		return new Specification<User>() {
 
 			@Override
@@ -84,8 +54,8 @@ public class UserSpecifications {
 							builder.like(root.get(User_.firstName), "%" + name + "%"),
 							builder.like(root.get(User_.lastName), "%" + name + "%")));
 				}
-				if (groupFilter != null) {
-					predicates.add(builder.equal(root.join(User_.userGroups, JoinType.LEFT).<String>get("id"), groupFilter));
+				if (group != null) {
+					predicates.add(builder.equal(root.join(User_.userGroups, JoinType.LEFT).<String>get("id"), group));
 				}
 				predicates.add(builder.equal(root.get(User_.enterprise), enterprise));
 				return builder.and(predicates.toArray(new Predicate[predicates.size()]));

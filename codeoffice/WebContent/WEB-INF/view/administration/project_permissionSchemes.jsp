@@ -67,15 +67,11 @@
 							</ul>
 						</td>
 						<td>
-						<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
-							<a class="link" href="administration/permissionScheme/${scheme.name}.html">${text_view_permission}</a>
+							<a class="link" href="administration/permissionScheme.html?scheme=${scheme.name}">${text_view_permission}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/permissionScheme/${scheme.name}/clone">${text_clone}</a>
-							<c:if test="${not scheme.defaultScheme}">
-								<span class="minorspace">&#183;</span>
-								<a class="link" href="javascript:remoteSubmit(event, 'administration/permissionScheme/${scheme.name}/delete', 'Delete?');">${text_delete}</a>
-							</c:if>
-						</security:authorize>
+							<a class="link" href="administration/permissionScheme/clone?scheme=${scheme.name}">${text_clone}</a>
+							<span class="minorspace">&#183;</span>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/permissionScheme/delete?scheme=${scheme.name}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

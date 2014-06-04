@@ -13,38 +13,15 @@
 </div>
 <script>
 	$(document).ready(function() {
-		$("#add-group-select").change(function() {
-			var selected = $(this).find(':selected').val();
-			if(selected != '') {
-				$(this).find('.select-option-default').remove();
-				$.ajax({
-					url: "administration/globalPermission/" + selected + "/availableGroups",
-					type: 'GET',
-					responseType: 'json',
-					success: function(data) {
-						var select = $("select[name='userGroupName']");
-						$("select[name='userGroupName'] option").remove();
-						$.each(data, function(key, value) {
-							select.append($("<option></option>").attr('value', value.name).text(value.name));
-						});
-					}
-				});
-			}
-		});
-		$('#add-user-select').change(function() {
-			$(this).find('.select-option-default').remove();
-			$('#autocomplete').removeAttr('disabled');
-			$("#add-user-form input[name='id']").remove();
-		});
 		$('#autocomplete').autocomplete({
 			minLength: 2,
 			source: function(request, response) {
 				$.ajax({
-					url: "administration/globalPermission/" + $("#add-user-select").find(':selected').val() + "/availableUsers",
+					url: "ajax/search/users",
 					type: 'GET',
 					responseType: 'json',
 					data: {
-						search: $('#autocomplete').val()
+						query: $('#autocomplete').val()
 					},
 					success: function(data) {
 						response(data);
@@ -56,8 +33,7 @@
 				return false;
 			},
 			select: function(event, ui) {
-				$('#add-user-form').find("input[name='id']").remove();
-				$('#add-user-form').append("<input type=\"hidden\" name=\"id\" value=\"" + ui.item.id + "\"/>");
+				$('#user-id').val(ui.item.id);
 				return false;
 			}
 		}).data("ui-autocomplete")._renderItem = function(ul, item) {
@@ -65,20 +41,6 @@
 					"<span class='plain-label-description'>(" + item.email + ")</span></a>").appendTo(ul);
 		};
 	});
-	function submitAddGroup(event) {
-		if ($("select[name='userGroupName']").val() == null) {
-			event.preventDefault();
-			return;
-		}
-		$('#add-group-form').attr('action', 'administration/globalPermission/' + $('#add-group-select').find(':selected').val() + '/addGroup');
-	}
-	function submitAddUser(event) {
-		if ($("#add-user-form input[name='id']").length == 0) {
-			event.preventDefault();
-			return;
-		}
-		$('#add-user-form').attr('action', 'administration/globalPermission/' + $('#add-user-select').find(':selected').val() + '/addUser');
-	}
 </script>
 <spring:message var="text_view_users" code="administration.um.globalpermission.viewUser"/>
 <spring:message var="text_reset" code="application.reset"/>
@@ -96,7 +58,7 @@
 			<div class="sub-element-content">
 				<div class="filter-content">
 					<div class="fl-l">
-					<form action="l" id="add-group-form" method="GET">
+					<form action="administration/globalPermission/addGroup" id="add-group-form" method="GET">
 						<table class="filter-table">
 							<tr class="filter-table-title">
 								<td><spring:message code="administration.um.globalpermission.addGroup"/></td>
@@ -107,23 +69,28 @@
 							</tr>
 							<tr class="filter-table-input">
 								<td>
-									<select id="add-group-select" name="globalPermission" style="width: 250px; ">
-										<option value="" class="select-option-default">---<spring:message code="administration.um.user.globalPermissions"/>---</option>
+									<select name="permission" style="width: 250px; ">
 										<c:forEach items="${globalPermissionSettings}" var="permission">
-											<option class="select-permission" value="${permission.globalPermission}"><spring:message code="${permission.globalPermission.key}"/></option>
+											<option value="${permission.globalPermission}"><spring:message code="${permission.globalPermission.key}"/></option>
 										</c:forEach>
 									</select>
 								</td>
-								<td><select name="userGroupName"></select></td>
+								<td>
+									<select name="group">
+										<c:forEach items="${userGroups}" var="group">
+											<option value="${group.name}">${group.name}</option>
+										</c:forEach>
+									</select>
+								</td>
 							</tr>
 							<tr class="filter-table-input">
-								<td colspan="2"><input class="button" type="submit" onclick="submitAddGroup(event);" value="<spring:message code="administration.um.globalpermission.grantPermission"/>" /></td>
+								<td colspan="2"><input class="button" type="submit" value="<spring:message code="administration.um.globalpermission.grantPermission"/>" /></td>
 							</tr>
 						</table>
 					</form>
 					</div>
 					<div class="fl-l">
-					<form action="" id="add-user-form" method="GET">
+					<form action="administration/globalPermission/addUser" id="add-user-form" method="GET">
 						<table class="filter-table">
 							<tr class="filter-table-title">
 								<td><spring:message code="administration.um.globalpermission.addUser"/></td>
@@ -134,17 +101,19 @@
 							</tr>
 							<tr class="filter-table-input">
 								<td>
-									<select id="add-user-select" name="globalPermission" style="width: 250px; ">
-										<option value="" class="select-option-default">---<spring:message code="administration.um.user.globalPermissions"/>---</option>
+									<select name="permission" style="width: 250px; ">
 										<c:forEach items="${globalPermissionSettings}" var="permission">
 											<option class="select-permission" value="${permission.globalPermission}"><spring:message code="${permission.globalPermission.key}"/></option>
 										</c:forEach>
 									</select>
 								</td>
-								<td><input type="text" name="name" id="autocomplete" disabled="disabled"/></td>
+								<td>
+									<input type="hidden" name="user" id="user-id"/>
+									<input type="text" name="name" id="autocomplete"/>
+								</td>
 							</tr>
 							<tr class="filter-table-input">
-								<td colspan="2"><input class="button" type="submit" onclick="submitAddUser(event);" value="<spring:message code="administration.um.globalpermission.grantPermission"/>" /></td>
+								<td colspan="2"><input class="button" type="submit" value="<spring:message code="administration.um.globalpermission.grantPermission"/>" /></td>
 							</tr>
 						</table>
 					</form>
@@ -171,7 +140,7 @@
 									<li>${group.name}<br/>
 									<span class="info-ul-list-span">
 									<a class="link" href="administration/userGroup/${group.name}.html">${text_view_users}</a><span class="minorspace">&#183;</span>
-									<a class="link" href="administration/globalPermission/${permission.globalPermission}/removeGroup?userGroupName=${group.name}">${text_remove}</a></span>
+									<a class="link" href="administration/globalPermission/removeGroup?permission=${permission.globalPermission}&group=${group.name}">${text_remove}</a></span>
 									</li>
 								</c:forEach>
 							</ul>
@@ -180,12 +149,12 @@
 							<ul class="info-ul-list">
 								<c:forEach items="${permission.users}" var="user">
 									<li><code:user user="${user}" width="20" height="20" showLink="false"/><br/>
-									<span class="info-ul-list-span"><a class="link" href="administration/globalPermission/${permission.globalPermission}/removeUser?id=${user.id}">${text_remove}</a></span>
+									<span class="info-ul-list-span"><a class="link" href="administration/globalPermission/removeUser?permission=${permission.globalPermission}&user=${user.id}">${text_remove}</a></span>
 									</li>
 								</c:forEach>
 							</ul>
 						</td>
-						<td><a class="link" href="administration/globalPermission/${permission.globalPermission}/reset">${text_reset}</a></td>
+						<td><a class="link" href="administration/globalPermission/reset?permission=${permission.globalPermission}">${text_reset}</a></td>
 					</tr>
 					</c:forEach>
 				</table>

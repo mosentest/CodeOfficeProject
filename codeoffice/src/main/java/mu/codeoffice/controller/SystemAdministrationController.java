@@ -1,13 +1,8 @@
 package mu.codeoffice.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
-import mu.codeoffice.entity.User;
-import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.GlobalSettings;
@@ -15,16 +10,14 @@ import mu.codeoffice.entity.settings.InternationalizationSettings;
 import mu.codeoffice.enums.AnnouncementLevel;
 import mu.codeoffice.enums.CommentVisibility;
 import mu.codeoffice.enums.EmailVisibility;
-import mu.codeoffice.json.UserGroupJSON;
-import mu.codeoffice.json.UserJSON;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.GlobalPermission;
 import mu.codeoffice.service.SystemSettingsService;
+import mu.codeoffice.service.UserGroupService;
 import mu.codeoffice.utility.GlobalPermissionEditor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -32,11 +25,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -46,6 +37,9 @@ public class SystemAdministrationController implements GenericController {
 
 	@Autowired
 	private SystemSettingsService systemSettingsService;
+	
+	@Autowired
+	private UserGroupService userGroupService;
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -176,6 +170,7 @@ public class SystemAdministrationController implements GenericController {
 	@RequestMapping(value = "globalPermission.html", method = RequestMethod.GET)
 	public ModelAndView globalPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
+		model.put("userGroups", userGroupService.getGroups(auth));
 		return new ModelAndView("administration/system_globalPermission", model);
 	}
 
@@ -185,94 +180,71 @@ public class SystemAdministrationController implements GenericController {
 		return new ModelAndView("administration/system_globalPermission_scheme", model);
 	}
 	
-	@RequestMapping(value = "globalPermission/{globalPermission}/removeGroup", method = RequestMethod.GET)
+	@RequestMapping(value = "globalPermission/removeGroup", method = RequestMethod.GET)
 	public String globalPermissionRemoveGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@PathVariable("globalPermission") GlobalPermission globalPermission,
-			@RequestParam("userGroupName") String userGroupName, 
+			@RequestParam("permission") GlobalPermission permission,
+			@RequestParam("group") String group, 
 			RedirectAttributes redirectAttributes) {
 		try {
-			systemSettingsService.removeGroup(auth, globalPermission, userGroupName);
-			redirectAttributes.addFlashAttribute(TIP, "Group '" + userGroupName + "' has been removed");
+			systemSettingsService.removeGroup(auth, permission, group);
+			redirectAttributes.addFlashAttribute(TIP, "Group '" + group + "' has been removed");
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
 	}
 	
-	@RequestMapping(value = "globalPermission/{globalPermission}/addGroup", method = RequestMethod.GET)
+	@RequestMapping(value = "globalPermission/addGroup", method = RequestMethod.GET)
 	public String globalPermissionAddGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@PathVariable("globalPermission") GlobalPermission globalPermission,
-			@RequestParam("userGroupName") String userGroupName, 
+			@RequestParam("permission") GlobalPermission permission,
+			@RequestParam("group") String group, 
 			RedirectAttributes redirectAttributes) {
 		try {
-			systemSettingsService.addGroup(auth, globalPermission, userGroupName);
-			redirectAttributes.addFlashAttribute(TIP, "Group '" + userGroupName + "' has been updated");
+			systemSettingsService.addGroup(auth, permission, group);
+			redirectAttributes.addFlashAttribute(TIP, "Group '" + group + "' has been updated");
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
 	}
 	
-	@RequestMapping(value = "globalPermission/{globalPermission}/addUser", method = RequestMethod.GET)
+	@RequestMapping(value = "globalPermission/addUser", method = RequestMethod.GET)
 	public String globalPermissionAddUser(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("id") Long id,  @PathVariable("globalPermission") GlobalPermission globalPermission,
+			@RequestParam("user") Long user,  @RequestParam("permission") GlobalPermission permission,
 			RedirectAttributes redirectAttributes) {
 		try {
-			systemSettingsService.addUser(auth, globalPermission, id);
-			redirectAttributes.addFlashAttribute(TIP, "Permission '" + globalPermission + "' has been updated");
+			systemSettingsService.addUser(auth, permission, user);
+			redirectAttributes.addFlashAttribute(TIP, "Permission '" + permission + "' has been updated");
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
 	}
 		
-	@RequestMapping(value = "globalPermission/{globalPermission}/removeUser", method = RequestMethod.GET)
+	@RequestMapping(value = "globalPermission/removeUser", method = RequestMethod.GET)
 	public String globalPermissionRemoveUser(@AuthenticationPrincipal EnterpriseAuthentication auth,
-			@RequestParam("id") Long id,  @PathVariable("globalPermission") GlobalPermission globalPermission,
+			@RequestParam("user") Long user,  @RequestParam("permission") GlobalPermission permission,
 			RedirectAttributes redirectAttributes) {
 		try {
-			systemSettingsService.removeUser(auth, globalPermission, id);
-			redirectAttributes.addFlashAttribute(TIP, "Permission '" + globalPermission + "' has been updated");
+			systemSettingsService.removeUser(auth, permission, user);
+			redirectAttributes.addFlashAttribute(TIP, "Permission '" + permission + "' has been updated");
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
 	}
 	
-	@RequestMapping(value = "globalPermission/{globalPermission}/reset", method = RequestMethod.GET)
+	@RequestMapping(value = "globalPermission/reset", method = RequestMethod.GET)
 	public String globalPermissionReset(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("globalPermission") GlobalPermission globalPermission,
+			@RequestParam("permission") GlobalPermission permission,
 			RedirectAttributes redirectAttributes) {
 		try {
-			systemSettingsService.reset(auth, globalPermission);
-			redirectAttributes.addFlashAttribute(TIP, "Permission '" + globalPermission + "' has been reset.");
+			systemSettingsService.reset(auth, permission);
+			redirectAttributes.addFlashAttribute(TIP, "Permission '" + permission + "' has been reset.");
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
-	}
-	
-	@RequestMapping(value = "globalPermission/{globalPermission}/availableGroups", method = RequestMethod.GET)
-	public @ResponseBody List<UserGroupJSON> getGlobalAvailableUserGroups(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("globalPermission") GlobalPermission globalPermission) {
-		List<UserGroup> userGroups = systemSettingsService.getGlobalAvailableUserGroups(auth, globalPermission);
-		List<UserGroupJSON> jsonList = new ArrayList<>();
-		for (UserGroup group : userGroups) {
-			jsonList.add(group.toJSONObject());
-		}
-		return jsonList;
-	}
-	
-	@RequestMapping(value = "globalPermission/{globalPermission}/availableUsers", method = RequestMethod.GET)
-	public @ResponseBody List<UserJSON> getGlobalAvailableUsers(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("globalPermission") GlobalPermission globalPermission, 
-			@RequestParam("search") String search) {
-		Page<User> users = systemSettingsService.getGlobalAvailableUsers(auth, globalPermission, search);
-		List<UserJSON> jsonList = new ArrayList<>();
-		for (User user : users.getContent()) {
-			jsonList.add(user.toJSONObject());
-		}
-		return jsonList;
 	}
 	
 	@RequestMapping(value = "sharedObjects.html", method = RequestMethod.GET)

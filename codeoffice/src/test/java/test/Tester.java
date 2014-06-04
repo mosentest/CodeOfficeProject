@@ -20,7 +20,6 @@ public class Tester {
 		scheme.setId(1l);
 		scheme.setEnterprise(enterprise);
 		scheme.setName("TEST");
-		scheme.setDefaultScheme(true);
 		scheme.setDescription("OK");
 
 		
@@ -60,10 +59,6 @@ public class Tester {
 		scheme.setProjectPermissionSettings(Arrays.asList(s1, s2));
 		
 		ProjectPermissionScheme clone = new ProjectPermissionScheme();
-		
-		System.out.println(clone.getId());
-		System.out.println(clone.getEnterprise().getId());
-		System.out.println(clone.isDefaultScheme());
 		
 		for (ProjectPermissionSettings settings : clone.getProjectPermissionSettings()) {
 			System.out.println(settings.getProjectPermission());

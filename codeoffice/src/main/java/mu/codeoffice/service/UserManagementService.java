@@ -2,15 +2,10 @@ package mu.codeoffice.service;
 
 import static mu.codeoffice.query.GenericSpecifications.pageSpecification;
 import static mu.codeoffice.query.GenericSpecifications.sort;
-import static mu.codeoffice.query.UserGroupSpecifications.all;
-import static mu.codeoffice.query.UserSpecifications.availableForGroup;
-import static mu.codeoffice.query.UserSpecifications.search;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -112,37 +107,6 @@ public class UserManagementService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<User> filterAvailableUserForGroup(EnterpriseAuthentication auth, String userGroupName, String search, Long[] id,
-			Integer pageIndex, Integer pageSize, String sort) {
-		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
-		Set<Long> idSet = new HashSet<>();
-		for (User user : userGroup.getUsers()) {
-			idSet.add(user.getId());
-		}
-		if (id != null) {
-			for (Long i : id) {
-				idSet.add(i);
-			}
-		}
-		return userRepository.findAll(
-				availableForGroup(auth.getEnterprise(), userGroupName, search, idSet.toArray(new Long[idSet.size()])),
-				pageSpecification(pageIndex, pageSize, sort(false, User.getSortColumn(sort))));
-	}
-	
-	@Transactional(readOnly = true)
-	public Page<User> filterUsers(EnterpriseAuthentication auth, String account, String name, Long groupFilter,
-			Integer pageIndex, Integer pageSize, String sort) {
-		Page<User> users = userRepository.findAll(
-				search(auth.getEnterprise(), account, name, groupFilter), 
-				pageSpecification(pageIndex, pageSize, sort(false, User.getSortColumn(sort))));
-		for (User user : users) {
-			user.getUserGroups().size();
-			user.getGlobalPermissions();
-		}
-		return users;
-	}
-	
-	@Transactional(readOnly = true)
 	public List<UserGroup> getUserGroups(EnterpriseAuthentication auth) 
 			throws AuthenticationException {
 		return userGroupRepository.getUserGroups(auth.getEnterprise());
@@ -151,8 +115,7 @@ public class UserManagementService {
 	@Transactional(readOnly = true)
 	public Page<UserGroup> filterUserGroups(EnterpriseAuthentication auth, String name, Integer pageIndex, Integer pageSize, String sort) 
 			throws AuthenticationException {
-		Page<UserGroup> userGroups = userGroupRepository.findAll(
-				all(auth.getEnterprise(), name), 
+		Page<UserGroup> userGroups = userGroupRepository.getUserGroups(auth.getEnterprise(), "%" + name + "%", 
 				pageSpecification(pageIndex, pageSize, sort(false, UserGroup.getSortColumn(sort))));
 		for (UserGroup userGroup : userGroups.getContent()) {
 			userGroup.getGlobalPermissions().size();

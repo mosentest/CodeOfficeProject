@@ -2,7 +2,8 @@ package mu.codeoffice.service;
 
 import static mu.codeoffice.query.GenericSpecifications.pageSpecification;
 import static mu.codeoffice.query.GenericSpecifications.sort;
-import static mu.codeoffice.query.UserSpecifications.generic;
+import static mu.codeoffice.query.UserSpecifications.groupFilter;
+import static mu.codeoffice.query.UserSpecifications.search;
 
 import javax.annotation.Resource;
 
@@ -21,16 +22,18 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	@Transactional(readOnly = true)
-	public Page<User> getUser(EnterpriseAuthentication auth, 
-			Long userGroup, Long globalPermission, Long projectPermission,
+	public Page<User> basicSearch(EnterpriseAuthentication auth, String query) {
+		return userRepository.findAll(
+				search(auth.getEnterprise(), query), 
+				pageSpecification(0, 20, sort(false, User.getSortColumn("email"))));
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<User> groupSearch(EnterpriseAuthentication auth, Long group, String account, String name,
 			Integer pageIndex, Integer pageSize, String sort, boolean ascending) {
-		Page<User> users = userRepository.findAll(
-				generic(auth.getEnterprise(), userGroup, globalPermission, projectPermission), 
-				pageSpecification(pageIndex, pageSize, sort(ascending, User.getSortColumn(sort))));
-		for (User user : users) {
-			if (userGroup != null) { user.getUserGroups().size(); }
-		}
-		return users;
+		return userRepository.findAll(
+				groupFilter(auth.getEnterprise(), group, account, name), 
+				pageSpecification(0, 20, sort(false, User.getSortColumn("email"))));
 	}
 	
 	@Transactional
