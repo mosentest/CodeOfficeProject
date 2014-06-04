@@ -30,10 +30,17 @@ public class UserService {
 	
 	@Transactional(readOnly = true)
 	public Page<User> groupSearch(EnterpriseAuthentication auth, Long group, String account, String name,
-			Integer pageIndex, Integer pageSize, String sort, boolean ascending) {
-		return userRepository.findAll(
+			Integer pageIndex, Integer pageSize, String sort, boolean ascending, boolean loadProperties) {
+		Page<User> users = userRepository.findAll(
 				groupFilter(auth.getEnterprise(), group, account, name), 
 				pageSpecification(0, 20, sort(false, User.getSortColumn("email"))));
+		if (loadProperties) {
+			for (User user : users.getContent()) {
+				user.getUserGroups().size();
+				user.getGlobalPermissions().size();
+			}
+		}
+		return users;
 	}
 	
 	@Transactional

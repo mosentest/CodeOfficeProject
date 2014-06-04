@@ -16,7 +16,6 @@ import mu.codeoffice.repository.settings.ProjectPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.ProjectRoleRepository;
 import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
-import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.ProjectPermission;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -107,10 +106,10 @@ public class ProjectAdministrationService {
 	
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void deletePermissionScheme(EnterpriseAuthentication auth, String schemeName) throws AuthenticationException, InformationException {
+	public void deletePermissionScheme(EnterpriseAuthentication auth, String schemeName) throws InformationException {
 		ProjectPermissionScheme scheme = projectPermissionSchemeRepository.getProjectPermissionScheme(auth.getEnterprise(), schemeName);
 		if (scheme == null) {
-			throw new EnterpriseAuthenticationException("Access denied.");
+			throw new InformationException("Project Permission Scheme not found.");
 		}
 		if (scheme.getProjects().size() > 0) {
 			throw new InformationException("Can not delete, scheme has multiple related projects.");
@@ -123,7 +122,7 @@ public class ProjectAdministrationService {
 	public String clone(EnterpriseAuthentication auth, String schemeName) throws AuthenticationException, InformationException {
 		ProjectPermissionScheme original = projectPermissionSchemeRepository.getProjectPermissionScheme(auth.getEnterprise(), schemeName);
 		if (original == null) {
-			throw new EnterpriseAuthenticationException("Access denied.");
+			return null;
 		}
 		if (!projectPermissionSchemeRepository.isNameAvailable(auth.getEnterprise(), "CLONE - " + schemeName, 0l)) {
 			throw new InformationException("Scheme Name Is Not Available.");
@@ -169,7 +168,7 @@ public class ProjectAdministrationService {
 	public ProjectPermissionScheme getProjectPermissionScheme(EnterpriseAuthentication auth, String schemeName) throws AuthenticationException {
 		ProjectPermissionScheme scheme = projectPermissionSchemeRepository.getProjectPermissionScheme(auth.getEnterprise(), schemeName);
 		if (scheme == null) {
-			throw new EnterpriseAuthenticationException("Access Denied.");
+			return null;
 		}
 		scheme.getProjects().size();
 		scheme.getProjectPermissionSettings().forEach(permission -> {
@@ -190,8 +189,25 @@ public class ProjectAdministrationService {
 
 	@Transactional(readOnly = true)
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
+	public ProjectRole getProjectRoles(EnterpriseAuthentication auth, String name) {
+		ProjectRole projectRole = projectRoleRepository.getProjectRole(auth.getEnterprise(), name);
+		if (projectRole == null) {
+			return null;
+		}
+		projectRole.getDefaultMembers().size();
+		projectRole.getProjectPermissionSettings().size();
+		return projectRole;
+	}
+
+	@Transactional(readOnly = true)
+	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public List<ProjectRole> getProjectRoles(EnterpriseAuthentication auth) {
-		return projectRoleRepository.getProjectRoles(auth.getEnterprise());
+		List<ProjectRole> projectRoles = projectRoleRepository.getProjectRoles(auth.getEnterprise());
+		for (ProjectRole role : projectRoles) {
+			role.getDefaultMembers().size();
+			role.getProjectPermissionSettings().size();
+		}
+		return projectRoles;
 	}
 
 }

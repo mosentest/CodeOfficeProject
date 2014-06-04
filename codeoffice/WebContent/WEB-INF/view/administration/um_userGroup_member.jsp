@@ -87,7 +87,7 @@
 				<div class="sub-element-description">${userGroupDTO.description}</div>
 			</div>
 			<div class="sub-element-content">
-				<form:form action="administration/userGroup/manage/${userGroupDTO.name}" modelAttribute="userGroupDTO" method="POST">
+				<form:form action="administration/userGroup/manage.html?group=${userGroupDTO.name}" modelAttribute="userGroupDTO" method="POST">
 				<table class="form-table">
 					<tr>
 						<td class="form-label-col"><spring:message code="administration.um.group.adduser"/>:</td>
@@ -116,9 +116,9 @@
 					</tr>
 					<tr>
 						<td class="form-label-col"></td>
-						<td class="form-input-col">
+						<td class="form-input-col imglink">
 							<input type="submit" class="button" value="<spring:message code="application.save"/>"/>
-							<input type="button" class="button" onclick="javascript:url('administration/userGroups.html');" value="<spring:message code="application.cancel"/>"/>
+							<a class="link" href="administration/userGroups.html"><spring:message code="application.cancel"/></a>
 						</td>
 					</tr>
 				</table>

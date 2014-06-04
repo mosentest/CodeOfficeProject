@@ -3,7 +3,6 @@ package mu.codeoffice.repository.settings;
 import java.util.List;
 
 import mu.codeoffice.entity.Enterprise;
-import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.security.GlobalPermission;
 
@@ -20,12 +19,12 @@ public interface GlobalPermissionSettingsRepository extends JpaRepository<Global
 	public GlobalPermissionSettings getGlobalPermissionSettings(
 			@Param("enterprise") Enterprise enterprise, @Param("globalPermission") GlobalPermission globalPermission);
 
-	@Query("SELECT COUNT(DISTINCT gp) > 0 FROM GlobalPermissionSettings gp JOIN gp.userGroups ug JOIN ug.users u WHERE gp.enterprise = :enterprise AND gp.globalPermission = :globalPermission AND u = :user")
+	@Query("SELECT COUNT(DISTINCT gp) > 0 FROM GlobalPermissionSettings gp JOIN gp.userGroups ug JOIN ug.users u WHERE gp.enterprise = :enterprise AND gp.globalPermission = :globalPermission AND u.id = :user")
 	public boolean isUserInGroup(@Param("enterprise") Enterprise enterprise, @Param("globalPermission") GlobalPermission globalPermission,
-			@Param("user") User user);
+			@Param("user") Long user);
 
-	@Query("SELECT COUNT(DISTINCT gp) > 0 FROM GlobalPermissionSettings gp JOIN gp.users u WHERE gp.enterprise = :enterprise AND gp.globalPermission = :globalPermission AND u = :user")
+	@Query("SELECT COUNT(DISTINCT gp) > 0 FROM GlobalPermissionSettings gp JOIN gp.users u WHERE gp.enterprise = :enterprise AND gp.globalPermission = :globalPermission AND u.id = :user")
 	public boolean isUserInUsers(@Param("enterprise") Enterprise enterprise, @Param("globalPermission") GlobalPermission globalPermission,
-			@Param("user") User user);
+			@Param("user") Long user);
 	
 }

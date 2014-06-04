@@ -23,6 +23,9 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long>, Jpa
 
 	@Query("SELECT g FROM UserGroup g WHERE g.enterprise = :enterprise AND g.id IN :idList")
 	public List<UserGroup> getUserGroups(@Param("enterprise") Enterprise enterprise, @Param("idList") List<Long> idList);
+	
+	@Query("SELECT g FROM UserGroup g WHERE g.enterprise = :enterprise")
+	public Page<UserGroup> getUserGroups(@Param("enterprise") Enterprise enterprise, Pageable pageable);
 
 	@Query("SELECT g FROM UserGroup g WHERE g.enterprise = :enterprise AND g.name LIKE :name")
 	public Page<UserGroup> getUserGroups(@Param("enterprise") Enterprise enterprise, @Param("name") String name, Pageable pageable);

@@ -45,7 +45,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			issuePropertyConfigurationService.cloneIssueTypeScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme '" + scheme + "' has been cloned.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/typeSchemes.html";
 	}
@@ -70,7 +70,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			issuePropertyConfigurationService.deleteIssueTypeScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Projects has been added.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/typeSchemes.html";
 	}
@@ -82,7 +82,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			issuePropertyConfigurationService.deleteIssueTypeScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme has been deleted.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/typeSchemes.html";
 	}
@@ -94,7 +94,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			issuePropertyConfigurationService.deleteIssueType(auth, type, true);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type has been deleted.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/types.html";
 	}
@@ -106,7 +106,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			issuePropertyConfigurationService.deleteIssueType(auth, type, false);
 			redirectAttributes.addFlashAttribute(TIP, "Sub task type has been deleted.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/subtasks.html";
 	}
@@ -118,7 +118,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			issuePropertyConfigurationService.deleteIssueStatus(auth, status);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Status has been deleted.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/status.html";
 	}
@@ -130,7 +130,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			issuePropertyConfigurationService.deleteIssuePriority(auth, priority);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type has been deleted.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/priorities.html";
 	}
@@ -142,7 +142,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			issuePropertyConfigurationService.deleteIssueResolution(auth, resolution);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Resolution has been deleted.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/resolutions.html";
 	}
@@ -154,7 +154,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			issuePropertyConfigurationService.deleteIssueLink(auth, link);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Link has been deleted.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/links.html";
 	}
@@ -178,7 +178,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme has been created.");
 				return "redirect:/administration/typeSchemes.html";
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/typeScheme/create.html";
@@ -196,7 +196,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				issuePropertyConfigurationService.create(auth, issueType);
 				redirectAttributes.addFlashAttribute(TIP, "Issue Type has been created.");
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/types.html";
@@ -214,7 +214,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				issuePropertyConfigurationService.create(auth, issueType);
 				redirectAttributes.addFlashAttribute(TIP, "Sub task has been created.");
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/subtasks.html";
@@ -231,7 +231,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				issuePropertyConfigurationService.create(auth, issueStatus);
 				redirectAttributes.addFlashAttribute(TIP, "Issue Status has been created.");
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/status.html";
@@ -248,7 +248,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				issuePropertyConfigurationService.create(auth, issuePriority);
 				redirectAttributes.addFlashAttribute(TIP, "Issue Priority has been created.");
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/priorities.html";
@@ -265,7 +265,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				issuePropertyConfigurationService.create(auth, issueResolution);
 				redirectAttributes.addFlashAttribute(TIP, "Issue Resolution has been created.");
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/resolutions.html";
@@ -282,7 +282,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				issuePropertyConfigurationService.create(auth, issueLink);
 				redirectAttributes.addFlashAttribute(TIP, "Issue Link has been created.");
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/links.html";
@@ -292,6 +292,10 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public ModelAndView typeSchemeEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes, ModelMap model) {
 		IssueTypeScheme typeScheme = issuePropertyConfigurationService.getIssueTypeScheme(auth, scheme);
+		if (typeScheme == null) {
+			redirectAttributes.addFlashAttribute(ERROR, "Issue Type Scheme doesn't exist.");
+			return new ModelAndView("redirect:administration/typeSchemes.html");
+		}
 		model.put("issueTypeScheme", typeScheme);
 		List<IssueType> issueTypes = issuePropertyConfigurationService.getIssueTypes(auth)
 				.stream()
@@ -390,7 +394,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme has been updated.");
 				return "redirect:/administration/typeSchemes.html";
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/typeScheme/edit.html?scheme=" + scheme;
@@ -410,7 +414,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(TIP, "Issue Type has been updated.");
 				return "redirect:/administration/types.html";
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/type/edit.html?type=" + type;
@@ -430,7 +434,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(TIP, "Sub task has been updated.");
 				return "redirect:/administration/subtasks.html";
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/subtask/edit.html?type=" + type;
@@ -449,7 +453,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(TIP, "Issue Link has been updated.");
 				return "redirect:/administration/links.html";
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/link/edit.html?link=" + link;
@@ -469,7 +473,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(TIP, "Issue Status has been updated.");
 				return "redirect:/administration/status.html";
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/status/edit.html?status=" + status;
@@ -488,7 +492,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(TIP, "Issue Resolution has been updated.");
 				return "redirect:/administration/resolutions.html";
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/resolution/edit.html?resolution=" + resolution;
@@ -507,7 +511,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 				redirectAttributes.addFlashAttribute(TIP, "Issue Priority has been updated.");
 				return "redirect:/administration/priorities.html";
 			} catch (InformationException e) {
-				redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			}
 		}
 		return "redirect:/administration/priority/edit.html?priority=" + priority;

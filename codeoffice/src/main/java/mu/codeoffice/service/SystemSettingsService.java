@@ -70,17 +70,8 @@ public class SystemSettingsService {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		settings.getUserGroups().clear();
 		settings.getUsers().clear();
-		for (UserGroup userGroup : settings.getUserGroups()) {
-			for (User user : userGroup.getUsers()) {
-				user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
-				userRepository.save(user);
-			}
-		}
-		for (User user : settings.getUsers()) {
-			user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
-			userRepository.save(user);
-		}
 		globalPermissionRepository.save(settings);
+		userRepository.clearGlobalPermission(auth.getEnterprise(), ~globalPermission.getAuthority());
 	}
 	
 	@Transactional
@@ -91,12 +82,8 @@ public class SystemSettingsService {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
 		if (settings.getUserGroups().remove(userGroup)) {
-			for (User user : userGroup.getUsers()) {
-				if (!globalPermissionRepository.isUserInUsers(auth.getEnterprise(), globalPermission, user)) {
-					user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
-					userRepository.save(user);
-				}
-			}
+			userRepository.clearGlobalPermission(auth.getEnterprise(), ~globalPermission.getAuthority(), userGroup);
+			userRepository.grantGlobalPermission(auth.getEnterprise(), globalPermission.getAuthority(), settings);
 		} else {
 			throw new InformationException("Invalid User Group");
 		}
@@ -116,23 +103,20 @@ public class SystemSettingsService {
 		if (settings.getUserGroups().contains(userGroup)) {
 			throw new InformationException("User Group already included.");
 		}
-		for (User user : userGroup.getUsers()) {
-			user.setGlobalPermissionValue(user.getGlobalPermissionValue() | globalPermission.getAuthority());
-			userRepository.save(user);
-		}
 		settings.getUserGroups().add(userGroup);
+		userRepository.grantGlobalPermission(auth.getEnterprise(), globalPermission.getAuthority(), userGroup);
 		globalPermissionRepository.save(settings);
 	}
 	
 	@Transactional
 	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
 	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
-	public void removeUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long id) 
+	public void removeUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long userId) 
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
-		User user = userRepository.findById(auth.getEnterprise(), id);
+		User user = userRepository.findById(auth.getEnterprise(), userId);
 		if (settings.getUsers().remove(user)) {
-			if (!globalPermissionRepository.isUserInGroup(auth.getEnterprise(), globalPermission, user)) {
+			if (!globalPermissionRepository.isUserInGroup(auth.getEnterprise(), globalPermission, userId)) {
 				user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
 				userRepository.save(user);
 			}
@@ -145,18 +129,15 @@ public class SystemSettingsService {
 	@Transactional
 	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
 	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
-	public void addUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long id) 
+	public void addUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long userId) 
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
-		User user = userRepository.findById(auth.getEnterprise(), id);
-		if (user == null) {
-			throw new InformationException("Invalid User");
-		}
-		if (settings.getUsers().contains(user)) {
+		if (globalPermissionRepository.isUserInUsers(auth.getEnterprise(), globalPermission, userId)) {
 			throw new InformationException("User already included.");
 		}
-		if (globalPermissionRepository.isUserInGroup(auth.getEnterprise(), globalPermission, user)) {
-			throw new InformationException("User already included in group.");
+		User user = userRepository.findById(auth.getEnterprise(), userId);
+		if (user == null) {
+			throw new InformationException("Invalid User");
 		}
 		user.setGlobalPermissionValue(user.getGlobalPermissionValue() | globalPermission.getAuthority());
 		userRepository.save(user);

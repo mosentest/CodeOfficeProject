@@ -89,13 +89,13 @@
 								<td><a class="link" href="mailto:${user.email}">${user.email}</a></td>
 								<td><ul class="info-ul-list">
 									<c:forEach items="${user.userGroups}" var="userGroup">
-										<li><a class="link" href="administration/userGroup/${userGroup.name}.html">${userGroup.name}</a></li>
+										<li><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></li>
 									</c:forEach>
 									</ul>
 								</td>
 								<td><ul class="info-ul-list">
 									<c:forEach items="${user.globalPermissions}" var="permission">
-										<li><a class="link" href="administration/globalPermission/${permission}.html"><spring:message code="${permission.key}"/></a></li>
+										<li><spring:message code="${permission.key}"/></li>
 									</c:forEach>
 									</ul>
 								</td>

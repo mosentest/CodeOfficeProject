@@ -139,7 +139,7 @@
 								<c:forEach items="${permission.userGroups}" var="group">
 									<li>${group.name}<br/>
 									<span class="info-ul-list-span">
-									<a class="link" href="administration/userGroup/${group.name}.html">${text_view_users}</a><span class="minorspace">&#183;</span>
+									<a class="link" href="administration/userGroup.html?group=${group.name}">${text_view_users}</a><span class="minorspace">&#183;</span>
 									<a class="link" href="administration/globalPermission/removeGroup?permission=${permission.globalPermission}&group=${group.name}">${text_remove}</a></span>
 									</li>
 								</c:forEach>

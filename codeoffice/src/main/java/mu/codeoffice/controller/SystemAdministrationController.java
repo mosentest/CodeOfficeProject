@@ -78,7 +78,7 @@ public class SystemAdministrationController implements GenericController {
 			servletContext.setAttribute(globalSettings.getSessionAttrKey(), globalSettings);
 			return "redirect:/administration/global.html";
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			return "redirect:/administration/global/edit.html";
 		}
 	}
@@ -105,7 +105,7 @@ public class SystemAdministrationController implements GenericController {
 			servletContext.setAttribute(advancedGlobalSettings.getSessionAttrKey(), advancedGlobalSettings);
 			return "redirect:/administration/advancedGlobal.html";
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			return "redirect:/administration/advancedGlobal/edit.html";
 		}
 	}
@@ -133,7 +133,7 @@ public class SystemAdministrationController implements GenericController {
 			redirectAttributes.addFlashAttribute(TIP, "Internationalization settings has been updated");
 			return "redirect:/administration/internationalization.html";
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			return "redirect:/administration/internationalization/edit.html";
 		}
 	}
@@ -162,7 +162,7 @@ public class SystemAdministrationController implements GenericController {
 			announcement.copyInformationTo(enterpriseAnnouncement);
 			return "redirect:/administration/announcement.html";
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 			return "redirect:/administration/announcement/edit.html";
 		}
 	}
@@ -189,7 +189,7 @@ public class SystemAdministrationController implements GenericController {
 			systemSettingsService.removeGroup(auth, permission, group);
 			redirectAttributes.addFlashAttribute(TIP, "Group '" + group + "' has been removed");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
 	}
@@ -203,7 +203,7 @@ public class SystemAdministrationController implements GenericController {
 			systemSettingsService.addGroup(auth, permission, group);
 			redirectAttributes.addFlashAttribute(TIP, "Group '" + group + "' has been updated");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
 	}
@@ -216,7 +216,7 @@ public class SystemAdministrationController implements GenericController {
 			systemSettingsService.addUser(auth, permission, user);
 			redirectAttributes.addFlashAttribute(TIP, "Permission '" + permission + "' has been updated");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
 	}
@@ -229,7 +229,7 @@ public class SystemAdministrationController implements GenericController {
 			systemSettingsService.removeUser(auth, permission, user);
 			redirectAttributes.addFlashAttribute(TIP, "Permission '" + permission + "' has been updated");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
 	}
@@ -242,7 +242,7 @@ public class SystemAdministrationController implements GenericController {
 			systemSettingsService.reset(auth, permission);
 			redirectAttributes.addFlashAttribute(TIP, "Permission '" + permission + "' has been reset.");
 		} catch (InformationException e) {
-			redirectAttributes.addFlashAttribute(WARNING, e.getMessage());
+			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
 		}
 		return "redirect:/administration/globalPermission.html";
 	}

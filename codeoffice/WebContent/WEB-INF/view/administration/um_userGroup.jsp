@@ -26,7 +26,7 @@
 				<div class="sub-element-title imglink">
 				<span>${userGroup.name}</span>
 				<c:if test="${not userGroup.defaultGroup}">
-					<form class="inline-form" action="administration/userGroup/${userGroup.name}/delete" method="POST">
+					<form class="inline-form" action="administration/userGroup/delete?group=${userGroup.name}" method="POST">
 					<input type="submit" onclick="javascript:confirmSubmit(event, 'Delete?');" class="button" value="<spring:message code="application.delete"/>"/>
 					</form>
 				</c:if>
@@ -70,7 +70,7 @@
 						<td class="form-input-col">
 							<ul class="info-ul-list">
 							<c:forEach items="${userGroup.projectPermissionSchemes}" var="scheme">
-								<li><a class="link" href="administration/permissionScheme/${scheme.name}.html">${scheme.name}</a></li>
+								<li><a class="link" href="administration/permissionScheme.html?scheme=${scheme.name}">${scheme.name}</a></li>
 							</c:forEach>
 							</ul>
 						</td>
@@ -83,7 +83,7 @@
 					<spring:message code="administration.um.group.members"/>
 					<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 					<c:if test="${not userGroup.defaultGroup}">
-					<input type="button" class="button" onclick="javascript:url('/administration/userGroup/manage/${userGroup.name}.html');" value="<spring:message code="administration.um.group.editMembers"/>"/>
+					<input type="button" class="button" onclick="javascript:url('/administration/userGroup/manage.html?group=${userGroup.name}');" value="<spring:message code="administration.um.group.editMembers"/>"/>
 					</c:if>
 					</security:authorize>
 				</div>
@@ -108,7 +108,7 @@
 						<td><a class="link" href="mailto:${user.email}">${user.email}</a></td>
 						<td><ul class="info-ul-list">
 							<c:forEach items="${user.userGroups}" var="userGroup">
-								<li><a class="link" href="administration/userGroup/${userGroup.name}.html">${userGroup.name}</a></li>
+								<li><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></li>
 							</c:forEach>
 							</ul>
 						</td>

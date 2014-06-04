@@ -11,7 +11,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProjectRoleRepository extends JpaRepository<ProjectRole, Long> {
 
-	@Query("SELECT pr FROM ProjectRole pr WHERE pr.enterprise = :enterprise")
+	@Query("SELECT r FROM ProjectRole r WHERE r.enterprise = :enterprise AND r.name = :name")
+	public ProjectRole getProjectRole(@Param("enterprise") Enterprise enterprise, @Param("name") String name);
+
+	@Query("SELECT r FROM ProjectRole r WHERE r.enterprise = :enterprise")
 	public List<ProjectRole> getProjectRoles(@Param("enterprise") Enterprise enterprise);
 
 	@Query("SELECT r FROM ProjectRole r WHERE r.enterprise = :enterprise AND r.id IN :idList")

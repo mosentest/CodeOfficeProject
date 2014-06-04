@@ -3,6 +3,7 @@ package mu.codeoffice.entity.settings;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,12 +16,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.User;
 
 @Entity
-@Table(name = "projectrole", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
+@Table(name = "settings_projectrole", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
 public class ProjectRole implements Serializable {
 
 	private static final long serialVersionUID = 5484556658802063500L;
@@ -33,17 +36,21 @@ public class ProjectRole implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "projectRoles")
-	private List<ProjectPermissionSettings> projectPermissionSettings;
 
 	@Column(name = "name")
+	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
+	@Size(max = 20)
 	private String name;
 
 	@Column(name = "description")
+	@Size(max = 200)
 	private String description;
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "projectRoles")
+	private List<ProjectPermissionSettings> projectPermissionSettings;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "projectrole_user", uniqueConstraints = @UniqueConstraint(columnNames = {"projectrole_id", "user_id"}),
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "settings_projectrole_user", uniqueConstraints = @UniqueConstraint(columnNames = {"projectrole_id", "user_id"}),
         joinColumns = @JoinColumn(name = "projectrole_id", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<User> defaultMembers;

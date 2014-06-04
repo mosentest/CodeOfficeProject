@@ -368,6 +368,9 @@ public class IssuePropertyConfigurationService {
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public IssueTypeScheme getIssueTypeScheme(EnterpriseAuthentication auth, String name) {
 		IssueTypeScheme scheme = issueTypeSchemeRepository.getIssueTypeScheme(auth.getEnterprise(), name);
+		if (scheme == null) {
+			return null;
+		}
 		scheme.getIssueTypes().size();
 		scheme.getProjects().size();
 		return scheme;

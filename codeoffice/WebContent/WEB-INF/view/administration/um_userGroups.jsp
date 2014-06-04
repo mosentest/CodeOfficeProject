@@ -58,7 +58,7 @@
 									<td><spring:message code="administration.um.group.addgroup"/></td>
 								</tr>
 								<tr class="filter-table-label">
-									<td><spring:message code="administration.um.group.name"/><span class="minorspace"></span>
+									<td><spring:message code="administration.um.group.name"/><span class="icon-required">&nbsp;</span><span class="minorspace"></span>
 									<span class="description-info">format ([a-zA-Z]+((-)?[a-zA-Z])+)</span></td>
 								</tr>
 								<tr class="filter-table-input">
@@ -91,7 +91,7 @@
 							</tr>
 							<c:forEach items="${userGroupPage.content}" var="userGroup">
 							<tr class="list-table-item">
-								<td class="info-value"><a class="link" href="administration/userGroup/${userGroup.name}.html">${userGroup.name}</a></td>
+								<td class="info-value"><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></td>
 								<td>${userGroup.description}</td>
 								<td class="info-value">${userGroup.userCount}</td>
 								<td><ul class="info-ul-list">
@@ -104,15 +104,15 @@
 								<td>
 									<ul class="info-ul-list">
 										<c:forEach items="${userGroup.projectPermissionSchemes}" var="scheme">
-											<li><a class="link" href="administration/permissionScheme/${scheme.name}.html">${scheme.name}</a></li>
+											<li><a class="link" href="administration/permissionScheme.html?scheme=${scheme.name}">${scheme.name}</a></li>
 										</c:forEach>
 									</ul>
 								</td>
 								<td>
 									<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 									<c:if test="${not userGroup.defaultGroup}">
-										<a class="link" href="administration/userGroup/manage/${userGroup.name}.html">${text_edit_members}</a><span class="minorspace">&#183;</span>
-										<a class="link" href="javascript:remoteSubmit(event, 'administration/userGroup/${userGroup.name}/delete', 'Delete?');">${text_delete}</a>
+										<a class="link" href="administration/userGroup/manage.html?group=${userGroup.name}">${text_edit_members}</a><span class="minorspace">&#183;</span>
+										<a class="link" href="javascript:remoteSubmit(event, 'administration/userGroup/delete?group=${userGroup.name}', 'Delete?');">${text_delete}</a>
 									</c:if>
 									</security:authorize>
 								</td>

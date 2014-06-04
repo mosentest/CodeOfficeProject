@@ -18,6 +18,7 @@ public class SessionTimeOutListener implements ApplicationListener<SessionDestro
 	private ServletContext servletContext;
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void onApplicationEvent(SessionDestroyedEvent event) {
 		List<SecurityContext> securityContexts = event.getSecurityContexts();
 		EnterpriseAuthentication auth = null;
@@ -25,12 +26,13 @@ public class SessionTimeOutListener implements ApplicationListener<SessionDestro
 			auth = (EnterpriseAuthentication) securityContext.getAuthentication().getPrincipal();
 			break;
 		}
-		@SuppressWarnings("unchecked")
-		Map<Long, SessionObject> sessionMap = (Map<Long, SessionObject>) servletContext.getAttribute(auth.getEnterprise().getCode() + "_SESSIONS");
-		synchronized (sessionMap) {
-			sessionMap.remove(auth.getUser().getId());
-		}
-		
+		Object o = servletContext.getAttribute(auth.getEnterprise().getCode() + "_SESSIONS");
+		if (o != null) {
+			Map<Long, SessionObject> sessionMap = (Map<Long, SessionObject>) o;
+			synchronized (sessionMap) {
+				sessionMap.remove(auth.getUser().getId());
+			}
+		}		
 	}
 
 }

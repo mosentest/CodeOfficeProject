@@ -62,6 +62,7 @@ public class UserManagementService {
 				User user = userRepository.findById(auth.getEnterprise(), id);
 				if (!userGroup.getUsers().contains(user)) {
 					userGroup.getUsers().add(user);
+					//global permission value
 				}
 			}
 		}
@@ -100,6 +101,9 @@ public class UserManagementService {
 	@Transactional
 	public void deleteUserGroup(EnterpriseAuthentication auth, String userGroupName) throws AuthenticationException, InformationException {
 		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
+		if (userGroup == null) {
+			throw new InformationException("User Group doesn't exist.");
+		}
 		if (userGroup.isDefaultGroup()) {
 			throw new InformationException("Can not delete default Group");
 		}
@@ -115,8 +119,14 @@ public class UserManagementService {
 	@Transactional(readOnly = true)
 	public Page<UserGroup> filterUserGroups(EnterpriseAuthentication auth, String name, Integer pageIndex, Integer pageSize, String sort) 
 			throws AuthenticationException {
-		Page<UserGroup> userGroups = userGroupRepository.getUserGroups(auth.getEnterprise(), "%" + name + "%", 
-				pageSpecification(pageIndex, pageSize, sort(false, UserGroup.getSortColumn(sort))));
+		Page<UserGroup> userGroups = null;
+		if (StringUtil.isEmptyString(name)) {
+			userGroups = userGroupRepository.getUserGroups(auth.getEnterprise(), 
+					pageSpecification(pageIndex, pageSize, sort(false, UserGroup.getSortColumn(sort))));
+		} else {
+			userGroups = userGroupRepository.getUserGroups(auth.getEnterprise(), "%" + name + "%", 
+					pageSpecification(pageIndex, pageSize, sort(false, UserGroup.getSortColumn(sort))));
+		}
 		for (UserGroup userGroup : userGroups.getContent()) {
 			userGroup.getGlobalPermissions().size();
 			userGroup.getProjectPermissionSchemes().size();
