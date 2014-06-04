@@ -11,8 +11,10 @@ import mu.codeoffice.dto.UserGroupDTO;
 import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.SessionObject;
+import mu.codeoffice.service.UserGroupService;
 import mu.codeoffice.service.UserManagementService;
 import mu.codeoffice.service.UserService;
+import mu.codeoffice.utility.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -36,6 +38,9 @@ public class UserManagementAdminitrationController implements GenericController 
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserGroupService userGroupService;
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -142,6 +147,8 @@ public class UserManagementAdminitrationController implements GenericController 
 	@RequestMapping(value = "userGroup/manage.html", method = RequestMethod.GET)
 	public ModelAndView userGroupMemberRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("group") String group,
+			@RequestParam(value = "query", required = false) String query, 
+			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
 			RedirectAttributes redirectAttributes, ModelMap model)
 			throws AuthenticationException {
 		UserGroup userGroup = userManagementService.getUserGroup(auth, group);
@@ -149,7 +156,10 @@ public class UserManagementAdminitrationController implements GenericController 
 			redirectAttributes.addFlashAttribute(ERROR, "User Group doesn't exist.");
 			return new ModelAndView("redirect:/administration/userGroups.html");
 		}
-		model.put("userGroupDTO", new UserGroupDTO().toDTO(userGroup));
+		model.put("userGroup", new UserGroupDTO().toDTO(userGroup));
+		model.put("userPage", userGroupService.getUsers(auth, userGroup.getId(), pageIndex, query));
+		if (!StringUtil.isEmptyString(query)) { model.put("query", query); }
+		model.put("pageIndex", pageIndex);
 		return new ModelAndView("administration/um_userGroup_member", model);
 	}
 

@@ -32,8 +32,9 @@
 							<tr class="minor-form-title-row">
 								<td colspan="2"><spring:message code="administration.project.permissionscheme.createPermissionScheme"/></td>
 							</tr>
+							<code:formError errors="${formErrors}"/>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.project.permissionscheme.name"/></td>
+								<td class="minor-form-label-col"><spring:message code="administration.project.permissionscheme.name"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="name"/></td>
 							</tr>
 							<tr>

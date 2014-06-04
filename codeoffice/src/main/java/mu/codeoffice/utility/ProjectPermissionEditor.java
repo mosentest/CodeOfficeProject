@@ -2,7 +2,7 @@ package mu.codeoffice.utility;
 
 import java.beans.PropertyEditorSupport;
 
-import mu.codeoffice.security.GlobalPermission;
+import mu.codeoffice.security.ProjectPermission;
 
 public class ProjectPermissionEditor extends PropertyEditorSupport {
 
@@ -12,7 +12,7 @@ public class ProjectPermissionEditor extends PropertyEditorSupport {
 			setValue(null);
 			return;
 		}
-		setValue(GlobalPermission.valueOf(value.toUpperCase()));
+		setValue(ProjectPermission.valueOf(value));
 	}
 
 	@Override

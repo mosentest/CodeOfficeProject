@@ -114,7 +114,7 @@ public class SystemSettingsService {
 	public void removeUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long userId) 
 			throws InformationException, AuthenticationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
-		User user = userRepository.findById(auth.getEnterprise(), userId);
+		User user = userRepository.getUser(auth.getEnterprise(), userId);
 		if (settings.getUsers().remove(user)) {
 			if (!globalPermissionRepository.isUserInGroup(auth.getEnterprise(), globalPermission, userId)) {
 				user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
@@ -135,7 +135,7 @@ public class SystemSettingsService {
 		if (globalPermissionRepository.isUserInUsers(auth.getEnterprise(), globalPermission, userId)) {
 			throw new InformationException("User already included.");
 		}
-		User user = userRepository.findById(auth.getEnterprise(), userId);
+		User user = userRepository.getUser(auth.getEnterprise(), userId);
 		if (user == null) {
 			throw new InformationException("Invalid User");
 		}

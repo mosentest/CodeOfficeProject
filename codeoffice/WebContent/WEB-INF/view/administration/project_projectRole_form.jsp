@@ -73,8 +73,10 @@
 			</div>
 			<div class="sub-element-content">
 				<form:form action="administration/projectRole/edit?role=${projectRole.name}" modelAttribute="projectRole" method="POST">
+					<form:hidden path="id"/>
+					<form:hidden path="pageIndex"/>
+					<form:hidden path="query"/>
 					<table class="form-table">
-						<tr><td><form:hidden path="id"/></td></tr>
 						<code:formError errors="${formErrors}"/>
 						<tr>
 							<td class="form-label-col"><spring:message code="administration.project.projectrole.name"/><span class="icon-required">&nbsp;</span>:</td>
@@ -104,7 +106,11 @@
 					<c:if test="${userPage.totalElements gt 0}">
 					<div>Select users to delete</div>
 					<table class="list-table">
-						<tr class="list-table-page"></tr>
+						<c:set var="params">
+							role=${projectRole.name}&
+							<c:if test="${not empty query}">query=${query}</c:if>
+						</c:set>
+						<tr class="list-table-page"><code:formPage page="${userPage}" url="administration/projectRole/edit.html" params="${params}"/></tr>
 						<tr class="list-table-header">
 							<td class="center"><input type="checkbox" id="select-all"/></td>
 							<td></td>

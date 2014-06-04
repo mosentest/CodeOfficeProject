@@ -90,7 +90,7 @@
 							</div>
 						</td>
 						<td class="form-top-col">
-							<form:select path="requiredPermissions" multiple="true" cssClass="multiple-select">
+							<form:select path="requiredPermissions" multiple="true" size="6">
 								<c:forEach items="${projectPermissions}" var="permission">
 									<option value="${permission}"><spring:message code="${permission.key}"/></option>
 								</c:forEach>

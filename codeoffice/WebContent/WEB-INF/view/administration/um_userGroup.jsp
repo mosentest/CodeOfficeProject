@@ -58,24 +58,6 @@
 						</td>
 					</tr>
 					</c:if>
-					<tr class="form-title-row">
-						<td><spring:message code="administration.um.group.PERMISSIONSCHEMES"/></td>
-						<c:if test="${fn:length(userGroup.projectPermissionSchemes) eq 0}">
-						<td><spring:message code="application.none"/></td>
-						</c:if>
-					</tr>
-					<c:if test="${fn:length(userGroup.projectPermissionSchemes) gt 0 }">
-					<tr>
-						<td class="form-label-col"></td>
-						<td class="form-input-col">
-							<ul class="info-ul-list">
-							<c:forEach items="${userGroup.projectPermissionSchemes}" var="scheme">
-								<li><a class="link" href="administration/permissionScheme.html?scheme=${scheme.name}">${scheme.name}</a></li>
-							</c:forEach>
-							</ul>
-						</td>
-					</tr>
-					</c:if>
 				</table>
 				<div class="sep-30"></div>
 				<c:if test="${userPage.totalElements gt 0}">
@@ -87,11 +69,9 @@
 					</c:if>
 					</security:authorize>
 				</div>
-				<form action="administration/userGroup/${userGroup.name}.html" method="GET">
-				<input type="hidden" name="pageIndex" value="${pageIndex}"/>
 				<table class="list-table">
 					<tr class="list-table-page">
-						<td colspan="5"><code:formPage page="${userPage}"/></td>
+						<td colspan="5"><code:formPage page="${userPage}" url="administration/userGroup.html" params="group=${userGroup.name}"/></td>
 					</tr>
 					<tr class="list-table-header">
 						<td><spring:message code="administration.um.user.fullName"/></td>
@@ -115,7 +95,6 @@
 					</tr>
 					</c:forEach>
 				</table>
-				</form>
 				</c:if>
 			</div>
 		</div>

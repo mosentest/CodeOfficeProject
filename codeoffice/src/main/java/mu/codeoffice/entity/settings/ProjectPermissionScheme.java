@@ -12,20 +12,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.User;
-import mu.codeoffice.entity.UserGroup;
 
 @Entity
 @Table(name = "projectpermission_scheme", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
@@ -50,6 +48,7 @@ public class ProjectPermissionScheme implements Serializable {
 	private Date modified;
 
 	@Column(name = "name")
+	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
 	@Size(max = 30)
 	private String name;
 
@@ -62,12 +61,6 @@ public class ProjectPermissionScheme implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectPermissionScheme")
 	private List<ProjectPermissionSettings> projectPermissionSettings;
-
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "projecpermission_scheme_usergroup", uniqueConstraints = @UniqueConstraint(columnNames = {"projecpermission_scheme_id", "usergroup_id"}),
-        joinColumns = @JoinColumn(name = "projecpermission_scheme_id", referencedColumnName = "id"), 
-        inverseJoinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"))
-	private List<UserGroup> userGroups;
     
     public ProjectPermissionScheme() {}
 
@@ -126,14 +119,6 @@ public class ProjectPermissionScheme implements Serializable {
 	public void setProjectPermissionSettings(
 			List<ProjectPermissionSettings> projectPermissionSettings) {
 		this.projectPermissionSettings = projectPermissionSettings;
-	}
-
-	public List<UserGroup> getUserGroups() {
-		return userGroups;
-	}
-
-	public void setUserGroups(List<UserGroup> userGroups) {
-		this.userGroups = userGroups;
 	}
 
 	public Date getModified() {

@@ -45,11 +45,11 @@ public class UserManagementService {
 		if (userGroup.getUsers() == null) {
 			userGroup.setUsers(new ArrayList<>());
 		}
-		if (userGroupDTO.getRemovedUser() != null) {
+		if (userGroupDTO.getRemovedUsers() != null) {
 			Iterator<User> it = userGroup.getUsers().iterator();
 			while (it.hasNext()) {
 				Long itId = it.next().getId();
-				for (Long id : userGroupDTO.getRemovedUser()) {
+				for (Long id : userGroupDTO.getRemovedUsers()) {
 					if (itId.equals(id)) {
 						it.remove();
 						break;
@@ -57,9 +57,9 @@ public class UserManagementService {
 				}
 			}
 		}
-		if (userGroupDTO.getNewUser() != null) {
-			for (Long id : userGroupDTO.getNewUser()) {
-				User user = userRepository.findById(auth.getEnterprise(), id);
+		if (userGroupDTO.getNewUsers() != null) {
+			for (Long id : userGroupDTO.getNewUsers()) {
+				User user = userRepository.getUser(auth.getEnterprise(), id);
 				if (!userGroup.getUsers().contains(user)) {
 					userGroup.getUsers().add(user);
 					//global permission value
@@ -94,7 +94,6 @@ public class UserManagementService {
 		}
 		userGroup.getUsers().size();
 		userGroup.getGlobalPermissions().size();
-		userGroup.getProjectPermissionSchemes().size();
 		return userGroup;
 	}
 	
@@ -129,7 +128,6 @@ public class UserManagementService {
 		}
 		for (UserGroup userGroup : userGroups.getContent()) {
 			userGroup.getGlobalPermissions().size();
-			userGroup.getProjectPermissionSchemes().size();
 		}
 		return userGroups;
 	}

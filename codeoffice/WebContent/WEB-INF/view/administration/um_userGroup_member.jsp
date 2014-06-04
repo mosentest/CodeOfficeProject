@@ -16,6 +16,16 @@
 </div>
 <script>
 	$(document).ready(function() {
+		$("input[name='removedUsers']").click(function() {
+			if ($("input[name='removedUsers']:not(:checked)").length > 0) {
+				$('#select-all').prop('checked', false);
+			} else {
+				$('#select-all').prop('checked', true);
+			}
+		});
+		$('#select-all').click(function() {
+			$("input[name='removedUsers']").prop('checked', $(this).is(":checked"));
+		});
 		$('#autocomplete').autocomplete({
 			minLength: 3,
 			source: function(request, response) {
@@ -40,8 +50,7 @@
 				label += "<span class='plain-label-info'>" + ui.item.firstName + ", " + ui.item.lastName + "</span>";
 				label += "<span class='plain-label-description'>(" + ui.item.email + ")</span>";
 				label += "<span class='spanlink imglink' onclick='javascript:removeLabel(\"" + ui.item.id + "\");' title='remove'><img width=\"12\" height=\"12\" src=\"assets/img/information/icon-close.png\"/></span>";
-				label += "<input type='hidden' name='newUser' value='" + ui.item.id + "'/>";
-				label += "<input type='hidden' name='id' value='" + ui.item.id + "'/>";
+				label += "<input type='hidden' name='newUsers' value='" + ui.item.id + "'/>";
 				label += "</div>";
 				$('#new').append(label);
 				return false;
@@ -55,26 +64,6 @@
 	function removeLabel(id) {
 		$('#label-' + id).remove();
 	}
-	
-	function moveToNew(id) {
-		moveTo('new', id);
-	}
-	
-	function moveToOriginal(id) {
-		$('#input-' + id).attr('name', 'users');
-		moveTo('original', id);
-		$('#label-' + id + ' .icon-close').attr('onclick', "javascript:moveToRemoved('" + id +  "');");
-	}
-	
-	function moveToRemoved(id) {
-		$('#input-' + id).attr('name', 'removedUser');
-		moveTo('removed', id);
-		$('#label-' + id + ' .icon-close').attr('onclick', "javascript:moveToOriginal('" + id +  "');");
-	}
-	
-	function moveTo(destination, id) {
-		$('#label-' + id).appendTo('#' + destination);
-	}
 </script>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/um_menu.jsp">
@@ -83,11 +72,11 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title">${userGroupDTO.name}</div>
-				<div class="sub-element-description">${userGroupDTO.description}</div>
+				<div class="sub-element-title">${userGroup.name}</div>
+				<div class="sub-element-description">${userGroup.description}</div>
 			</div>
 			<div class="sub-element-content">
-				<form:form action="administration/userGroup/manage.html?group=${userGroupDTO.name}" modelAttribute="userGroupDTO" method="POST">
+				<form:form action="administration/userGroup/manage?group=${userGroup.name}" modelAttribute="userGroup" method="POST">	
 				<table class="form-table">
 					<tr>
 						<td class="form-label-col"><spring:message code="administration.um.group.adduser"/>:</td>
@@ -98,23 +87,6 @@
 						<td class="form-input-col" id="new"></td>
 					</tr>
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.um.group.removedmembers"/>:</td>
-						<td class="form-input-col" id="removed"></td>
-					</tr>
-					<tr>
-						<td class="form-label-col"><spring:message code="administration.um.group.members"/>:</td>
-						<td class="form-input-col" id="original">
-							<c:forEach items="${userGroupDTO.members}" var="user">
-								<input type="hidden" id="input-${user.id}" name="user" value="${user.id}"/>
-								<div id="label-${user.id}" class="plain-label closable-label">
-									<span class="plain-label-info">${user.firstName}, ${user.lastName}</span>
-									<span class="plain-label-description">(${user.email})</span>
-									<span class="spanlink imglink" onclick="javascript:moveToRemoved('${user.id}')" title="remove"><img width="12" height="12" src="assets/img/information/icon-close.png"/></span>
-								</div>
-							</c:forEach>
-						</td>
-					</tr>
-					<tr>
 						<td class="form-label-col"></td>
 						<td class="form-input-col imglink">
 							<input type="submit" class="button" value="<spring:message code="application.save"/>"/>
@@ -122,6 +94,32 @@
 						</td>
 					</tr>
 				</table>
+				<c:if test="${userPage.totalElements eq 0}"><code:info type="info" title="administration.um.usergroup.noUsers"/></c:if>
+				<c:if test="${userPage.totalElements gt 0}">
+				<div>Select users to delete</div>
+				<c:set var="params">
+					<c:if test="${not empty name}">query=${query}</c:if>
+				</c:set>
+				<table class="list-table">
+					<tr class="list-table-page"><code:formPage page="${userPage}" url="administration/userGroup/manage.html" params="${params}"/></tr>
+					<tr class="list-table-header">
+						<td class="center"><input type="checkbox" id="select-all"/></td>
+						<td></td>
+						<td><spring:message code="administration.um.usergroup.firstName"/></td>
+						<td><spring:message code="administration.um.usergroup.lastName"/></td>
+						<td><spring:message code="administration.um.usergroup.email"/></td>
+					</tr>
+					<c:forEach items="${userPage.content}" var="user">
+					<tr class="list-table-item">
+						<td class="center"><input type="checkbox" name="removedUsers" value="${user.id}"/></td>
+						<td class="center"><img src="assets/img/core/default-avatar.png" width="20" height="20"/></td>
+						<td>${user.firstName}</td>
+						<td>${user.lastName}</td>
+						<td>${user.email}</td>
+					</tr>
+					</c:forEach>
+				</table>
+				</c:if>
 				</form:form>
 			</div>
 		</div>

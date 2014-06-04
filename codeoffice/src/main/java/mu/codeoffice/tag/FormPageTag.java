@@ -10,7 +10,13 @@ import org.springframework.data.domain.Page;
 
 public class FormPageTag extends SimpleTagSupport {
 	
+	private static final String SEPARATOR = ",";
+	
 	private Page<?> page;
+	
+	private String url;
+	
+	private String params;
 
 	@Override
 	public void doTag() throws JspException, IOException {
@@ -35,15 +41,33 @@ public class FormPageTag extends SimpleTagSupport {
 		buffer.append("<div class=\"form-page-link\">");
 		int totalPages = page.getTotalPages();
 		for (int i = 1; i <= totalPages; i++) {
-			buffer.append(String.format("<a class=\"link %s\" href=\"javascript:void(0);\" onclick=\"gotoPage(this, %d)\">%d</a>", page.getNumber() + 1 == i ? "current-page" : "", i - 1, i));
+			buffer.append(String.format("<a class=\"link %s\" href=\"%s\">%d</a>", page.getNumber() + 1 == i ? "current-page" : "", getLink(i - 1), i));
 		}
 		if (page.getNumber() != totalPages - 1) {
-			buffer.append("<a class=\"icon-module icon-module-next\" href=\"javascript:void(0);\" onclick=\"gotoPage(this, " + (page.getNumber() + 1) + ")\" title=\"Next Page\"></a>");
+			buffer.append("<a class=\"icon-module icon-module-next\" href=\"" + getLink(page.getNumber() + 1) + "\" title=\"Next Page\"></a>");
 		}
 		buffer.append("</div><div class=\"clearfix\"></div>");
 		
 		buffer.append("</div>");
 		out.println(buffer.toString());
+	}
+	
+	private String getLink(int pageIndex) {
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(url);
+		buffer.append("?pageIndex=");
+		buffer.append(pageIndex);
+		if (params != null) {
+			String[] params = this.params.split(SEPARATOR);
+			for (String param : params) {
+				if (param.trim().length() == 0) {
+					continue;
+				}
+				buffer.append("&");
+				buffer.append(param.trim());
+			}
+		}
+		return buffer.toString();
 	}
 
 	public Page<?> getPage() {
@@ -52,5 +76,21 @@ public class FormPageTag extends SimpleTagSupport {
 
 	public void setPage(Page<?> page) {
 		this.page = page;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getParams() {
+		return params;
+	}
+
+	public void setParams(String params) {
+		this.params = params;
 	}
 }

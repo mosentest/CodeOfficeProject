@@ -1,8 +1,5 @@
 package mu.codeoffice.service;
 
-import static mu.codeoffice.query.GenericSpecifications.pageSpecification;
-import static mu.codeoffice.query.GenericSpecifications.sort;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -24,10 +21,7 @@ import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.ProjectPermission;
 import mu.codeoffice.utility.CodeUtil;
-import mu.codeoffice.utility.StringUtil;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
@@ -53,44 +47,82 @@ public class ProjectAdministrationService {
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void addGroup(EnterpriseAuthentication auth, Long permission, Long group) throws AuthenticationException, InformationException {
-		
+	public void associate(EnterpriseAuthentication auth, String scheme, ProjectPermission permission, 
+			Long[] groups, Long[] roles, Long[] users) throws InformationException {
+		ProjectPermissionSettings settings = projectPermissionSettingsRepository.getProjectPermissionSettings(auth.getEnterprise(), scheme, permission);
+		if (settings == null) {
+			throw new InformationException("Project Permission Settings doesn't exist.");
+		}
 	}
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void addUser(EnterpriseAuthentication auth, Long permission, Long user) throws AuthenticationException, InformationException {
-		
+	public void removeGroup(EnterpriseAuthentication auth, String scheme, ProjectPermission permission, Long group) throws AuthenticationException, InformationException {
+		ProjectPermissionSettings settings = projectPermissionSettingsRepository.getProjectPermissionSettings(auth.getEnterprise(), scheme, permission);
+		if (settings == null) {
+			throw new InformationException("Project Permission Settings doesn't exist.");
+		}
+		if (settings.getUserGroups().remove(userGroupRepository.getUserGroup(auth.getEnterprise(), group))) {
+			projectPermissionSettingsRepository.save(settings);
+		} else {
+			throw new InformationException("User Group doesn't exist.");
+		}
 	}
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void addProjectrole(EnterpriseAuthentication auth, Long permission, Long projectRole) throws AuthenticationException, InformationException {
-		
+	public void removeUser(EnterpriseAuthentication auth, String scheme, ProjectPermission permission, Long user) throws AuthenticationException, InformationException {
+		ProjectPermissionSettings settings = projectPermissionSettingsRepository.getProjectPermissionSettings(auth.getEnterprise(), scheme, permission);
+		if (settings == null) {
+			throw new InformationException("Project Permission Settings doesn't exist.");
+		}
+		if (settings.getUsers().remove(userRepository.getUser(auth.getEnterprise(), user))) {
+			projectPermissionSettingsRepository.save(settings);
+		} else {
+			throw new InformationException("User doesn't exist.");
+		}
 	}
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void removeGroup(EnterpriseAuthentication auth, Long permission, Long group) throws AuthenticationException, InformationException {
-		
+	public void removeRole(EnterpriseAuthentication auth, String scheme, ProjectPermission permission, Long role) throws AuthenticationException, InformationException {
+		ProjectPermissionSettings settings = projectPermissionSettingsRepository.getProjectPermissionSettings(auth.getEnterprise(), scheme, permission);
+		if (settings == null) {
+			throw new InformationException("Project Permission Settings doesn't exist.");
+		}
+		if (settings.getProjectRoles().remove(projectRoleRepository.getProjectRole(auth.getEnterprise(), role))) {
+			projectPermissionSettingsRepository.save(settings);
+		} else {
+			throw new InformationException("Project Role doesn't exist.");
+		}
 	}
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void removeUser(EnterpriseAuthentication auth, Long permission, Long user) throws AuthenticationException, InformationException {
-		
+	public void resetAll(EnterpriseAuthentication auth, String scheme) throws AuthenticationException, InformationException {
+		ProjectPermissionScheme permissionScheme = projectPermissionSchemeRepository.getProjectPermissionScheme(auth.getEnterprise(), scheme);
+		if (permissionScheme == null) {
+			throw new InformationException("Project Permission Scheme doesn't exist.");
+		}
+		for (ProjectPermissionSettings settings : permissionScheme.getProjectPermissionSettings()) {
+			settings.getProjectRoles().clear();
+			settings.getUsers().clear();
+			settings.getProjectRoles().clear();
+			projectPermissionSettingsRepository.save(settings);
+		}
 	}
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void removeProjectrole(EnterpriseAuthentication auth, Long permission, Long projectRole) throws AuthenticationException, InformationException {
-		
-	}
-
-	@Transactional
-	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void reset(EnterpriseAuthentication auth, Long permission) throws AuthenticationException, InformationException {
-		
+	public void reset(EnterpriseAuthentication auth, String scheme, ProjectPermission permission) throws AuthenticationException, InformationException {
+		ProjectPermissionSettings settings = projectPermissionSettingsRepository.getProjectPermissionSettings(auth.getEnterprise(), scheme, permission);
+		if (settings == null) {
+			throw new InformationException("Project Permission Settings doesn't exist.");
+		}
+		settings.getProjectRoles().clear();
+		settings.getUsers().clear();
+		settings.getProjectRoles().clear();
+		projectPermissionSettingsRepository.save(settings);
 	}
 
 	@Transactional
@@ -244,38 +276,6 @@ public class ProjectAdministrationService {
 		List<ProjectPermissionScheme> schemes = projectPermissionSchemeRepository.getProjectPermissionSchemes(auth.getEnterprise());
 		schemes.forEach(scheme -> scheme.getProjects().size());
 		return schemes;
-	}
-
-	@Transactional(readOnly = true)
-	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public ProjectRole getProjectRole(EnterpriseAuthentication auth, String name) {
-		ProjectRole projectRole = projectRoleRepository.getProjectRole(auth.getEnterprise(), name);
-		if (projectRole == null) {
-			return null;
-		}
-		projectRole.getDefaultMembers().size();
-		return projectRole;
-	}
-
-	@Transactional(readOnly = true)
-	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public List<ProjectRole> getProjectRoles(EnterpriseAuthentication auth) {
-		List<ProjectRole> projectRoles = projectRoleRepository.getProjectRoles(auth.getEnterprise());
-		for (ProjectRole role : projectRoles) {
-			role.getDefaultMembers().size();
-		}
-		return projectRoles;
-	}
-
-	@Transactional(readOnly = true)
-	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public Page<User> getUsers(EnterpriseAuthentication auth, Long projectRole, Integer pageIndex, String query) {
-		Pageable pageable = pageSpecification(pageIndex, 20, sort(false, "id"));
-		if (StringUtil.isEmptyString(query)) {
-			return projectRoleRepository.getUsers(auth.getEnterprise(), projectRole, pageable);
-		} else {
-			return projectRoleRepository.getUsers(auth.getEnterprise(), projectRole, "%" + query + "%", pageable);
-		}
 	}
 
 }

@@ -62,15 +62,15 @@
 				<div class="list-content">
 					<c:if test="${userPage.totalElements eq 0}"><spring:message code="administration.um.no_user_to_display"/></c:if>
 					<c:if test="${userPage.totalElements gt 0}">
-					<form action="administration/users.html" method="GET">
-						<input type="hidden" id="pageIndex" name="pageIndex" value="${pageIndex}"/>
-						<c:if test="${not empty pageSize}"><input type="hidden" name="pageSize" value="${pageSize}"/></c:if>
-						<c:if test="${not empty groupFilter}"><input type="hidden" name="groupFilter" value="${groupFilter}"/></c:if>
-						<c:if test="${not empty account}"><input type="hidden" name="account" value="${account}"/></c:if>
-						<c:if test="${not empty name}"><input type="hidden" name="name" value="${name}"/></c:if>
+						<c:set var="params">
+							<c:if test="${not empty pageSize}">pageSize=${pageSize},</c:if>
+							<c:if test="${not empty groupFilter}">groupFilter=${groupFilter},</c:if>
+							<c:if test="${not empty account}">account=${account},</c:if>
+							<c:if test="${not empty name}">name=${name}</c:if>
+						</c:set>
 						<table class="list-table">
 							<tr class="list-table-page">
-								<td colspan="9"><code:formPage page="${userPage}"/></td>
+								<td colspan="9"><code:formPage page="${userPage}" url="administration/users.html" params="${params}"/></td>
 							</tr>
 							<tr class="list-table-header">
 								<td><spring:message code="administration.um.user.fullName"/></td>
@@ -113,7 +113,6 @@
 							</tr>
 							</c:forEach>
 						</table>
-					</form>
 					</c:if>
 				</div>
 			</div>

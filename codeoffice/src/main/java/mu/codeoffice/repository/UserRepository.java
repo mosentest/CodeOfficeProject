@@ -17,7 +17,7 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 	
 	@Query("SELECT u FROM User u WHERE u.enterprise = :enterprise AND u.id = :id")
-	public User findById(@Param("enterprise") Enterprise enterprise, @Param("id") Long id);
+	public User getUser(@Param("enterprise") Enterprise enterprise, @Param("id") Long id);
 
 	@Query("SELECT u FROM User u WHERE u.account = :account OR u.email = :email")
 	public User findByAccount(@Param("account") String account, @Param("email") String email);

@@ -12,7 +12,7 @@ public class GlobalPermissionEditor extends PropertyEditorSupport {
 			setValue(null);
 			return;
 		}
-		setValue(GlobalPermission.valueOf(value.toUpperCase()));
+		setValue(GlobalPermission.valueOf(value));
 	}
 
 	@Override

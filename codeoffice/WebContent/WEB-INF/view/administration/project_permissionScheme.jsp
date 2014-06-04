@@ -12,9 +12,48 @@
 		<jsp:param name="menu" value="project"/>
 	</jsp:include>
 </div>
-<spring:message var="text_clone" code="application.clone"/>
-<spring:message var="text_delete" code="application.delete"/>
-<spring:message var="text_view_permission" code="administration.project.permissionscheme.viewPermissions"/>
+<script>
+	function removeLabel(id) {
+		$('#label-' + id).remove();
+	}
+	
+	$(document).ready(function() {
+		$('#autocomplete').autocomplete({
+			minLength: 3,
+			source: function(request, response) {
+				$.ajax({
+					url: "ajax/search/users",
+					type: 'GET',
+					responseType: 'json',
+					data: {
+						query: $('#autocomplete').val()
+					},
+					success: function(data) {
+						response(data);
+					}
+				});
+			},
+			focus: function(event, ui) {
+				$('#autocomplete').val(ui.item.firstName + ", " + ui.item.lastName);
+				return false;
+			},
+			select: function(event, ui) {
+				var label = "<div id='label-" + ui.item.id + "' class='user-label closable-user-label'>";
+				label += "<span class='user-label-info'>" + ui.item.firstName + ", " + ui.item.lastName + "</span>";
+				label += "<span class='user-label-description'>(" + ui.item.email + ")</span>";
+				label += "<span class='spanlink imglink' onclick='javascript:removeLabel(\"" + ui.item.id + "\");' title='remove'><img width=\"12\" height=\"12\" src=\"assets/img/information/icon-close.png\"/></span>";
+				label += "<input type='hidden' name='users' value='" + ui.item.id + "'/>";
+				label += "</div>";
+				$('#user').append(label);
+				$('#autocomplete').val('');
+				return false;
+			}
+		}).data("ui-autocomplete")._renderItem = function(ul, item) {
+			return $("<li>").append("<a class='autocomplete-link'><span class='plain-label-info'>" + item.firstName + ", " + item.lastName + "</span>" + 
+					"<span class='plain-label-description'>(" + item.email + ")</span></a>").appendTo(ul);
+		};
+	});
+</script>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/project_menu.jsp">
 		<jsp:param name="menu" value="permissionscheme"/>
@@ -23,37 +62,94 @@
 		<div class="sub-element">
 			<div class="sub-element-info">
 				<div class="sub-element-title imglink">
-				<span>${permissionScheme.name}</span>
-				<input type="submit" onclick="javascript:url('administration/permissionScheme/clone?scheme=${permissionScheme.name}');"
-					class="button" value="<spring:message code="application.clone"/>"/>
-				<form class="inline-form" action="administration/permissionScheme/delete?scheme=${permissionScheme.name}" method="POST">
-					<input type="submit" onclick="javascript:confirmSubmit(event, 'Delete?');" class="button" value="<spring:message code="application.delete"/>"/>
-				</form>
+					<span>${permissionScheme.name}</span>
+					<input type="submit" onclick="javascript:url('administration/permissionScheme/clone?scheme=${permissionScheme.name}');"
+						class="button" value="<spring:message code="application.clone"/>"/>
 				</div>
 				<div class="sub-element-description">${permissionScheme.description}</div>
 			</div>
 			<div class="sub-element-content">
+				<div class="filter-content">
+					<form action="administration/permissionScheme/associate" method="POST">
+						<table class="filter-table">
+							<tr class="filter-table-title">
+								<td><spring:message code="administration.project.permissionScheme.associate"/></td>
+							</tr>
+							<tr class="filter-table-label">
+								<td><spring:message code="administration.project.permissionScheme.permission"/></td>
+								<td><spring:message code="administration.project.permissionScheme.group"/></td>
+								<td><spring:message code="administration.project.permissionScheme.role"/></td>
+								<td><spring:message code="administration.project.permissionScheme.user"/></td>
+							</tr>
+							<tr class="filter-table-input">
+								<td>
+								<input type="hidden" name="scheme" value="${permissionScheme.name}"/>
+									<select name="permission" style="width: 250px; " size="6">
+										<c:forEach items="${permissionScheme.projectPermissionSettings}" var="permission">
+											<option value="${permission.projectPermission}"><spring:message code="${permission.projectPermission.key}"/></option>
+										</c:forEach>
+									</select>
+								</td>
+								<td class="form-top-col"><input type="text" id="autocomplete"/></td>
+								<td>
+									<select name="groups" multiple size="6">
+										<c:forEach items="${userGroups}" var="group">
+											<option value="${group.id}">${group.name}</option>
+										</c:forEach>
+									</select>
+								</td>
+								<td>
+									<select name="roles" multiple size="6">
+										<c:forEach items="${projectRoles}" var="role">
+											<option value="${role.id}">${role.name}</option>
+										</c:forEach>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="4" id="user"></td>
+							</tr>
+							<tr class="filter-table-input">
+								<td colspan="4"><input class="button" type="submit" value="<spring:message code="administration.project.permissionScheme.grantPermission"/>" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="administration.project.permissionscheme.permission"/></td>
 						<td><spring:message code="administration.project.permissionscheme.groups"/></td>
-						<td><spring:message code="administration.project.permissionscheme.users"/></td>
 						<td><spring:message code="administration.project.permissionscheme.projectRoles"/></td>
-						<td><spring:message code="administration.project.permissionscheme.operations"/></td>
+						<td><spring:message code="administration.project.permissionscheme.users"/></td>
 					</tr>
-					<c:forEach items="${permissionScheme.projectPermissionSettings}" var="scheme">
+					<c:forEach items="${permissionScheme.projectPermissionSettings}" var="settings">
 					<tr class="list-table-item">
-						<td class="info-value">${scheme.name}</td>
-						<td>${scheme.description}</td>
-						<td><code:user user="${scheme.creator}"/></td>
+						<td>
+							<span class="title-info"><spring:message code="${settings.projectPermission.key}"/></span><br />
+							<c:set var="description" scope="page">${settings.projectPermission.key}.description</c:set>
+							<span class="description-info"><spring:message code="${description}"/></span>
+						</td>
 						<td>
 							<ul class="info-ul-list">
-							<c:forEach items="${scheme.projects}" var="project">
-								<li><a class="link" href="#"></a></li>
-							</c:forEach>
+								<c:forEach items="${settings.userGroups}" var="group">
+									<li><a class="link" href="administration/userGroup.html?group=${group.name}">${group.name}</a></li>
+								</c:forEach>
 							</ul>
 						</td>
-						<td></td>
+						<td>
+							<ul class="info-ul-list">
+								<c:forEach items="${settings.projectRoles}" var="role">
+									<li>${role.name}</li>
+								</c:forEach>
+							</ul>
+						</td>
+						<td>
+							<ul class="info-ul-list">
+								<c:forEach items="${settings.users}" var="user">
+									<li><code:user user="${user}" width="20" height="20"/></li>
+								</c:forEach>
+							</ul>
+						</td>
 					</tr>
 					</c:forEach>
 				</table>

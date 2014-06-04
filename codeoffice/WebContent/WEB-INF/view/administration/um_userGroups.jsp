@@ -73,53 +73,44 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="list-content">
-					<form action="administration/users.html" method="GET">
-						<input type="hidden" id="pageIndex" name="pageIndex" value="${pageIndex}"/>
-						<c:if test="${not empty pageSize}"><input type="hidden" name="pageSize" value="${pageSize}"/></c:if>
-						<c:if test="${not empty name}"><input type="hidden" name="name" value="${name}"/></c:if>
-						<table class="list-table">
-							<tr class="list-table-page">
-								<td colspan="6"><code:formPage page="${userGroupPage}"/></td>
-							</tr>
-							<tr class="list-table-header">
-								<td><spring:message code="administration.um.group.name"/></td>
-								<td><spring:message code="administration.um.group.description"/></td>
-								<td><spring:message code="administration.um.group.userCount"/></td>
-								<td><spring:message code="administration.um.group.globalPermissions"/></td>
-								<td><spring:message code="administration.um.group.permissionSchemes"/></td>
-								<td><spring:message code="administration.um.group.operations"/></td>
-							</tr>
-							<c:forEach items="${userGroupPage.content}" var="userGroup">
-							<tr class="list-table-item">
-								<td class="info-value"><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></td>
-								<td>${userGroup.description}</td>
-								<td class="info-value">${userGroup.userCount}</td>
-								<td><ul class="info-ul-list">
-									<c:forEach items="${userGroup.globalPermissions}" var="permission">
-										<li><a class="link" href="administration/globalPermissions.html#${permission.globalPermission}">
-											<spring:message code="${permission.globalPermission.key}"/></a></li>
-									</c:forEach>
-									</ul>
-								</td>
-								<td>
-									<ul class="info-ul-list">
-										<c:forEach items="${userGroup.projectPermissionSchemes}" var="scheme">
-											<li><a class="link" href="administration/permissionScheme.html?scheme=${scheme.name}">${scheme.name}</a></li>
-										</c:forEach>
-									</ul>
-								</td>
-								<td>
-									<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
-									<c:if test="${not userGroup.defaultGroup}">
-										<a class="link" href="administration/userGroup/manage.html?group=${userGroup.name}">${text_edit_members}</a><span class="minorspace">&#183;</span>
-										<a class="link" href="javascript:remoteSubmit(event, 'administration/userGroup/delete?group=${userGroup.name}', 'Delete?');">${text_delete}</a>
-									</c:if>
-									</security:authorize>
-								</td>
-							</tr>
-							</c:forEach>
-						</table>
-					</form>
+					<c:set var="params">
+						<c:if test="${not empty pageSize}">pageSize=${pageSize},</c:if>
+						<c:if test="${not empty name}">name=${name}</c:if>
+					</c:set>
+					<table class="list-table">
+						<tr class="list-table-page">
+							<td colspan="6"><code:formPage page="${userGroupPage}" url="administration/users.html" params="${params}"/></td>
+						</tr>
+						<tr class="list-table-header">
+							<td><spring:message code="administration.um.group.name"/></td>
+							<td><spring:message code="administration.um.group.description"/></td>
+							<td><spring:message code="administration.um.group.userCount"/></td>
+							<td><spring:message code="administration.um.group.globalPermissions"/></td>
+							<td><spring:message code="administration.um.group.operations"/></td>
+						</tr>
+						<c:forEach items="${userGroupPage.content}" var="userGroup">
+						<tr class="list-table-item">
+							<td class="info-value"><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></td>
+							<td>${userGroup.description}</td>
+							<td class="info-value">${userGroup.userCount}</td>
+							<td><ul class="info-ul-list">
+								<c:forEach items="${userGroup.globalPermissions}" var="permission">
+									<li><a class="link" href="administration/globalPermissions.html#${permission.globalPermission}">
+										<spring:message code="${permission.globalPermission.key}"/></a></li>
+								</c:forEach>
+								</ul>
+							</td>
+							<td>
+								<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
+								<c:if test="${not userGroup.defaultGroup}">
+									<a class="link" href="administration/userGroup/manage.html?group=${userGroup.name}">${text_edit_members}</a><span class="minorspace">&#183;</span>
+									<a class="link" href="javascript:remoteSubmit(event, 'administration/userGroup/delete?group=${userGroup.name}', 'Delete?');">${text_delete}</a>
+								</c:if>
+								</security:authorize>
+							</td>
+						</tr>
+						</c:forEach>
+					</table>
 				</div>
 			</div>
 		</div>

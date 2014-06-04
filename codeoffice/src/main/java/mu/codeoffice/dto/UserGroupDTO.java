@@ -1,23 +1,16 @@
 package mu.codeoffice.dto;
 
-import java.util.List;
-
-import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
 
-public class UserGroupDTO implements DataTransferObject<UserGroup> {
+public class UserGroupDTO extends GenericDTO implements DataTransferObject<UserGroup> {
 	
 	private String name;
 	
 	private String description;
-
-	private Long[] users;
 	
-	private Long[] removedUser;
+	private Long[] removedUsers;
 	
-	private Long[] newUser;
-	
-	private List<User> members;
+	private Long[] newUsers;
 	
 	@Override
 	public UserGroup toObject(DataTransferObject<UserGroup> dto) {
@@ -28,7 +21,6 @@ public class UserGroupDTO implements DataTransferObject<UserGroup> {
 	public UserGroupDTO toDTO(UserGroup object) {
 		name = object.getName();
 		description = object.getDescription();
-		members = object.getUsers();
 		return this;
 	}
 
@@ -48,36 +40,20 @@ public class UserGroupDTO implements DataTransferObject<UserGroup> {
 		this.description = description;
 	}
 
-	public Long[] getUsers() {
-		return users;
+	public Long[] getRemovedUsers() {
+		return removedUsers;
 	}
 
-	public void setUsers(Long[] users) {
-		this.users = users;
+	public void setRemovedUsers(Long[] removedUsers) {
+		this.removedUsers = removedUsers;
 	}
 
-	public List<User> getMembers() {
-		return members;
+	public Long[] getNewUsers() {
+		return newUsers;
 	}
 
-	public void setMembers(List<User> members) {
-		this.members = members;
-	}
-
-	public Long[] getRemovedUser() {
-		return removedUser;
-	}
-
-	public void setRemovedUser(Long[] removedUser) {
-		this.removedUser = removedUser;
-	}
-
-	public Long[] getNewUser() {
-		return newUser;
-	}
-
-	public void setNewUser(Long[] newUser) {
-		this.newUser = newUser;
+	public void setNewUsers(Long[] newUsers) {
+		this.newUsers = newUsers;
 	}
 
 }
