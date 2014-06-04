@@ -1,6 +1,7 @@
 package mu.codeoffice.repository.settings;
 
 import java.util.List;
+import java.util.Set;
 
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.User;
@@ -21,8 +22,8 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long>, Jpa
 	@Query("SELECT g FROM UserGroup g WHERE g.enterprise = :enterprise")
 	public List<UserGroup> getUserGroups(@Param("enterprise") Enterprise enterprise);
 
-	@Query("SELECT g FROM UserGroup g WHERE g.enterprise = :enterprise AND g.id IN :idList")
-	public List<UserGroup> getUserGroups(@Param("enterprise") Enterprise enterprise, @Param("idList") List<Long> idList);
+	@Query("SELECT g FROM UserGroup g WHERE g.enterprise = :enterprise AND g.id IN :idSet")
+	public List<UserGroup> getUserGroups(@Param("enterprise") Enterprise enterprise, @Param("idSet") Set<Long> idSet);
 	
 	@Query("SELECT g FROM UserGroup g WHERE g.enterprise = :enterprise")
 	public Page<UserGroup> getUserGroups(@Param("enterprise") Enterprise enterprise, Pageable pageable);

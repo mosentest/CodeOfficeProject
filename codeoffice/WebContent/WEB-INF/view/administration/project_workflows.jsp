@@ -55,7 +55,7 @@
 						<td>
 							<ul class="info-ul-list">
 								<c:forEach items="${workFlow.issueStatus}" var="issueStatus">
-								<li><a class="link" href="administration/status/${issueStatus.name}.html">${issueStatus.name}</a></li>
+								<li>${issueStatus.name}</li>
 								</c:forEach>
 							</ul>
 						</td>

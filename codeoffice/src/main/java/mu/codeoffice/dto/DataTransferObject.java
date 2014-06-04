@@ -6,6 +6,4 @@ public interface DataTransferObject<T> {
 	
 	public DataTransferObject<T> toDTO(T object);
 	
-	public boolean validate();
-	
 }

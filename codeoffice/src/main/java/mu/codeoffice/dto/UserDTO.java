@@ -10,14 +10,8 @@ public class UserDTO implements DataTransferObject<User> {
 	}
 
 	@Override
-	public DataTransferObject<User> toDTO(User object) {
+	public UserDTO toDTO(User object) {
 		return null;
-	}
-
-	@Override
-	public boolean validate() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

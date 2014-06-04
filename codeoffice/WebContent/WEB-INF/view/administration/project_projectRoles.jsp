@@ -30,6 +30,7 @@
 							<tr class="filter-table-title">
 								<td colspan="2"><spring:message code="administration.project.projectrole.createProjectRole"/></td>
 							</tr>
+							<code:formError errors="${formErrors}"/>
 							<tr class="filter-table-label">
 								<td><spring:message code="administration.project.projectrole.name"/><span class="icon-required">&nbsp;</span><span class="minorspace"></span>
 								<span class="description-info">format ([a-zA-Z]+((-)?[a-zA-Z])+)</span></td>
@@ -58,7 +59,7 @@
 						</td>
 						<td>
 							<a class="link" href="administration/projectRole/edit.html?role=${projectRole.name}">${text_edit}</a><span class="minorspace">&#183;</span>
-							<a class="link" href="administration/projectRole/delete?role=${projectRole.name}">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/projectRole/delete?role=${projectRole.name}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>
@@ -67,5 +68,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
+	<form id="remoteForm" method="POST"></form>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />

@@ -26,6 +26,9 @@ public class SessionTimeOutListener implements ApplicationListener<SessionDestro
 			auth = (EnterpriseAuthentication) securityContext.getAuthentication().getPrincipal();
 			break;
 		}
+		if (auth == null) {
+			return;
+		}
 		Object o = servletContext.getAttribute(auth.getEnterprise().getCode() + "_SESSIONS");
 		if (o != null) {
 			Map<Long, SessionObject> sessionMap = (Map<Long, SessionObject>) o;

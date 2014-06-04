@@ -45,9 +45,6 @@ public class ProjectRole implements Serializable {
 	@Column(name = "description")
 	@Size(max = 200)
 	private String description;
-	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "projectRoles")
-	private List<ProjectPermissionSettings> projectPermissionSettings;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "settings_projectrole_user", uniqueConstraints = @UniqueConstraint(columnNames = {"projectrole_id", "user_id"}),
@@ -71,14 +68,6 @@ public class ProjectRole implements Serializable {
 
 	public void setEnterprise(Enterprise enterprise) {
 		this.enterprise = enterprise;
-	}
-
-	public List<ProjectPermissionSettings> getProjectPermissionSettings() {
-		return projectPermissionSettings;
-	}
-
-	public void setProjectPermissionSettings(List<ProjectPermissionSettings> projectPermissionSettings) {
-		this.projectPermissionSettings = projectPermissionSettings;
 	}
 
 	public String getName() {

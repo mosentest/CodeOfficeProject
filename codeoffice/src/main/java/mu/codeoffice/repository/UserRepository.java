@@ -1,6 +1,7 @@
 package mu.codeoffice.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.User;
@@ -21,8 +22,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 	@Query("SELECT u FROM User u WHERE u.account = :account OR u.email = :email")
 	public User findByAccount(@Param("account") String account, @Param("email") String email);
 
-	@Query("SELECT u FROM User u WHERE u.enterprise = :enterprise AND u.id IN :idList")
-	public List<User> getUsers(@Param("enterprise") Enterprise enterprise, @Param("idList") List<Long> idList);
+	@Query("SELECT u FROM User u WHERE u.enterprise = :enterprise AND u.id IN :idSet")
+	public List<User> getUsers(@Param("enterprise") Enterprise enterprise, @Param("idSet") Set<Long> idSet);
 
 	@Modifying
 	@Query("UPDATE User u SET u.globalPermissionValue = bitwise_and(u.globalPermissionValue, :permissionValue) WHERE u.enterprise = :enterprise")

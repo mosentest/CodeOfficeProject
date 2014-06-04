@@ -25,17 +25,11 @@ public class UserGroupDTO implements DataTransferObject<UserGroup> {
 	}
 
 	@Override
-	public DataTransferObject<UserGroup> toDTO(UserGroup object) {
+	public UserGroupDTO toDTO(UserGroup object) {
 		name = object.getName();
 		description = object.getDescription();
 		members = object.getUsers();
 		return this;
-	}
-
-	@Override
-	public boolean validate() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public String getName() {

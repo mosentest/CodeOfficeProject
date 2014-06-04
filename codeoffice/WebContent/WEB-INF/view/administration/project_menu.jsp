@@ -10,7 +10,6 @@
 	<li class="vertical-navigation-title"><spring:message code="administration.project.title.general"/></li>
 	<li ${param.menu eq 'permissionscheme' ? selectedClass : ''}><a class="link" href="administration/permissionSchemes.html"><spring:message code="administration.project.permissionSchemes"/></a></li>
 	<li ${param.menu eq 'projectrole' ? selectedClass : ''}><a class="link" href="administration/projectRoles.html"><spring:message code="administration.project.projectRoles"/></a></li>
-	<li ${param.menu eq 'projects' ? selectedClass : ''}><a class="link" href="administration/projects.html"><spring:message code="administration.project.viewProjects"/></a></li>
 	<li ${param.menu eq 'workflow' ? selectedClass : ''}><a class="link" href="administration/workFlows.html"><spring:message code="administration.project.workflows"/></a></li>
 </security:authorize>
 </ul>
