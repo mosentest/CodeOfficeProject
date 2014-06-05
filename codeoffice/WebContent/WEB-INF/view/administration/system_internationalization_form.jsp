@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
-<div id="title"><spring:message code="administration.enterprise_administration"/></div>
+<div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
 	<jsp:include page="/WEB-INF/view/administration/administration_submenu.jsp">
 		<jsp:param name="menu" value="system"/>
@@ -18,18 +18,18 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.system.internationalizationSettings"/></div>
-				<div class="sub-element-description">Edit your enterprise internationalization settings.</div>
+				<div class="sub-element-title"><spring:message code="administration.system.internationalizationSettings.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.system.internationalizationSettings.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<form:form action="administration/internationalization/edit" modelAttribute="internationalizationSettings" method="POST">
 					<table class="form-table">
 						<form:hidden path="id"/>
 						<tr class="form-title-row">
-							<td colspan="3"><spring:message code="administration.i18n.INTERNATIONALIZATIONSETTINGS"/></td>
+							<td colspan="2"><spring:message code="administration.system.internationalizationSettings.INTERNATIONALIZATIONSETTINGS"/></td>
 						</tr>
 						<tr>
-							<td class="form-label-col"><spring:message code="administration.i18n.defaultLocale"/>:</td>
+							<td class="form-label-col"><spring:message code="entity.internationalizationSettings.defaultLocale"/>:</td>
 							<td class="form-input-col">
 								<form:select path="defaultLocaleString">
 									<c:forEach items="${supportedLocale}" var="locale">
@@ -41,7 +41,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="form-label-col"><spring:message code="administration.i18n.defaultTimeZone"/>:</td>
+							<td class="form-label-col"><spring:message code="entity.internationalizationSettings.defaultTimeZone"/>:</td>
 							<td class="form-input-col">
 								<form:select path="defaultTimeZoneID">
 									<c:forEach items="${supportedTimeZone}" var="timeZone">

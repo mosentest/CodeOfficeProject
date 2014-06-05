@@ -6,7 +6,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
-<div id="title"><spring:message code="administration.enterprise_administration"/></div>
+<div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
 	<jsp:include page="/WEB-INF/view/administration/administration_submenu.jsp">
 		<jsp:param name="menu" value="system"/>
@@ -19,7 +19,7 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.system.globalpermission.scheme"/></div>
+				<div class="sub-element-title"><spring:message code="administration.system.globalpermission.scheme.title"/></div>
 			</div>
 			<div class="sub-element-content">
 				<table class="permission-table">

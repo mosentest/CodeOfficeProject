@@ -3,7 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
-<div id="title"><spring:message code="administration.enterprise_administration"/></div>
+<div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
 	<jsp:include page="/WEB-INF/view/administration/administration_submenu.jsp">
 		<jsp:param name="menu" value="system"/>
@@ -17,30 +17,30 @@
 		<div class="sub-element">
 			<div class="sub-element-info">
 				<div class="sub-element-title imglink">
-					<span><spring:message code="administration.system.announcementSettings"/></span>
+					<span><spring:message code="administration.system.announcement.title"/></span>
 					<input type="button" class="button" onclick="javascript:url('/administration/announcement/edit.html');" value="<spring:message code="application.edit"/>"/>
 				</div>
-				<div class="sub-element-description">Edit your announcement settings.</div>
+				<div class="sub-element-description"><spring:message code="administration.system.announcement.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<table class="form-table">
 					<tr class="form-title-row">
-						<td colspan="2"><spring:message code="administration.announcement.ANNOUNCEMENTSETTINGS"/></td>
+						<td colspan="2"><spring:message code="administration.system.announcement.ANNOUNCEMENTSETTINGS"/></td>
 					</tr>
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.announcement.enabled"/>:</td>
+						<td class="form-label-col"><spring:message code="entity.announcement.enabled"/>:</td>
 						<td class="form-input-col"><code:toggle value="${announcementSettings.enabled}"/></td>
 					</tr>
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.announcement.announcement"/>:</td>
+						<td class="form-label-col"><spring:message code="entity.announcement.announcement"/>:</td>
 						<td class="form-input-col">${announcementSettings.announcement}</td>
 					</tr>
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.announcement.announcementLevel"/>:</td>
+						<td class="form-label-col"><spring:message code="entity.announcement.announcementLevel"/>:</td>
 						<td class="form-input-col"><spring:message code="${announcementSettings.announcementLevel.key}"/></td>
 					</tr>
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.announcement.enablePublicMode"/>:</td>
+						<td class="form-label-col"><spring:message code="entity.announcement.enablePublicMode"/>:</td>
 						<td class="form-input-col"><code:toggle value="${announcementSettings.enablePublicMode}"/></td>
 					</tr>
 				</table>

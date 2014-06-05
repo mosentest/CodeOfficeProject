@@ -53,9 +53,6 @@ public class User implements Serializable, JSONSerializable<User> {
 
     @Column(name = "password_hash", nullable = false)
 	private String password;
-	
-    @Column(name = "gender")
-	private boolean gender;
 
 	@Column(name = "create_date")
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -232,14 +229,6 @@ public class User implements Serializable, JSONSerializable<User> {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public boolean isGender() {
-		return gender;
-	}
-
-	public void setGender(boolean gender) {
-		this.gender = gender;
 	}
 
 	public Date getCreate() {

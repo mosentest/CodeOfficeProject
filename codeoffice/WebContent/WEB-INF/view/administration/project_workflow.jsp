@@ -7,7 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
-<div id="title"><spring:message code="administration.enterprise_administration"/></div>
+<div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
 	<jsp:include page="/WEB-INF/view/administration/administration_submenu.jsp">
 		<jsp:param name="menu" value="project"/>

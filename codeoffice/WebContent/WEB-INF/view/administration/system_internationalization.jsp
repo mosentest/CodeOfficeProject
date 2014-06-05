@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
-<div id="title"><spring:message code="administration.enterprise_administration"/></div>
+<div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
 	<jsp:include page="/WEB-INF/view/administration/administration_submenu.jsp">
 		<jsp:param name="menu" value="system"/>
@@ -18,27 +18,27 @@
 		<div class="sub-element">
 			<div class="sub-element-info">
 				<div class="sub-element-title imglink">
-					<span><spring:message code="administration.system.internationalizationSettings"/></span>
+					<span><spring:message code="administration.system.internationalizationSettings.title"/></span>
 					<input type="button" class="button" onclick="javascript:url('/administration/internationalization/edit.html');" value="<spring:message code="application.edit"/>"/>
 				</div>
-				<div class="sub-element-description">Edit your enterprise internationalization settings.</div>
+				<div class="sub-element-description"><spring:message code="administration.system.internationalizationSettings.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<table class="form-table">
 					<tr class="form-title-row">
-						<td colspan="2"><spring:message code="administration.i18n.INTERNATIONALIZATIONSETTINGS"/></td>
+						<td colspan="2"><spring:message code="administration.system.internationalizationSettings.INTERNATIONALIZATIONSETTINGS"/></td>
 					</tr>
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.i18n.defaultLocale"/>:</td>
+						<td class="form-label-col"><spring:message code="entity.internationalizationSettings.defaultLocale"/>:</td>
 						<td class="form-input-col">
-							<c:set var="localeString" scope="page">${internationalizationSettings.defaultLocale.language}_${internationalizationSettings.defaultLocale.country}</c:set>
+							<c:set var="localeString">${internationalizationSettings.defaultLocale.language}_${internationalizationSettings.defaultLocale.country}</c:set>
 							<spring:message code="${localeString}"/>
 						</td>
 					</tr>
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.i18n.defaultTimeZone"/>:</td>
+						<td class="form-label-col"><spring:message code="entity.internationalizationSettings.defaultTimeZone"/>:</td>
 						<td class="form-input-col">
-							<c:set var="timeZone" scope="page" value="${internationalizationSettings.defaultTimeZone}"/>
+							<c:set var="timeZone" value="${internationalizationSettings.defaultTimeZone}"/>
 							${timeZone.displayName}&nbsp;(${timeZone.ID}&nbsp;${codefunction:timeOffsetString(timeZone)})
 						</td>
 					</tr>

@@ -35,8 +35,7 @@ public class ProjectRole implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
-
-
+	
 	@Column(name = "name")
 	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
 	@Size(max = 20)

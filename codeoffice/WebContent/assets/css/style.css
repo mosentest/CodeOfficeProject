@@ -461,6 +461,9 @@
     border-collapse: collapse;
     width: 100%;
 }
+.key-value-table tr {
+	border-bottom: 1px solid #e5e5e5;
+}
 .key-value-table td {
 	padding: 10px 10px 0px 10px;
 }

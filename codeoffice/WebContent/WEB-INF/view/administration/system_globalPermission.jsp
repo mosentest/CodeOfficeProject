@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
-<div id="title"><spring:message code="administration.enterprise_administration"/></div>
+<div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
 	<jsp:include page="/WEB-INF/view/administration/administration_submenu.jsp">
 		<jsp:param name="menu" value="system"/>
@@ -52,8 +52,8 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.system.globalPermissionSettings"/></div>
-				<div class="sub-element-description">Edit global permissions settings.</div>
+				<div class="sub-element-title"><spring:message code="administration.system.globalPermission.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.system.globalPermission.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<div class="filter-content">
@@ -61,11 +61,11 @@
 					<form action="administration/globalPermission/addGroup" id="add-group-form" method="GET">
 						<table class="filter-table">
 							<tr class="filter-table-title">
-								<td><spring:message code="administration.um.globalpermission.addGroup"/></td>
+								<td><spring:message code="entity.userGroup.add"/></td>
 							</tr>
 							<tr class="filter-table-label">
-								<td><spring:message code="administration.um.globalpermission.permission"/></td>
-								<td><spring:message code="administration.um.globalpermission.group"/></td>
+								<td><spring:message code="entity.globalPermissionSettings.globalPermission"/></td>
+								<td><spring:message code="entity.userGroup"/></td>
 							</tr>
 							<tr class="filter-table-input">
 								<td>
@@ -84,7 +84,7 @@
 								</td>
 							</tr>
 							<tr class="filter-table-input">
-								<td colspan="2"><input class="button" type="submit" value="<spring:message code="administration.um.globalpermission.grantPermission"/>" /></td>
+								<td colspan="2"><input class="button" type="submit" value="<spring:message code="application.grantPermission"/>" /></td>
 							</tr>
 						</table>
 					</form>
@@ -93,11 +93,11 @@
 					<form action="administration/globalPermission/addUser" id="add-user-form" method="GET">
 						<table class="filter-table">
 							<tr class="filter-table-title">
-								<td><spring:message code="administration.um.globalpermission.addUser"/></td>
+								<td><spring:message code="entity.user.add"/></td>
 							</tr>
 							<tr class="filter-table-label">
-								<td><spring:message code="administration.um.globalpermission.permission"/></td>
-								<td><spring:message code="administration.um.globalpermission.user"/></td>
+								<td><spring:message code="entity.globalPermissionSettings.globalPermission"/></td>
+								<td><spring:message code="entity.user"/></td>
 							</tr>
 							<tr class="filter-table-input">
 								<td>
@@ -113,7 +113,7 @@
 								</td>
 							</tr>
 							<tr class="filter-table-input">
-								<td colspan="2"><input class="button" type="submit" value="<spring:message code="administration.um.globalpermission.grantPermission"/>" /></td>
+								<td colspan="2"><input class="button" type="submit" value="<spring:message code="application.grantPermission"/>" /></td>
 							</tr>
 						</table>
 					</form>
@@ -123,10 +123,10 @@
 				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.um.globalpermission.permission"/></td>
-						<td><spring:message code="administration.um.globalpermission.groups"/></td>
-						<td><spring:message code="administration.um.globalpermission.users"/></td>
-						<td><spring:message code="administration.um.globalpermission.operations"/></td>
+						<td><spring:message code="entity.globalPermissionSettings.globalPermission"/></td>
+						<td><spring:message code="entity.globalPermissionSettings.userGroups"/></td>
+						<td><spring:message code="entity.globalPermissionSettings.users"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${globalPermissionSettings}" var="permission">
 					<tr class="list-table-item" id="${permission.globalPermission}">
