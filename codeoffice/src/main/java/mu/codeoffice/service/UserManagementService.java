@@ -1,19 +1,17 @@
 package mu.codeoffice.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.annotation.Resource;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.dto.UserGroupDTO;
-import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.repository.UserRepository;
 import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
-import mu.codeoffice.utility.StringUtil;
+import mu.codeoffice.utility.CodeUtil;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
@@ -41,25 +39,10 @@ public class UserManagementService {
 			userGroup.setUsers(new ArrayList<>());
 		}
 		if (userGroupDTO.getRemovedUsers() != null) {
-			Iterator<User> it = userGroup.getUsers().iterator();
-			while (it.hasNext()) {
-				Long itId = it.next().getId();
-				for (Long id : userGroupDTO.getRemovedUsers()) {
-					if (itId.equals(id)) {
-						it.remove();
-						break;
-					}
-				}
-			}
+			userGroup.getUsers().removeAll(userRepository.getUsers(auth.getEnterprise(), CodeUtil.toSet(userGroupDTO.getRemovedUsers())));
 		}
 		if (userGroupDTO.getNewUsers() != null) {
-			for (Long id : userGroupDTO.getNewUsers()) {
-				User user = userRepository.getUser(auth.getEnterprise(), id);
-				if (!userGroup.getUsers().contains(user)) {
-					userGroup.getUsers().add(user);
-					//global permission value
-				}
-			}
+			userGroup.getUsers().addAll(userRepository.getUsers(auth.getEnterprise(), CodeUtil.toSet(userGroupDTO.getNewUsers())));
 		}
 		userGroup.setUserCount(userGroup.getUsers().size());
 		userGroupRepository.save(userGroup);
@@ -67,9 +50,6 @@ public class UserManagementService {
 	
 	@Transactional
 	public void createUserGroup(EnterpriseAuthentication auth, UserGroup userGroup) throws AuthenticationException, InformationException {
-		if (StringUtil.isEmptyString(userGroup.getName()) || !userGroup.getName().matches("[a-zA-Z]+((-)?[a-zA-Z])+")) {
-			throw new InformationException("Group Name Is Invalid.");
-		}
 		if (!userGroupRepository.isNameAvailable(auth.getEnterprise(), userGroup.getName())) {
 			throw new InformationException("Group Name is Not Available.");
 		}

@@ -79,7 +79,7 @@ public class UserManagementAdminitrationController implements GenericController 
 		if (!StringUtil.isEmptyString(sort)) { model.put("sort", sort); }
 		if (descending) { model.put("descending", descending); }
 		if (pageIndex != 0) { model.put("pageIndex", pageIndex); }
-		if (pageSize != 20) { model.put("pageSize", pageSize); }
+		if (pageSize != DEFAULT_LIST_SIZE) { model.put("pageSize", pageSize); }
 		return new ModelAndView("administration/um_users", model);
 	}
 
@@ -99,14 +99,17 @@ public class UserManagementAdminitrationController implements GenericController 
 		if (!StringUtil.isEmptyString(sort)) { model.put("sort", sort); }
 		if (descending) { model.put("descending", descending); }
 		if (pageIndex != 0) { model.put("pageIndex", pageIndex); }
-		if (pageSize != 20) { model.put("pageSize", pageSize); }
+		if (pageSize != DEFAULT_LIST_SIZE) { model.put("pageSize", pageSize); }
 		return new ModelAndView("administration/um_userGroups", model);
 	}
 
 	@RequestMapping(value = "userGroup.html", method = RequestMethod.GET)
 	public ModelAndView userGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("group") String group,
+			@RequestParam(value = "query", required = false) String query, 
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
+			@RequestParam(value = "sort", required = false) String sort,
+			@RequestParam(value = "descending", required = false) boolean descending,
 			RedirectAttributes redirectAttributes, ModelMap model)
 			throws AuthenticationException {
 		UserGroup userGroup = userManagementService.getUserGroup(auth, group);
@@ -115,9 +118,11 @@ public class UserManagementAdminitrationController implements GenericController 
 			return new ModelAndView("redirect:/administration/userGroups.html");
 		}
 		model.put("userGroup", userGroup);
-		model.put("userPage", userService.groupSearch(auth, userGroup.getId(), null, null,
-				pageIndex, DEFAULT_LIST_SIZE, "firstName", true, true));
-		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
+		model.put("userPage", userService.groupSearch(auth, userGroup.getId(), query, query, pageIndex, 20, sort, !descending, true));
+		if (!StringUtil.isEmptyString(query)) { model.put("name", query); }
+		if (!StringUtil.isEmptyString(sort)) { model.put("sort", sort); }
+		if (descending) { model.put("descending", descending); }
+		if (pageIndex != 0) { model.put("pageIndex", pageIndex); }
 		return new ModelAndView("administration/um_userGroup", model);
 	}
 
@@ -154,6 +159,8 @@ public class UserManagementAdminitrationController implements GenericController 
 			@RequestParam("group") String group,
 			@RequestParam(value = "query", required = false) String query, 
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
+			@RequestParam(value = "sort", required = false) String sort,
+			@RequestParam(value = "descending", required = false) boolean descending,
 			RedirectAttributes redirectAttributes, ModelMap model)
 			throws AuthenticationException {
 		UserGroup userGroup = userManagementService.getUserGroup(auth, group);
@@ -162,9 +169,11 @@ public class UserManagementAdminitrationController implements GenericController 
 			return new ModelAndView("redirect:/administration/userGroups.html");
 		}
 		model.put("userGroup", new UserGroupDTO().toDTO(userGroup));
-		model.put("userPage", userGroupService.getUsers(auth, userGroup.getId(), pageIndex, query));
-		if (!StringUtil.isEmptyString(query)) { model.put("query", query); }
-		model.put("pageIndex", pageIndex);
+		model.put("userPage", userService.groupSearch(auth, userGroup.getId(), query, query, pageIndex, DEFAULT_LIST_SIZE, sort, !descending, true));
+		if (!StringUtil.isEmptyString(query)) { model.put("name", query); }
+		if (!StringUtil.isEmptyString(sort)) { model.put("sort", sort); }
+		if (descending) { model.put("descending", descending); }
+		if (pageIndex != 0) { model.put("pageIndex", pageIndex); }
 		return new ModelAndView("administration/um_userGroup_member", model);
 	}
 

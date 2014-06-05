@@ -63,4 +63,27 @@ public class UserSpecifications {
 			
 		};
 	}
+	
+	public static Specification<User> projectRoleFilter(final Enterprise enterprise, final Long projectRole, final String queryString) {
+		return new Specification<User>() {
+
+			@Override
+			public Predicate toPredicate(Root<User> root,
+					CriteriaQuery<?> query, CriteriaBuilder builder) {
+				List<Predicate> predicates = new ArrayList<>();
+				if (!StringUtil.isEmptyString(queryString)) {
+					predicates.add(builder.or(
+							builder.like(root.get(User_.email), "%" + queryString + "%"),
+							builder.like(root.get(User_.firstName), "%" + queryString + "%"),
+							builder.like(root.get(User_.lastName), "%" + queryString + "%")));
+				}
+				if (projectRole != null) {
+					predicates.add(builder.equal(root.join(User_.projectRoles, JoinType.LEFT).<String>get("id"), projectRole));
+				}
+				predicates.add(builder.equal(root.get(User_.enterprise), enterprise));
+				return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+			
+		};
+	}
 }

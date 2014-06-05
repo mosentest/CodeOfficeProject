@@ -8,6 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.ProjectPermissionSettings;
+import mu.codeoffice.entity.settings.ProjectRole;
 
 @StaticMetamodel(User.class)
 public class User_ {
@@ -47,6 +48,8 @@ public class User_ {
 	public static volatile ListAttribute<User, ProjectPermissionSettings> projectPermissions;
 
 	public static volatile ListAttribute<User, UserGroup> userGroups;
+
+	public static volatile ListAttribute<User, ProjectRole> projectRoles;
 
 	public static volatile ListAttribute<User, Issue> watching;
 }

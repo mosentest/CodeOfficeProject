@@ -1,6 +1,7 @@
 package mu.codeoffice.service;
 
 import static mu.codeoffice.query.GenericSpecifications.pageSpecification;
+import static mu.codeoffice.query.UserSpecifications.projectRoleFilter;
 import static mu.codeoffice.query.GenericSpecifications.sort;
 import static mu.codeoffice.query.UserSpecifications.groupFilter;
 import static mu.codeoffice.query.UserSpecifications.search;
@@ -44,11 +45,11 @@ public class UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<User> roleSearch(EnterpriseAuthentication auth, Long group, String account, String name,
+	public Page<User> roleSearch(EnterpriseAuthentication auth, Long role, String query,
 			Integer pageIndex, Integer pageSize, String sort, boolean ascending, boolean loadProperties) {
 		Page<User> users = userRepository.findAll(
-				groupFilter(auth.getEnterprise(), group, account, name), 
-				pageSpecification(pageIndex, pageSize, sort(false, User.getSortColumn(sort))));
+				projectRoleFilter(auth.getEnterprise(), role, query), 
+				pageSpecification(pageIndex, pageSize, sort(ascending, User.getSortColumn(sort))));
 		if (loadProperties) {
 			for (User user : users.getContent()) {
 				user.getUserGroups().size();

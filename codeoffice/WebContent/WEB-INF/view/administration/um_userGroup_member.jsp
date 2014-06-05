@@ -47,8 +47,8 @@
 			},
 			select: function(event, ui) {
 				var label = "<div id='label-" + ui.item.id + "' class='plain-label closable-label'>";
-				label += "<span class='plain-label-info'>" + ui.item.firstName + ", " + ui.item.lastName + "</span>";
-				label += "<span class='plain-label-description'>(" + ui.item.email + ")</span>";
+				label += "<span class='user-label-info'>" + ui.item.firstName + ", " + ui.item.lastName + "</span>";
+				label += "<span class='user-label-description'>(" + ui.item.email + ")</span>";
 				label += "<span class='spanlink imglink' onclick='javascript:removeLabel(\"" + ui.item.id + "\");' title='remove'><img width=\"12\" height=\"12\" src=\"assets/img/information/icon-close.png\"/></span>";
 				label += "<input type='hidden' name='newUsers' value='" + ui.item.id + "'/>";
 				label += "</div>";
@@ -64,7 +64,20 @@
 	function removeLabel(id) {
 		$('#label-' + id).remove();
 	}
+	function submitFilter() {
+		var urlString = 'administration/userGroup/manage.html?group=${userGroup.name}&';
+		urlString += ('query=' + $("input[name='query']").val());
+		url(urlString);
+	}
 </script>
+<spring:message var="text_fullName" code="administration.um.user.fullName"/>
+<spring:message var="text_groups" code="administration.um.user.groups"/>
+<spring:message var="text_account" code="administration.um.user.account"/>
+<spring:message var="text_email" code="administration.um.user.email"/>
+<spring:message var="text_login" code="administration.um.user.lastLogin"/>
+
+<spring:message var="text_edit" code="application.edit"/>
+<spring:message var="text_delete" code="application.delete"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/um_menu.jsp">
 		<jsp:param name="menu" value="usergroups"/>
@@ -94,30 +107,57 @@
 						</td>
 					</tr>
 				</table>
-				<c:if test="${userPage.totalElements eq 0}"><code:info type="info" title="administration.um.usergroup.noUsers"/></c:if>
+				<div class="filter-content">
+					<table class="filter-table">
+						<tr class="filter-table-title">
+							<td colspan="2"><spring:message code="application.filter"/></td>
+						</tr>
+						<tr class="filter-table-label">
+							<td colspan="2"><spring:message code="administration.um.group.filter.name"/></td>
+						</tr>
+						<tr class="filter-table-input">
+							<td><input type="text" name="query" value="${query}"/></td>
+							<td><input class="button" type="button" onclick="javascript:submitFilter();" value="<spring:message code="application.filter"/>" /></td>
+						</tr>
+					</table>
+				</div>
+				<c:if test="${userPage.totalElements eq 0}"><code:info type="info" title="administration.um.no_user_to_display"/></c:if>
 				<c:if test="${userPage.totalElements gt 0}">
 				<div>Select users to delete</div>
-				<c:set var="params">
-					<c:if test="${not empty name}">query=${query},</c:if>
-						<c:if test="${not empty sort}">sort=${sort},</c:if>
-						<c:if test="${not ascending}">ascending=${ascending}</c:if>
-				</c:set>
 				<table class="list-table">
-					<tr class="list-table-page"><code:formPage page="${userPage}" url="administration/userGroup/manage.html" params="${params}"/></tr>
+					<c:set var="params">
+						group=${userGroup.name},
+						<c:if test="${not empty pageSize}">pageSize=${pageSize},</c:if>
+						<c:if test="${not empty query}">query=${query},</c:if>
+					</c:set>
+					<c:set var="pageParams">
+						${params}
+						<c:if test="${not empty sort}">sort=${sort},</c:if>
+						<c:if test="${not empty descending}">descending=true,</c:if>
+					</c:set>
+					<c:set var="url" value="administration/userGroup/manage.html"/>
+					<tr class="list-table-page">
+						<td colspan="5"><code:formPage page="${userPage}" url="${url}" params="${pageParams}"/></td>
+					</tr>
 					<tr class="list-table-header">
-						<td class="center"><input type="checkbox" id="select-all"/></td>
-						<td></td>
-						<td><spring:message code="administration.um.usergroup.firstName"/></td>
-						<td><spring:message code="administration.um.usergroup.lastName"/></td>
-						<td><spring:message code="administration.um.usergroup.email"/></td>
+						<td>${text_fullName}</td>
+						<td><code:sortableColumn columnName="${text_account}" sortColumn="account"/></td>
+						<td><code:sortableColumn columnName="${text_login}" sortColumn="login"/></td>
+						<td><code:sortableColumn columnName="${text_email}" sortColumn="email"/></td>
+						<td>${text_groups}</td>
 					</tr>
 					<c:forEach items="${userPage.content}" var="user">
 					<tr class="list-table-item">
-						<td class="center"><input type="checkbox" name="removedUsers" value="${user.id}"/></td>
-						<td class="center"><img src="assets/img/core/default-avatar.png" width="20" height="20"/></td>
-						<td>${user.firstName}</td>
-						<td>${user.lastName}</td>
-						<td>${user.email}</td>
+						<td><code:user user="${user}" width="20" height="20"/></td>
+						<td>${user.account}</td>
+						<td><span class="description-info"><fmt:formatDate value="${user.login}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></span></td>
+						<td><a class="link" href="mailto:${user.email}">${user.email}</a></td>
+						<td><ul class="info-ul-list">
+							<c:forEach items="${user.userGroups}" var="userGroup">
+								<li><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></li>
+							</c:forEach>
+							</ul>
+						</td>
 					</tr>
 					</c:forEach>
 				</table>

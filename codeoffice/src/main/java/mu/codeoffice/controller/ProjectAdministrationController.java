@@ -284,7 +284,7 @@ public class ProjectAdministrationController implements GenericController {
 			return new ModelAndView("redirect:/administration/projectRoles.html");
 		}
 		model.put("projectRole", new ProjectRoleDTO().toDTO(projectRole));
-		model.put("userPage", projectRoleService.getUsers(auth, projectRole.getId(), pageIndex, query));
+		model.put("userPage", userService.roleSearch(auth, projectRole.getId(), query, pageIndex, 20, sort, !descending, false));
 		if (!StringUtil.isEmptyString(query)) { model.put("query", query); }
 		if (!StringUtil.isEmptyString(sort)) { model.put("sort", sort); }
 		if (descending) { model.put("descending", descending); }

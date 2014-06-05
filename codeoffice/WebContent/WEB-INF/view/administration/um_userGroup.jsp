@@ -14,6 +14,13 @@
 		<jsp:param name="menu" value="user"/>
 	</jsp:include>
 </div>
+<script>
+	function submitFilter() {
+		var urlString = 'administration/userGroup.html?group=${userGroup.name}&';
+		urlString += ('query=' + $("input[name='query']").val());
+		url(urlString);
+	}
+</script>
 <spring:message var="text_fullName" code="administration.um.user.fullName"/>
 <spring:message var="text_groups" code="administration.um.user.groups"/>
 <spring:message var="text_account" code="administration.um.user.account"/>
@@ -75,11 +82,25 @@
 					</c:if>
 					</security:authorize>
 				</div>
+				<div class="filter-content">
+					<table class="filter-table">
+						<tr class="filter-table-title">
+							<td colspan="2"><spring:message code="application.filter"/></td>
+						</tr>
+						<tr class="filter-table-label">
+							<td colspan="2"><spring:message code="administration.um.group.filter.name"/></td>
+						</tr>
+						<tr class="filter-table-input">
+							<td><input type="text" name="query" value="${query}"/></td>
+							<td><input class="button" type="button" onclick="javascript:submitFilter();" value="<spring:message code="application.filter"/>" /></td>
+						</tr>
+					</table>
+				</div>
 				<table class="list-table">
 					<c:set var="params">
 						group=${userGroup.name},
 						<c:if test="${not empty pageSize}">pageSize=${pageSize},</c:if>
-						<c:if test="${not empty groupFilter}">groupFilter=${groupFilter},</c:if>
+						<c:if test="${not empty query}">query=${query},</c:if>
 					</c:set>
 					<c:set var="pageParams">
 						${params}

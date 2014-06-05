@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
+import mu.codeoffice.entity.settings.ProjectRole;
 import mu.codeoffice.json.JSONSerializable;
 import mu.codeoffice.json.UserJSON;
 
@@ -87,6 +88,9 @@ public class User implements Serializable, JSONSerializable<User> {
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private List<UserGroup> userGroups;
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "defaultMembers")
+	private List<ProjectRole> projectRoles;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "issue_watchlist", uniqueConstraints = @UniqueConstraint(columnNames = {"user_wid", "issue_id"}),
@@ -268,6 +272,14 @@ public class User implements Serializable, JSONSerializable<User> {
 
 	public void setWatching(List<Issue> watching) {
 		this.watching = watching;
+	}
+
+	public List<ProjectRole> getProjectRoles() {
+		return projectRoles;
+	}
+
+	public void setProjectRoles(List<ProjectRole> projectRoles) {
+		this.projectRoles = projectRoles;
 	}
 	
 }
