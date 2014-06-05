@@ -2,7 +2,7 @@ package mu.codeoffice.dto;
 
 import mu.codeoffice.entity.UserGroup;
 
-public class UserGroupDTO extends GenericDTO implements DataTransferObject<UserGroup> {
+public class UserGroupDTO implements DataTransferObject<UserGroup> {
 	
 	private String name;
 	

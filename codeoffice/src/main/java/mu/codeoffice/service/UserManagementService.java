@@ -1,11 +1,7 @@
 package mu.codeoffice.service;
 
-import static mu.codeoffice.query.GenericSpecifications.pageSpecification;
-import static mu.codeoffice.query.GenericSpecifications.sort;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -19,7 +15,6 @@ import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.utility.StringUtil;
 
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,27 +104,4 @@ public class UserManagementService {
 		userGroupRepository.delete(userGroup);
 	}
 	
-	@Transactional(readOnly = true)
-	public List<UserGroup> getUserGroups(EnterpriseAuthentication auth) 
-			throws AuthenticationException {
-		return userGroupRepository.getUserGroups(auth.getEnterprise());
-	}
-	
-	@Transactional(readOnly = true)
-	public Page<UserGroup> filterUserGroups(EnterpriseAuthentication auth, String name, Integer pageIndex, Integer pageSize, String sort) 
-			throws AuthenticationException {
-		Page<UserGroup> userGroups = null;
-		if (StringUtil.isEmptyString(name)) {
-			userGroups = userGroupRepository.getUserGroups(auth.getEnterprise(), 
-					pageSpecification(pageIndex, pageSize, sort(false, UserGroup.getSortColumn(sort))));
-		} else {
-			userGroups = userGroupRepository.getUserGroups(auth.getEnterprise(), "%" + name + "%", 
-					pageSpecification(pageIndex, pageSize, sort(false, UserGroup.getSortColumn(sort))));
-		}
-		for (UserGroup userGroup : userGroups.getContent()) {
-			userGroup.getGlobalPermissions().size();
-		}
-		return userGroups;
-	}
- 	
 }

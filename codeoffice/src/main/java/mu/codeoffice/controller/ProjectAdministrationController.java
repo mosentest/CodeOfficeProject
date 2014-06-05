@@ -74,7 +74,7 @@ public class ProjectAdministrationController implements GenericController {
 			return new ModelAndView("redirect:administration/projectPermissionSchemes.html");
 		}
 		model.put("permissionScheme", permissionScheme);
-		model.put("userGroups", userGroupService.getGroups(auth));
+		model.put("userGroups", userGroupService.getGroups(auth, false));
 		model.put("projectRoles", projectRoleService.getProjectRoles(auth, false));
 		return new ModelAndView("administration/project_permissionScheme", model);
 	}
@@ -275,6 +275,8 @@ public class ProjectAdministrationController implements GenericController {
 			@RequestParam(value = "role", required = true) String role, 
 			@RequestParam(value = "query", required = false) String query, 
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
+			@RequestParam(value = "sort", required = false) String sort, 
+			@RequestParam(value = "descending", required = false) boolean descending, 
 			RedirectAttributes redirectAttributes, ModelMap model) {
 		ProjectRole projectRole = projectRoleService.getProjectRole(auth, role);
 		if (projectRole == null) {
@@ -284,7 +286,9 @@ public class ProjectAdministrationController implements GenericController {
 		model.put("projectRole", new ProjectRoleDTO().toDTO(projectRole));
 		model.put("userPage", projectRoleService.getUsers(auth, projectRole.getId(), pageIndex, query));
 		if (!StringUtil.isEmptyString(query)) { model.put("query", query); }
-		model.put("pageIndex", pageIndex);
+		if (!StringUtil.isEmptyString(sort)) { model.put("sort", sort); }
+		if (descending) { model.put("descending", descending); }
+		if (pageIndex != 0) { model.put("pageIndex", pageIndex); }
 		return new ModelAndView("administration/project_projectRole_form", model);
 	}
 	

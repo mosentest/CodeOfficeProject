@@ -14,6 +14,12 @@
 		<jsp:param name="menu" value="user"/>
 	</jsp:include>
 </div>
+<spring:message var="text_fullName" code="administration.um.user.fullName"/>
+<spring:message var="text_groups" code="administration.um.user.groups"/>
+<spring:message var="text_account" code="administration.um.user.account"/>
+<spring:message var="text_email" code="administration.um.user.email"/>
+<spring:message var="text_login" code="administration.um.user.lastLogin"/>
+
 <spring:message var="text_edit" code="application.edit"/>
 <spring:message var="text_delete" code="application.delete"/>
 <div id="content">
@@ -70,15 +76,26 @@
 					</security:authorize>
 				</div>
 				<table class="list-table">
+					<c:set var="params">
+						group=${userGroup.name},
+						<c:if test="${not empty pageSize}">pageSize=${pageSize},</c:if>
+						<c:if test="${not empty groupFilter}">groupFilter=${groupFilter},</c:if>
+					</c:set>
+					<c:set var="pageParams">
+						${params}
+						<c:if test="${not empty sort}">sort=${sort},</c:if>
+						<c:if test="${not empty descending}">descending=true,</c:if>
+					</c:set>
+					<c:set var="url" value="administration/userGroup.html"/>
 					<tr class="list-table-page">
-						<td colspan="5"><code:formPage page="${userPage}" url="administration/userGroup.html" params="group=${userGroup.name}"/></td>
+						<td colspan="5"><code:formPage page="${userPage}" url="${url}" params="${pageParams}"/></td>
 					</tr>
 					<tr class="list-table-header">
-						<td><spring:message code="administration.um.user.fullName"/></td>
-						<td><spring:message code="administration.um.user.account"/></td>
-						<td><spring:message code="administration.um.user.lastLogin"/></td>
-						<td><spring:message code="administration.um.user.email"/></td>
-						<td><spring:message code="administration.um.user.groups"/></td>
+						<td>${text_fullName}</td>
+						<td><code:sortableColumn columnName="${text_account}" sortColumn="account"/></td>
+						<td><code:sortableColumn columnName="${text_login}" sortColumn="login"/></td>
+						<td><code:sortableColumn columnName="${text_email}" sortColumn="email"/></td>
+						<td>${text_groups}</td>
 					</tr>
 					<c:forEach items="${userPage.content}" var="user">
 					<tr class="list-table-item">

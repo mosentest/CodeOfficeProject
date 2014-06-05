@@ -25,7 +25,7 @@ public class UserService {
 	public Page<User> basicSearch(EnterpriseAuthentication auth, String query) {
 		return userRepository.findAll(
 				search(auth.getEnterprise(), query), 
-				pageSpecification(0, 20, sort(false, User.getSortColumn("email"))));
+				pageSpecification(0, 20, sort(false, User.getSortColumn("firstName"))));
 	}
 	
 	@Transactional(readOnly = true)
@@ -33,7 +33,22 @@ public class UserService {
 			Integer pageIndex, Integer pageSize, String sort, boolean ascending, boolean loadProperties) {
 		Page<User> users = userRepository.findAll(
 				groupFilter(auth.getEnterprise(), group, account, name), 
-				pageSpecification(0, 20, sort(false, User.getSortColumn("email"))));
+				pageSpecification(pageIndex, pageSize, sort(ascending, User.getSortColumn(sort))));
+		if (loadProperties) {
+			for (User user : users.getContent()) {
+				user.getUserGroups().size();
+				user.getGlobalPermissions().size();
+			}
+		}
+		return users;
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<User> roleSearch(EnterpriseAuthentication auth, Long group, String account, String name,
+			Integer pageIndex, Integer pageSize, String sort, boolean ascending, boolean loadProperties) {
+		Page<User> users = userRepository.findAll(
+				groupFilter(auth.getEnterprise(), group, account, name), 
+				pageSpecification(pageIndex, pageSize, sort(false, User.getSortColumn(sort))));
 		if (loadProperties) {
 			for (User user : users.getContent()) {
 				user.getUserGroups().size();

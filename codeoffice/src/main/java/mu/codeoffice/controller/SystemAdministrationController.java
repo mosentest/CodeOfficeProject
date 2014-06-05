@@ -170,7 +170,7 @@ public class SystemAdministrationController implements GenericController {
 	@RequestMapping(value = "globalPermission.html", method = RequestMethod.GET)
 	public ModelAndView globalPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
-		model.put("userGroups", userGroupService.getGroups(auth));
+		model.put("userGroups", userGroupService.getGroups(auth, false));
 		return new ModelAndView("administration/system_globalPermission", model);
 	}
 

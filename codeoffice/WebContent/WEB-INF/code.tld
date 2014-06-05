@@ -24,6 +24,23 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>sortableColumn</name>
+		<tag-class>mu.codeoffice.tag.SortableColumnTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>sortColumn</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<name>columnName</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	<tag>
 		<name>info</name>
 		<tag-class>mu.codeoffice.tag.InfoTag</tag-class>
 		<body-content>scriptless</body-content>

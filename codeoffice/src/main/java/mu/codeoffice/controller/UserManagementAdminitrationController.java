@@ -62,39 +62,44 @@ public class UserManagementAdminitrationController implements GenericController 
 	@RequestMapping(value = "users.html", method = RequestMethod.GET)
 	public ModelAndView usersView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model, 
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
-			@RequestParam(value = "pageSize", required = false) Integer pageSize,
+			@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
 			@RequestParam(value = "groupFilter", required = false) Long group,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "account", required = false) String account, 
-			@RequestParam(value = "name", required = false) String name)
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "descending", required = false) boolean descending)
 			throws AuthenticationException {
 		model.put("userPage", userService.groupSearch(auth, group, account, name,
-				pageIndex, DEFAULT_LIST_SIZE, "firstName", true, true));
+				pageIndex, pageSize, sort, !descending, true));
 		model.put("supportedListSize", LIST_SIZE);
-		model.put("groups", userManagementService.getUserGroups(auth));
-		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
-		if (pageSize != null) { model.put("pageSize", pageSize); }
+		model.put("groups", userGroupService.getGroups(auth, false));
 		if (group != null) { model.put("groupFilter", group); }
-		if (account != null) { model.put("account", account); }
-		if (name != null) { model.put("name", name); }
+		if (!StringUtil.isEmptyString(account)) { model.put("account", account); }
+		if (!StringUtil.isEmptyString(name)) { model.put("name", name); }
+		if (!StringUtil.isEmptyString(sort)) { model.put("sort", sort); }
+		if (descending) { model.put("descending", descending); }
+		if (pageIndex != 0) { model.put("pageIndex", pageIndex); }
+		if (pageSize != 20) { model.put("pageSize", pageSize); }
 		return new ModelAndView("administration/um_users", model);
 	}
 
 	@RequestMapping(value = "userGroups.html", method = RequestMethod.GET)
 	public ModelAndView userGroupView(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
-			@RequestParam(value = "pageSize", required = false) Integer pageSize,
+			@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "sort", required = false) String sort,
+			@RequestParam(value = "descending", required = false) boolean descending,
 			ModelMap model)
 			throws AuthenticationException {
-		model.put("userGroupPage", userManagementService.filterUserGroups(auth, name, pageIndex, pageSize == null ? DEFAULT_LIST_SIZE : pageSize, sort));
+		model.put("userGroupPage", userGroupService.getGroups(auth, name, pageIndex, pageSize, sort, !descending, true));
 		model.put("supportedListSize", LIST_SIZE);
 		model.put("userGroup", new UserGroup());
-		model.put("groups", userManagementService.getUserGroups(auth));
-		if (pageIndex != null) { model.put("pageIndex", pageIndex); }
-		if (pageSize != null) { model.put("pageSize", pageSize); }
-		if (name != null) { model.put("name", name); }
+		if (!StringUtil.isEmptyString(name)) { model.put("name", name); }
+		if (!StringUtil.isEmptyString(sort)) { model.put("sort", sort); }
+		if (descending) { model.put("descending", descending); }
+		if (pageIndex != 0) { model.put("pageIndex", pageIndex); }
+		if (pageSize != 20) { model.put("pageSize", pageSize); }
 		return new ModelAndView("administration/um_userGroups", model);
 	}
 

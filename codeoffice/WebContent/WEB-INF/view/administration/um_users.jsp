@@ -15,6 +15,15 @@
 </div>
 <spring:message var="text_edit" code="application.edit"/>
 <spring:message var="text_delete" code="application.delete"/>
+
+<spring:message var="text_firstName" code="administration.um.user.firstName"/>
+<spring:message var="text_lastName" code="administration.um.user.lastName"/>
+<spring:message var="text_account" code="administration.um.user.account"/>
+<spring:message var="text_login" code="administration.um.user.lastLogin"/>
+<spring:message var="text_email" code="administration.um.user.email"/>
+<spring:message var="text_groups" code="administration.um.user.groups"/>
+<spring:message var="text_globalPermissions" code="administration.um.user.globalPermissions"/>
+<spring:message var="text_operations" code="administration.um.user.operations"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/um_menu.jsp">
 		<jsp:param name="menu" value="users"/>
@@ -66,26 +75,36 @@
 							<c:if test="${not empty pageSize}">pageSize=${pageSize},</c:if>
 							<c:if test="${not empty groupFilter}">groupFilter=${groupFilter},</c:if>
 							<c:if test="${not empty account}">account=${account},</c:if>
-							<c:if test="${not empty name}">name=${name}</c:if>
+							<c:if test="${not empty name}">name=${name},</c:if>
 						</c:set>
+						<c:set var="pageParams">
+							${params}
+							<c:if test="${not empty sort}">sort=${sort},</c:if>
+							<c:if test="${not empty descending}">descending=true,</c:if>
+						</c:set>
+						<c:set var="url" value="administration/users.html"/>
 						<table class="list-table">
 							<tr class="list-table-page">
-								<td colspan="9"><code:formPage page="${userPage}" url="administration/users.html" params="${params}"/></td>
+								<td colspan="9"><code:formPage page="${userPage}" url="${url}" params="${pageParams}"/></td>
 							</tr>
 							<tr class="list-table-header">
-								<td><spring:message code="administration.um.user.fullName"/></td>
-								<td><spring:message code="administration.um.user.account"/></td>
-								<td><spring:message code="administration.um.user.lastLogin"/></td>
-								<td><spring:message code="administration.um.user.email"/></td>
+								<td></td>
+								<td><code:sortableColumn columnName="${text_firstName}" sortColumn="firstName"/></td>
+								<td><code:sortableColumn columnName="${text_lastName}" sortColumn="lastName"/></td>
+								<td><code:sortableColumn columnName="${text_login}" sortColumn="lastLogin"/></td>
+								<td><code:sortableColumn columnName="${text_account}" sortColumn="account"/></td>
+								<td><code:sortableColumn columnName="${text_email}" sortColumn="email"/></td>
 								<td><spring:message code="administration.um.user.groups"/></td>
 								<td><spring:message code="administration.um.user.globalPermissions"/></td>
 								<td><spring:message code="administration.um.user.operations"/></td>
 							</tr>
 							<c:forEach items="${userPage.content}" var="user">
 							<tr class="list-table-item">
-								<td><code:user user="${user}" width="20" height="20"/></td>
-								<td>${user.account}</td>
+								<td><img src="assets/img/core/default-avatar.png" width="20" height="20"/></td>
+								<td>${user.firstName}</td>
+								<td>${user.lastName}</td>
 								<td><span class="description-info"><fmt:formatDate value="${user.login}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></span></td>
+								<td>${user.account}</td>
 								<td><a class="link" href="mailto:${user.email}">${user.email}</a></td>
 								<td><ul class="info-ul-list">
 									<c:forEach items="${user.userGroups}" var="userGroup">

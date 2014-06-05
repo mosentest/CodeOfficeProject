@@ -3,7 +3,6 @@ package mu.codeoffice.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import mu.codeoffice.json.UserGroupJSON;
 import mu.codeoffice.json.UserJSON;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.UserGroupService;
@@ -26,14 +25,6 @@ public class CommonAjaxController implements GenericController {
 
 	@Autowired
 	private UserService userService;
-
-	@RequestMapping(value = "search/userGroups", method = RequestMethod.GET)
-	public List<UserGroupJSON> lol(@AuthenticationPrincipal EnterpriseAuthentication auth) {
-		return userGroupService.getGroups(auth)
-				.stream()
-				.map(group -> group.toJSONObject())
-				.collect(Collectors.toList());
-	}
 
 	@RequestMapping(value = "search/users", method = RequestMethod.GET)
 	public @ResponseBody List<UserJSON> search(@AuthenticationPrincipal EnterpriseAuthentication auth,

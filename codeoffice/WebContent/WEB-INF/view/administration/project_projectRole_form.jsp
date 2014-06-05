@@ -15,6 +15,12 @@
 		$('#label-' + id).remove();
 	}
 	
+	function submitFilter() {
+		var urlString = 'administration/projectRole/edit.html?role=${projectRole.name}&';
+		urlString += ('query=' + $("input[name='query']").val());
+		url(urlString);
+	}
+	
 	$(document).ready(function() {
 		$("input[name='removedUsers']").click(function() {
 			if ($("input[name='removedUsers']:not(:checked)").length > 0) {
@@ -62,6 +68,9 @@
 		};
 	});
 </script>
+<spring:message var="text_first_name" code="administration.project.projectrole.firstName"/>
+<spring:message var="text_last_name" code="administration.project.projectrole.lastName"/>
+<spring:message var="text_email" code="administration.project.projectrole.email"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/project_menu.jsp">
 		<jsp:param name="menu" value="projectrole"/>
@@ -74,8 +83,6 @@
 			<div class="sub-element-content">
 				<form:form action="administration/projectRole/edit?role=${projectRole.name}" modelAttribute="projectRole" method="POST">
 					<form:hidden path="id"/>
-					<form:hidden path="pageIndex"/>
-					<form:hidden path="query"/>
 					<table class="form-table">
 						<code:formError errors="${formErrors}"/>
 						<tr>
@@ -102,22 +109,41 @@
 							</td>
 						</tr>
 					</table>
+					<div class="filter-content">
+						<table class="filter-table">
+							<tr class="filter-table-title">
+								<td colspan="2"><spring:message code="application.filter"/></td>
+							</tr>
+							<tr class="filter-table-label">
+								<td colspan="2"><spring:message code="administration.um.group.filter.name"/></td>
+							</tr>
+							<tr class="filter-table-input">
+								<td><input type="text" name="query" value="${query}"/></td>
+								<td><input class="button" type="button" onclick="javascript:submitFilter();" value="<spring:message code="application.filter"/>" /></td>
+							</tr>
+						</table>
+					</div>
 					<c:if test="${userPage.totalElements eq 0}"><code:info type="info" title="administration.project.projectrole.noUsers"/></c:if>
 					<c:if test="${userPage.totalElements gt 0}">
 					<div>Select users to delete</div>
 					<table class="list-table">
 						<c:set var="params">
-							role=${projectRole.name}&
-							<c:if test="${not empty query}">query=${query}</c:if>
+							role=${projectRole.name},
+							<c:if test="${not empty query}">query=${query},</c:if>
 						</c:set>
-						<tr class="list-table-page"><code:formPage page="${userPage}" url="administration/projectRole/edit.html" params="${params}"/></tr>
+						<c:set var="pageParams">
+							${params}
+							<c:if test="${not empty sort}">sort=${sort},</c:if>
+							<c:if test="${not empty descending}">descending=true,</c:if>
+						</c:set>
+						<c:set var="url" value="administration/projectRole/edit.html"/>
+						<tr class="list-table-page"><code:formPage page="${userPage}" url="${url}" params="${pageParams}"/></tr>
 						<tr class="list-table-header">
 							<td class="center"><input type="checkbox" id="select-all"/></td>
 							<td></td>
-							<td><spring:message code="administration.project.projectrole.firstName"/></td>
-							<td><spring:message code="administration.project.projectrole.lastName"/></td>
-							<td><spring:message code="administration.project.projectrole.email"/></td>
-						</tr>
+							<td><code:sortableColumn columnName="${text_first_name}" sortColumn="firstName"/></td>
+							<td>${text_last_name}</td>
+							<td><code:sortableColumn columnName="${text_email}" sortColumn="email"/></td>
 						<c:forEach items="${userPage.content}" var="user">
 						<tr class="list-table-item">
 							<td class="center"><input type="checkbox" name="removedUsers" value="${user.id}"/></td>

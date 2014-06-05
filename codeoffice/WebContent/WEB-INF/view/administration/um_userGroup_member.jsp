@@ -98,7 +98,9 @@
 				<c:if test="${userPage.totalElements gt 0}">
 				<div>Select users to delete</div>
 				<c:set var="params">
-					<c:if test="${not empty name}">query=${query}</c:if>
+					<c:if test="${not empty name}">query=${query},</c:if>
+						<c:if test="${not empty sort}">sort=${sort},</c:if>
+						<c:if test="${not ascending}">ascending=${ascending}</c:if>
 				</c:set>
 				<table class="list-table">
 					<tr class="list-table-page"><code:formPage page="${userPage}" url="administration/userGroup/manage.html" params="${params}"/></tr>
