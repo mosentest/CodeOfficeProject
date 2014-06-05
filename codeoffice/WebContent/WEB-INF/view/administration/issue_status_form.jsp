@@ -60,15 +60,15 @@
 						<form:hidden path="id"/>
 						<code:formError errors="${formErrors}"/>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuestatus.name"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueStatus.name"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col"><form:input path="name"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuestatus.description"/>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueStatus.description"/>:</td>
 							<td class="minor-form-input-col"><form:textarea path="description" rows="3" cols="30"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuestatus.icon"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueStatus.icon"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col">
 								<form:hidden path="icon"/>
 								<span class="image-select-indicator imglink" id="typeIcon">
@@ -89,7 +89,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuestatus.color"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueStatus.color"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col imglink">
 								<form:hidden path="color"/>
 								<span class="color-info placeholder" style="background-color: #${issueStatus.color};" id="color-info" ></span>

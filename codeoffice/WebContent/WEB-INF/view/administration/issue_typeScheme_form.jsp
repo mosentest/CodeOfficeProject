@@ -20,8 +20,6 @@
 		$('#available-types').find("input[type='hidden']").remove();
 	}
 </script>
-<spring:message var="text_standard" code="administration.issue.issuetype.standard" />
-<spring:message var="text_subtask" code="administration.issue.issuetype.subtask" />
 <c:set var="edit" value="${not empty issueTypeScheme.id}"/>
 <c:set var="editURL">
 	<c:if test="${edit}">edit?scheme=${issueTypeScheme.name}</c:if>
@@ -37,7 +35,7 @@
 				<div class="panel-element-title">
 					<div class="panel-element-info">
 						<c:if test="${edit}">${issueTypeScheme.name}</c:if>
-						<c:if test="${not edit}"><spring:message code="administration.issue.issuetypescheme.createIssueTypeScheme"/></c:if>
+						<c:if test="${not edit}"><spring:message code="entity.issueTypeScheme.create"/></c:if>
 					</div>
 				</div>
 				<div class="panel-element-content">
@@ -46,15 +44,15 @@
 						<form:hidden path="id"/>
 						<code:formError errors="${formErrors}"/>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuetypescheme.name"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueTypeScheme.name"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col"><form:input path="name"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuetypescheme.description"/>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueTypeScheme.description"/>:</td>
 							<td class="minor-form-input-col"><form:textarea path="description" rows="3" cols="30"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuetypescheme.issueTypes"/>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueTypeScheme.issueTypes"/>:</td>
 							<td></td>
 						</tr>
 						<tr>

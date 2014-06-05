@@ -18,8 +18,8 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.um.currentUserSessions"/></div>
-				<div class="sub-element-description">View and Manage User Sessions</div>
+				<div class="sub-element-title"><spring:message code="administration.um.usersession.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.um.usersession.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<table class="list-table">
@@ -27,12 +27,12 @@
 						<td colspan="6">showing n items</td>
 					</tr>
 					<tr class="list-table-header">
-						<td><spring:message code="administration.um.session.id"/></td>
-						<td><spring:message code="administration.um.session.user"/></td>
-						<td><spring:message code="administration.um.session.ip"/></td>
-						<td><spring:message code="administration.um.session.requests"/></td>
-						<td><spring:message code="administration.um.session.lastAccess"/></td>
-						<td><spring:message code="administration.um.session.sessionCreation"/></td>
+						<td><spring:message code="entity.userSession.id"/></td>
+						<td><spring:message code="entity.userSession.user"/></td>
+						<td><spring:message code="entity.userSession.ip"/></td>
+						<td><spring:message code="entity.userSession.requests"/></td>
+						<td><spring:message code="entity.userSession.lastRequest"/></td>
+						<td><spring:message code="entity.userSession.sessionCreation"/></td>
 					</tr>
 					<c:forEach items="${userSessions}" var="userSession">
 					<tr class="list-table-item">

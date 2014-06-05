@@ -73,13 +73,13 @@
 					<form action="administration/permissionScheme/associate" method="POST">
 						<table class="filter-table">
 							<tr class="filter-table-title">
-								<td><spring:message code="administration.project.permissionScheme.associate"/></td>
+								<td><spring:message code="application.associate"/></td>
 							</tr>
 							<tr class="filter-table-label">
-								<td><spring:message code="administration.project.permissionScheme.permission"/></td>
-								<td><spring:message code="administration.project.permissionScheme.group"/></td>
-								<td><spring:message code="administration.project.permissionScheme.role"/></td>
-								<td><spring:message code="administration.project.permissionScheme.user"/></td>
+								<td><spring:message code="entity.projectPermissionSettings.projectPermission"/></td>
+								<td><spring:message code="entity.projectPermissionSettings.userGroups"/></td>
+								<td><spring:message code="entity.projectPermissionSettings.projectRoles"/></td>
+								<td><spring:message code="entity.projectPermissionSettings.users"/></td>
 							</tr>
 							<tr class="filter-table-input">
 								<td>
@@ -110,17 +110,17 @@
 								<td colspan="4" id="user"></td>
 							</tr>
 							<tr class="filter-table-input">
-								<td colspan="4"><input class="button" type="submit" value="<spring:message code="administration.project.permissionScheme.grantPermission"/>" /></td>
+								<td colspan="4"><input class="button" type="submit" value="<spring:message code="application.grantPermission"/>" /></td>
 							</tr>
 						</table>
 					</form>
 				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.project.permissionscheme.permission"/></td>
-						<td><spring:message code="administration.project.permissionscheme.groups"/></td>
-						<td><spring:message code="administration.project.permissionscheme.projectRoles"/></td>
-						<td><spring:message code="administration.project.permissionscheme.users"/></td>
+						<td><spring:message code="entity.projectPermissionSettings.projectPermission"/></td>
+						<td><spring:message code="entity.projectPermissionSettings.userGroups"/></td>
+						<td><spring:message code="entity.projectPermissionSettings.projectRoles"/></td>
+						<td><spring:message code="entity.projectPermissionSettings.users"/></td>
 					</tr>
 					<c:forEach items="${permissionScheme.projectPermissionSettings}" var="settings">
 					<tr class="list-table-item">

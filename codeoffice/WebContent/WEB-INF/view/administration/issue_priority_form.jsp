@@ -41,8 +41,6 @@
 		});
 	});
 </script>
-<spring:message var="text_standard" code="administration.issue.issuetype.standard" />
-<spring:message var="text_subtask" code="administration.issue.issuetype.subtask" />
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/issue_menu.jsp">
 		<jsp:param name="menu" value="issueType"/>
@@ -60,15 +58,15 @@
 						<form:hidden path="id"/>
 						<code:formError errors="${formErrors}"/>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuepriority.name"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issuePriority.name"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col"><form:input path="name"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuepriority.description"/>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issuePriority.description"/>:</td>
 							<td class="minor-form-input-col"><form:textarea path="description" rows="3" cols="30"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuepriority.icon"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issuePriority.icon"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col">
 								<form:hidden path="icon"/>
 								<span class="image-select-indicator imglink" id="typeIcon">
@@ -89,7 +87,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuepriority.color"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issuePriority.color"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col imglink">
 								<form:hidden path="color"/>
 								<span class="color-info placeholder" style="background-color: #${issuePriority.color};" id="color-info" ></span>

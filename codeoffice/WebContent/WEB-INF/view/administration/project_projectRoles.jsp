@@ -20,21 +20,21 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.project.projectRolesSettings"/></div>
-				<div class="sub-element-description">Edit Project Roles Settings.</div>
+				<div class="sub-element-title"><spring:message code="administration.project.projectrole.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.project.projectrole.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<div class="filter-content">
 					<form:form action="administration/projectRole/create" modelAttribute="projectRole" method="POST">
 						<table class="filter-table">
 							<tr class="filter-table-title">
-								<td colspan="2"><spring:message code="administration.project.projectrole.createProjectRole"/></td>
+								<td colspan="2"><spring:message code="entity.projectRole.create"/></td>
 							</tr>
 							<code:formError errors="${formErrors}"/>
 							<tr class="filter-table-label">
-								<td><spring:message code="administration.project.projectrole.name"/><span class="icon-required">&nbsp;</span><span class="minorspace"></span>
+								<td><spring:message code="entity.projectRole.name"/><span class="icon-required">&nbsp;</span><span class="minorspace"></span>
 								<span class="description-info">format ([a-zA-Z]+((-)?[a-zA-Z])+)</span></td>
-								<td><spring:message code="administration.project.projectrole.description"/></td>
+								<td><spring:message code="entity.projectRole.description"/></td>
 							</tr>
 							<tr class="filter-table-input">
 								<td><form:input path="name"/></td>
@@ -48,8 +48,8 @@
 				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.project.projectrole.name"/></td>
-						<td><spring:message code="administration.project.projectrole.operations"/></td>
+						<td><spring:message code="entity.projectRole.name"/></td>
+						<td><spring:message code="applications.operations"/></td>
 					</tr>
 					<c:forEach items="${projectRoles}" var="projectRole">
 					<tr class="list-table-item">

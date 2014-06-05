@@ -7,14 +7,10 @@
 <ul class="vertical-navigation">
 <security:authorize access="isAuthenticated()">
 	<li ${param.menu eq 'home' ? selectedClass : ''}><a class="link" href="administration/userManagement.html"><spring:message code="administration.home"/></a></li>
-	<div class="vertical-navigation-title"><spring:message code="administration.um.title.general"/></div>
-	<security:authorize access="hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')">
-	<li ${param.menu eq 'usersessions' ? selectedClass : ''}><a class="link" href="administration/userSessions.html"><spring:message code="administration.um.userSessions"/></a></li>
-	</security:authorize>
-	<security:authorize access="hasRole('ROLE_GLOBAL_BROWSE_USER')">
-	<li ${param.menu eq 'users' ? selectedClass : ''}><a class="link" href="administration/users.html"><spring:message code="administration.um.users"/></a></li>
-	<li ${param.menu eq 'usergroups' ? selectedClass : ''}><a class="link" href="administration/userGroups.html"><spring:message code="administration.um.userGroups"/></a></li>
-	</security:authorize>
+	<div class="vertical-navigation-title"><spring:message code="administration.um.menu.title.general"/></div>
+	<li ${param.menu eq 'usersessions' ? selectedClass : ''}><a class="link" href="administration/userSessions.html"><spring:message code="administration.um.menu.userSessions"/></a></li>
+	<li ${param.menu eq 'users' ? selectedClass : ''}><a class="link" href="administration/users.html"><spring:message code="administration.um.menu.users"/></a></li>
+	<li ${param.menu eq 'usergroups' ? selectedClass : ''}><a class="link" href="administration/userGroups.html"><spring:message code="administration.um.menu.userGroups"/></a></li>
 </security:authorize>
 </ul>
 </div>

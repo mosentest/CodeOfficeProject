@@ -41,8 +41,8 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.issue.resolutions"/></div>
-				<div class="sub-element-description">Edit your enterprise global settings.</div>
+				<div class="sub-element-title"><spring:message code="administration.issue.issueresolution.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.issue.issueresolution.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<div class="filter-content">
@@ -50,19 +50,19 @@
 					<form:form action="administration/resolution/create" modelAttribute="issueResolution" method="POST">
 						<table class="minor-form-table">
 							<tr class="minor-form-title-row">
-								<td colspan="2"><spring:message code="administration.issue.issueresolution.createResolution"/></td>
+								<td colspan="2"><spring:message code="entity.issueResolution.create"/></td>
 							</tr>
 							<code:formError errors="${formErrors}"/>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issueresolution.name"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueResolution.name"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="name"/></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issueresolution.description"/></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueResolution.description"/></td>
 								<td class="minor-form-input-col"><form:input path="description" class="long-field" /></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issueresolution.color"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueResolution.color"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col imglink">
 									<form:hidden path="color" value="205081"/>
 									<span class="color-info color-palette-primary-blue" id="color-info" ></span>
@@ -80,11 +80,11 @@
 				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.issue.issueresolution.name"/></td>
-						<td><spring:message code="administration.issue.issueresolution.description"/></td>
-						<td><spring:message code="administration.issue.issueresolution.color"/></td>
-						<td><spring:message code="administration.issue.issueresolution.order"/></td>
-						<td><spring:message code="administration.issue.issueresolution.operations"/></td>
+						<td><spring:message code="entity.issueResolution.name"/></td>
+						<td><spring:message code="entity.issueResolution.description"/></td>
+						<td><spring:message code="entity.issueResolution.color"/></td>
+						<td><spring:message code="entity.issueResolution.order"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${issueResolutions}" var="resolution">
 					<tr class="list-table-item">

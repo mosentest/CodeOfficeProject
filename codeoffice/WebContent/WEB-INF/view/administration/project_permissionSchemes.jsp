@@ -14,7 +14,7 @@
 </div>
 <spring:message var="text_clone" code="application.clone"/>
 <spring:message var="text_delete" code="application.delete"/>
-<spring:message var="text_view_permission" code="administration.project.permissionscheme.viewPermissions"/>
+<spring:message var="text_view_permission" code="administration.project.projectpermissionscheme.viewPermissions"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/project_menu.jsp">
 		<jsp:param name="menu" value="permissionscheme"/>
@@ -22,23 +22,23 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.project.projectPermissionScheme"/></div>
-				<div class="sub-element-description">Edit Project Permission Scheme Settings.</div>
+				<div class="sub-element-title"><spring:message code="administration.project.projectpermissionscheme.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.project.projectpermissionscheme.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<div class="filter-content">
 					<form:form action="administration/permissionScheme/create" modelAttribute="permissionScheme" method="POST">
 						<table class="minor-form-table">
 							<tr class="minor-form-title-row">
-								<td colspan="2"><spring:message code="administration.project.permissionscheme.createPermissionScheme"/></td>
+								<td colspan="2"><spring:message code="entity.projectPermissionScheme.create"/></td>
 							</tr>
 							<code:formError errors="${formErrors}"/>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.project.permissionscheme.name"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.projectPermissionScheme.name"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="name"/></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.project.permissionscheme.description"/></td>
+								<td class="minor-form-label-col"><spring:message code="entity.projectPermissionScheme.description"/></td>
 								<td class="minor-form-input-col"><form:input path="description" class="long-field" /></td>
 							</tr>
 							<tr>
@@ -49,11 +49,11 @@
 				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.project.permissionscheme.name"/></td>
-						<td><spring:message code="administration.project.permissionscheme.description"/></td>
-						<td><spring:message code="administration.project.permissionscheme.creator"/></td>
-						<td><spring:message code="administration.project.permissionscheme.relatedProjects"/></td>
-						<td><spring:message code="administration.project.permissionscheme.operations"/></td>
+						<td><spring:message code="entity.projectPermissionScheme.name"/></td>
+						<td><spring:message code="entity.projectPermissionScheme.description"/></td>
+						<td><spring:message code="entity.projectPermissionScheme.creator"/></td>
+						<td><spring:message code="entity.projectPermissionScheme.projects"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${permissionSchemes}" var="scheme">
 					<tr class="list-table-item">

@@ -68,9 +68,9 @@
 		};
 	});
 </script>
-<spring:message var="text_first_name" code="administration.project.projectrole.firstName"/>
-<spring:message var="text_last_name" code="administration.project.projectrole.lastName"/>
-<spring:message var="text_email" code="administration.project.projectrole.email"/>
+<spring:message var="text_firstName" code="entity.user.firstName"/>
+<spring:message var="text_lastName" code="entity.user.lastName"/>
+<spring:message var="text_email" code="entity.user.email"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/project_menu.jsp">
 		<jsp:param name="menu" value="projectrole"/>
@@ -78,7 +78,8 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.project.projectrole.editProjectRole"/></div>
+				<div class="sub-element-title">${projectRole.name}</div>
+				<div class="sub-element-description">${projectRole.description}</div>
 			</div>
 			<div class="sub-element-content">
 				<form:form action="administration/projectRole/edit?role=${projectRole.name}" modelAttribute="projectRole" method="POST">
@@ -86,15 +87,15 @@
 					<table class="form-table">
 						<code:formError errors="${formErrors}"/>
 						<tr>
-							<td class="form-label-col"><spring:message code="administration.project.projectrole.name"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="form-label-col"><spring:message code="entity.projectRole.name"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="form-input-col"><form:input path="name"/></td>
 						</tr>
 						<tr>
-							<td class="form-label-col"><spring:message code="administration.project.projectrole.description"/>:</td>
+							<td class="form-label-col"><spring:message code="entity.projectRole.description"/>:</td>
 							<td class="form-input-col"><form:textarea path="description" cols="30" rows="3"/></td>
 						</tr>
 						<tr>
-							<td class="form-label-col"><spring:message code="administration.project.projectrole.addMembers"/>:</td>
+							<td class="form-label-col"><spring:message code="entity.projectRole.defaultMembers.add"/>:</td>
 							<td class="form-input-col"><input type="text" id="autocomplete" placeholder="search by name/email.."/></td>
 						</tr>
 						<tr>
@@ -123,7 +124,7 @@
 							</tr>
 						</table>
 					</div>
-					<c:if test="${userPage.totalElements eq 0}"><code:info type="info" title="administration.project.projectrole.noUsers"/></c:if>
+					<c:if test="${userPage.totalElements eq 0}"><code:info type="info" message="no user"/></c:if>
 					<c:if test="${userPage.totalElements gt 0}">
 					<div>Select users to delete</div>
 					<table class="list-table">
@@ -141,8 +142,8 @@
 						<tr class="list-table-header">
 							<td class="center"><input type="checkbox" id="select-all"/></td>
 							<td></td>
-							<td><code:sortableColumn columnName="${text_first_name}" sortColumn="firstName"/></td>
-							<td>${text_last_name}</td>
+							<td><code:sortableColumn columnName="${text_firstNname}" sortColumn="firstName"/></td>
+							<td><code:sortableColumn columnName="${text_lastNname}" sortColumn="lastName"/></td>
 							<td><code:sortableColumn columnName="${text_email}" sortColumn="email"/></td>
 						<c:forEach items="${userPage.content}" var="user">
 						<tr class="list-table-item">

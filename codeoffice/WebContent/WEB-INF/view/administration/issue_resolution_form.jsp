@@ -52,15 +52,15 @@
 						<form:hidden path="id"/>
 						<code:formError errors="${formErrors}"/>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issueresolution.name"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueResolution.name"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col"><form:input path="name"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issueresolution.description"/>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueResolution.description"/>:</td>
 							<td class="minor-form-input-col"><form:textarea path="description" rows="3" cols="30"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issueresolution.color"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueResolution.color"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col imglink">
 								<form:hidden path="color"/>
 								<span class="color-info placeholder" style="background-color: #${issueResolution.color};" id="color-info" ></span>

@@ -10,8 +10,6 @@
 		<jsp:param name="menu" value="issue"/>
 	</jsp:include>
 </div>
-<spring:message var="text_standard" code="administration.issue.issuetype.standard" />
-<spring:message var="text_subtask" code="administration.issue.issuetype.subtask" />
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/issue_menu.jsp">
 		<jsp:param name="menu" value="link"/>
@@ -28,15 +26,15 @@
 						<form:hidden path="id"/>
 						<code:formError errors="${formErrors}"/>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.name"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueLink.name"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col"><form:input path="name"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.outwardDescription"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueLink.outwardLink"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col"><form:input path="outwardLink" cssClass="long-field"/></td>
 						</tr>
 						<tr>
-							<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.inwardDescription"/><span class="icon-required">&nbsp;</span>:</td>
+							<td class="minor-form-label-col"><spring:message code="entity.issueLink.inwardLink"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col"><form:input path="inwardLink" cssClass="long-field"/></td>
 						</tr>
 						<tr>

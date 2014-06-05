@@ -16,14 +16,14 @@
 <spring:message var="text_edit" code="application.edit"/>
 <spring:message var="text_delete" code="application.delete"/>
 
-<spring:message var="text_firstName" code="administration.um.user.firstName"/>
-<spring:message var="text_lastName" code="administration.um.user.lastName"/>
-<spring:message var="text_account" code="administration.um.user.account"/>
-<spring:message var="text_login" code="administration.um.user.lastLogin"/>
-<spring:message var="text_email" code="administration.um.user.email"/>
-<spring:message var="text_groups" code="administration.um.user.groups"/>
-<spring:message var="text_globalPermissions" code="administration.um.user.globalPermissions"/>
-<spring:message var="text_operations" code="administration.um.user.operations"/>
+<spring:message var="text_firstName" code="entity.user.firstName"/>
+<spring:message var="text_lastName" code="entity.user.lastName"/>
+<spring:message var="text_account" code="entity.user.account"/>
+<spring:message var="text_login" code="entity.user.login"/>
+<spring:message var="text_email" code="entity.user.email"/>
+<spring:message var="text_groups" code="entity.user.userGroups"/>
+<spring:message var="text_globalPermissions" code="entity.user.globalPermissions"/>
+<spring:message var="text_operations" code="application.operations"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/um_menu.jsp">
 		<jsp:param name="menu" value="users"/>
@@ -31,8 +31,8 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.um.users"/></div>
-				<div class="sub-element-description">View and Manage Users</div>
+				<div class="sub-element-title"><spring:message code="administration.um.user.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.um.user.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<div class="filter-content">
@@ -42,10 +42,10 @@
 								<td><spring:message code="application.filter"/></td>
 							</tr>
 							<tr class="filter-table-label">
-								<td><spring:message code="administration.um.user.filter.accountmail"/></td>
+								<td><spring:message code="administration.um.user.filter.accountAndMail"/></td>
 								<td><spring:message code="administration.um.user.filter.name"/></td>
-								<td><spring:message code="administration.um.user.filter.ingroup"/></td>
-								<td><spring:message code="administration.um.user.filter.userperpage"/></td>
+								<td><spring:message code="administration.um.user.filter.inGroup"/></td>
+								<td><spring:message code="administration.um.user.filter.userPerPage"/></td>
 							</tr>
 							<tr class="filter-table-input">
 								<td><input type="text" name="account" value="${account}"/></td>
@@ -69,7 +69,7 @@
 					</form>
 				</div>
 				<div class="list-content">
-					<c:if test="${userPage.totalElements eq 0}"><spring:message code="administration.um.no_user_to_display"/></c:if>
+					<c:if test="${userPage.totalElements eq 0}">no user</c:if>
 					<c:if test="${userPage.totalElements gt 0}">
 						<c:set var="params">
 							<c:if test="${not empty pageSize}">pageSize=${pageSize},</c:if>
@@ -94,9 +94,9 @@
 								<td><code:sortableColumn columnName="${text_login}" sortColumn="lastLogin"/></td>
 								<td><code:sortableColumn columnName="${text_account}" sortColumn="account"/></td>
 								<td><code:sortableColumn columnName="${text_email}" sortColumn="email"/></td>
-								<td><spring:message code="administration.um.user.groups"/></td>
-								<td><spring:message code="administration.um.user.globalPermissions"/></td>
-								<td><spring:message code="administration.um.user.operations"/></td>
+								<td>${text_userGroups}</td>
+								<td>${text_globalPermissions}</td>
+								<td>${text_operations}</td>
 							</tr>
 							<c:forEach items="${userPage.content}" var="user">
 							<tr class="list-table-item">
@@ -119,8 +119,7 @@
 									</ul>
 								</td>
 								<td>
-									<a class="link" href="#"><spring:message code="administration.um.groups"/></a><span class="minorspace">&#183;</span>
-									<a class="link" href="#"><spring:message code="administration.um.projectRoles"/></a>
+									<a class="link" href="#"><spring:message code="entity.user.projectRoles"/></a>
 									<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 									<c:if test="${not userGroup.defaultGroup}">
 										<span class="minorspace">&#183;</span>

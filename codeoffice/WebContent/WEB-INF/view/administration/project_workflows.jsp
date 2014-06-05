@@ -23,22 +23,22 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.project.workflows"/></div>
-				<div class="sub-element-description">View Projects</div>
+				<div class="sub-element-title"><spring:message code="administration.project.workflow.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.project.workflow.description"/></div>
 			</div>
 			<div class="filter-content">
-				<a class="link" href="administration/workFlow/create.html"><spring:message code="administration.project.workflow.createProjectWorkflow"/></a>
+				<a class="link" href="administration/workFlow/create.html"><spring:message code="entity.workFlow.create"/></a>
 			</div>
 			<div class="sub-element-content">
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.project.workflow.name"/></td>
-						<td><spring:message code="administration.project.workflow.creator"/></td>
-						<td><spring:message code="administration.project.workflow.modified"/></td>
-						<td><spring:message code="administration.project.workflow.steps"/></td>
-						<td><spring:message code="administration.project.workflow.defaultStatus"/></td>
-						<td><spring:message code="administration.project.workflow.involvedIssueStatus"/></td>
-						<td><spring:message code="administration.project.workflow.operations"/></td>
+						<td><spring:message code="entity.workFlow.name"/></td>
+						<td><spring:message code="entity.workFlow.creator"/></td>
+						<td><spring:message code="entity.workFlow.modified"/></td>
+						<td><spring:message code="entity.workFlow.steps"/></td>
+						<td><spring:message code="entity.workFlow.defaultStatus"/></td>
+						<td><spring:message code="entity.workFlow.issueStatus"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${workFlows}" var="workFlow">
 					<tr class="list-table-item">

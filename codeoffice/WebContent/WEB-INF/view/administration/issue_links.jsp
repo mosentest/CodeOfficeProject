@@ -19,27 +19,27 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.issue.issueLinks"/></div>
-				<div class="sub-element-description">Edit your enterprise global settings.</div>
+				<div class="sub-element-title"><spring:message code="administration.issue.issuelink.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.issue.issuelink.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<div class="filter-content">
 					<form:form action="administration/link/create" modelAttribute="issueLink" method="POST">
 						<table class="minor-form-table">
 							<tr class="minor-form-title-row">
-								<td colspan="2"><spring:message code="administration.issue.issuelink.createIssueLink"/></td>
+								<td colspan="2"><spring:message code="entity.issueLink.create"/></td>
 							</tr>
 							<code:formError errors="${formErrors}"/>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.name"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueLink.name"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="name"/></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.outwardDescription"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueLink.outwardLink"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="outwardLink" class="long-field" /></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuelink.inwardDescription"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueLink.inwardLink"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="inwardLink" class="long-field" /></td>
 							</tr>
 							<tr>
@@ -50,10 +50,10 @@
 				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.issue.issuelink.name"/></td>
-						<td><spring:message code="administration.issue.issuelink.outwardDescription"/></td>
-						<td><spring:message code="administration.issue.issuelink.inwardDescription"/></td>
-						<td><spring:message code="administration.issue.issuelink.operations"/></td>
+						<td><spring:message code="entity.issueLink.name"/></td>
+						<td><spring:message code="entity.issueLink.outwardLink"/></td>
+						<td><spring:message code="entity.issueLink.inwardLink"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${issueLinks}" var="link">
 					<tr class="list-table-item">

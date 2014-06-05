@@ -15,11 +15,11 @@
 <spring:message var="text_edit_members" code="administration.um.group.editMembers"/>
 <spring:message var="text_delete" code="application.delete"/>
 
-<spring:message var="text_name" code="administration.um.group.name"/>
-<spring:message var="text_description" code="administration.um.group.description"/>
-<spring:message var="text_userCount" code="administration.um.group.userCount"/>
-<spring:message var="text_globalPermissions" code="administration.um.group.globalPermissions"/>
-<spring:message var="text_operations" code="administration.um.group.operations"/>
+<spring:message var="text_name" code="entity.userGroup.name"/>
+<spring:message var="text_description" code="entity.userGroup.description"/>
+<spring:message var="text_userCount" code="entity.userGroup.userCount"/>
+<spring:message var="text_globalPermissions" code="entity.userGroup.globalPermissions"/>
+<spring:message var="text_operations" code="application.operations"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/um_menu.jsp">
 		<jsp:param name="menu" value="usergroups"/>
@@ -27,8 +27,8 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.um.userGroups"/></div>
-				<div class="sub-element-description">View and Manage User Groups</div>
+				<div class="sub-element-title"><spring:message code="administration.um.usergroup.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.um.usergroup.description"/></div>
 			</div>
 			
 			<div class="sub-element-content">
@@ -40,8 +40,8 @@
 									<td><spring:message code="application.filter"/></td>
 								</tr>
 								<tr class="filter-table-label">
-									<td><spring:message code="administration.um.group.filter.name"/></td>
-									<td><spring:message code="administration.um.group.filter.groupperpage"/></td>
+									<td><spring:message code="administration.um.usergroup.filter.name"/></td>
+									<td><spring:message code="administration.um.usergroup.filter.groupPerPage"/></td>
 								</tr>
 								<tr class="filter-table-input">
 									<td><input type="text" name="name" value="${name}"/></td>
@@ -61,17 +61,17 @@
 						<form:form action="administration/userGroup/create" modelAttribute="userGroup" method="POST">
 							<table class="filter-table">
 								<tr class="filter-table-title">
-									<td><spring:message code="administration.um.group.addgroup"/></td>
+									<td><spring:message code="entity.userGroup.add"/></td>
 								</tr>
 								<tr class="filter-table-label">
-									<td><spring:message code="administration.um.group.name"/><span class="icon-required">&nbsp;</span><span class="minorspace"></span>
+									<td><spring:message code="entity.userGroup.name"/><span class="icon-required">&nbsp;</span><span class="minorspace"></span>
 									<span class="description-info">format ([a-zA-Z]+((-)?[a-zA-Z])+)</span></td>
 								</tr>
 								<tr class="filter-table-input">
 									<td><form:input class="long-field" path="name"/></td>
 								</tr>
 								<tr class="filter-table-input">
-									<td><input class="button" type="submit" value="<spring:message code="administration.um.group.addgroup"/>" /></td>
+									<td><input class="button" type="submit" value="<spring:message code="entity.userGroup.add"/>" /></td>
 								</tr>
 							</table>
 						</form:form>

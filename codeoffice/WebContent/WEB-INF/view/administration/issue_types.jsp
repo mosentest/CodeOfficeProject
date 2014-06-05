@@ -18,8 +18,8 @@
 		$("input[name='icon']").val(icon);
 	}
 </script>
-<spring:message var="text_standard" code="administration.issue.issuetype.standard" />
-<spring:message var="text_subtask" code="administration.issue.issuetype.subtask" />
+<spring:message var="text_standard" code="entity.issueType.standard" />
+<spring:message var="text_subtask" code="entity.issueType.subtask" />
 <spring:message var="text_edit" code="application.edit" />
 <spring:message var="text_delete" code="application.delete" />
 <div id="content">
@@ -29,27 +29,27 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.issue.issueTypes"/></div>
-				<div class="sub-element-description">Edit your enterprise global settings.</div>
+				<div class="sub-element-title"><spring:message code="administration.issue.issuetype.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.issue.issuetype.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<div class="filter-content">
 					<form:form action="administration/type/create" modelAttribute="issueType" method="POST">
 						<table class="minor-form-table">
 							<tr class="minor-form-title-row">
-								<td colspan="2"><spring:message code="administration.issue.issuetype.createIssueType"/></td>
+								<td colspan="2"><spring:message code="entity.issueType.standard.create"/></td>
 							</tr>
 							<code:formError errors="${formErrors}"/>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.name"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueType.name"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="name"/></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.description"/></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueType.description"/></td>
 								<td class="minor-form-input-col"><form:input path="description" class="long-field" /></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuetype.icon"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueType.icon"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col">
 									<form:hidden path="icon" value="${icons[0]}"/>
 									<span class="image-select-indicator imglink" id="typeIcon">
@@ -77,11 +77,11 @@
 				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.issue.issuetype.name"/></td>
-						<td><spring:message code="administration.issue.issuetype.icon"/></td>
-						<td><spring:message code="administration.issue.issuetype.type"/></td>
-						<td><spring:message code="administration.issue.issuetype.relatedSchemes"/></td>
-						<td><spring:message code="administration.issue.issuetype.operations"/></td>
+						<td><spring:message code="entity.issueType.name"/></td>
+						<td><spring:message code="entity.issueType.icon"/></td>
+						<td><spring:message code="entity.issueType.type"/></td>
+						<td><spring:message code="entity.issueType.issueTypeSchemes"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${issueTypes}" var="type">
 					<tr class="list-table-item">

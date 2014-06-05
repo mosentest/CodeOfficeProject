@@ -70,11 +70,11 @@
 		url(urlString);
 	}
 </script>
-<spring:message var="text_fullName" code="administration.um.user.fullName"/>
-<spring:message var="text_groups" code="administration.um.user.groups"/>
-<spring:message var="text_account" code="administration.um.user.account"/>
-<spring:message var="text_email" code="administration.um.user.email"/>
-<spring:message var="text_login" code="administration.um.user.lastLogin"/>
+<spring:message var="text_fullName" code="entity.user.fullName"/>
+<spring:message var="text_groups" code="entity.user.userGroups"/>
+<spring:message var="text_account" code="entity.user.account"/>
+<spring:message var="text_email" code="entity.user.email"/>
+<spring:message var="text_login" code="entity.user.login"/>
 
 <spring:message var="text_edit" code="application.edit"/>
 <spring:message var="text_delete" code="application.delete"/>
@@ -92,11 +92,11 @@
 				<form:form action="administration/userGroup/manage?group=${userGroup.name}" modelAttribute="userGroup" method="POST">	
 				<table class="form-table">
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.um.group.adduser"/>:</td>
+						<td class="form-label-col"><spring:message code="entity.user.add"/>:</td>
 						<td class="form-input-col"><input type="text" id="autocomplete" name="search" placeholder="Enter Name/Email here.."/></td>
 					</tr>
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.um.group.newmembers"/>:</td>
+						<td class="form-label-col"></td>
 						<td class="form-input-col" id="new"></td>
 					</tr>
 					<tr>
@@ -113,7 +113,7 @@
 							<td colspan="2"><spring:message code="application.filter"/></td>
 						</tr>
 						<tr class="filter-table-label">
-							<td colspan="2"><spring:message code="administration.um.group.filter.name"/></td>
+							<td colspan="2"><spring:message code="administration.um.usergroup.filter.name"/></td>
 						</tr>
 						<tr class="filter-table-input">
 							<td><input type="text" name="query" value="${query}"/></td>
@@ -121,7 +121,7 @@
 						</tr>
 					</table>
 				</div>
-				<c:if test="${userPage.totalElements eq 0}"><code:info type="info" title="administration.um.no_user_to_display"/></c:if>
+				<c:if test="${userPage.totalElements eq 0}">no user</c:if>
 				<c:if test="${userPage.totalElements gt 0}">
 				<div>Select users to delete</div>
 				<table class="list-table">

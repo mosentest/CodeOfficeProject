@@ -13,7 +13,7 @@
 <spring:message var="text_edit" code="application.edit" />
 <spring:message var="text_delete" code="application.delete" />
 <spring:message var="text_clone" code="application.clone" />
-<spring:message var="text_associate" code="administration.issue.issuetypescheme.associate" />
+<spring:message var="text_associate" code="application.associate" />
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/issue_menu.jsp">
 		<jsp:param name="menu" value="typeScheme"/>
@@ -21,19 +21,19 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.issue.issueTypeSchemes"/></div>
-				<div class="sub-element-description">Edit your enterprise global settings.</div>
+				<div class="sub-element-title"><spring:message code="administration.issue.issuetypescheme.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.issue.issuetypescheme.description"/></div>
 			</div>
 			<div class="filter-content">
-				<a class="link" href="administration/typeScheme/create.html"><spring:message code="administration.issue.issuetypescheme.createIssueTypeScheme"/></a>
+				<a class="link" href="administration/typeScheme/create.html"><spring:message code="entity.issueTypeScheme.create"/></a>
 			</div>
 			<div class="sub-element-content">
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.issue.issuetypescheme.name"/></td>
-						<td><spring:message code="administration.issue.issuetypescheme.issueTypes"/></td>
-						<td><spring:message code="administration.issue.issuetypescheme.relatedProjects"/></td>
-						<td><spring:message code="administration.issue.issuetypescheme.operations"/></td>
+						<td><spring:message code="entity.issueTypeScheme.name"/></td>
+						<td><spring:message code="entity.issueTypeScheme.issueTypes"/></td>
+						<td><spring:message code="entity.issueTypeScheme.projects"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${issueTypeSchemes}" var="scheme">
 					<tr class="list-table-item">

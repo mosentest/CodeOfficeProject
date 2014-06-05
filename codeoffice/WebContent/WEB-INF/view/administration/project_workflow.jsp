@@ -46,10 +46,10 @@
 				<table class="filter-table">
 					<tr class="filter-table-title"></tr>
 					<tr class="filter-table-label">
-						<td><spring:message code="administration.project.workflow.transition"/>:</td>
-						<td><spring:message code="application.from"/>:</td>
-						<td><spring:message code="application.to"/>:</td>
-						<td><spring:message code="administration.project.workflow.requiredPermissions"/>:</td>
+						<td><spring:message code="entity.workFlow.transition"/>:</td>
+						<td><spring:message code="entity.workFlow.from"/>:</td>
+						<td><spring:message code="entity.workFlow.to"/>:</td>
+						<td><spring:message code="entity.workFlow.requiredPermissions"/>:</td>
 					</tr>
 					<tr class="filter-table-input">
 						<td class="form-top-col"><form:input path="transition"/></td>
@@ -98,7 +98,7 @@
 						</td>
 					</tr>
 					<tr class="filter-table-input">
-						<td colspan="4"><input type="submit" class="button" value="<spring:message code="administration.project.workflow.addTransition"/>"/></td>
+						<td colspan="4"><input type="submit" class="button" value="<spring:message code="entity.workFlowTransition.add"/>"/></td>
 					</tr>
 				</table>
 				</form:form>

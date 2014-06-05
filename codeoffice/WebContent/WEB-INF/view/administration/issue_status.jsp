@@ -47,8 +47,8 @@
 	<div id="maincontent">
 		<div class="sub-element">
 			<div class="sub-element-info">
-				<div class="sub-element-title"><spring:message code="administration.issue.issueLinks"/></div>
-				<div class="sub-element-description">Edit your enterprise global settings.</div>
+				<div class="sub-element-title"><spring:message code="administration.issue.issuestatus.title"/></div>
+				<div class="sub-element-description"><spring:message code="administration.issue.issuestatus.description"/></div>
 			</div>
 			<div class="sub-element-content">
 				<div class="filter-content">
@@ -56,19 +56,19 @@
 					<form:form action="administration/status/create" modelAttribute="issueStatus" method="POST">
 						<table class="minor-form-table">
 							<tr class="minor-form-title-row">
-								<td colspan="2"><spring:message code="administration.issue.issuestatus.createStatus"/></td>
+								<td colspan="2"><spring:message code="entity.issueStatus.create"/></td>
 							</tr>
 							<code:formError errors="${formErrors}"/>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuestatus.name"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueStatus.name"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col"><form:input path="name"/></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuestatus.description"/></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueStatus.description"/></td>
 								<td class="minor-form-input-col"><form:input path="description" class="long-field" /></td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuestatus.icon"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueStatus.icon"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col">
 									<form:hidden path="icon" value="${icons[0]}"/>
 									<span class="image-select-indicator imglink" id="typeIcon">
@@ -89,7 +89,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="minor-form-label-col"><spring:message code="administration.issue.issuestatus.color"/><span class="icon-required">&nbsp;</span></td>
+								<td class="minor-form-label-col"><spring:message code="entity.issueStatus.color"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col imglink">
 									<form:hidden path="color" value="205081"/>
 									<span class="color-info color-palette-primary-blue" id="color-info" ></span>
@@ -107,12 +107,12 @@
 				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.issue.issuestatus.name"/></td>
-						<td><spring:message code="administration.issue.issuestatus.description"/></td>
-						<td><spring:message code="administration.issue.issuestatus.icon"/></td>
-						<td><spring:message code="administration.issue.issuestatus.color"/></td>
-						<td><spring:message code="administration.issue.issuestatus.order"/></td>
-						<td><spring:message code="administration.issue.issuestatus.operations"/></td>
+						<td><spring:message code="entity.issueStatus.name"/></td>
+						<td><spring:message code="entity.issueStatus.description"/></td>
+						<td><spring:message code="entity.issueStatus.icon"/></td>
+						<td><spring:message code="entity.issueStatus.color"/></td>
+						<td><spring:message code="entity.issueStatus.order"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${issueStatuses}" var="status">
 					<tr class="list-table-item">

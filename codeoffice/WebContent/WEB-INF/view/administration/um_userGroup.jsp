@@ -21,11 +21,11 @@
 		url(urlString);
 	}
 </script>
-<spring:message var="text_fullName" code="administration.um.user.fullName"/>
-<spring:message var="text_groups" code="administration.um.user.groups"/>
-<spring:message var="text_account" code="administration.um.user.account"/>
-<spring:message var="text_email" code="administration.um.user.email"/>
-<spring:message var="text_login" code="administration.um.user.lastLogin"/>
+<spring:message var="text_fullName" code="entity.user.fullName"/>
+<spring:message var="text_groups" code="entity.user.userGroups"/>
+<spring:message var="text_account" code="entity.user.account"/>
+<spring:message var="text_email" code="entity.user.email"/>
+<spring:message var="text_login" code="entity.user.login"/>
 
 <spring:message var="text_edit" code="application.edit"/>
 <spring:message var="text_delete" code="application.delete"/>
@@ -49,11 +49,11 @@
 			<div class="sub-element-content">
 				<table class="form-table">
 					<tr>
-						<td class="form-label-col"><spring:message code="administration.um.group.userCount"/></td>
+						<td class="form-label-col"><spring:message code="entity.userGroup.userCount"/></td>
 						<td class="form-input-col">${userGroup.userCount}</td>
 					</tr>
 					<tr class="form-title-row">
-						<td><spring:message code="administration.um.group.GLOBALPERMISSONS"/></td>
+						<td><spring:message code="entity.userGroup.globalPermissions"/></td>
 						<c:if test="${fn:length(userGroup.globalPermissions) eq 0}">
 						<td><spring:message code="application.none"/></td>
 						</c:if>
@@ -75,7 +75,7 @@
 				<div class="sep-30"></div>
 				<c:if test="${userPage.totalElements gt 0}">
 				<div class="sub-element-title">
-					<spring:message code="administration.um.group.members"/>
+					<spring:message code="entity.userGroup.users"/>
 					<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 					<c:if test="${not userGroup.defaultGroup}">
 					<input type="button" class="button" onclick="javascript:url('/administration/userGroup/manage.html?group=${userGroup.name}');" value="<spring:message code="administration.um.group.editMembers"/>"/>
@@ -88,7 +88,7 @@
 							<td colspan="2"><spring:message code="application.filter"/></td>
 						</tr>
 						<tr class="filter-table-label">
-							<td colspan="2"><spring:message code="administration.um.group.filter.name"/></td>
+							<td colspan="2"><spring:message code="administration.um.usergroup.filter.name"/></td>
 						</tr>
 						<tr class="filter-table-input">
 							<td><input type="text" name="query" value="${query}"/></td>

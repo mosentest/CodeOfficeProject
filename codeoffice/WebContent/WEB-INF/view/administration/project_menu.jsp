@@ -7,10 +7,10 @@
 <ul class="vertical-navigation">
 <security:authorize access="isAuthenticated()">
 	<li ${param.menu eq 'home' ? selectedClass : ''}><a class="link" href="administration/project.html"><spring:message code="administration.home"/></a></li>
-	<li class="vertical-navigation-title"><spring:message code="administration.project.title.general"/></li>
-	<li ${param.menu eq 'permissionscheme' ? selectedClass : ''}><a class="link" href="administration/permissionSchemes.html"><spring:message code="administration.project.permissionSchemes"/></a></li>
-	<li ${param.menu eq 'projectrole' ? selectedClass : ''}><a class="link" href="administration/projectRoles.html"><spring:message code="administration.project.projectRoles"/></a></li>
-	<li ${param.menu eq 'workflow' ? selectedClass : ''}><a class="link" href="administration/workFlows.html"><spring:message code="administration.project.workflows"/></a></li>
+	<li class="vertical-navigation-title"><spring:message code="administration.project.menu.title.general"/></li>
+	<li ${param.menu eq 'permissionscheme' ? selectedClass : ''}><a class="link" href="administration/permissionSchemes.html"><spring:message code="administration.project.menu.permissionSchemes"/></a></li>
+	<li ${param.menu eq 'projectrole' ? selectedClass : ''}><a class="link" href="administration/projectRoles.html"><spring:message code="administration.project.menu.projectRoles"/></a></li>
+	<li ${param.menu eq 'workflow' ? selectedClass : ''}><a class="link" href="administration/workFlows.html"><spring:message code="administration.project.menu.workflows"/></a></li>
 </security:authorize>
 </ul>
 </div>
