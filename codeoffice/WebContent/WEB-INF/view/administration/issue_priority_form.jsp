@@ -3,6 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -31,13 +32,12 @@
 	
 	$(document).ready(function() {
 		$('.color-info-choose').click(function() {
-			var colorInfo = $('#color-info');
-			colorInfo.css('background-color', '');
-			console.log(colorInfo.attr('class'));
-			console.log(colorInfo.attr('class').split(' ')[0]);
-			console.log($(this).attr('class').split(' ')[1]);
-			colorInfo.attr('class', colorInfo.attr('class').split(' ')[0] + " " + $(this).attr('class').split(' ')[1]);
-			$("input[name='color']").val(rgb2hex(colorInfo.css('background-color')).slice(1));
+			$('.color-info-choose').click(function() {
+				var colorInfo = $('#color-info');
+				var colorClass = $(this).attr('class').split(' ')[1];
+				colorInfo.attr('class', colorInfo.attr('class').split(' ')[0] + " " + colorClass);
+				$("input[name='color']").val(colorClass);
+			});
 		});
 	});
 </script>
@@ -53,7 +53,7 @@
 					<div class="panel-element-description">${issuePriority.description}</div>
 				</div>
 				<div class="panel-element-content">
-					<form:form action="administration/priority/edit?priority=${issuePriority.name}" modelAttribute="issuePriority" method="POST">
+					<form:form action="administration/priority/edit?priority=${codefunction:maskURL(issuePriority.name)}" modelAttribute="issuePriority" method="POST">
 					<table class="minor-form-table">
 						<form:hidden path="id"/>
 						<code:formError errors="${formErrors}"/>
@@ -90,7 +90,7 @@
 							<td class="minor-form-label-col"><spring:message code="entity.issuePriority.color"/><span class="icon-required">&nbsp;</span>:</td>
 							<td class="minor-form-input-col imglink">
 								<form:hidden path="color"/>
-								<span class="color-info placeholder" style="background-color: #${issuePriority.color};" id="color-info" ></span>
+								<span class="color-info ${issuePriority.color}" id="color-info" ></span>
 								<a class="link" href="javascript:void(0);" onclick="javascript:showColorPanel(this);">[Show Color Panel]</a>
 							</td>
 						</tr>

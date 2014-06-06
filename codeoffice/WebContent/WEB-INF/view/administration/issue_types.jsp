@@ -3,6 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -94,14 +95,14 @@
 						<td>
 							<ul class="info-ul-list">
 								<c:forEach items="${type.issueTypeSchemes}" var="scheme">
-								<li><a class="link" href="administration/typeScheme.html?typeScheme=${scheme.name}">${scheme.name}</a></li>
+								<li><a class="link" href="administration/typeScheme.html?typeScheme=${codefunction:maskURL(scheme.name)}">${scheme.name}</a></li>
 								</c:forEach>
 							</ul>
 						</td>
 						<td>
-							<a class="link" href="administration/type/edit.html?type=${type.name}">${text_edit}</a>
+							<a class="link" href="administration/type/edit.html?type=${codefunction:maskURL(type.name)}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/type/delete?type=${type.name}', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/type/delete?type=${codefunction:maskURL(type.name)}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

@@ -20,6 +20,7 @@ import mu.codeoffice.repository.settings.IssueStatusRepository;
 import mu.codeoffice.repository.settings.IssueTypeRepository;
 import mu.codeoffice.repository.settings.IssueTypeSchemeRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
+import mu.codeoffice.utility.ColorValidator;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
@@ -104,6 +105,8 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueStatus issueStatus) throws AuthenticationException, InformationException {
+		ColorValidator.validateColor(issueStatus.getColor());
+		IssueStatus.validateIcon(issueStatus.getIcon());
 		IssueStatus original = issueStatusRepository.getIssueStatus(auth.getEnterprise(), issueStatus.getId());
 		if (original == null) {
 			throw new InformationException("Issue Status not exist.");
@@ -111,9 +114,7 @@ public class IssuePropertyConfigurationService {
 		if (!issueStatusRepository.isNameAvailable(auth.getEnterprise(), issueStatus.getName(), original.getId())) {
 			throw new InformationException("Name already exist.");
 		};
-		if (!IssueStatus.isValidIcon(issueStatus.getIcon())) {
-			throw new InformationException("Icon is invalid.");
-		}
+		
 		original.setName(issueStatus.getName());
 		original.setDescription(issueStatus.getDescription());
 		original.setIcon(issueStatus.getIcon());
@@ -124,6 +125,7 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueResolution issueResolution) throws AuthenticationException, InformationException {
+		ColorValidator.validateColor(issueResolution.getColor());
 		IssueResolution original = issueResolutionRepository.getIssueResolution(auth.getEnterprise(), issueResolution.getId());
 		if (original == null) {
 			throw new InformationException("Issue Resolution not exist.");
@@ -131,6 +133,7 @@ public class IssuePropertyConfigurationService {
 		if (!issueResolutionRepository.isNameAvailable(auth.getEnterprise(), issueResolution.getName(), original.getId())) {
 			throw new InformationException("Name already exist.");
 		};
+		
 		original.setName(issueResolution.getName());
 		original.setDescription(issueResolution.getDescription());
 		original.setColor(issueResolution.getColor());
@@ -140,6 +143,8 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssuePriority issuePriority) throws AuthenticationException, InformationException {
+		ColorValidator.validateColor(issuePriority.getColor());
+		IssuePriority.validateIcon(issuePriority.getIcon());
 		IssuePriority original = issuePriorityRepository.getIssuePriority(auth.getEnterprise(), issuePriority.getId());
 		if (original == null) {
 			throw new InformationException("Issue Priority not exist.");
@@ -147,9 +152,7 @@ public class IssuePropertyConfigurationService {
 		if (!issuePriorityRepository.isNameAvailable(auth.getEnterprise(), issuePriority.getName(), original.getId())) {
 			throw new InformationException("Name already exist.");
 		};
-		if (!IssuePriority.isValidIcon(issuePriority.getIcon())) {
-			throw new InformationException("Icon is invalid.");
-		}
+		
 		original.setName(issuePriority.getName());
 		original.setDescription(issuePriority.getDescription());
 		original.setIcon(issuePriority.getIcon());
@@ -176,13 +179,12 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void update(EnterpriseAuthentication auth, IssueType issueType, boolean standard) throws AuthenticationException, InformationException {
+		IssueType.validateIcon(issueType.getIcon());
 		IssueType original = issueTypeRepository.getIssueType(auth.getEnterprise(), issueType.getId(), standard);
 		if (original == null) {
 			throw new InformationException("Issue Type not exist.");
 		}
-		if (!IssueType.isValidIcon(issueType.getIcon())) {
-			throw new InformationException("Icon is invalid.");
-		}
+		
 		if (!issueTypeRepository.isNameAvailable(auth.getEnterprise(), issueType.getName(), original.getId())) {
 			throw new InformationException("Name already exist.");
 		};
@@ -226,11 +228,10 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssueStatus issueStatus) throws AuthenticationException, InformationException {
+		ColorValidator.validateColor(issueStatus.getColor());
+		IssueStatus.validateIcon(issueStatus.getIcon());
 		if (!issueStatusRepository.isNameAvailable(auth.getEnterprise(), issueStatus.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Issue Status Name is not available");
-		}
-		if (!IssueStatus.isValidIcon(issueStatus.getIcon())) {
-			throw new InformationException("Icon is invalid.");
 		}
 		issueStatus.setOrder(issueStatusRepository.getOrder(auth.getEnterprise()));
 		issueStatus.setId(null);
@@ -241,11 +242,10 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssuePriority issuePriority) throws AuthenticationException, InformationException {
+		ColorValidator.validateColor(issuePriority.getColor());
+		IssuePriority.validateIcon(issuePriority.getIcon());
 		if (!issuePriorityRepository.isNameAvailable(auth.getEnterprise(), issuePriority.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Issue Priority Name is not available");
-		}
-		if (!IssuePriority.isValidIcon(issuePriority.getIcon())) {
-			throw new InformationException("Icon is invalid.");
 		}
 		issuePriority.setOrder(issuePriorityRepository.getOrder(auth.getEnterprise()));
 		issuePriority.setId(null);
@@ -256,6 +256,7 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssueResolution issueResolution) throws AuthenticationException, InformationException {
+		ColorValidator.validateColor(issueResolution.getColor());
 		if (!issueResolutionRepository.isNameAvailable(auth.getEnterprise(), issueResolution.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Issue Resolution Name is not available");
 		}
@@ -268,11 +269,9 @@ public class IssuePropertyConfigurationService {
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
 	public void create(EnterpriseAuthentication auth, IssueType issueType) throws AuthenticationException, InformationException {
+		IssueType.validateIcon(issueType.getIcon());
 		if (!issueLinkRepository.isNameAvailable(auth.getEnterprise(), issueType.getName().toLowerCase(), 0l)) {
 			throw new InformationException("Name already exist.");
-		}
-		if (!IssueType.isValidIcon(issueType.getIcon())) {
-			throw new InformationException("Icon is invalid.");
 		}
 		issueType.setEnterprise(auth.getEnterprise());
 		issueType.setId(null);

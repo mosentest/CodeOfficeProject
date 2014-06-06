@@ -3,6 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -82,7 +83,7 @@
 				<div class="sub-element-description">${projectRole.description}</div>
 			</div>
 			<div class="sub-element-content">
-				<form:form action="administration/projectRole/edit?role=${projectRole.name}" modelAttribute="projectRole" method="POST">
+				<form:form action="administration/projectRole/edit?role=${codefunction:maskURL(projectRole.name)}" modelAttribute="projectRole" method="POST">
 					<form:hidden path="id"/>
 					<table class="form-table">
 						<code:formError errors="${formErrors}"/>

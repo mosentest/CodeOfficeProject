@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.Project;
@@ -40,12 +42,15 @@ public class WorkFlow implements Serializable {
 	private Enterprise enterprise;
 	
 	@Column(name = "name")
+	@Size(max = 30)
 	private String name;
 
 	@Column(name = "description")
+	@Size(max = 300)
 	private String description;
 
 	@Column(name = "steps")
+	@Size(min = 0)
 	private int steps;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -58,9 +63,20 @@ public class WorkFlow implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "default_status_id")
+	@NotNull
 	private IssueStatus defaultStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "workFlow")
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "resolved_status_id")
+	@NotNull
+	private IssueStatus resolvedStatus;
+
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "closed_status_id")
+	@NotNull
+	private IssueStatus closedStatus;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "workFlow")
 	private List<WorkFlowTransition> transitions;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -169,6 +185,22 @@ public class WorkFlow implements Serializable {
 
 	public void setModified(Date modified) {
 		this.modified = modified;
+	}
+
+	public IssueStatus getResolvedStatus() {
+		return resolvedStatus;
+	}
+
+	public void setResolvedStatus(IssueStatus resolvedStatus) {
+		this.resolvedStatus = resolvedStatus;
+	}
+
+	public IssueStatus getClosedStatus() {
+		return closedStatus;
+	}
+
+	public void setClosedStatus(IssueStatus closedStatus) {
+		this.closedStatus = closedStatus;
 	}
 	
 }

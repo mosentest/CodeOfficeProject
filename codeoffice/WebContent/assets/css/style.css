@@ -811,6 +811,10 @@
 .inline-form {
 	display: inline-block;
 }
+.color-palette-primary-paleblue, .color-palette-primary-lightgrey, .color-palette-secondary-ashgray, .color-palette-secondary-silver, 
+.color-palette-secondary-ashgray  {
+	color: #205081 !important;
+}
 .color-palette-primary-blue {
 	background-color: #205081;
 }
@@ -912,7 +916,7 @@
 	border-radius: 3px;
 	color: white;
 	display: inline-block;
-	width: 100px;l
+	width: 100px;
 	text-align: center;
 	font-weight: bold;
 }

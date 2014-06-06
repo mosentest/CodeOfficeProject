@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -81,12 +82,12 @@
 							<c:if test="${not empty template.description}"><br />
 							<span class="description-info">${template.description}</span></c:if>
 						</td>
-						<td><a class="link" href="administration/permissionScheme.html?scheme=${template.projectPermissionScheme.name}">${template.projectPermissionScheme.name}</a></td>
-						<td><a class="link" href="administration/workFlow.html?workflow=${template.workFlow.name}">${template.workFlow.name}</a></td>
+						<td><a class="link" href="administration/permissionScheme.html?scheme=${codefunction:maskURL(template.projectPermissionScheme.name)}">${template.projectPermissionScheme.name}</a></td>
+						<td><a class="link" href="administration/workFlow.html?workflow=${codefunction:maskURL(template.workFlow.name)}">${template.workFlow.name}</a></td>
 						<td>
-							<a class="link" href="administration/projectTemplate/edit.html?template=${template.name}">${text_edit}</a>
+							<a class="link" href="administration/projectTemplate/edit.html?template=${codefunction:maskURL(template.name)}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/projectTemplate/delete?template=${template.name}', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/projectTemplate/delete?template=${codefunction:maskURL(template.name)}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

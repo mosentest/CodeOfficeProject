@@ -61,7 +61,18 @@
 			<a href="dashboard.html"><img src="assets/img/core/icon-logo.png" width="57" height="30"/></a>
 		</div>
 		<div class="link imglink">
-			<a href="administration/global.html"><spring:message code="application.administration"/></a>
+			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.administration"/>
+			<img class="icon-module icon-module-menu-indicator" src="assets/img/core/empty.png"/></a>
+			<div class="dropdown">
+				<ul>
+					<li class="dropdown-link"><a href="administration/system.html"><spring:message code="administration.system"/></a></li>
+					<li class="dropdown-link"><a href="administration/add-ons.html"><spring:message code="administration.addons"/></a></li>
+					<li class="dropdown-separator">&nbsp;</li>
+					<li class="dropdown-link"><a href="administration/userManagement.html"><spring:message code="administration.userManagement"/></a></li>
+					<li class="dropdown-link"><a href="administration/project.html"><spring:message code="administration.project"/></a></li>
+					<li class="dropdown-link"><a href="administration/issue.html"><spring:message code="administration.issue"/></a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="link imglink">
 			<a href="javascript:void(0);" class="dropdown-indicator"><spring:message code="application.dashboards"/>

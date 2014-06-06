@@ -23,4 +23,7 @@ public interface WorkFlowRepository extends JpaRepository<WorkFlow, Long> {
 	@Query("SELECT COUNT(wf) = 0 FROM WorkFlow wf WHERE wf.enterprise = :enterprise AND LOWER(wf.name) = :name AND wf.id <> :id")
 	public boolean isNameAvailable(@Param("enterprise") Enterprise enterprise, @Param("name") String name, @Param("id") Long id);
 	
+	@Query("SELECT COUNT(wf) > 0 FROM WorkFlow wf WHERE wf.enterprise = :enterprise AND wf.id = :id AND wf.projects IS EMPTY")
+	public boolean isInUse(@Param("enterprise") Enterprise enterprise, @Param("id") Long id);
+	
 }

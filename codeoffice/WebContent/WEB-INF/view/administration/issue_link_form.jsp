@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
@@ -21,7 +22,7 @@
 					<div class="panel-element-info">${issueLink.name}</div>
 				</div>
 				<div class="panel-element-content">
-					<form:form action="administration/link/edit?link=${issueLink.name}" modelAttribute="issueLink" method="POST">
+					<form:form action="administration/link/edit?link=${codefunction:maskURL(issueLink.name)}" modelAttribute="issueLink" method="POST">
 					<table class="minor-form-table">
 						<form:hidden path="id"/>
 						<code:formError errors="${formErrors}"/>

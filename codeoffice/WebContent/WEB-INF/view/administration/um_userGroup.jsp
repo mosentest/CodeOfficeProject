@@ -7,6 +7,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -14,9 +15,10 @@
 		<jsp:param name="menu" value="user"/>
 	</jsp:include>
 </div>
+<c:set var="maskedURL" value="${codefunction:maskURL(userGroup.name)}"/>
 <script>
 	function submitFilter() {
-		var urlString = 'administration/userGroup.html?group=${userGroup.name}&';
+		var urlString = 'administration/userGroup.html?group=${maskedURL}&';
 		urlString += ('query=' + $("input[name='query']").val());
 		url(urlString);
 	}
@@ -39,7 +41,7 @@
 				<div class="sub-element-title imglink">
 				<span>${userGroup.name}</span>
 				<c:if test="${not userGroup.defaultGroup}">
-					<form class="inline-form" action="administration/userGroup/delete?group=${userGroup.name}" method="POST">
+					<form class="inline-form" action="administration/userGroup/delete?group=${maskedURL}" method="POST">
 					<input type="submit" onclick="javascript:confirmSubmit(event, 'Delete?');" class="button" value="<spring:message code="application.delete"/>"/>
 					</form>
 				</c:if>
@@ -78,7 +80,7 @@
 					<spring:message code="entity.userGroup.users"/>
 					<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 					<c:if test="${not userGroup.defaultGroup}">
-					<input type="button" class="button" onclick="javascript:url('/administration/userGroup/manage.html?group=${userGroup.name}');" value="<spring:message code="entity.userGroup.users.manage"/>"/>
+					<input type="button" class="button" onclick="javascript:url('/administration/userGroup/manage.html?group=${maskedURL}');" value="<spring:message code="entity.userGroup.users.manage"/>"/>
 					</c:if>
 					</security:authorize>
 				</div>
@@ -98,7 +100,7 @@
 				</div>
 				<table class="list-table">
 					<c:set var="params">
-						group=${userGroup.name},
+						group=${maskedURL},
 						<c:if test="${not empty pageSize}">pageSize=${pageSize},</c:if>
 						<c:if test="${not empty query}">query=${query},</c:if>
 					</c:set>
@@ -126,7 +128,7 @@
 						<td><a class="link" href="mailto:${user.email}">${user.email}</a></td>
 						<td><ul class="info-ul-list">
 							<c:forEach items="${user.userGroups}" var="userGroup">
-								<li><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></li>
+								<li><a class="link" href="administration/userGroup.html?group=${maskedURL}">${userGroup.name}</a></li>
 							</c:forEach>
 							</ul>
 						</td>

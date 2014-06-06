@@ -3,6 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -30,11 +31,9 @@
 	$(document).ready(function() {
 		$('.color-info-choose').click(function() {
 			var colorInfo = $('#color-info');
-			console.log(colorInfo.attr('class'));
-			console.log(colorInfo.attr('class').split(' ')[0]);
-			console.log($(this).attr('class').split(' ')[1]);
-			colorInfo.attr('class', colorInfo.attr('class').split(' ')[0] + " " + $(this).attr('class').split(' ')[1]);
-			$("input[name='color']").val(rgb2hex(colorInfo.css('background-color')).slice(1));
+			var colorClass = $(this).attr('class').split(' ')[1];
+			colorInfo.attr('class', colorInfo.attr('class').split(' ')[0] + " " + colorClass);
+			$("input[name='color']").val(colorClass);
 		});
 	});
 </script>
@@ -91,7 +90,7 @@
 							<tr>
 								<td class="minor-form-label-col"><spring:message code="entity.issueStatus.color"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col imglink">
-									<form:hidden path="color" value="205081"/>
+									<form:hidden path="color" value="color-palette-primary-blue"/>
 									<span class="color-info color-palette-primary-blue" id="color-info" ></span>
 									<a class="link" href="javascript:void(0);" onclick="javascript:showColorPanel(this);">[Show Color Panel]</a>
 								</td>
@@ -119,12 +118,12 @@
 						<td class="title-info">${status.name}</td>
 						<td class="description-info">${status.description}</td>
 						<td><img src="assets/img/office/status/${status.icon}.png"/></td>
-						<td><span class="color-info" style="background-color: #${status.color};">&nbsp;</span></td>
+						<td><span class="color-info ${status.color}">&nbsp;</span></td>
 						<td>${status.order}</td>
 						<td>
-							<a class="link" href="administration/status/edit.html?status=${status.name}">${text_edit}</a>
+							<a class="link" href="administration/status/edit.html?status=${codefunction:maskURL(status.name)}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/status/delete?status=${status.name}', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/status/delete?status=${codefunction:maskURL(status.name)}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

@@ -48,4 +48,10 @@
 		<function-signature>java.lang.String maskURL(java.lang.String)</function-signature>
 	</function>  
 	
+	<function>
+		<name>unmaskURL</name>
+		<function-class>mu.codeoffice.tag.Function</function-class>
+		<function-signature>java.lang.String unmaskURL(java.lang.String)</function-signature>
+	</function>  
+	
 </taglib> 

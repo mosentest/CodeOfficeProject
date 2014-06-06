@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
@@ -21,6 +22,7 @@
 		$("input[name='" + id + "']").val(icon);
 	}
 </script>
+<c:set var="maskURL" value="${codefunction:maskURL(workFlow.name)}"/>
 <spring:message var="text_view" code="application.view" />
 <spring:message var="text_edit" code="application.edit" />
 <spring:message var="text_delete" code="application.delete" />
@@ -34,15 +36,14 @@
 			<div class="sub-element-info">
 				<div class="sub-element-title imglink">
 					<span>${workFlow.name}</span>
-					<input type="button" class="button" onclick="javascript:url('/administration/workFlow/edit.html?workflow=${workFlow.name}');" value="${text_edit}"/>
-					<input type="button" class="button" onclick="javascript:url('/administration/workFlow/clone?workflow=${workFlow.name}');" value="${text_clone}"/>
-					<input type="button" class="button" onclick="javascript:remoteSubmit(event, 'administration/workFlow/delete?workflow=${workFlow.name}', 'Delete?');" value="${text_delete}"/>				
+					<input type="button" class="button" onclick="javascript:url('/administration/workFlow/edit.html?workFlow=${maskURL}');" value="${text_edit}"/>
+					<input type="button" class="button" onclick="javascript:url('/administration/workFlow/clone?workFlow=${maskURL}');" value="${text_clone}"/>	
 				</div>
 				<div class="sub-element-description">${workFlow.description}</div>
 			</div>
 			<div class="filter-table">
 				<c:if test="${fn:length(issueStatus) gt 0}">
-				<form:form action="administration/workFlow/transition/create" modelAttribute="workFlowTransition" method="POST">
+				<form:form action="administration/workFlowTransition/create" modelAttribute="workFlowTransition" method="POST">
 				<table class="filter-table">
 					<tr class="filter-table-title"></tr>
 					<tr class="filter-table-label">
@@ -113,22 +114,27 @@
 					</tr>
 					<c:forEach items="${transitionMap}" var="transitions">
 					<tr class="list-table-item">
-						<td><span class="loungez" style="background-color: #${transitions.key.color}">${transitions.key.name}</span>
-						<c:if test="${transitions.key eq workFlow.defaultStatus}">(<spring:message code="application.default"/>)</c:if></td>
+						<td>
+							<span class="loungez ${transitions.key.color}" >${transitions.key.name}</span>
+							<c:if test="${transitions.key eq workFlow.defaultStatus}">(<spring:message code="entity.workFlow.defaultstatus"/>)</c:if>
+							<c:if test="${transitions.key eq workFlow.resolvedStatus}">(<spring:message code="entity.workFlow.resolvedStatus"/>)</c:if>
+							<c:if test="${transitions.key eq workFlow.closedStatus}">(<spring:message code="entity.workFlow.closedStatus"/>)</c:if>
+						</td>
 						<td>
 							<ul class="info-ul-list ul-list-high">
 								<c:forEach items="${transitions.value}" var="transition">
 								<li class="imglink">
 									<span class="info-number">${transition.transition}</span> --&gt; 
-									<span class="loungez" style="background-color: #${transition.to.color}">${transition.to.name}</span>
+									<span class="loungez ${transition.to.color}">${transition.to.name}</span>
+									<a class="link" href="javascript:remoteSubmit(event, 'administration/workFlowTransition/delete?workFlow=${maskURL}&transition=${transition.id}', 'Delete?');">${text_delete}</a>
 								</li>
 								</c:forEach>
 							</ul>
 						</td>
 						<td>
-							<a class="link" href="administration/workFlow/${workFlow.name}.html">${text_view}</a>
+							<a class="link" href="administration/workFlow.html?workFlow=${maskURL}">${text_view}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/workFlow/edit.html?workflow=${workFlow.name}">${text_edit}</a>
+							<a class="link" href="administration/workFlow/edit.html?workFlow=${maskURL}">${text_edit}</a>
 						</td>
 					</tr>
 					</c:forEach>

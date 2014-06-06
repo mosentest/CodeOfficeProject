@@ -3,6 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -34,7 +35,7 @@
 			<div class="panel-element">
 				<div class="panel-element-title">
 					<div class="panel-element-info">
-						<c:if test="${edit}">${issueTypeScheme.name}</c:if>
+						<c:if test="${edit}">${codefunction:maskURL(issueTypeScheme.name)}</c:if>
 						<c:if test="${not edit}"><spring:message code="entity.issueTypeScheme.create"/></c:if>
 					</div>
 				</div>

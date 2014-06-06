@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -54,6 +55,7 @@
 		};
 	});
 </script>
+<c:set var="maskedURL" value="${codefunction:maskURL(permissionScheme.name)}"/>
 <spring:message var="text_reset" code="application.reset"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/project_menu.jsp">
@@ -64,9 +66,9 @@
 			<div class="sub-element-info">
 				<div class="sub-element-title imglink">
 					<span>${permissionScheme.name}</span>
-					<input type="submit" onclick="javascript:url('administration/permissionScheme/clone?scheme=${permissionScheme.name}');"
+					<input type="submit" onclick="javascript:url('administration/permissionScheme/clone?scheme=${maskedURL}');"
 						class="button" value="<spring:message code="application.clone"/>"/>
-					<input type="submit" onclick="javascript:url('administration/permissionScheme/resetAll?scheme=${permissionScheme.name}');"
+					<input type="submit" onclick="javascript:url('administration/permissionScheme/resetAll?scheme=${maskedURL}');"
 						class="button" value="reset all"/>
 				</div>
 				<div class="sub-element-description">${permissionScheme.description}</div>
@@ -136,7 +138,7 @@
 						<td>
 							<ul class="info-ul-list">
 								<c:forEach items="${settings.userGroups}" var="group">
-									<li><a class="link" href="administration/userGroup.html?group=${group.name}">${group.name}</a></li>
+									<li><a class="link" href="administration/userGroup.html?group=${codefunction:maskURL(group.name)}">${group.name}</a></li>
 								</c:forEach>
 							</ul>
 						</td>
@@ -155,7 +157,7 @@
 							</ul>
 						</td>
 						<td>
-							<a class="link" href="administration/permissionScheme/reset?scheme=${permissionScheme.name}&permission=${settings.projectPermission}">${text_reset}</a>
+							<a class="link" href="administration/permissionScheme/reset?scheme=${maskedURL}&permission=${settings.projectPermission}">${text_reset}</a>
 						</td>
 					</tr>
 					</c:forEach>

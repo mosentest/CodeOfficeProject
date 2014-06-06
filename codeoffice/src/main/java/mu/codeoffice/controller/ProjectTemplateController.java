@@ -8,6 +8,7 @@ import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.ProjectPermissionSchemeService;
 import mu.codeoffice.service.ProjectTemplateService;
 import mu.codeoffice.service.WorkFlowService;
+import mu.codeoffice.tag.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -51,6 +52,7 @@ public class ProjectTemplateController implements GenericController {
 	public ModelAndView edit(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("template") String template, 
 			RedirectAttributes redirectAttributes, ModelMap model) {
+		template = Function.unmaskURL(template);
 		ProjectTemplate projectTemplate = projectTemplateService.getProjectTemplate(auth, template);
 		if (projectTemplate == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Project Template not found.");
@@ -67,6 +69,7 @@ public class ProjectTemplateController implements GenericController {
 			@RequestParam("template") String template,
 			@ModelAttribute("projectTemplate") @Valid ProjectTemplate projectTemplate, BindingResult result, 
 			RedirectAttributes redirectAttributes, ModelMap model) {
+		template = Function.unmaskURL(template);
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -102,6 +105,7 @@ public class ProjectTemplateController implements GenericController {
 	public String delete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("template") String template, 
 			RedirectAttributes redirectAttributes, ModelMap model) {
+		template = Function.unmaskURL(template);
 		try {
 			projectTemplateService.delete(auth, template);
 			redirectAttributes.addFlashAttribute(TIP, "Project Template has been deleted.");			

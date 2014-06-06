@@ -7,6 +7,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -65,7 +66,7 @@
 		$('#label-' + id).remove();
 	}
 	function submitFilter() {
-		var urlString = 'administration/userGroup/manage.html?group=${userGroup.name}&';
+		var urlString = 'administration/userGroup/manage.html?group=${codefunction:maskURL(userGroup.name)}&';
 		urlString += ('query=' + $("input[name='query']").val());
 		url(urlString);
 	}
@@ -154,7 +155,7 @@
 						<td><a class="link" href="mailto:${user.email}">${user.email}</a></td>
 						<td><ul class="info-ul-list">
 							<c:forEach items="${user.userGroups}" var="userGroup">
-								<li><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></li>
+								<li><a class="link" href="administration/userGroup.html?group=${codefunction:maskURL(userGroup.name)}">${userGroup.name}</a></li>
 							</c:forEach>
 							</ul>
 						</td>

@@ -25,6 +25,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -162,8 +163,9 @@ public class SystemAdministrationController implements GenericController {
 		}
 	}
 	
-	@RequestMapping(value = "globalPermission.html", method = RequestMethod.GET)
-	public ModelAndView globalPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+	@RequestMapping(value = "globalPermission.html{anchor}", method = RequestMethod.GET)
+	public ModelAndView globalPermissionView(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@PathVariable(value = "anchor") String anchor, ModelMap model) {
 		model.put("globalPermissionSettings", systemSettingsService.getGlobalPermissionSettings(auth));
 		model.put("userGroups", userGroupService.getGroups(auth, false));
 		return new ModelAndView("administration/system_globalPermission", model);

@@ -14,6 +14,7 @@ import mu.codeoffice.entity.settings.IssueType;
 import mu.codeoffice.entity.settings.IssueTypeScheme;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.IssuePropertyConfigurationService;
+import mu.codeoffice.tag.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -42,6 +43,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String typeSchemeClone(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			issuePropertyConfigurationService.cloneIssueTypeScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme '" + scheme + "' has been cloned.");
 		} catch (InformationException e) {
@@ -54,6 +56,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public ModelAndView typeSchemeAssociateRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("scheme") String scheme, 
 			RedirectAttributes redirectAttributes, ModelMap model) {
+		scheme = Function.unmaskURL(scheme);
 		IssueTypeScheme issueTypeScheme = issuePropertyConfigurationService.getIssueTypeScheme(auth, scheme);
 		if (issueTypeScheme == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Issue Type Scheme doesn't exist.");
@@ -67,6 +70,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String typeSchemeAssociate(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			issuePropertyConfigurationService.deleteIssueTypeScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Projects has been added.");
 		} catch (InformationException e) {
@@ -79,6 +83,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String typeSchemeDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			issuePropertyConfigurationService.deleteIssueTypeScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type Scheme has been deleted.");
 		} catch (InformationException e) {
@@ -91,6 +96,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String typeDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("type") String type, RedirectAttributes redirectAttributes) {
 		try {
+			type = Function.unmaskURL(type);
 			issuePropertyConfigurationService.deleteIssueType(auth, type, true);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type has been deleted.");
 		} catch (InformationException e) {
@@ -103,6 +109,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String subtaskDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("type") String type, RedirectAttributes redirectAttributes) {
 		try {
+			type = Function.unmaskURL(type);
 			issuePropertyConfigurationService.deleteIssueType(auth, type, false);
 			redirectAttributes.addFlashAttribute(TIP, "Sub task type has been deleted.");
 		} catch (InformationException e) {
@@ -115,6 +122,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String statusDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("status") String status, RedirectAttributes redirectAttributes) {
 		try {
+			status = Function.unmaskURL(status);
 			issuePropertyConfigurationService.deleteIssueStatus(auth, status);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Status has been deleted.");
 		} catch (InformationException e) {
@@ -127,6 +135,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String priorityDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("priority") String priority, RedirectAttributes redirectAttributes) {
 		try {
+			priority = Function.unmaskURL(priority);
 			issuePropertyConfigurationService.deleteIssuePriority(auth, priority);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Type has been deleted.");
 		} catch (InformationException e) {
@@ -139,6 +148,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String resolutionDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("resolution") String resolution, RedirectAttributes redirectAttributes) {
 		try {
+			resolution = Function.unmaskURL(resolution);
 			issuePropertyConfigurationService.deleteIssueResolution(auth, resolution);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Resolution has been deleted.");
 		} catch (InformationException e) {
@@ -151,6 +161,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	public String linkCDelete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("link") String link, RedirectAttributes redirectAttributes) {
 		try {
+			link = Function.unmaskURL(link);
 			issuePropertyConfigurationService.deleteIssueLink(auth, link);
 			redirectAttributes.addFlashAttribute(TIP, "Issue Link has been deleted.");
 		} catch (InformationException e) {
@@ -291,6 +302,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "typeScheme/edit.html", method = RequestMethod.GET)
 	public ModelAndView typeSchemeEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes, ModelMap model) {
+		scheme = Function.unmaskURL(scheme);
 		IssueTypeScheme typeScheme = issuePropertyConfigurationService.getIssueTypeScheme(auth, scheme);
 		if (typeScheme == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Issue Type Scheme doesn't exist.");
@@ -308,6 +320,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "type/edit.html", method = RequestMethod.GET)
 	public ModelAndView typeEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("type") String type, RedirectAttributes redirectAttributes, ModelMap model) {
+		type = Function.unmaskURL(type);
 		IssueType issueType = issuePropertyConfigurationService.getIssueType(auth, type, true);
 		if (issueType == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Issue Type no found.");
@@ -321,6 +334,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "subtask/edit.html", method = RequestMethod.GET)
 	public ModelAndView subtaskEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("type") String type, RedirectAttributes redirectAttributes, ModelMap model) {
+		type = Function.unmaskURL(type);
 		IssueType issueType = issuePropertyConfigurationService.getIssueType(auth, type, false);
 		if (issueType == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Sub task no found.");
@@ -334,6 +348,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "link/edit.html", method = RequestMethod.GET)
 	public ModelAndView issueLinkEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("link") String link, RedirectAttributes redirectAttributes, ModelMap model) {
+		link = Function.unmaskURL(link);
 		IssueLink issueLink = issuePropertyConfigurationService.getIssueLink(auth, link);
 		if (issueLink == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Issue Link no found.");
@@ -346,6 +361,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "status/edit.html", method = RequestMethod.GET)
 	public ModelAndView statusEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("status") String status, RedirectAttributes redirectAttributes, ModelMap model) {
+		status = Function.unmaskURL(status);
 		IssueStatus issueStatus = issuePropertyConfigurationService.getIssueStatus(auth, status);
 		if (issueStatus == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Issue Status no found.");
@@ -359,6 +375,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "resolution/edit.html", method = RequestMethod.GET)
 	public ModelAndView resolutionEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("resolution") String resolution, RedirectAttributes redirectAttributes, ModelMap model) {
+		resolution = Function.unmaskURL(resolution);
 		IssueResolution issueResolution = issuePropertyConfigurationService.getIssueResolution(auth, resolution);
 		if (issueResolution == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Issue Resolution no found.");
@@ -371,6 +388,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 	@RequestMapping(value = "priority/edit.html", method = RequestMethod.GET)
 	public ModelAndView priorityEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("priority") String priority, RedirectAttributes redirectAttributes, ModelMap model) {
+		priority = Function.unmaskURL(priority);
 		IssuePriority issuePriority = issuePropertyConfigurationService.getIssuePriority(auth, priority);
 		if (issuePriority == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Issue Priority no found.");
@@ -386,6 +404,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			@RequestParam("scheme") String scheme,
 			@ModelAttribute("issueTypeScheme") @Valid IssueTypeScheme issueTypeScheme, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
+		scheme = Function.unmaskURL(scheme);
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -405,6 +424,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			@RequestParam("type") String type,
 			@ModelAttribute("issueType") @Valid IssueType issueType, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
+		type = Function.unmaskURL(type);
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -425,6 +445,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			@RequestParam("type") String type,
 			@ModelAttribute("issueType") @Valid IssueType issueType, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
+		type = Function.unmaskURL(type);
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -445,6 +466,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			@RequestParam("link") String link,
 			@ModelAttribute("issueLink") @Valid IssueLink issueLink, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
+		link = Function.unmaskURL(link);
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -465,6 +487,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			@RequestParam("status") String status,
 			@ModelAttribute("issueStatus") @Valid IssueStatus issueStatus, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
+		status = Function.unmaskURL(status);
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -484,6 +507,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			@RequestParam("resolution") String resolution,
 			@ModelAttribute("issueResolution") @Valid IssueResolution issueResolution, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
+		resolution = Function.unmaskURL(resolution);
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -503,6 +527,7 @@ public class IssuePropertyConfigurationController implements GenericController {
 			@RequestParam("priority") String priority,
 			@ModelAttribute("issuePriority") @Valid IssuePriority issuePriority, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
+		priority = Function.unmaskURL(priority);
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {

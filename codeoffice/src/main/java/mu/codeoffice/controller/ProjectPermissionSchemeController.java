@@ -10,6 +10,7 @@ import mu.codeoffice.service.ProjectPermissionSchemeService;
 import mu.codeoffice.service.ProjectRoleService;
 import mu.codeoffice.service.UserGroupService;
 import mu.codeoffice.service.UserService;
+import mu.codeoffice.tag.Function;
 import mu.codeoffice.utility.ProjectPermissionEditor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ public class ProjectPermissionSchemeController implements GenericController {
 	@RequestMapping(value = "administration/permissionScheme.html", method = RequestMethod.GET)
 	public ModelAndView permissionScheme(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes, ModelMap model) {
+		scheme = Function.unmaskURL(scheme);
 		ProjectPermissionScheme permissionScheme = projectPermissionSchemeService.getProjectPermissionScheme(auth, scheme);
 		if (permissionScheme == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Project Permission Scheme doesn't exist.");
@@ -71,6 +73,7 @@ public class ProjectPermissionSchemeController implements GenericController {
 	public String clonePermissionSchemes(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			String name = projectPermissionSchemeService.clone(auth, scheme);
 			if (name == null) {
 				redirectAttributes.addFlashAttribute(ERROR, "Project Permission Scheme doesn't exist.");
@@ -93,6 +96,7 @@ public class ProjectPermissionSchemeController implements GenericController {
 			@RequestParam(value = "users", required = false) Long[] users,
 			RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			projectPermissionSchemeService.associate(auth, scheme, permission, groups, roles, users);
 			redirectAttributes.addFlashAttribute(TIP, "Project Permission has been updated.");
 		} catch (InformationException e) {
@@ -108,6 +112,7 @@ public class ProjectPermissionSchemeController implements GenericController {
 			@RequestParam("group") Long group,
 			RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			projectPermissionSchemeService.removeGroup(auth, scheme, permission, group);
 			redirectAttributes.addFlashAttribute(TIP, "Project Permission Scheme has been updated.");
 		} catch (InformationException e) {
@@ -123,6 +128,7 @@ public class ProjectPermissionSchemeController implements GenericController {
 			@RequestParam("role") Long role,
 			RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			projectPermissionSchemeService.removeRole(auth, scheme, permission, role);
 			redirectAttributes.addFlashAttribute(TIP, "Project Permission Scheme has been updated.");
 		} catch (InformationException e) {
@@ -138,6 +144,7 @@ public class ProjectPermissionSchemeController implements GenericController {
 			@RequestParam("user") Long user,
 			RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			projectPermissionSchemeService.removeUser(auth, scheme, permission, user);
 			redirectAttributes.addFlashAttribute(TIP, "Project Permission Scheme has been updated.");
 		} catch (InformationException e) {
@@ -151,6 +158,7 @@ public class ProjectPermissionSchemeController implements GenericController {
 			@RequestParam("scheme") String scheme, 
 			RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			projectPermissionSchemeService.resetAll(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Project Permission Scheme has been reset.");
 		} catch (InformationException e) {
@@ -165,6 +173,7 @@ public class ProjectPermissionSchemeController implements GenericController {
 			@RequestParam("permission") ProjectPermission permission, 
 			RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			projectPermissionSchemeService.reset(auth, scheme, permission);
 			redirectAttributes.addFlashAttribute(TIP, "Project Permission Scheme has been updated.");
 		} catch (InformationException e) {
@@ -194,6 +203,7 @@ public class ProjectPermissionSchemeController implements GenericController {
 	public String deletePermissionScheme(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("scheme") String scheme, RedirectAttributes redirectAttributes) {
 		try {
+			scheme = Function.unmaskURL(scheme);
 			projectPermissionSchemeService.deletePermissionScheme(auth, scheme);
 			redirectAttributes.addFlashAttribute(TIP, "Permission Scheme '" + scheme + "' has been updated.");
 		} catch (InformationException e) {

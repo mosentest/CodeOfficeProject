@@ -31,7 +31,7 @@ public class UserRenderer {
 			if (imagePath == null) {
 				imagePath = "assets/img/core/default-avatar.png";
 			}
-			buffer.append(String.format("<span><img src=\"%s\" width=\"%d\" height=\"%d\"></span>", imagePath, width, height));
+			buffer.append(String.format("<img src=\"%s\" width=\"%d\" height=\"%d\">", imagePath, width, height));
 		}
 		if (showSpace) {
 			buffer.append("<span class=\"minorspace\">&nbsp;</span>");

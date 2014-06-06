@@ -9,6 +9,7 @@ import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.ProjectRoleService;
 import mu.codeoffice.service.UserGroupService;
 import mu.codeoffice.service.UserService;
+import mu.codeoffice.tag.Function;
 import mu.codeoffice.utility.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,7 @@ public class ProjectRoleController implements GenericController {
 	public String deleteProjectRole(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("role") String role, RedirectAttributes redirectAttributes) {
 		try {
+			role = Function.unmaskURL(role);
 			projectRoleService.delete(auth, role);
 			redirectAttributes.addFlashAttribute(TIP, "Project Role '" + role + "' has been deleted.");
 		} catch (InformationException e) {
@@ -75,6 +77,7 @@ public class ProjectRoleController implements GenericController {
 			@RequestParam("role") String role,
 			@ModelAttribute("projectRole") @Valid ProjectRoleDTO projectRoleDTO, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
+		role = Function.unmaskURL(role);
 		if (result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
 		} else {
@@ -105,6 +108,7 @@ public class ProjectRoleController implements GenericController {
 			@RequestParam(value = "sort", required = false) String sort, 
 			@RequestParam(value = "descending", required = false) boolean descending, 
 			RedirectAttributes redirectAttributes, ModelMap model) {
+		role = Function.unmaskURL(role);
 		ProjectRole projectRole = projectRoleService.getProjectRole(auth, role, true);
 		if (projectRole == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "Project role doesn't exist.");

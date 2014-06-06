@@ -6,6 +6,7 @@ import mu.codeoffice.entity.UserGroup;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.UserGroupService;
 import mu.codeoffice.service.UserService;
+import mu.codeoffice.tag.Function;
 import mu.codeoffice.utility.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,7 @@ public class UserGroupController implements GenericController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "descending", required = false) boolean descending,
-			ModelMap model)
-			throws AuthenticationException {
+			ModelMap model) throws AuthenticationException {
 		model.put("userGroupPage", userGroupService.getGroups(auth, name, pageIndex, pageSize, sort, !descending, true));
 		model.put("supportedListSize", LIST_SIZE);
 		model.put("userGroup", new UserGroup());
@@ -67,8 +67,8 @@ public class UserGroupController implements GenericController {
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "descending", required = false) boolean descending,
-			RedirectAttributes redirectAttributes, ModelMap model)
-			throws AuthenticationException {
+			RedirectAttributes redirectAttributes, ModelMap model) throws AuthenticationException {
+		group = Function.unmaskURL(group);
 		UserGroup userGroup = userGroupService.getUserGroup(auth, group);
 		if (userGroup == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "User Group doesn't exist.");
@@ -86,8 +86,7 @@ public class UserGroupController implements GenericController {
 	@RequestMapping(value = "administration/userGroup/create", method = RequestMethod.POST)
 	public String userGroupCreate(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@ModelAttribute("usergroup") UserGroup userGroup, 
-			RedirectAttributes redirectAttributes)
-			throws AuthenticationException {
+			RedirectAttributes redirectAttributes) throws AuthenticationException {
 		try {
 			userGroupService.createUserGroup(auth, userGroup);
 			redirectAttributes.addFlashAttribute(TIP, "New User Group Added.");
@@ -99,10 +98,9 @@ public class UserGroupController implements GenericController {
 
 	@RequestMapping(value = "administration/userGroup/delete", method = RequestMethod.POST)
 	public String userGroupDelete(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@RequestParam("group") String group,
-			RedirectAttributes redirectAttributes)
-			throws AuthenticationException {
+			@RequestParam("group") String group, RedirectAttributes redirectAttributes) throws AuthenticationException {
 		try {
+			group = Function.unmaskURL(group);
 			userGroupService.deleteUserGroup(auth, group);
 			redirectAttributes.addFlashAttribute(TIP, "User Group " + group + " has been deleted.");
 		} catch (Exception e) {
@@ -118,8 +116,8 @@ public class UserGroupController implements GenericController {
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "descending", required = false) boolean descending,
-			RedirectAttributes redirectAttributes, ModelMap model)
-			throws AuthenticationException {
+			RedirectAttributes redirectAttributes, ModelMap model) throws AuthenticationException {
+		group = Function.unmaskURL(group);
 		UserGroup userGroup = userGroupService.getUserGroup(auth, group);
 		if (userGroup == null) {
 			redirectAttributes.addFlashAttribute(ERROR, "User Group doesn't exist.");
@@ -138,9 +136,9 @@ public class UserGroupController implements GenericController {
 	public String userGroupMember(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("group") String group,
 			@ModelAttribute("userGroupDTO") UserGroupDTO userGroupDTO,
-			RedirectAttributes redirectAttributes, ModelMap model)
-			throws AuthenticationException {
+			RedirectAttributes redirectAttributes, ModelMap model) throws AuthenticationException {
 		try {
+			group = Function.unmaskURL(group);
 			userGroupService.update(auth, group, userGroupDTO);
 			redirectAttributes.addFlashAttribute(TIP, "User Group has been updated.");
 			return "redirect:/administration/userGroups.html";

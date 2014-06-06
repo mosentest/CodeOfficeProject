@@ -7,7 +7,14 @@ import java.util.TimeZone;
 public class Function {
 	
 	public static String maskURL(String string) {
-		return string.replace(' ', '-');
+		return string.replace(' ', '+');
+	}
+	
+	public static String unmaskURL(String string) {
+		if (string == null) {
+			return null;
+		}
+		return string.replace('+', ' ');
 	}
 	
 	public static int bitwiseAnd(Integer value, Integer mask) {

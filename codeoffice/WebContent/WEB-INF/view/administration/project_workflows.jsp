@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -37,6 +38,8 @@
 						<td><spring:message code="entity.workFlow.modified"/></td>
 						<td><spring:message code="entity.workFlow.steps"/></td>
 						<td><spring:message code="entity.workFlow.defaultStatus"/></td>
+						<td><spring:message code="entity.workFlow.resolvedStatus"/></td>
+						<td><spring:message code="entity.workFlow.closedStatus"/></td>
 						<td><spring:message code="entity.workFlow.issueStatus"/></td>
 						<td><spring:message code="application.operations"/></td>
 					</tr>
@@ -52,6 +55,8 @@
 						</td>
 						<td class="info-number">${workFlow.steps}</td>
 						<td><span class="loungez" style="background-color: #${workFlow.defaultStatus.color}">${workFlow.defaultStatus.name}</span></td>
+						<td><span class="loungez" style="background-color: #${workFlow.resolvedStatus.color}">${workFlow.resolvedStatus.name}</span></td>
+						<td><span class="loungez" style="background-color: #${workFlow.closedStatus.color}">${workFlow.closedStatus.name}</span></td>
 						<td>
 							<ul class="info-ul-list">
 								<c:forEach items="${workFlow.issueStatus}" var="issueStatus">
@@ -60,13 +65,14 @@
 							</ul>
 						</td>
 						<td>
-							<a class="link" href="administration/workFlow.html?workflow=${workFlow.name}">${text_view}</a>
+							<c:set var="maskedURL" value="${codefunction:maskURL(workFlow.name)}"/>
+							<a class="link" href="administration/workFlow.html?workFlow=${maskedURL}">${text_view}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/workFlow/edit.html?workflow=${workFlow.name}">${text_edit}</a>
+							<a class="link" href="administration/workFlow/edit.html?workFlow=${maskedURL}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/workFlow/clone?workflow=${workFlow.name}">${text_clone}</a>
+							<a class="link" href="administration/workFlow/clone?workFlow=${maskedURL}">${text_clone}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/workFlow/delete?workflow=${workFlow.name}', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/workFlow/delete?workFlow=${maskedURL}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

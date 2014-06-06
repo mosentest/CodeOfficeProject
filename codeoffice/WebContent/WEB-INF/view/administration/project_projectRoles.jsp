@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -58,8 +59,8 @@
 							<c:if test="${not empty projectRole.description}"><br /><span class="description-info">${projectRole.description}</span></c:if>
 						</td>
 						<td>
-							<a class="link" href="administration/projectRole/edit.html?role=${projectRole.name}">${text_edit}</a><span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/projectRole/delete?role=${projectRole.name}', 'Delete?');">${text_delete}</a>
+							<a class="link" href="administration/projectRole/edit.html?role=${codefunction:maskURL(projectRole.name)}">${text_edit}</a><span class="minorspace">&#183;</span>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/projectRole/delete?role=${codefunction:maskURL(projectRole.name)}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

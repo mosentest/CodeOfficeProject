@@ -3,6 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -29,12 +30,12 @@
 	}
 	$(document).ready(function() {
 		$('.color-info-choose').click(function() {
-			var colorInfo = $('#color-info');
-			console.log(colorInfo.attr('class'));
-			console.log(colorInfo.attr('class').split(' ')[0]);
-			console.log($(this).attr('class').split(' ')[1]);
-			colorInfo.attr('class', colorInfo.attr('class').split(' ')[0] + " " + $(this).attr('class').split(' ')[1]);
-			$("input[name='color']").val(rgb2hex(colorInfo.css('background-color')).slice(1));
+			$('.color-info-choose').click(function() {
+				var colorInfo = $('#color-info');
+				var colorClass = $(this).attr('class').split(' ')[1];
+				colorInfo.attr('class', colorInfo.attr('class').split(' ')[0] + " " + colorClass);
+				$("input[name='color']").val(colorClass);
+			});
 		});
 	});
 </script>
@@ -91,7 +92,7 @@
 							<tr>
 								<td class="minor-form-label-col"><spring:message code="entity.issuePriority.color"/><span class="icon-required">&nbsp;</span></td>
 								<td class="minor-form-input-col imglink">
-									<form:hidden path="color" value="205081"/>
+									<form:hidden path="color" value="color-palette-primary-blue"/>
 									<span class="color-info color-palette-primary-blue" id="color-info" ></span>
 									<a class="link" href="javascript:void(0);" onclick="javascript:showColorPanel(this);">[Show Color Panel]</a>
 								</td>
@@ -119,12 +120,12 @@
 						<td class="title-info">${priority.name}</td>
 						<td class="description-info">${priority.description}</td>
 						<td><img src="assets/img/office/priority/${priority.icon}.png"/></td>
-						<td><span class="color-info" style="background-color: #${priority.color};">&nbsp;</span></td>
+						<td><span class="color-info ${priority.color}">&nbsp;</span></td>
 						<td>${priority.order}</td>
 						<td>
-							<a class="link" href="administration/priority/edit.html?priority=${priority.name}">${text_edit}</a>
+							<a class="link" href="administration/priority/edit.html?priority=${codefunction:maskURL(priority.name)}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/priority/delete?priority=${priority.name}', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/priority/delete?priority=${codefunction:maskURL(priority.name)}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>

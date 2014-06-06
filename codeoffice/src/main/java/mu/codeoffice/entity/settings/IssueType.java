@@ -17,6 +17,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.Enterprise;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -62,13 +63,13 @@ public class IssueType implements Serializable {
 	
 	public IssueType() {}
 	
-	public static boolean isValidIcon(String icon) {
+	public static boolean validateIcon(String icon) throws InformationException {
 		for (String string : ICONS) {
 			if (string.equals(icon)) {
 				return true;
 			}
 		}
-		return false;
+		throw new InformationException("Icon is invalid");
 	}
 	
 	@Override

@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.security.ProjectPermission;
@@ -36,17 +38,21 @@ public class WorkFlowTransition implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "workflow_id")
+	@NotNull
 	private WorkFlow workFlow;
 	
 	@Column(name = "transition")
+	@Size(max = 30)
 	private String transition;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "from_status_id")
+	@NotNull
 	private IssueStatus from;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "to_status_id")
+	@NotNull
 	private IssueStatus to;
 
 	@ElementCollection(targetClass = ProjectPermission.class)
@@ -56,6 +62,15 @@ public class WorkFlowTransition implements Serializable {
 	private List<ProjectPermission> requiredPermissions;
 	
 	public WorkFlowTransition() {}
+
+    @Override
+    public boolean equals(Object obj) {
+    	if (!(obj instanceof WorkFlowTransition)) {
+    		return false;
+    	}
+    	WorkFlowTransition o = (WorkFlowTransition) obj;
+    	return o.id != null && this.id != null && o.id.equals(this.id);
+    }
 
 	public Long getId() {
 		return id;

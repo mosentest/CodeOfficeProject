@@ -17,6 +17,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.Enterprise;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -58,7 +59,6 @@ public class IssueStatus implements Serializable {
 	private int order;
 
 	@Column(name = "color")
-	@Pattern(regexp = "([a-f]|[A-F]|[0-9]){6}")
 	private String color;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "issueStatus")
@@ -66,13 +66,13 @@ public class IssueStatus implements Serializable {
 	
 	public IssueStatus() {}
 	
-	public static boolean isValidIcon(String icon) {
+	public static boolean validateIcon(String icon) throws InformationException {
 		for (String string : ICONS) {
 			if (string.equals(icon)) {
 				return true;
 			}
 		}
-		return false;
+		throw new InformationException("Icon is invalid");
 	}
 
 	public Long getId() {

@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -102,12 +103,12 @@
 						</tr>
 						<c:forEach items="${userGroupPage.content}" var="userGroup">
 						<tr class="list-table-item">
-							<td class="info-value"><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></td>
+							<td class="info-value"><a class="link" href="administration/userGroup.html?group=${codefunction:maskURL(userGroup.name)}">${userGroup.name}</a></td>
 							<td>${userGroup.description}</td>
 							<td class="info-value">${userGroup.userCount}</td>
 							<td><ul class="info-ul-list">
 								<c:forEach items="${userGroup.globalPermissions}" var="permission">
-									<li><a class="link" href="administration/globalPermissions.html#${permission.globalPermission}">
+									<li><a class="link" href="administration/globalPermission.html#${permission.globalPermission}">
 										<spring:message code="${permission.globalPermission.key}"/></a></li>
 								</c:forEach>
 								</ul>
@@ -115,8 +116,8 @@
 							<td>
 								<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 								<c:if test="${not userGroup.defaultGroup}">
-									<a class="link" href="administration/userGroup/manage.html?group=${userGroup.name}">${text_edit_members}</a><span class="minorspace">&#183;</span>
-									<a class="link" href="javascript:remoteSubmit(event, 'administration/userGroup/delete?group=${userGroup.name}', 'Delete?');">${text_delete}</a>
+									<a class="link" href="administration/userGroup/manage.html?group=${codefunction:maskURL(userGroup.name)}">${text_edit_members}</a><span class="minorspace">&#183;</span>
+									<a class="link" href="javascript:remoteSubmit(event, 'administration/userGroup/delete?group=${codefunction:maskURL(userGroup.name)}', 'Delete?');">${text_delete}</a>
 								</c:if>
 								</security:authorize>
 							</td>

@@ -46,7 +46,6 @@ public class IssueResolution implements Serializable {
 	private int order;
 	
 	@Column(name = "color")
-	@Pattern(regexp = "([a-f]|[A-F]|[0-9]){6}")
 	private String color;
 	
 	public IssueResolution() {}

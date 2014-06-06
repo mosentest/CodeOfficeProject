@@ -3,6 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -59,13 +60,14 @@
 							</ul>
 						</td>
 						<td>
-							<a class="link" href="administration/typeScheme/edit.html?scheme=${scheme.name}">${text_edit}</a>
+							<c:set var="maskURL" value="${codefunction:maskURL(scheme.name)}"/>
+							<a class="link" href="administration/typeScheme/edit.html?scheme=${maskURL}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/typeScheme/associate.html?scheme=${scheme.name}">${text_associate}</a>
+							<a class="link" href="administration/typeScheme/associate.html?scheme=${maskURL}">${text_associate}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/typeScheme/clone?scheme=${scheme.name}">${text_clone}</a>
+							<a class="link" href="administration/typeScheme/clone?scheme=${maskURL}">${text_clone}</a>
 							<span class="minorspace">&#183;</span>
-							<a class="link" href="javascript:remoteSubmit(event, 'administration/typeScheme/delete?scheme=${scheme.name}', 'Delete?');">${text_delete}</a>
+							<a class="link" href="javascript:remoteSubmit(event, 'administration/typeScheme/delete?scheme=${maskURL}', 'Delete?');">${text_delete}</a>
 						</td>
 					</tr>
 					</c:forEach>
