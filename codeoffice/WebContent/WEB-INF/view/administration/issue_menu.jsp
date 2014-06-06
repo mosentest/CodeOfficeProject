@@ -10,9 +10,9 @@
 	<li class="${param.menu eq 'typeScheme' ? 'selected' : ''}"><a class="link" href="administration/typeSchemes.html"><spring:message code="administration.issue.menu.issueTypeSchemes"/></a></li>
 	<li class="${param.menu eq 'subtask' ? 'selected' : ''}"><a class="link" href="administration/subtasks.html"><spring:message code="administration.issue.menu.subtasks"/></a></li>
 	<li class="${param.menu eq 'link' ? 'selected' : ''}"><a class="link" href="administration/links.html"><spring:message code="administration.issue.menu.issueLinks"/></a></li>
-	<div class="vertical-navigation-title"><spring:message code="administration.issue.title.screens"/></div>
+	<div class="vertical-navigation-title"><spring:message code="administration.issue.menu.title.screens"/></div>
 	<li class="${param.menu eq 'screen' ? 'selected' : ''}"><a class="link" href="administration/screen.html"><spring:message code="administration.issue.menu.screen"/></a></li>
-	<li class="${param.menu eq 'screenScheme' ? 'selected' : ''}"><a class="link" href="administration/screenScheme.html"><spring:message code="administration.issue.smenu.creenScheme"/></a></li>
+	<li class="${param.menu eq 'screenScheme' ? 'selected' : ''}"><a class="link" href="administration/screenScheme.html"><spring:message code="administration.issue.menu.screenScheme"/></a></li>
 	<li class="${param.menu eq 'issueTypeScreenScheme' ? 'selected' : ''}"><a class="link" href="administration/issueTypeScreenScheme.html"><spring:message code="administration.issue.menu.issueTypeScreenScheme"/></a></li>
 	<div class="vertical-navigation-title"><spring:message code="administration.issue.menu.title.fields"/></div>
 	<li class="${param.menu eq 'customField' ? 'selected' : ''}"><a class="link" href="administration/customField.html"><spring:message code="administration.issue.menu.customField"/></a></li>

@@ -49,7 +49,7 @@
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="entity.projectRole.name"/></td>
-						<td><spring:message code="applications.operations"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${projectRoles}" var="projectRole">
 					<tr class="list-table-item">

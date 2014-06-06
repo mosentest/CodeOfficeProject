@@ -18,8 +18,8 @@
 		$("input[name='icon']").val(icon);
 	}
 </script>
-<spring:message var="text_standard" code="administration.issue.issuetype.standard" />
-<spring:message var="text_subtask" code="administration.issue.issuetype.subtask" />
+<spring:message var="text_standard" code="entity.issueType.standard" />
+<spring:message var="text_subtask" code="entity.issueType.subTask" />
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/issue_menu.jsp">
 		<jsp:param name="menu" value="type"/>

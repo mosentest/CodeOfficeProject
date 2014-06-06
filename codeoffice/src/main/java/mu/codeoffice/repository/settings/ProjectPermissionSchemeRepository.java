@@ -18,6 +18,9 @@ public interface ProjectPermissionSchemeRepository extends JpaRepository<Project
 	@Query("SELECT s FROM ProjectPermissionScheme s WHERE s.enterprise = :enterprise")
 	public List<ProjectPermissionScheme> getProjectPermissionSchemes(@Param("enterprise") Enterprise enterprise);
 
+	@Query("SELECT s FROM ProjectPermissionScheme s WHERE s.enterprise = :enterprise AND s.id = :id")
+	public ProjectPermissionScheme getProjectPermissionScheme(@Param("enterprise") Enterprise enterprise, @Param("id") Long id);
+
 	@Query("SELECT s FROM ProjectPermissionScheme s WHERE s.enterprise = :enterprise AND s.name = :schemeName")
 	public ProjectPermissionScheme getProjectPermissionScheme(@Param("enterprise") Enterprise enterprise, @Param("schemeName") String schemeName);
 	

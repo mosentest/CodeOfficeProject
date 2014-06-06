@@ -3,6 +3,7 @@ package mu.codeoffice.entity.settings;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -44,22 +45,22 @@ public class ProjectPermissionSettings implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private mu.codeoffice.security.ProjectPermission projectPermission;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "projectpermission_usergroup", uniqueConstraints = @UniqueConstraint(columnNames = {"projectpermission_gid", "usergroup_id"}),
         joinColumns = @JoinColumn(name = "projectpermission_gid", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "usergroup_id", referencedColumnName = "id"))
 	private List<UserGroup> userGroups;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "projectpermission_user", uniqueConstraints = @UniqueConstraint(columnNames = {"projectpermission_uid", "user_id"}),
         joinColumns = @JoinColumn(name = "projectpermission_uid", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<User> users;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "projectpermission_projectrole", uniqueConstraints = @UniqueConstraint(columnNames = {"projectpermission_rid", "user_id"}),
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "projectpermission_projectrole", uniqueConstraints = @UniqueConstraint(columnNames = {"projectpermission_rid", "role_id"}),
         joinColumns = @JoinColumn(name = "projectpermission_rid", referencedColumnName = "id"), 
-        inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<ProjectRole> projectRoles;
 	
 	public ProjectPermissionSettings() {}

@@ -42,13 +42,15 @@ public class WorkFlowService {
 	
 	@Transactional(readOnly = true)
 	@PreAuthorize("hasAnyRole('ROLE_GLOBAL_SYSTEM_ADMIN','ROLE_GLOBAL_ADMIN','ROLE_GLOBAL_PROJECT_ADMIN')")
-	public List<WorkFlow> getWorkFlows(EnterpriseAuthentication auth) {
+	public List<WorkFlow> getWorkFlows(EnterpriseAuthentication auth, boolean initialize) {
 		List<WorkFlow> workFlows = workFlowRepository.getWorkFlows(auth.getEnterprise());
-		for (WorkFlow workFlow : workFlows) {
-			workFlow.getCreator().getId();
-			workFlow.getIssueStatus().size();
-			workFlow.getProjects().size();
-			workFlow.getTransitions().size();
+		if (initialize) {
+			for (WorkFlow workFlow : workFlows) {
+				workFlow.getCreator().getId();
+				workFlow.getIssueStatus().size();
+				workFlow.getProjects().size();
+				workFlow.getTransitions().size();
+			}
 		}
 		return workFlows;
 	}

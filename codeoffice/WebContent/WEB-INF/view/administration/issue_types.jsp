@@ -19,7 +19,7 @@
 	}
 </script>
 <spring:message var="text_standard" code="entity.issueType.standard" />
-<spring:message var="text_subtask" code="entity.issueType.subtask" />
+<spring:message var="text_subtask" code="entity.issueType.subTask" />
 <spring:message var="text_edit" code="application.edit" />
 <spring:message var="text_delete" code="application.delete" />
 <div id="content">

@@ -60,7 +60,7 @@
 							</ul>
 						</td>
 						<td>
-							<a class="link" href="administration/workFlow/${workFlow.name}.html">${text_view}</a>
+							<a class="link" href="administration/workFlow.html?workflow=${workFlow.name}">${text_view}</a>
 							<span class="minorspace">&#183;</span>
 							<a class="link" href="administration/workFlow/edit.html?workflow=${workFlow.name}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>

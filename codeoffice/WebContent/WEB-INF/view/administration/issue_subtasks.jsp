@@ -20,7 +20,7 @@
 	}
 </script>
 <spring:message var="text_standard" code="entity.issueType.standard" />
-<spring:message var="text_subtask" code="entity.issueType.subtask" />
+<spring:message var="text_subtask" code="entity.issueType.subTask" />
 <spring:message var="text_edit" code="application.edit" />
 <spring:message var="text_delete" code="application.delete" />
 <div id="content">
@@ -78,10 +78,10 @@
 				</div>
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="administration.issue.issuetype.name"/></td>
-						<td><spring:message code="administration.issue.issuetype.icon"/></td>
-						<td><spring:message code="administration.issue.issuetype.type"/></td>
-						<td><spring:message code="administration.issue.issuetype.operations"/></td>
+						<td><spring:message code="entity.issueType.name"/></td>
+						<td><spring:message code="entity.issueType.icon"/></td>
+						<td><spring:message code="entity.issueType.type"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${issueTypes}" var="type">
 					<tr class="list-table-item">

@@ -78,7 +78,7 @@
 					<spring:message code="entity.userGroup.users"/>
 					<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 					<c:if test="${not userGroup.defaultGroup}">
-					<input type="button" class="button" onclick="javascript:url('/administration/userGroup/manage.html?group=${userGroup.name}');" value="<spring:message code="administration.um.group.editMembers"/>"/>
+					<input type="button" class="button" onclick="javascript:url('/administration/userGroup/manage.html?group=${userGroup.name}');" value="<spring:message code="entity.userGroup.users.manage"/>"/>
 					</c:if>
 					</security:authorize>
 				</div>

@@ -73,6 +73,15 @@ public class WorkFlow implements Serializable {
     private List<Project> projects;
     
     public WorkFlow() {}
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (!(obj instanceof WorkFlow)) {
+    		return false;
+    	}
+    	WorkFlow o = (WorkFlow) obj;
+    	return o.id != null && this.id != null && o.id.equals(this.id);
+    }
 
 	public Long getId() {
 		return id;

@@ -46,10 +46,10 @@
 				<table class="filter-table">
 					<tr class="filter-table-title"></tr>
 					<tr class="filter-table-label">
-						<td><spring:message code="entity.workFlow.transition"/>:</td>
-						<td><spring:message code="entity.workFlow.from"/>:</td>
-						<td><spring:message code="entity.workFlow.to"/>:</td>
-						<td><spring:message code="entity.workFlow.requiredPermissions"/>:</td>
+						<td><spring:message code="entity.workFlowTransition"/>:</td>
+						<td><spring:message code="entity.workFlowTransition.from"/>:</td>
+						<td><spring:message code="entity.workFlowTransition.to"/>:</td>
+						<td><spring:message code="entity.workFlowTransition.requiredPermissions"/>:</td>
 					</tr>
 					<tr class="filter-table-input">
 						<td class="form-top-col"><form:input path="transition"/></td>
@@ -107,9 +107,9 @@
 			<div class="sub-element-content">
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="application.from"/></td>
-						<td><spring:message code="administration.project.workflow.transition"/></td>
-						<td><spring:message code="administration.project.workflow.operations"/></td>
+						<td><spring:message code="entity.workFlowTransition.from"/></td>
+						<td><spring:message code="entity.workFlowTransition"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${transitionMap}" var="transitions">
 					<tr class="list-table-item">
@@ -129,7 +129,7 @@
 							<a class="link" href="administration/workFlow/${workFlow.name}.html">${text_view}</a>
 							<span class="minorspace">&#183;</span>
 							<a class="link" href="administration/workFlow/edit.html?workflow=${workFlow.name}">${text_edit}</a>
-							<span class="minorspace">&#183;</span>	</td>
+						</td>
 					</tr>
 					</c:forEach>
 				</table>

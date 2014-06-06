@@ -14,28 +14,38 @@ import mu.codeoffice.service.IssuePropertyConfigurationService;
 import mu.codeoffice.service.WorkFlowService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/administration/")
-public class WorkFlowController {
+@RequestMapping("/")
+public class WorkFlowController implements GenericController {
 
 	@Autowired
 	private WorkFlowService workFlowService;
 	
 	@Autowired
+	private MessageSource messageSource;
+	
+	@Autowired
 	private IssuePropertyConfigurationService issuePropertyConfigurationService;
 
-	@RequestMapping(value = "workFlow/{name}.html", method = RequestMethod.GET)
+	@RequestMapping(value = "administration/workFlow.html", method = RequestMethod.GET)
 	public ModelAndView workflow(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@PathVariable("name") String name, ModelMap model) {
-		WorkFlow workFlow = workFlowService.getWorkFlow(auth, name);
+			@RequestParam("workflow") String workflow, RedirectAttributes redirectAttributes, ModelMap model) {
+		WorkFlow workFlow = workFlowService.getWorkFlow(auth, workflow);
+		if (workFlow == null) {
+			redirectAttributes.addFlashAttribute(ERROR, messageSource.getMessage("entity.workFlow.notfound", new Object[] {workflow}, LocaleContextHolder.getLocale()));
+			return new ModelAndView("redirect:/administration/workFlows.html");
+		}
 		model.put("workFlow", workFlow);
 		Map<IssueStatus, List<WorkFlowTransition>> transitionMap = new LinkedHashMap<>();
 		transitionMap.put(workFlow.getDefaultStatus(), new ArrayList<>());
@@ -52,9 +62,9 @@ public class WorkFlowController {
 		return new ModelAndView("administration/project_workflow", model);
 	}
 
-	@RequestMapping(value = "workFlows.html", method = RequestMethod.GET)
+	@RequestMapping(value = "administration/workFlows.html", method = RequestMethod.GET)
 	public ModelAndView workflows(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		model.put("workFlows", workFlowService.getWorkFlows(auth));
+		model.put("workFlows", workFlowService.getWorkFlows(auth, true));
 		return new ModelAndView("administration/project_workflows", model);
 	}
 	

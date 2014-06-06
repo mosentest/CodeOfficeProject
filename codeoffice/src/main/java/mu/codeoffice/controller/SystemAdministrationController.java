@@ -46,11 +46,6 @@ public class SystemAdministrationController implements GenericController {
 	
 	@Autowired
 	private ServletContext servletContext;
-	
-	@RequestMapping(value = "system.html", method = RequestMethod.GET)
-	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		return new ModelAndView("administration/system_home");
-	}
 
 	@RequestMapping(value = "global.html", method = RequestMethod.GET)
 	public ModelAndView globalView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model)

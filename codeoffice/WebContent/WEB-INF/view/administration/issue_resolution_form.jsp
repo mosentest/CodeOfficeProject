@@ -33,11 +33,9 @@
 		});
 	});
 </script>
-<spring:message var="text_standard" code="administration.issue.issuetype.standard" />
-<spring:message var="text_subtask" code="administration.issue.issuetype.subtask" />
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/issue_menu.jsp">
-		<jsp:param name="menu" value="issueType"/>
+		<jsp:param name="menu" value="resolution"/>
 	</jsp:include>
 	<div id="maincontent">
 		<div class="panel-content">

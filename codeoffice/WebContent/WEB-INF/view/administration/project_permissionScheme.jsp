@@ -54,6 +54,7 @@
 		};
 	});
 </script>
+<spring:message var="text_reset" code="application.reset"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/project_menu.jsp">
 		<jsp:param name="menu" value="permissionscheme"/>
@@ -65,6 +66,8 @@
 					<span>${permissionScheme.name}</span>
 					<input type="submit" onclick="javascript:url('administration/permissionScheme/clone?scheme=${permissionScheme.name}');"
 						class="button" value="<spring:message code="application.clone"/>"/>
+					<input type="submit" onclick="javascript:url('administration/permissionScheme/resetAll?scheme=${permissionScheme.name}');"
+						class="button" value="reset all"/>
 				</div>
 				<div class="sub-element-description">${permissionScheme.description}</div>
 			</div>
@@ -77,9 +80,9 @@
 							</tr>
 							<tr class="filter-table-label">
 								<td><spring:message code="entity.projectPermissionSettings.projectPermission"/></td>
+								<td><spring:message code="entity.projectPermissionSettings.users"/></td>
 								<td><spring:message code="entity.projectPermissionSettings.userGroups"/></td>
 								<td><spring:message code="entity.projectPermissionSettings.projectRoles"/></td>
-								<td><spring:message code="entity.projectPermissionSettings.users"/></td>
 							</tr>
 							<tr class="filter-table-input">
 								<td>
@@ -121,6 +124,7 @@
 						<td><spring:message code="entity.projectPermissionSettings.userGroups"/></td>
 						<td><spring:message code="entity.projectPermissionSettings.projectRoles"/></td>
 						<td><spring:message code="entity.projectPermissionSettings.users"/></td>
+								<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${permissionScheme.projectPermissionSettings}" var="settings">
 					<tr class="list-table-item">
@@ -149,6 +153,9 @@
 									<li><code:user user="${user}" width="20" height="20"/></li>
 								</c:forEach>
 							</ul>
+						</td>
+						<td>
+							<a class="link" href="administration/permissionScheme/reset?scheme=${permissionScheme.name}&permission=${settings.projectPermission}">${text_reset}</a>
 						</td>
 					</tr>
 					</c:forEach>

@@ -43,7 +43,7 @@
 </script>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/issue_menu.jsp">
-		<jsp:param name="menu" value="issueType"/>
+		<jsp:param name="menu" value="priority"/>
 	</jsp:include>
 	<div id="maincontent">
 		<div class="panel-content">

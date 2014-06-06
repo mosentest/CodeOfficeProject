@@ -42,7 +42,7 @@
 		};
 	});
 </script>
-<spring:message var="text_view_users" code="administration.um.globalpermission.viewUser"/>
+<spring:message var="text_view_users" code="administration.system.globalpermission.viewUsers"/>
 <spring:message var="text_reset" code="application.reset"/>
 <spring:message var="text_remove" code="application.remove"/>
 <div id="content">

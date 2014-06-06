@@ -116,7 +116,7 @@
 								<td colspan="2"><spring:message code="application.filter"/></td>
 							</tr>
 							<tr class="filter-table-label">
-								<td colspan="2"><spring:message code="administration.um.group.filter.name"/></td>
+								<td colspan="2"><spring:message code="administration.um.user.filter.name"/></td>
 							</tr>
 							<tr class="filter-table-input">
 								<td><input type="text" name="query" value="${query}"/></td>

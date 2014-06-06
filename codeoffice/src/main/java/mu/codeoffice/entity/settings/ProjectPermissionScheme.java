@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
@@ -48,7 +47,6 @@ public class ProjectPermissionScheme implements Serializable {
 	private Date modified;
 
 	@Column(name = "name")
-	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
 	@Size(max = 30)
 	private String name;
 
@@ -63,6 +61,15 @@ public class ProjectPermissionScheme implements Serializable {
 	private List<ProjectPermissionSettings> projectPermissionSettings;
     
     public ProjectPermissionScheme() {}
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (!(obj instanceof ProjectPermissionScheme)) {
+    		return false;
+    	}
+    	ProjectPermissionScheme o = (ProjectPermissionScheme) obj;
+    	return o.id != null && this.id != null && o.id.equals(this.id);
+    }
 
 	public Long getId() {
 		return id;

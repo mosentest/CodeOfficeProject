@@ -12,7 +12,7 @@
 		<jsp:param name="menu" value="user"/>
 	</jsp:include>
 </div>
-<spring:message var="text_edit_members" code="administration.um.group.editMembers"/>
+<spring:message var="text_edit_members" code="entity.userGroup.users.manage"/>
 <spring:message var="text_delete" code="application.delete"/>
 
 <spring:message var="text_name" code="entity.userGroup.name"/>
