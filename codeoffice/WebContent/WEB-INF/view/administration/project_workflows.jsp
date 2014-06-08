@@ -56,9 +56,9 @@
 							<c:if test="${not empty workFlow.modified}"><fmt:formatDate value="${workFlow.modified}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></c:if>
 						</td>
 						<td class="info-number">${workFlow.steps}</td>
-						<td><span class="loungez" style="background-color: #${workFlow.defaultStatus.color}">${workFlow.defaultStatus.name}</span></td>
-						<td><span class="loungez" style="background-color: #${workFlow.resolvedStatus.color}">${workFlow.resolvedStatus.name}</span></td>
-						<td><span class="loungez" style="background-color: #${workFlow.closedStatus.color}">${workFlow.closedStatus.name}</span></td>
+						<td><span class="loungez ${workFlow.defaultStatus.color}">${workFlow.defaultStatus.name}</span></td>
+						<td><span class="loungez ${workFlow.resolvedStatus.color}">${workFlow.resolvedStatus.name}</span></td>
+						<td><span class="loungez ${workFlow.closedStatus.color}">${workFlow.closedStatus.name}</span></td>
 						<td>
 							<ul class="info-ul-list">
 								<c:forEach items="${workFlow.issueStatus}" var="issueStatus">

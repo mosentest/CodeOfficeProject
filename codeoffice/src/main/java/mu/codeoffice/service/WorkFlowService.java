@@ -3,7 +3,10 @@ package mu.codeoffice.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import javax.annotation.Resource;
 
@@ -120,7 +123,7 @@ public class WorkFlowService {
 		if (!original.getIssueStatus().contains(closedStatus)) {
 			original.getIssueStatus().add(closedStatus);
 		}
-		//TODO validate, count steps
+		validateWorkFlow(original, original.getTransitions());
 		workFlowRepository.save(original);
 	}
 
@@ -223,7 +226,7 @@ public class WorkFlowService {
 		if (!workFlow.getIssueStatus().contains(to)) {
 			workFlow.getIssueStatus().add(to);
 		}
-		//TODO validate, count steps
+		validateWorkFlow(workFlow, workFlow.getTransitions());
 		workFlowRepository.save(workFlow);
 	}
 
@@ -241,7 +244,6 @@ public class WorkFlowService {
 		if (workFlowRepository.isInUse(auth.getEnterprise(), original.getId())) {
 			throw new InformationException("Can not delete, several projects are using this workflow.");
 		}
-		//TODO validate, count steps
 		original.setModified(new Date());
 		if (!original.getDefaultStatus().equals(workFlowTransition.getFrom()) && 
 				!original.getResolvedStatus().equals(workFlowTransition.getFrom()) &&
@@ -257,8 +259,10 @@ public class WorkFlowService {
 				original.getIssueStatus().remove(workFlowTransition.getTo());
 			}
 		}
-		workFlowRepository.save(original);
 		workFlowTransitionRepository.delete(workFlowTransition);
+		original.getTransitions().remove(workFlowTransition);
+		validateWorkFlow(original, original.getTransitions());
+		workFlowRepository.save(original);
 	}
 	
 	@Transactional(readOnly = true)
@@ -287,6 +291,66 @@ public class WorkFlowService {
 			transition.setRequiredPermissions(ProjectPermission.getPermissions(transition.getRequiredPermissionValue()));
 		}
 		return workFlow;
+	}
+	
+	private void validateWorkFlow(WorkFlow workFlow, List<WorkFlowTransition> transitions) {
+		List<TransitionNode> nodes = new ArrayList<>();
+		Queue<TransitionNode> queue = new LinkedList<>();
+		for (WorkFlowTransition transition : transitions) {
+			TransitionNode node = new TransitionNode(transition.getFrom().getId(), transition.getTo().getId());
+			nodes.add(node);
+			if (node.from.equals(workFlow.getDefaultStatus().getId())) {
+				queue.add(node);
+			}
+		}
+		boolean origin = true;
+		boolean resolved = false;
+		boolean closed = false;
+		int steps = 0;
+		do {
+			List<TransitionNode> current = new ArrayList<>();
+			while (!queue.isEmpty()) {
+				current.add(queue.poll());
+			}
+			for (TransitionNode node : current) {
+				if (node.to.equals(workFlow.getResolvedStatus().getId())) {
+					resolved = true;
+				}
+				if (node.to.equals(workFlow.getClosedStatus().getId())) {
+					closed = true;
+				}
+				Iterator<TransitionNode> it = nodes.iterator();
+				while(it.hasNext()) {
+					TransitionNode next = it.next();
+					if (next.from.equals(node.to)) {
+						queue.add(next);
+						it.remove();
+					}
+				}
+			}
+			steps++;
+		} while(!queue.isEmpty() && !(origin && resolved && closed));
+		if (origin && resolved && closed) {
+			workFlow.setValid(true);
+			workFlow.setSteps(steps);
+		} else {
+			workFlow.setValid(false);
+			workFlow.setSteps(0);
+		}
+	}
+	
+	private class TransitionNode {
+		
+		public final Long from;
+		
+		public final Long to;
+		
+		public TransitionNode(Long from, Long to) {
+			this.from = from;
+			this.to = to;
+		}
+		
+		
 	}
 	
 }
