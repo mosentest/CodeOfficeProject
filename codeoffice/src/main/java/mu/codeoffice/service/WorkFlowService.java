@@ -120,6 +120,7 @@ public class WorkFlowService {
 		if (!original.getIssueStatus().contains(closedStatus)) {
 			original.getIssueStatus().add(closedStatus);
 		}
+		//TODO validate, count steps
 		workFlowRepository.save(original);
 	}
 
@@ -143,6 +144,7 @@ public class WorkFlowService {
 		workFlow.setClosedStatus(original.getClosedStatus());
 		workFlow.setModified(new Date());
 		workFlow.setSteps(original.getSteps());
+		workFlow.setValid(original.isValid());
 		workFlow.setIssueStatus(new ArrayList<>());
 		for (IssueStatus status : original.getIssueStatus()) {
 			workFlow.getIssueStatus().add(issueStatusRepository.getIssueStatus(auth.getEnterprise(), status.getId()));
@@ -221,6 +223,7 @@ public class WorkFlowService {
 		if (!workFlow.getIssueStatus().contains(to)) {
 			workFlow.getIssueStatus().add(to);
 		}
+		//TODO validate, count steps
 		workFlowRepository.save(workFlow);
 	}
 
@@ -238,7 +241,7 @@ public class WorkFlowService {
 		if (workFlowRepository.isInUse(auth.getEnterprise(), original.getId())) {
 			throw new InformationException("Can not delete, several projects are using this workflow.");
 		}
-		//count steps
+		//TODO validate, count steps
 		original.setModified(new Date());
 		if (!original.getDefaultStatus().equals(workFlowTransition.getFrom()) && 
 				!original.getResolvedStatus().equals(workFlowTransition.getFrom()) &&

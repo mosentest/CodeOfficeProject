@@ -76,6 +76,9 @@ public class WorkFlow implements Serializable {
 	@NotNull
 	private IssueStatus closedStatus;
 
+	@Column(name = "valid")
+	private boolean valid;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workFlow", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("from ASC")
 	private List<WorkFlowTransition> transitions;
@@ -202,6 +205,14 @@ public class WorkFlow implements Serializable {
 
 	public void setClosedStatus(IssueStatus closedStatus) {
 		this.closedStatus = closedStatus;
+	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
 	}
 	
 }

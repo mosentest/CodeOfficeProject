@@ -35,6 +35,7 @@
 					<tr class="list-table-header">
 						<td><spring:message code="entity.workFlow.name"/></td>
 						<td><spring:message code="entity.workFlow.creator"/></td>
+						<td><spring:message code="entity.workFlow.valid"/></td>
 						<td><spring:message code="entity.workFlow.modified"/></td>
 						<td><spring:message code="entity.workFlow.steps"/></td>
 						<td><spring:message code="entity.workFlow.defaultStatus"/></td>
@@ -50,6 +51,7 @@
 							<span class="description-info">${workFlow.description}</span></c:if>
 						</td>
 						<td><code:user user="${workFlow.creator}"/></td>
+						<td><code:toggle valid="true" value="${workFlow.valid}"/></td>
 						<td class="description-info">
 							<c:if test="${not empty workFlow.modified}"><fmt:formatDate value="${workFlow.modified}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></c:if>
 						</td>

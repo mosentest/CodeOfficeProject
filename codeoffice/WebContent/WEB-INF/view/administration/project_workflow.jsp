@@ -44,6 +44,10 @@
 			<div class="sub-element-content">
 				<table class="form-table">
 					<tr>
+						<td class="form-label-col"><spring:message code="entity.workFlow.valid"/>:</td>
+						<td class="form-input-col"><code:toggle valid="true" value="${workFlow.valid}"/></td>
+					</tr>
+					<tr>
 						<td class="form-label-col"><spring:message code="entity.workFlow.defaultStatus"/>:</td>
 						<td class="form-input-col"><span class="loungez ${workFlow.defaultStatus.color}" >${workFlow.defaultStatus.name}</span></td>
 					</tr>

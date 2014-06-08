@@ -12,6 +12,8 @@ public class ToggleTag extends SimpleTagSupport {
 	
 	private String path;
 	
+	private boolean valid;
+	
 	@Override
 	public void doTag() throws JspException, IOException {
 		JspWriter out = getJspContext().getOut();
@@ -29,7 +31,11 @@ public class ToggleTag extends SimpleTagSupport {
 			buffer.append(String.format("<input class=\"hidden\" type=\"checkbox\" name=\"%s\" %s />", 
 					path, value ? "checked=checked": ""));
 		} else {
-			buffer.append(value ? "Enabled" : "Disabled");
+			if (valid) {
+				buffer.append(value ? "Valid" : "Invalid");
+			} else {
+				buffer.append(value ? "Enabled" : "Disabled");
+			}
 		}
 		buffer.append("</span>");
 		out.println(buffer.toString());
@@ -48,6 +54,14 @@ public class ToggleTag extends SimpleTagSupport {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
 	}
 	
 }
