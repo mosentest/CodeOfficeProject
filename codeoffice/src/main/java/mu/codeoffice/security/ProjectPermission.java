@@ -1,6 +1,7 @@
 package mu.codeoffice.security;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,16 @@ public enum ProjectPermission implements Permission {
 	LOG_DEL_OWN("codeoffice.permission.project.log_del_own", "ROLE_PROJECT_LOG_DEL_OWN", "codeoffice.permission.project.log", 4, 4),
 	LOG_EDIT_ALL("codeoffice.permission.project.log_edit_all", "ROLE_PROJECT_LOG_EDIT_ALL", "codeoffice.permission.project.log", 2, 2),
 	LOG_EDIT_OWN("codeoffice.permission.project.log_edit_own", "ROLE_PROJECT_LOG_EDIT_OWN", "codeoffice.permission.project.log", 1, 1);
+	
+	public static final List<ProjectPermission> WORKFLOW_PERMISSIONS;
+	
+	public static final int WORK_FLOW_ALL = 1721729024;
+	
+	static {
+		WORKFLOW_PERMISSIONS = Arrays.asList(PROJECT_ADMIN, WORK_FLOW, ISSUE_ASSIGN, ISSUE_CLOSE, ISSUE_EDIT, ISSUE_LINK, 
+				MODIFY_REPORTER, ISSUE_RESOLVE, ISSUE_SCHEDULE, 
+				ISSUE_SECURITY, ISSUE_TRANSITION);
+	}
 	
 	private final String key;
 	

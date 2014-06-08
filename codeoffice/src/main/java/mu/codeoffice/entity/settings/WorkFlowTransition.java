@@ -3,9 +3,7 @@ package mu.codeoffice.entity.settings;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -42,23 +41,23 @@ public class WorkFlowTransition implements Serializable {
 	private WorkFlow workFlow;
 	
 	@Column(name = "transition")
-	@Size(max = 30)
+	@Size(min = 5, max = 30)
 	private String transition;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "from_status_id")
 	@NotNull
 	private IssueStatus from;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "to_status_id")
 	@NotNull
 	private IssueStatus to;
 
-	@ElementCollection(targetClass = ProjectPermission.class)
-	@CollectionTable(name = "settings_workflow_transition_permission",
-	    joinColumns = @JoinColumn(name = "workflow_transition_id"))
-	@Column(name = "permission_id")
+	@Column(name = "permission_value")
+	private int requiredPermissionValue;
+	
+	@Transient
 	private List<ProjectPermission> requiredPermissions;
 	
 	public WorkFlowTransition() {}
@@ -126,6 +125,14 @@ public class WorkFlowTransition implements Serializable {
 
 	public void setRequiredPermissions(List<ProjectPermission> requiredPermissions) {
 		this.requiredPermissions = requiredPermissions;
+	}
+
+	public int getRequiredPermissionValue() {
+		return requiredPermissionValue;
+	}
+
+	public void setRequiredPermissionValue(int requiredPermissionValue) {
+		this.requiredPermissionValue = requiredPermissionValue;
 	}
 
 }

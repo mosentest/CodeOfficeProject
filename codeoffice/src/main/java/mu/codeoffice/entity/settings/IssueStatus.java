@@ -74,6 +74,15 @@ public class IssueStatus implements Serializable {
 		}
 		throw new InformationException("Icon is invalid");
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof IssueStatus)) {
+			return false;
+		}
+		IssueStatus o = (IssueStatus) obj;
+		return o.id != null && this.id != null && o.id.equals(this.id);
+	}
 
 	public Long getId() {
 		return id;

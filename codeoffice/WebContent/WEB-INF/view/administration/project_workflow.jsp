@@ -15,18 +15,18 @@
 	</jsp:include>
 </div>
 <script>
-	function selectTypeIcon(icon, id) {
+	function selectTypeIcon(icon, name, status, id) {
 		$('#typeIcon-icon_' + id).attr('src', 'assets/img/office/status/' + icon + ".png");
-		$('#typeIcon-text_' + id).text(icon);
+		$('#typeIcon-text_' + id).text(name);
 		$('.image-select-ul-list').css({'left' : '-9999px'});
-		$("input[name='" + id + "']").val(icon);
+		$("input[name='" + id + ".id']").val(status);
 	}
 </script>
 <c:set var="maskURL" value="${codefunction:maskURL(workFlow.name)}"/>
-<spring:message var="text_view" code="application.view" />
 <spring:message var="text_edit" code="application.edit" />
 <spring:message var="text_delete" code="application.delete" />
 <spring:message var="text_clone" code="application.clone" />
+<spring:message var="text_any" code="application.any"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/project_menu.jsp">
 		<jsp:param name="menu" value="workflow"/>
@@ -41,21 +41,70 @@
 				</div>
 				<div class="sub-element-description">${workFlow.description}</div>
 			</div>
+			<div class="sub-element-content">
+				<table class="form-table">
+					<tr>
+						<td class="form-label-col"><spring:message code="entity.workFlow.defaultStatus"/>:</td>
+						<td class="form-input-col"><span class="loungez ${workFlow.defaultStatus.color}" >${workFlow.defaultStatus.name}</span></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="entity.workFlow.resolvedStatus"/>:</td>
+						<td class="form-input-col"><span class="loungez ${workFlow.resolvedStatus.color}" >${workFlow.resolvedStatus.name}</span></td>
+					</tr>
+					<tr>
+						<td class="form-label-col"><spring:message code="entity.workFlow.closedStatus"/>:</td>
+						<td class="form-input-col"><span class="loungez ${workFlow.closedStatus.color}" >${workFlow.closedStatus.name}</span></td>
+					</tr>
+				</table>
+				<table class="list-table">
+					<tr class="list-table-header">
+						<td><spring:message code="entity.workFlowTransition.from"/></td>
+						<td><spring:message code="entity.workFlowTransition.transition"/></td>
+						<td><spring:message code="entity.workFlowTransition.to"/></td>
+						<td><spring:message code="entity.workFlowTransition.requiredPermissions"/></td>
+						<td><spring:message code="application.operations"/></td>
+					</tr>
+					<c:forEach items="${workFlow.transitions}" var="transition">
+					<tr class="list-table-item">
+						<td><span class="loungez ${transition.from.color}" >${transition.from.name}</span></td>
+						<td>${transition.transition}</td>
+						<td><span class="loungez ${transition.to.color}" >${transition.to.name}</span></td>
+						<td>
+							<ul class="info-ul-list ul-list-high">
+								<c:if test="${transition.requiredPermissionValue eq 1721729024}">
+								<li>${text_any}</li>
+								</c:if>
+								<c:if test="${transition.requiredPermissionValue ne 1721729024}">
+								<c:forEach items="${transition.requiredPermissions}" var="permission">
+									<li><spring:message code="${permission.key}"/></li>
+								</c:forEach>
+								</c:if>
+							</ul>
+						</td>
+						<td><a class="link" href="javascript:remoteSubmit(event, 'administration/workFlowTransition/delete?workFlow=${maskURL}&transition=${transition.id}', 'Delete?');">${text_delete}</a></td>
+					</tr>
+					</c:forEach>
+				</table>
+			</div>
 			<div class="filter-table">
 				<c:if test="${fn:length(issueStatus) gt 0}">
-				<form:form action="administration/workFlowTransition/create" modelAttribute="workFlowTransition" method="POST">
+				<form:form action="administration/workFlowTransition/create?workflow=${maskURL}" modelAttribute="workFlowTransition" method="POST">
+				<form:hidden path="workFlow.id" value="${workFlow.id}"/>
 				<table class="filter-table">
-					<tr class="filter-table-title"></tr>
+					<tr class="filter-table-title">
+						<td colspan="4"><spring:message code="entity.workFlowTransition.add"/></td>
+					</tr>
+					<code:formError errors="${formErrors}"/>
 					<tr class="filter-table-label">
-						<td><spring:message code="entity.workFlowTransition"/>:</td>
-						<td><spring:message code="entity.workFlowTransition.from"/>:</td>
-						<td><spring:message code="entity.workFlowTransition.to"/>:</td>
+						<td><spring:message code="entity.workFlowTransition"/><span class="icon-required">&nbsp;</span>:</td>
+						<td><spring:message code="entity.workFlowTransition.from"/><span class="icon-required">&nbsp;</span>:</td>
+						<td><spring:message code="entity.workFlowTransition.to"/><span class="icon-required">&nbsp;</span>:</td>
 						<td><spring:message code="entity.workFlowTransition.requiredPermissions"/>:</td>
 					</tr>
 					<tr class="filter-table-input">
 						<td class="form-top-col"><form:input path="transition"/></td>
 						<td class="form-top-col">
-							<form:hidden path="from"/>
+							<form:hidden path="from.id" value="${issueStatus[0].id}"/>
 							<span class="image-select-indicator imglink" id="typeIcon_from">
 								<img id="typeIcon-icon_from" src="assets/img/office/status/${issueStatus[0].icon}.png"/>
 								<span id="typeIcon-text_from" class="text">${issueStatus[0].name}</span>
@@ -64,7 +113,7 @@
 							<div class="image-select-ul-list">
 								<ul>
 									<c:forEach items="${issueStatus}" var="status">
-									<li class="imglink" onclick="javascript:selectTypeIcon('${status.icon}', 'from');">
+									<li class="imglink" onclick="javascript:selectTypeIcon('${status.icon}', '${status.name}', ${status.id}, 'from');">
 										<img src="assets/img/office/status/${status.icon}.png"/>
 										<span class="text">${status.name}</span>
 									</li>
@@ -73,7 +122,7 @@
 							</div>
 						</td>
 						<td class="form-top-col">
-							<form:hidden path="to"/>
+							<form:hidden path="to.id" value="${issueStatus[0].id}"/>
 							<span class="image-select-indicator imglink" id="typeIcon_to">
 								<img id="typeIcon-icon_to" src="assets/img/office/status/${issueStatus[0].icon}.png"/>
 								<span id="typeIcon-text_to" class="text">${issueStatus[0].name}</span>
@@ -82,7 +131,7 @@
 							<div class="image-select-ul-list">
 								<ul>
 									<c:forEach items="${issueStatus}" var="status">
-									<li class="imglink" onclick="javascript:selectTypeIcon('${status.icon}', 'to');">
+									<li class="imglink" onclick="javascript:selectTypeIcon('${status.icon}', '${status.name}', ${status.id},'to');">
 										<img src="assets/img/office/status/${status.icon}.png"/>
 										<span class="text">${status.name}</span>
 									</li>
@@ -104,41 +153,6 @@
 				</table>
 				</form:form>
 				</c:if>
-			</div>
-			<div class="sub-element-content">
-				<table class="list-table">
-					<tr class="list-table-header">
-						<td><spring:message code="entity.workFlowTransition.from"/></td>
-						<td><spring:message code="entity.workFlowTransition"/></td>
-						<td><spring:message code="application.operations"/></td>
-					</tr>
-					<c:forEach items="${transitionMap}" var="transitions">
-					<tr class="list-table-item">
-						<td>
-							<span class="loungez ${transitions.key.color}" >${transitions.key.name}</span>
-							<c:if test="${transitions.key eq workFlow.defaultStatus}">(<spring:message code="entity.workFlow.defaultstatus"/>)</c:if>
-							<c:if test="${transitions.key eq workFlow.resolvedStatus}">(<spring:message code="entity.workFlow.resolvedStatus"/>)</c:if>
-							<c:if test="${transitions.key eq workFlow.closedStatus}">(<spring:message code="entity.workFlow.closedStatus"/>)</c:if>
-						</td>
-						<td>
-							<ul class="info-ul-list ul-list-high">
-								<c:forEach items="${transitions.value}" var="transition">
-								<li class="imglink">
-									<span class="info-number">${transition.transition}</span> --&gt; 
-									<span class="loungez ${transition.to.color}">${transition.to.name}</span>
-									<a class="link" href="javascript:remoteSubmit(event, 'administration/workFlowTransition/delete?workFlow=${maskURL}&transition=${transition.id}', 'Delete?');">${text_delete}</a>
-								</li>
-								</c:forEach>
-							</ul>
-						</td>
-						<td>
-							<a class="link" href="administration/workFlow.html?workFlow=${maskURL}">${text_view}</a>
-							<span class="minorspace">&#183;</span>
-							<a class="link" href="administration/workFlow/edit.html?workFlow=${maskURL}">${text_edit}</a>
-						</td>
-					</tr>
-					</c:forEach>
-				</table>
 			</div>
 		</div>
 	</div>

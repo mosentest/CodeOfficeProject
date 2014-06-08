@@ -19,6 +19,9 @@ public interface WorkFlowTransitionRepository extends JpaRepository<WorkFlowTran
 	public WorkFlowTransition getWorkFlowTransition(@Param("enterprise") Enterprise enterprise, @Param("id") Long id);
 
 	@Query("SELECT COUNT(t) = 0 FROM WorkFlowTransition t WHERE t.enterprise = :enterprise AND t.workFlow.id = :workFlow AND t.transition = :transition AND t.from = :from AND t.to = :to")
-	public boolean isInUse(@Param("enterprise") Enterprise enterprise, @Param("workFlow") Long workFlow, @Param("transition") String transition, 
+	public boolean isTransitionAvailable(@Param("enterprise") Enterprise enterprise, @Param("workFlow") Long workFlow, @Param("transition") String transition, 
 			@Param("from") IssueStatus from, @Param("to") IssueStatus to);
+	
+	@Query("SELECT COUNT(t) > 0 FROM WorkFlowTransition t WHERE t.enterprise = :enterprise AND t.id <> :transition AND t.workFlow.id = :workFlow AND (t.from = :status OR t.to = :status)")
+	public boolean isStatusInvolved(@Param("enterprise") Enterprise enterprise, @Param("workFlow") Long workFlow, @Param("transition") Long transition, @Param("status") IssueStatus status);
 }

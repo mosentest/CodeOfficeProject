@@ -15,6 +15,7 @@ import mu.codeoffice.repository.settings.IssueStatusRepository;
 import mu.codeoffice.repository.settings.WorkFlowRepository;
 import mu.codeoffice.repository.settings.WorkFlowTransitionRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
+import mu.codeoffice.security.ProjectPermission;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,9 @@ public class WorkFlowService {
 		IssueStatus closedStatus = issueStatusRepository.getIssueStatus(auth.getEnterprise(), workFlow.getClosedStatus().getId());
 		if (closedStatus == null) {
 			throw new InformationException("Closed Status can not be null");
+		}
+		if (defaultStatus.equals(resolvedStatus) || resolvedStatus.equals(closedStatus) || closedStatus.equals(defaultStatus)) {
+			throw new InformationException("Status must be different.");
 		}
 		
 		workFlow.setId(null);
@@ -87,14 +91,26 @@ public class WorkFlowService {
 		if (closedStatus == null) {
 			throw new InformationException("Closed Status can not be null");
 		}
+		if (defaultStatus.equals(resolvedStatus) || resolvedStatus.equals(closedStatus) || closedStatus.equals(defaultStatus)) {
+			throw new InformationException("Status must be different.");
+		}		
 		
 		original.setModified(new Date());
-		original.getIssueStatus().remove(original.getDefaultStatus());
-		original.getIssueStatus().remove(original.getResolvedStatus());
-		original.getIssueStatus().remove(original.getClosedStatus());
+		if (!workFlowTransitionRepository.isStatusInvolved(auth.getEnterprise(), original.getId(), 0l, original.getDefaultStatus())) {
+			original.getIssueStatus().remove(original.getDefaultStatus());
+		}
+		if (!workFlowTransitionRepository.isStatusInvolved(auth.getEnterprise(), original.getId(), 0l, original.getResolvedStatus())) {
+			original.getIssueStatus().remove(original.getResolvedStatus());
+		}
+		if (!workFlowTransitionRepository.isStatusInvolved(auth.getEnterprise(), original.getId(), 0l, original.getClosedStatus())) {
+			original.getIssueStatus().remove(original.getClosedStatus());
+		}
+		original.setName(workFlow.getName());
+		original.setDescription(workFlow.getDescription());
 		original.setDefaultStatus(defaultStatus);
 		original.setResolvedStatus(resolvedStatus);
 		original.setClosedStatus(closedStatus);
+		original.setModified(new Date());
 		if (!original.getIssueStatus().contains(defaultStatus)) {
 			original.getIssueStatus().add(defaultStatus);
 		}
@@ -127,18 +143,21 @@ public class WorkFlowService {
 		workFlow.setClosedStatus(original.getClosedStatus());
 		workFlow.setModified(new Date());
 		workFlow.setSteps(original.getSteps());
-		workFlow.setIssueStatus(original.getIssueStatus());
+		workFlow.setIssueStatus(new ArrayList<>());
+		for (IssueStatus status : original.getIssueStatus()) {
+			workFlow.getIssueStatus().add(issueStatusRepository.getIssueStatus(auth.getEnterprise(), status.getId()));
+		}
 		workFlowRepository.save(workFlow);
-		List<WorkFlowTransition> transitions = new ArrayList<>();
-		for (WorkFlowTransition transition : workFlow.getTransitions()) {
+		for (WorkFlowTransition transition : original.getTransitions()) {
 			WorkFlowTransition workFlowTransition = new WorkFlowTransition();
 			workFlowTransition.setEnterprise(auth.getEnterprise());
-			workFlowTransition.setRequiredPermissions(transition.getRequiredPermissions());
+			workFlowTransition.setRequiredPermissionValue(transition.getRequiredPermissionValue());
 			workFlowTransition.setFrom(transition.getFrom());
 			workFlowTransition.setTo(transition.getTo());
 			workFlowTransition.setWorkFlow(workFlow);
+			workFlowTransition.setTransition(workFlowTransition.getTransition());
+			workFlowTransitionRepository.save(workFlowTransition);
 		}
-		workFlowTransitionRepository.save(transitions);
 	}
 	
 	@Transactional
@@ -151,14 +170,16 @@ public class WorkFlowService {
 		if (workFlowRepository.isInUse(auth.getEnterprise(), workFlow.getId())) {
 			throw new InformationException("Can not delete, several projects are using this workflow.");
 		}
+		workFlow.getIssueStatus().clear();
+		workFlowRepository.save(workFlow);
 		workFlowRepository.delete(workFlow);
 	}
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void addTransition(EnterpriseAuthentication auth, WorkFlowTransition workFlowTransition) throws InformationException {
-		WorkFlow original = workFlowRepository.getWorkFlow(auth.getEnterprise(), workFlowTransition.getWorkFlow().getId());
-		if (original == null) {
+	public void create(EnterpriseAuthentication auth, WorkFlowTransition workFlowTransition) throws InformationException {
+		WorkFlow workFlow = workFlowRepository.getWorkFlow(auth.getEnterprise(), workFlowTransition.getWorkFlow().getId());
+		if (workFlow == null) {
 			throw new InformationException("Work Flow doens't exist.");
 		}
 		IssueStatus from = issueStatusRepository.getIssueStatus(auth.getEnterprise(), workFlowTransition.getFrom().getId());
@@ -169,23 +190,43 @@ public class WorkFlowService {
 		if (to == null) {
 			throw new InformationException("To Status can not be null");
 		}
-		if (workFlowTransitionRepository.isInUse(auth.getEnterprise(), original.getId(), workFlowTransition.getTransition(), from, to)) {
+		if (from.equals(to)) {
+			throw new InformationException("Transition can not be same.");
+		}
+		if (!workFlowTransitionRepository.isTransitionAvailable(auth.getEnterprise(), workFlow.getId(), workFlowTransition.getTransition(), from, to)) {
 			throw new InformationException("There is a similar transition for work flow.");
 		}
 		workFlowTransition.setId(null);
 		workFlowTransition.setFrom(from);
 		workFlowTransition.setTo(to);
 		workFlowTransition.setEnterprise(auth.getEnterprise());
-		workFlowTransition.setWorkFlow(original);
+		workFlowTransition.setWorkFlow(workFlow);
+		if (workFlowTransition.getRequiredPermissions() != null) {
+			for (ProjectPermission permission : workFlowTransition.getRequiredPermissions()) {
+				if (ProjectPermission.WORKFLOW_PERMISSIONS.contains(permission)) {
+					workFlowTransition.setRequiredPermissionValue(workFlowTransition.getRequiredPermissionValue() | permission.getAuthority());
+				}
+			}
+		} else {
+			for (ProjectPermission permission : ProjectPermission.WORKFLOW_PERMISSIONS) {
+				workFlowTransition.setRequiredPermissionValue(workFlowTransition.getRequiredPermissionValue() | permission.getAuthority());
+			}
+		}
 		workFlowTransitionRepository.save(workFlowTransition);
 		
-		original.setModified(new Date());
-		workFlowRepository.save(original);
+		workFlow.setModified(new Date());
+		if (!workFlow.getIssueStatus().contains(from)) {
+			workFlow.getIssueStatus().add(from);
+		}
+		if (!workFlow.getIssueStatus().contains(to)) {
+			workFlow.getIssueStatus().add(to);
+		}
+		workFlowRepository.save(workFlow);
 	}
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_PROJECT_ADMIN')")
-	public void deleteTransition(EnterpriseAuthentication auth, String workFlow, Long transition) throws InformationException {
+	public void delete(EnterpriseAuthentication auth, String workFlow, Long transition) throws InformationException {
 		WorkFlow original = workFlowRepository.getWorkFlow(auth.getEnterprise(), workFlow);
 		if (workFlow == null) {
 			throw new InformationException("Work Flow doens't exist.");
@@ -199,6 +240,20 @@ public class WorkFlowService {
 		}
 		//count steps
 		original.setModified(new Date());
+		if (!original.getDefaultStatus().equals(workFlowTransition.getFrom()) && 
+				!original.getResolvedStatus().equals(workFlowTransition.getFrom()) &&
+				!original.getClosedStatus().equals(workFlowTransition.getFrom())) {
+			if (!workFlowTransitionRepository.isStatusInvolved(auth.getEnterprise(), original.getId(), workFlowTransition.getId(), workFlowTransition.getFrom())) {
+				original.getIssueStatus().remove(workFlowTransition.getFrom());
+			}
+		}
+		if (!original.getDefaultStatus().equals(workFlowTransition.getTo()) && 
+				!original.getResolvedStatus().equals(workFlowTransition.getTo()) &&
+				!original.getClosedStatus().equals(workFlowTransition.getTo())) {
+			if (!workFlowTransitionRepository.isStatusInvolved(auth.getEnterprise(), original.getId(), workFlowTransition.getId(), workFlowTransition.getTo())) {
+				original.getIssueStatus().remove(workFlowTransition.getTo());
+			}
+		}
 		workFlowRepository.save(original);
 		workFlowTransitionRepository.delete(workFlowTransition);
 	}
@@ -225,6 +280,9 @@ public class WorkFlowService {
 		workFlow.getIssueStatus().size();
 		workFlow.getProjects().size();
 		workFlow.getTransitions().size();
+		for (WorkFlowTransition transition : workFlow.getTransitions()) {
+			transition.setRequiredPermissions(ProjectPermission.getPermissions(transition.getRequiredPermissionValue()));
+		}
 		return workFlow;
 	}
 	

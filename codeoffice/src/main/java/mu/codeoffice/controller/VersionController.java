@@ -98,7 +98,6 @@ public class VersionController extends ProjectPermissionRequired {
 			addNoticeMessage(session, "Version has been updated.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		} catch (InformationException e) {
-			//TODO check if model already has these attributes
 			model.put("project", projectService.getProjectInfo(projectCode, auth));
 			model.put("version", versionService.getProjectVersion(auth, projectCode, versionCode));
 			model.put("edit", true);

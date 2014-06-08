@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,7 +51,6 @@ public class WorkFlow implements Serializable {
 	private String description;
 
 	@Column(name = "steps")
-	@Size(min = 0)
 	private int steps;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -76,7 +76,8 @@ public class WorkFlow implements Serializable {
 	@NotNull
 	private IssueStatus closedStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "workFlow")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "workFlow", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("from ASC")
 	private List<WorkFlowTransition> transitions;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
