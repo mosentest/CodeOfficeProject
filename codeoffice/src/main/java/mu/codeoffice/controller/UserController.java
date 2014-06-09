@@ -1,20 +1,12 @@
 package mu.codeoffice.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-
 import mu.codeoffice.security.EnterpriseAuthentication;
-import mu.codeoffice.security.SessionObject;
 import mu.codeoffice.service.UserGroupService;
 import mu.codeoffice.service.UserService;
 import mu.codeoffice.utility.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -36,9 +28,6 @@ public class UserController implements GenericController {
 	@Autowired
 	private MessageSource messageSource;
 	
-	@Autowired
-	private ServletContext servletContext;
-	
 	private static final int DEFAULT_LIST_SIZE = 20;
 	
 	private static final int[] LIST_SIZE = {
@@ -53,8 +42,7 @@ public class UserController implements GenericController {
 			@RequestParam(value = "sort", required = false) String sort,
 			@RequestParam(value = "account", required = false) String account, 
 			@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "descending", required = false) boolean descending)
-			throws AuthenticationException {
+			@RequestParam(value = "descending", required = false) boolean descending) {
 		model.put("userPage", userService.groupSearch(auth, group, account, name,
 				pageIndex, pageSize, sort, !descending, true));
 		model.put("supportedListSize", LIST_SIZE);
@@ -69,31 +57,12 @@ public class UserController implements GenericController {
 		return new ModelAndView("administration/um_users", model);
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "administration/userSessions.html", method = RequestMethod.GET)
 	public ModelAndView userSessionView(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex,
 			@RequestParam(value = "pageSize", required = false, defaultValue = "30") Integer pageSize, 
 			@RequestParam(value = "name", required = false) String name, 
-			ModelMap model)
-			throws AuthenticationException {
-		int offset = (pageIndex == 0 || pageSize == 0) ? 0 :pageIndex * pageSize;
-		Map<Long, SessionObject> sessionMap = (Map<Long, SessionObject>) servletContext.getAttribute(auth.getEnterprise().getCode() + "_SESSIONS");
-		List<SessionObject> filtered = new ArrayList<>();
-		int i = 0;
-		for (Map.Entry<Long, SessionObject> entry : sessionMap.entrySet()) {
-			boolean valid = (name == null || entry.getValue().getUser().getFullName().contains(name));
-			if (valid) {
-				if (i >= offset) {
-					filtered.add(entry.getValue());
-					if (filtered.size() == pageSize) {
-						break;
-					}
-				}
-				i++;
-			}
-		}
-		model.put("userSessions", filtered);
+			ModelMap model) {
 		return new ModelAndView("administration/um_userSessions", model);
 	}
 }

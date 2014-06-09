@@ -20,7 +20,7 @@ import mu.codeoffice.enums.AnnouncementLevel;
 
 @Entity
 @Table(name = "settings_announcement")
-public class Announcement implements Serializable, SettingsEntity, GlobalSessionObject {
+public class Announcement implements Serializable, SettingsEntity {
 
 	private static final long serialVersionUID = -680703454866696090L;
 
@@ -59,15 +59,6 @@ public class Announcement implements Serializable, SettingsEntity, GlobalSession
 		announcement.setAnnouncementLevel(this.announcementLevel);
 	}
 	
-	public static String getSessionAttrKey(Enterprise enterprise) {
-		return enterprise.getCode() + "_ANNOUNCEMENT";
-	}
-
-	@Override
-	public String getSessionAttrKey() {
-		return enterprise.getCode() + "_ANNOUNCEMENT";
-	}
-
 	public Long getId() {
 		return id;
 	}

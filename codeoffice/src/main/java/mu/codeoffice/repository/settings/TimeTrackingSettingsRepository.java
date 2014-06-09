@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 public interface TimeTrackingSettingsRepository extends JpaRepository<TimeTrackingSettings, Long> {
 
 	@Query("SELECT t FROM TimeTrackingSettings t WHERE t.enterprise = :enterprise")
-	public TimeTrackingSettings getEnterpriseTimeTrackingSettings(@Param("enterprise") Enterprise enterprise);
+	public TimeTrackingSettings getTimeTrackingSettings(@Param("enterprise") Enterprise enterprise);
 	
 }

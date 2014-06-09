@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
 
 	@Query("SELECT a FROM Announcement a WHERE a.enterprise = :enterprise")
-	public Announcement getEnterpriseAnnouncement(@Param("enterprise") Enterprise enterprise);
+	public Announcement getAnnouncement(@Param("enterprise") Enterprise enterprise);
 	
 }

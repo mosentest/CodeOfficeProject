@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.Enterprise;
 
 @Entity
@@ -20,7 +21,15 @@ import mu.codeoffice.entity.Enterprise;
 public class TimeTrackingSettings implements SettingsEntity, Serializable {
 	
 	private static final long serialVersionUID = -6441299912952667018L;
-
+	
+	public static final String[] TIMETRACKING_UNIT = {
+		"Day", "Hour", "Minute", "Second"
+	};
+	
+	public static final String[] DISPLAY_FORMAT = {
+		"dd", "HH", "mm", "ss"
+	};
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -45,6 +54,31 @@ public class TimeTrackingSettings implements SettingsEntity, Serializable {
 	private String defaultTimeTrackingUnit;
 	
 	public TimeTrackingSettings() {}
+	
+	public static void validateDisplayFormat(String format) throws InformationException {
+		String[] values = format.split(",");
+		for (String value : values) {
+			boolean valid = false;
+			for (String string : DISPLAY_FORMAT) {
+				if (string.equals(value.trim())) {
+					valid = true;
+					break;
+				}
+			}
+			if (!valid) {
+				throw new InformationException("Display Format is invalid");
+			}
+		}
+	}
+	
+	public static void validateTimeTrackingUnit(String unit) throws InformationException {
+		for (String string : TIMETRACKING_UNIT) {
+			if (string.equals(unit)) {
+				return;
+			}
+		}
+		throw new InformationException("Invalid Time Tracking Unit.");
+	}
 
 	@Override
 	public void setDefaultSettings(Properties properties) {

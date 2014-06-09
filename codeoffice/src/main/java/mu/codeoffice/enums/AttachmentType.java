@@ -2,21 +2,24 @@ package mu.codeoffice.enums;
 
 public enum AttachmentType {
 	
-	TXT("text"), FIL("file"), IMG("image"), DOC("word"), PDF("pdf"), EXL("excel"), HTM("html"),
-	JAV("java"), PPT("powerpoint"), ZIP("zip"), XML("xml");
+	TXT("attachment.text"), FILE("attachment.file"), IMG("attachment.image"), DOC("attachment.word"), PDF("attachment.pdf"), EXL("attachment.excel"), 
+	HTML("attachment.html"), JAVA("attachment.java"), PPT("attachment.powerpoint"), ZIP("attachment.zip"), XML("attachment.xml");
 	
-	private final String code;
+	private final String key;
 	
-	private AttachmentType(String code) {
-		this.code = code;
+	private final String icon;
+	
+	private AttachmentType(String key) {
+		this.key = key;
+		this.icon = key.split(".")[1];
 	}
 	
-	public String getCode() {
-		return code;
+	public String getKey() {
+		return key;
 	}
 	
-	public String getImagePath() {
-		return "attachment/" + code;
+	public String getIcon() {
+		return icon;
 	}
 
 }

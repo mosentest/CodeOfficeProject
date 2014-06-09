@@ -10,6 +10,7 @@
 	<li ${param.menu eq 'global' ? selectedClass : ''}><a class="link" href="administration/global.html"><spring:message code="administration.system.menu.globalSettings"/></a></li>
 	<li ${param.menu eq 'advancedglobal' ? selectedClass : ''}><a class="link" href="administration/advancedGlobal.html"><spring:message code="administration.system.menu.advancedGlobalSettings"/></a></li>
 	<li ${param.menu eq 'internationalization' ? selectedClass : ''}><a class="link" href="administration/internationalization.html"><spring:message code="administration.system.menu.internationalizationSettings"/></a></li>
+	<li ${param.menu eq 'timetracking' ? selectedClass : ''}><a class="link" href="administration/timeTracking.html"><spring:message code="administration.system.menu.timeTrackingSettings"/></a></li>
 	<li ${param.menu eq 'announcement' ? selectedClass : ''}><a class="link" href="administration/announcement.html"><spring:message code="administration.system.menu.announcementSettings"/></a></li>
 	<li ${param.menu eq 'sharedobjects' ? selectedClass : ''}><a class="link" href="administration/sharedObjects.html"><spring:message code="administration.system.menu.sharedObjects"/></a></li>
 	<div class="vertical-navigation-title"><spring:message code="administration.system.menu.title.security"/></div>

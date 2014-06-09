@@ -16,6 +16,7 @@ import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
+import mu.codeoffice.entity.settings.TimeTrackingSettings;
 import mu.codeoffice.enums.AnnouncementLevel;
 import mu.codeoffice.repository.UserRepository;
 import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
@@ -23,13 +24,12 @@ import mu.codeoffice.repository.settings.AnnouncementRepository;
 import mu.codeoffice.repository.settings.GlobalPermissionSettingsRepository;
 import mu.codeoffice.repository.settings.GlobalSettingsRepository;
 import mu.codeoffice.repository.settings.InternationalizationSettingsRepository;
+import mu.codeoffice.repository.settings.TimeTrackingSettingsRepository;
 import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
@@ -55,6 +55,9 @@ public class SystemSettingsService {
 	
 	@Resource
 	private InternationalizationSettingsRepository internationalizationSettingsRepository;
+	
+	@Resource
+	private TimeTrackingSettingsRepository timeTrackingSettingsRepository;
 
 	@Resource
 	private UserGroupRepository userGroupRepository;
@@ -63,10 +66,28 @@ public class SystemSettingsService {
 	private UserRepository userRepository;
 
 	@Transactional
-	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
+	public void update(EnterpriseAuthentication auth, TimeTrackingSettings timeTrackSettings) throws InformationException {
+		if (timeTrackSettings.getWorkDaysPerWeek() < 1 || timeTrackSettings.getWorkDaysPerWeek() > 7) {
+			throw new InformationException("Must be between 1 and 7");
+		}
+		if (timeTrackSettings.getWorkHoursPerDay() < 1 || timeTrackSettings.getWorkHoursPerDay() > 24) {
+			throw new InformationException("Must be between 1 and 24");
+		}
+		TimeTrackingSettings.validateDisplayFormat(timeTrackSettings.getTimeEstimatesDisplayFormat());
+		TimeTrackingSettings.validateTimeTrackingUnit(timeTrackSettings.getDefaultTimeTrackingUnit());
+		TimeTrackingSettings settings = timeTrackingSettingsRepository.getTimeTrackingSettings(auth.getEnterprise());
+		settings.setWorkHoursPerDay(timeTrackSettings.getWorkHoursPerDay());
+		settings.setWorkDaysPerWeek(timeTrackSettings.getWorkDaysPerWeek());
+		settings.setEnabled(timeTrackSettings.isEnabled());
+		settings.setDefaultTimeTrackingUnit(timeTrackSettings.getDefaultTimeTrackingUnit());
+		settings.setTimeEstimatesDisplayFormat(timeTrackSettings.getTimeEstimatesDisplayFormat());
+		timeTrackingSettingsRepository.save(settings);
+	}
+
+	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
-	public void reset(EnterpriseAuthentication auth, GlobalPermission globalPermission) 
-			throws InformationException, AuthenticationException {
+	public void reset(EnterpriseAuthentication auth, GlobalPermission globalPermission) throws InformationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		settings.getUserGroups().clear();
 		settings.getUsers().clear();
@@ -75,10 +96,8 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional
-	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
 	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
-	public void removeGroup(EnterpriseAuthentication auth, GlobalPermission globalPermission, String userGroupName) 
-			throws InformationException, AuthenticationException {
+	public void removeGroup(EnterpriseAuthentication auth, GlobalPermission globalPermission, String userGroupName) throws InformationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
 		if (settings.getUserGroups().remove(userGroup)) {
@@ -91,10 +110,8 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional
-	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
 	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
-	public void addGroup(EnterpriseAuthentication auth, GlobalPermission globalPermission, String userGroupName) 
-			throws InformationException, AuthenticationException {
+	public void addGroup(EnterpriseAuthentication auth, GlobalPermission globalPermission, String userGroupName) throws InformationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
 		if (userGroup == null) {
@@ -109,10 +126,8 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional
-	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
 	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
-	public void removeUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long userId) 
-			throws InformationException, AuthenticationException {
+	public void removeUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long userId) throws InformationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		User user = userRepository.getUser(auth.getEnterprise(), userId);
 		if (settings.getUsers().remove(user)) {
@@ -127,10 +142,8 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional
-	@CacheEvict(value = "globalPermissionsCache", key = "#auth.enterprise.id")
 	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
-	public void addUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long userId) 
-			throws InformationException, AuthenticationException {
+	public void addUser(EnterpriseAuthentication auth, GlobalPermission globalPermission, Long userId) throws InformationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		if (globalPermissionRepository.isUserInUsers(auth.getEnterprise(), globalPermission, userId)) {
 			throw new InformationException("User already included.");
@@ -146,7 +159,6 @@ public class SystemSettingsService {
 	}
 	
 	@Transactional(readOnly = true)
-	@Cacheable(value = "globalPermissionsCache", key = "#auth.enterprise.id")
 	public List<GlobalPermissionSettings> getGlobalPermissionSettings(EnterpriseAuthentication auth) {
 		List<GlobalPermissionSettings> settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise());
 		for (GlobalPermissionSettings setting : settings) {
@@ -160,7 +172,7 @@ public class SystemSettingsService {
 	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public void update(EnterpriseAuthentication auth, Announcement announcement) 
 			throws InformationException, AuthenticationException {
-		Announcement settings = announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
+		Announcement settings = announcementRepository.getAnnouncement(auth.getEnterprise());
 		if (!settings.getId().equals(announcement.getId())) {
 			throw new EnterpriseAuthenticationException("Access Denied.");
 		}
@@ -174,7 +186,7 @@ public class SystemSettingsService {
 	@Transactional(readOnly = true)
 	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public Announcement getAnnouncement(EnterpriseAuthentication auth) {
-		return announcementRepository.getEnterpriseAnnouncement(auth.getEnterprise());
+		return announcementRepository.getAnnouncement(auth.getEnterprise());
 	}
 
 	@Transactional
@@ -245,12 +257,11 @@ public class SystemSettingsService {
 	}
 
 	@Transactional
-	@CacheEvict(value = "internationalizationSettingsCache", key = "#auth.enterprise.id")
 	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public void update(EnterpriseAuthentication auth, InternationalizationSettings internationalizationSettings) 
 			throws InformationException, AuthenticationException {
 		InternationalizationSettings settings = 
-				internationalizationSettingsRepository.getEnterpriseInternationalizationSettings(auth.getEnterprise());
+				internationalizationSettingsRepository.getInternationalizationSettings(auth.getEnterprise());
 		if (settings == null || !settings.getId().equals(internationalizationSettings.getId())) {
 			throw new EnterpriseAuthenticationException("Access Denied.");
 		}
@@ -265,11 +276,10 @@ public class SystemSettingsService {
 	}
 
 	@Transactional(readOnly = true)
-	@Cacheable(value = "internationalizationSettingsCache", key = "#auth.enterprise.id")
 	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
 	public InternationalizationSettings getInternationalizationSettings(EnterpriseAuthentication auth) {
 		InternationalizationSettings internationalizationSettings = 
-				internationalizationSettingsRepository.getEnterpriseInternationalizationSettings(auth.getEnterprise());
+				internationalizationSettingsRepository.getInternationalizationSettings(auth.getEnterprise());
 		String[] localeString = internationalizationSettings.getDefaultLocaleString().split("_");
 		for (Locale locale : InternationalizationSettings.SUPPORTED_LOCALE) {
 			if (locale.getCountry().equals(localeString[1]) && locale.getLanguage().equals(localeString[0])) {
@@ -281,6 +291,12 @@ public class SystemSettingsService {
 		LocaleContextHolder.setTimeZone(internationalizationSettings.getDefaultTimeZone());
 		LocaleContextHolder.setLocale(internationalizationSettings.getDefaultLocale());
 		return internationalizationSettings;
+	}
+
+	@Transactional(readOnly = true)
+	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
+	public TimeTrackingSettings getTimeTrackingSettings(EnterpriseAuthentication auth) {
+		return timeTrackingSettingsRepository.getTimeTrackingSettings(auth.getEnterprise());
 	}
 	
 	private class CacheSettings {

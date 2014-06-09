@@ -21,7 +21,7 @@ import mu.codeoffice.enums.EmailVisibility;
 
 @Entity
 @Table(name = "settings_global")
-public class GlobalSettings implements SettingsEntity, Serializable, GlobalSessionObject {
+public class GlobalSettings implements SettingsEntity, Serializable {
 	
 	private static final long serialVersionUID = 8189118879112150940L;
 
@@ -106,11 +106,6 @@ public class GlobalSettings implements SettingsEntity, Serializable, GlobalSessi
 		enableInlineEdit = Boolean.parseBoolean(properties.getProperty("settings.global.default.enableInlineEdit"));
 		emailVisibility = EmailVisibility.valueOf(properties.getProperty("settings.global.default.emailVisibility"));
 		commentVisibility = CommentVisibility.valueOf(properties.getProperty("settings.global.default.commentVisibility"));
-	}
-	
-	@Override
-	public String getSessionAttrKey() {
-		return enterprise.getCode() + "_GLOBAL";
 	}
 
 	public Long getId() {

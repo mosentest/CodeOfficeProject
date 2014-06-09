@@ -1,12 +1,13 @@
 package mu.codeoffice.controller;
 
-import javax.servlet.ServletContext;
+import javax.validation.Valid;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.settings.AdvancedGlobalSettings;
 import mu.codeoffice.entity.settings.Announcement;
 import mu.codeoffice.entity.settings.GlobalSettings;
 import mu.codeoffice.entity.settings.InternationalizationSettings;
+import mu.codeoffice.entity.settings.TimeTrackingSettings;
 import mu.codeoffice.enums.AnnouncementLevel;
 import mu.codeoffice.enums.CommentVisibility;
 import mu.codeoffice.enums.EmailVisibility;
@@ -22,6 +23,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +37,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/administration/")
 public class SystemAdministrationController implements GenericController {
+	
+	private static final int[] DAYS_PER_WEEK;
+	
+	private static final int[] HOURS_PER_DAY;
+	
+	static {
+		HOURS_PER_DAY = new int[24];
+		DAYS_PER_WEEK = new int[7];
+		for (int i = 1; i <= 24; i++) {
+			HOURS_PER_DAY[i - 1] = i;
+		}
+		for (int i = 1; i <= 7; i++) {
+			DAYS_PER_WEEK[i - 1] = i;
+		}
+	}
 
 	@Autowired
 	private SystemSettingsService systemSettingsService;
@@ -44,9 +61,6 @@ public class SystemAdministrationController implements GenericController {
 	
 	@Autowired
 	private MessageSource messageSource;
-	
-	@Autowired
-	private ServletContext servletContext;
 
 	@RequestMapping(value = "global.html", method = RequestMethod.GET)
 	public ModelAndView globalView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model)
@@ -71,7 +85,6 @@ public class SystemAdministrationController implements GenericController {
 		try {
 			systemSettingsService.update(auth, globalSettings);
 			redirectAttributes.addFlashAttribute(TIP, "Global settings has been updated");
-			servletContext.setAttribute(globalSettings.getSessionAttrKey(), globalSettings);
 			return "redirect:/administration/global.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
@@ -98,7 +111,6 @@ public class SystemAdministrationController implements GenericController {
 		try {
 			systemSettingsService.update(auth, advancedGlobalSettings);
 			redirectAttributes.addFlashAttribute(TIP, "Advanced global settings has been updated");
-			servletContext.setAttribute(advancedGlobalSettings.getSessionAttrKey(), advancedGlobalSettings);
 			return "redirect:/administration/advancedGlobal.html";
 		} catch (InformationException e) {
 			redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
@@ -136,13 +148,13 @@ public class SystemAdministrationController implements GenericController {
 
 	@RequestMapping(value = "announcement.html", method = RequestMethod.GET)
 	public ModelAndView announcementView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		model.put("announcementSettings", servletContext.getAttribute(Announcement.getSessionAttrKey(auth.getEnterprise())));
+		model.put("announcementSettings", systemSettingsService.getAnnouncement(auth));
 		return new ModelAndView("administration/system_announcement", model);
 	}
 
 	@RequestMapping(value = "announcement/edit.html", method = RequestMethod.GET)
 	public ModelAndView announcementEditRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
-		model.put("announcementSettings", servletContext.getAttribute(Announcement.getSessionAttrKey(auth.getEnterprise())));
+		model.put("announcementSettings", systemSettingsService.getAnnouncement(auth));
 		model.put("announcementLevels", AnnouncementLevel.values());
 		return new ModelAndView("administration/system_announcement_form", model);
 	}
@@ -154,7 +166,7 @@ public class SystemAdministrationController implements GenericController {
 		try {
 			systemSettingsService.update(auth, announcement);
 			redirectAttributes.addFlashAttribute(TIP, "Announcement has been updated");
-			Announcement enterpriseAnnouncement = (Announcement) servletContext.getAttribute(Announcement.getSessionAttrKey(auth.getEnterprise()));
+			Announcement enterpriseAnnouncement = systemSettingsService.getAnnouncement(auth);
 			announcement.copyInformationTo(enterpriseAnnouncement);
 			return "redirect:/administration/announcement.html";
 		} catch (InformationException e) {
@@ -247,6 +259,39 @@ public class SystemAdministrationController implements GenericController {
 	@RequestMapping(value = "sharedObjects.html", method = RequestMethod.GET)
 	public ModelAndView shareObjectsView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("administration/system_sharedObjects", model);
+	}
+
+	@RequestMapping(value = "timeTracking.html", method = RequestMethod.GET)
+	public ModelAndView timeTrackingView(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		model.put("timeTrackingSettings", systemSettingsService.getTimeTrackingSettings(auth));
+		return new ModelAndView("administration/system_timeTracking");
+	}
+
+	@RequestMapping(value = "timeTracking/edit.html", method = RequestMethod.GET)
+	public ModelAndView timeTrackingEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		model.put("timeTrackingSettings", systemSettingsService.getTimeTrackingSettings(auth));
+		model.put("daysPerWeek", DAYS_PER_WEEK);
+		model.put("timeTrackingUnit", TimeTrackingSettings.TIMETRACKING_UNIT);
+		model.put("hoursPerDay", HOURS_PER_DAY);
+		return new ModelAndView("administration/system_timeTracking_form");
+	}
+
+	@RequestMapping(value = "timeTracking/edit", method = RequestMethod.POST)
+	public String timeTrackingEdit(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			@ModelAttribute("timeTrackingSettings") @Valid TimeTrackingSettings timeTrackingSettings, 
+			BindingResult result, RedirectAttributes redirectAttributes) {
+		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("formErrors", initErrorMessages(result.getAllErrors(), messageSource));
+		} else {
+			try {
+				systemSettingsService.update(auth, timeTrackingSettings);
+				redirectAttributes.addFlashAttribute(TIP, "Time Tracking Settings has been updated.");
+				return "redirect:/administration/timeTracking.html";
+			} catch (InformationException e) {
+				redirectAttributes.addFlashAttribute(ERROR, e.getMessage());
+			}
+		}
+		return "redirect:/administration/timeTracking/edit.html";
 	}
 	
 	@InitBinder
