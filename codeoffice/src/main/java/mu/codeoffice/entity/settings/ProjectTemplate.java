@@ -45,6 +45,10 @@ public class ProjectTemplate implements Serializable {
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "workflow_id")
 	private WorkFlow workFlow;
+
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+	@JoinColumn(name = "notification_scheme_id")
+	private NotificationScheme notificationScheme;
 	
 	public ProjectTemplate() {}
 
@@ -95,6 +99,14 @@ public class ProjectTemplate implements Serializable {
 
 	public void setWorkFlow(WorkFlow workFlow) {
 		this.workFlow = workFlow;
+	}
+
+	public NotificationScheme getNotificationScheme() {
+		return notificationScheme;
+	}
+
+	public void setNotificationScheme(NotificationScheme notificationScheme) {
+		this.notificationScheme = notificationScheme;
 	}
 	
 }

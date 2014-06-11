@@ -5,9 +5,11 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import mu.codeoffice.common.InformationException;
+import mu.codeoffice.entity.settings.NotificationScheme;
 import mu.codeoffice.entity.settings.ProjectPermissionScheme;
 import mu.codeoffice.entity.settings.ProjectTemplate;
 import mu.codeoffice.entity.settings.WorkFlow;
+import mu.codeoffice.repository.settings.NotificationSchemeRepository;
 import mu.codeoffice.repository.settings.ProjectPermissionSchemeRepository;
 import mu.codeoffice.repository.settings.ProjectTemplateRepository;
 import mu.codeoffice.repository.settings.WorkFlowRepository;
@@ -28,12 +30,15 @@ public class ProjectTemplateService {
 	@Resource
 	private WorkFlowRepository workFlowRepository;
 	
-	@Transactional
+	@Resource
+	private NotificationSchemeRepository notificationSchemeRepository;
+	
+	@Transactional(readOnly = true)
 	public List<ProjectTemplate> getProjectTemplates(EnterpriseAuthentication auth) {
 		return projectTemplateRepository.getProjectTemplates(auth.getEnterprise());
 	}
-	
-	@Transactional
+
+	@Transactional(readOnly = true)
 	public ProjectTemplate getProjectTemplate(EnterpriseAuthentication auth, String template) {
 		return projectTemplateRepository.getProjectTemplate(auth.getEnterprise(), template);
 	}
@@ -61,6 +66,16 @@ public class ProjectTemplateService {
 			projectTemplate.setProjectPermissionScheme(projectPermissionScheme);
 		} else {
 			projectTemplate.setProjectPermissionScheme(null);
+		}
+		if (projectTemplate.getNotificationScheme() != null && projectTemplate.getNotificationScheme().getId() != null) {
+			NotificationScheme notificationScheme = 
+					notificationSchemeRepository.getNotificationScheme(auth.getEnterprise(), projectTemplate.getNotificationScheme().getId());
+			if (notificationScheme == null) {
+				throw new InformationException("Notification Scheme doens't exist.");
+			}
+			projectTemplate.setNotificationScheme(notificationScheme);
+		} else {
+			projectTemplate.setNotificationScheme(null);
 		}
 		projectTemplate.setId(null);
 		projectTemplate.setEnterprise(auth.getEnterprise());
@@ -96,6 +111,16 @@ public class ProjectTemplateService {
 			original.setProjectPermissionScheme(projectPermissionScheme);
 		} else {
 			original.setProjectPermissionScheme(null);
+		}
+		if (projectTemplate.getNotificationScheme() != null && projectTemplate.getNotificationScheme().getId() != null) {
+			NotificationScheme notificationScheme = 
+					notificationSchemeRepository.getNotificationScheme(auth.getEnterprise(), projectTemplate.getNotificationScheme().getId());
+			if (notificationScheme == null) {
+				throw new InformationException("Notification Scheme doens't exist.");
+			}
+			original.setNotificationScheme(notificationScheme);
+		} else {
+			original.setNotificationScheme(null);
 		}
 		projectTemplateRepository.save(original);
 	}

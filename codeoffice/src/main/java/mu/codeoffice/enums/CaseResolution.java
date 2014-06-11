@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum CaseResolution implements TextEnum {
+public enum CaseResolution {
 	
 	FIX("fixed"), WNF("will_not_fix"), DUP("duplicate"), 
 	INC("incomplete"), IMP("implemented"), RES("responded"), 
@@ -13,7 +13,6 @@ public enum CaseResolution implements TextEnum {
 		this.code = code;
 	}
 
-	@Override
 	public String getCode() {
 		return code;
 	}

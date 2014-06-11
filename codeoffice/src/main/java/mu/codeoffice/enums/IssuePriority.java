@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum IssuePriority implements TextImageEnum {
+public enum IssuePriority {
 	
 	BLO("blocker"), CRI("critical"), MAJ("major"), 
 	MIN("minor"), TRI("trivial");
@@ -11,12 +11,10 @@ public enum IssuePriority implements TextImageEnum {
 		this.code = code;
 	}
 	
-	@Override
 	public String getCode() {
 		return code;
 	}
 
-	@Override
 	public String getImagePath() {
 		return "office/priority/" + code;
 	}

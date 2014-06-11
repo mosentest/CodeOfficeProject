@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum IssueType implements TextImageEnum {
+public enum IssueType {
 	
 	BLA("blank"), BUG("bug"), DEF("defect"), DOC("documentation"), EPI("epic"), GEN("generic"), 
 	HEA("health"), REM("removefeature"), REQ("requirement"), SAL("sales"), STO("story"), 
@@ -14,12 +14,10 @@ public enum IssueType implements TextImageEnum {
 		this.code = code;
 	}
 	
-	@Override
 	public String getCode() {
 		return code;
 	}
 
-	@Override
 	public String getImagePath() {
 		return "office/type/" + code;
 	}

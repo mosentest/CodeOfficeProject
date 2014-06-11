@@ -63,6 +63,17 @@
 							</td>
 						</tr>
 						<tr>
+							<td class="minor-form-label-col"><spring:message code="entity.projectTemplate.notificationScheme"/></td>
+							<td class="minor-form-input-col">
+								<form:select path="notificationScheme.id">
+									<option value="">---  SELECT  ---</option>
+									<c:forEach items="${notificationSchemes}" var="scheme">
+										<form:option value="${scheme.id}" label="${scheme.name}"/>
+									</c:forEach>
+								</form:select>
+							</td>
+						</tr>
+						<tr>
 							<td colspan="2"><input type="submit" class="button" value="<spring:message code="application.create"/>"/></td>
 						</tr>
 					</table>
@@ -71,9 +82,10 @@
 			<div class="sub-element-content">
 				<table class="list-table">
 					<tr class="list-table-header">
-						<td><spring:message code="entity.workFlow.name"/></td>
+						<td><spring:message code="entity.projectTemplate.name"/></td>
 						<td><spring:message code="entity.projectTemplate.projectPermissionScheme"/></td>
 						<td><spring:message code="entity.projectTemplate.workFlow"/></td>
+						<td><spring:message code="entity.projectTemplate.notificationScheme"/></td>
 						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${projectTemplates}" var="template">
@@ -84,6 +96,7 @@
 						</td>
 						<td><a class="link" href="administration/permissionScheme.html?scheme=${codefunction:maskURL(template.projectPermissionScheme.name)}">${template.projectPermissionScheme.name}</a></td>
 						<td><a class="link" href="administration/workFlow.html?workflow=${codefunction:maskURL(template.workFlow.name)}">${template.workFlow.name}</a></td>
+						<td><a class="link" href="administration/notificationScheme.html?scheme=${codefunction:maskURL(template.notificationScheme.name)}">${template.notificationScheme.name}</a></td>
 						<td>
 							<a class="link" href="administration/projectTemplate/edit.html?template=${codefunction:maskURL(template.name)}">${text_edit}</a>
 							<span class="minorspace">&#183;</span>

@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.settings.ProjectTemplate;
 import mu.codeoffice.security.EnterpriseAuthentication;
+import mu.codeoffice.service.NotificationSchemeService;
 import mu.codeoffice.service.ProjectPermissionSchemeService;
 import mu.codeoffice.service.ProjectTemplateService;
 import mu.codeoffice.service.WorkFlowService;
@@ -37,6 +38,9 @@ public class ProjectTemplateController implements GenericController {
 	private ProjectPermissionSchemeService projectPermissionSchemeService;
 	
 	@Autowired
+	private NotificationSchemeService notificationSchemeService;
+	
+	@Autowired
 	private MessageSource messageSource;
 	
 	@RequestMapping(value = "administration/projectTemplates.html", method = RequestMethod.GET)
@@ -44,6 +48,7 @@ public class ProjectTemplateController implements GenericController {
 		model.put("projectTemplates", projectTemplateService.getProjectTemplates(auth));
 		model.put("workFlows", workFlowService.getWorkFlows(auth, false));
 		model.put("projectPermissionSchemes", projectPermissionSchemeService.getProjectPermissionSchemes(auth, false));
+		model.put("notificationSchemes", notificationSchemeService.getNotificationSchemes(auth, false));
 		model.put("projectTemplate", new ProjectTemplate());
 		return new ModelAndView("administration/project_projectTemplates");
 	}
@@ -61,6 +66,7 @@ public class ProjectTemplateController implements GenericController {
 		model.put("projectTemplate", projectTemplate);
 		model.put("workFlows", workFlowService.getWorkFlows(auth, false));
 		model.put("projectPermissionSchemes", projectPermissionSchemeService.getProjectPermissionSchemes(auth, false));
+		model.put("notificationSchemes", notificationSchemeService.getNotificationSchemes(auth, false));
 		return new ModelAndView("administration/project_projectTemplate_form");
 	}
 	

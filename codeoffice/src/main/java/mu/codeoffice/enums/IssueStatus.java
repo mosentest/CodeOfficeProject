@@ -1,6 +1,6 @@
 package mu.codeoffice.enums;
 
-public enum IssueStatus implements TextImageEnum {
+public enum IssueStatus {
 	
 	ASG("assigned"), DOC("document"), DOW("down"), EMA("email"), GEN("generic"),
 	INF("information"), INV("invisible"), NEI("needinfo"), TRA("trash"), UNA("unassigned"), _UP("up"), VIS("visible"),
@@ -13,12 +13,10 @@ public enum IssueStatus implements TextImageEnum {
 		this.code = code;
 	}
 
-	@Override
 	public String getCode() {
 		return code;
 	}
 	
-	@Override
 	public String getImagePath() {
 		return "office/status/" + code;
 	}

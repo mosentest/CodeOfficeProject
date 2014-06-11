@@ -60,6 +60,17 @@
 							</td>
 						</tr>
 						<tr>
+							<td class="form-label-col"><spring:message code="entity.projectTemplate.notificationScheme"/></td>
+							<td class="form-input-col">
+								<form:select path="notificationScheme.id">
+									<option value="">---  SELECT  ---</option>
+									<c:forEach items="${notificationSchemes}" var="scheme">
+										<option value="${scheme.id}" ${scheme eq projectTemplate.notificationScheme ? 'selected' : ''} >${scheme.name}</option>
+									</c:forEach>
+								</form:select>
+							</td>
+						</tr>
+						<tr>
 							<td></td>
 							<td><input type="submit" class="button" value="<spring:message code="application.update"/>"/></td>
 						</tr>

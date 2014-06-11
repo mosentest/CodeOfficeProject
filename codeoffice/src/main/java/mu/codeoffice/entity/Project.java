@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import mu.codeoffice.entity.settings.IssueTypeScheme;
+import mu.codeoffice.entity.settings.NotificationScheme;
 import mu.codeoffice.entity.settings.ProjectPermissionScheme;
 import mu.codeoffice.entity.settings.WorkFlow;
 
@@ -81,6 +82,10 @@ public class Project implements Serializable {
 
 	@Column(name = "total_issues")
 	private int totalIssues;
+
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "notification_scheme_id")
+	private NotificationScheme notificationScheme;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "projectpermission_scheme_id")
@@ -331,6 +336,14 @@ public class Project implements Serializable {
 
 	public void setWorkFlow(WorkFlow workFlow) {
 		this.workFlow = workFlow;
+	}
+
+	public NotificationScheme getNotificationScheme() {
+		return notificationScheme;
+	}
+
+	public void setNotificationScheme(NotificationScheme notificationScheme) {
+		this.notificationScheme = notificationScheme;
 	}
 	
 }
