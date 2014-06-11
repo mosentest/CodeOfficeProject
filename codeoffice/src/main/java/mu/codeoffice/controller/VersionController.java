@@ -1,8 +1,5 @@
 package mu.codeoffice.controller;
 
-import static mu.codeoffice.utility.MessageUtil.addErrorMessage;
-import static mu.codeoffice.utility.MessageUtil.addNoticeMessage;
-
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -42,10 +39,8 @@ public class VersionController extends ProjectPermissionRequired {
 					throws AuthenticationException, InformationException {
 		try {
 			versionService.start(auth, projectCode, versionCode);
-			addNoticeMessage(session, "Changed status of version '" + versionCode + "' to 'Started'.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		} catch (InformationException e) {
-			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		}
 	}
@@ -56,10 +51,8 @@ public class VersionController extends ProjectPermissionRequired {
 					throws AuthenticationException, InformationException {
 		try {
 			versionService.stop(auth, projectCode, versionCode);
-			addNoticeMessage(session, "Stopped progress on version '" + versionCode + "'.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		} catch (InformationException e) {
-			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		}
 	}
@@ -70,10 +63,8 @@ public class VersionController extends ProjectPermissionRequired {
 					throws AuthenticationException, InformationException {
 		try {
 			versionService.release(auth, projectCode, versionCode);
-			addNoticeMessage(session, "Released version '" + versionCode + "'.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		} catch (InformationException e) {
-			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		}
 	}
@@ -95,13 +86,11 @@ public class VersionController extends ProjectPermissionRequired {
 					throws AuthenticationException, InformationException {
 		try {
 			versionService.edit(auth, projectCode, versionCode, version);
-			addNoticeMessage(session, "Version has been updated.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		} catch (InformationException e) {
 			model.put("project", projectService.getProjectInfo(projectCode, auth));
 			model.put("version", versionService.getProjectVersion(auth, projectCode, versionCode));
 			model.put("edit", true);
-			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("enterprise/project/version_form", model);
 		}
 	}
@@ -112,10 +101,8 @@ public class VersionController extends ProjectPermissionRequired {
 					throws AuthenticationException, InformationException {
 		try {
 			versionService.delete(auth, projectCode, versionCode);
-			addNoticeMessage(session, "Version has been deleted.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		} catch (InformationException e) {
-			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + versionCode);
 		}
 	}
@@ -137,12 +124,10 @@ public class VersionController extends ProjectPermissionRequired {
 					throws AuthenticationException, InformationException {
 		try {
 			versionService.create(auth, projectCode, version);
-			addNoticeMessage(session, "Version has been created.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/v_" + version.getCode());
 		} catch (InformationException e) {
 			model.put("project", projectService.getProjectInfo(projectCode, auth));
 			model.put("edit", false);
-			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("enterprise/project/version_form");
 		}
 	}

@@ -1,8 +1,5 @@
 package mu.codeoffice.controller;
 
-import static mu.codeoffice.utility.MessageUtil.addErrorMessage;
-import static mu.codeoffice.utility.MessageUtil.addNoticeMessage;
-
 import java.util.Arrays;
 
 import javax.servlet.http.HttpSession;
@@ -41,7 +38,6 @@ public class ProjectCategoryController {
 			HttpSession session, ModelMap model) {
 		ProjectCategory category = projectCategoryService.getProjectCategory(id, auth);
 		if (category == null) {
-			addErrorMessage(session, "Category not found.");
 			return new ModelAndView("redirect:/enterprise/category");
 		}
 		loadInformation(auth, model, id);
@@ -62,13 +58,11 @@ public class ProjectCategoryController {
 		projectCategory.setId(null);
 		try {
 			projectCategory = projectCategoryService.update(projectCategory, auth);
-			addNoticeMessage(session, "Category has been created.");
 			return new ModelAndView("redirect:/enterprise/category");
 		} catch (AuthenticationException e) {
 			throw e;
 		} catch (InformationException e) {
 			model.put("projectCategoryNames", projectCategoryService.getProjectCategoryNames(auth));
-			addErrorMessage(session, "Could not create category.", e.getMessage());
 			return new ModelAndView("enterprise/project/projectcategory_form", model);
 		}
 	}
@@ -78,7 +72,6 @@ public class ProjectCategoryController {
 			HttpSession session, ModelMap model) {
 		ProjectCategory category = projectCategoryService.getProjectCategory(id, auth);
 		if (category == null) {
-			addErrorMessage(session, "Category not found.");
 			return new ModelAndView("redirect:/enterprise/category");
 		} else {
 			model.put("edit", true);
@@ -93,20 +86,17 @@ public class ProjectCategoryController {
 	public ModelAndView categoryEdit(@PathVariable("id") Long id, @ModelAttribute ProjectCategory category,
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
 		if (projectCategoryService.getProjectCategory(id, auth) == null) {
-			addNoticeMessage(session, "Category not found.");
 			return new ModelAndView("redirect:/enterprise/category");
 		}
 		try {
 			category.setId(id);
 			category = projectCategoryService.update(category, auth);
-			addNoticeMessage(session, "Category has been updated.");
 			return new ModelAndView("redirect:/enterprise/category", model);
 		} catch (InformationException e) {
 			model.put("edit", true);
 			model.put("projectCategoryNames", projectCategoryService.getProjectCategoryNames(auth));
 			model.put("projectCategory", category);
 			model.put("projectCategoryId", id);			
-			addErrorMessage(session, "Could not update category.", e.getMessage());
 			return new ModelAndView("enterprise/project/projectcategory_form", model);
 		}
 	}
@@ -116,13 +106,11 @@ public class ProjectCategoryController {
 			HttpSession session, ModelMap model) {
 		try {
 			projectCategoryService.remove(id, auth);
-			addNoticeMessage(session, "Category has been removed.");
 			return new ModelAndView("redirect:/enterprise/category");
 		} catch (AuthenticationException e) {
 			throw e;
 		} catch (InformationException e) {
 			loadInformations(auth, model);
-			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("enterprise/project/projectcategory", model);
 		}
 	}

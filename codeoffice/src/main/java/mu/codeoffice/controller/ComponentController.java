@@ -1,8 +1,5 @@
 package mu.codeoffice.controller;
 
-import static mu.codeoffice.utility.MessageUtil.addErrorMessage;
-import static mu.codeoffice.utility.MessageUtil.addNoticeMessage;
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,10 +55,8 @@ public class ComponentController extends ProjectPermissionRequired {
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session,ModelMap model) throws AuthenticationException {
 		try {
 			componentService.update(auth, componentCode, component, projectCode);
-			addNoticeMessage(session, "Component has been updated.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/m_" + component.getCode());
 		} catch (InformationException e) {
-			addErrorMessage(session, e.getMessage());
 			Project project = projectService.getProjectInfo(projectCode, auth);
 			model.put("project", project);
 			loadUserGroups(auth, project.getId(), model);
@@ -87,10 +82,8 @@ public class ComponentController extends ProjectPermissionRequired {
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) throws AuthenticationException {
 		try {
 			componentService.create(auth, component, projectCode);
-			addNoticeMessage(session, "Component has been created.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
 		} catch (InformationException e) {
-			addErrorMessage(session, e.getMessage());
 			Project project = projectService.getProjectInfo(projectCode, auth);
 			model.put("project", project);
 			loadUserGroups(auth, project.getId(), model);
@@ -104,10 +97,8 @@ public class ComponentController extends ProjectPermissionRequired {
 			HttpServletRequest request, HttpSession session, ModelMap model) throws AuthenticationException {
 		try {
 			componentService.delete(projectCode, componentCode, auth);
-			addNoticeMessage(session, "Component has been deleted");
 			return new ModelAndView("redirect:" + request.getHeader("Referer"));
 		} catch (InformationException e) {
-			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("redirect:" + request.getHeader("Referer"));
 		}
 	}
@@ -117,7 +108,6 @@ public class ComponentController extends ProjectPermissionRequired {
 			@ModelAttribute("mergeComponent") ComponentDTO mergeComponent, @PathVariable("projectCode") String projectCode, 
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) throws AuthenticationException {
 		if (!projectCode.equals(mergeComponent.getProject())) {
-			addErrorMessage(session, "Project not available");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
 		}
 		List<Component> components = null;
@@ -127,7 +117,6 @@ public class ComponentController extends ProjectPermissionRequired {
 			components = componentService.getComponents(auth, mergeComponent);
 		}
 		if (components == null || components.size() <= 1) {
-			addErrorMessage(session, "No components available to merge.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
 		}
 		model.put("components", components);
@@ -149,10 +138,8 @@ public class ComponentController extends ProjectPermissionRequired {
 			HttpSession session, ModelMap model) throws AuthenticationException {
 		try {
 			componentService.merge(auth, projectCode, componentCode, mergeComponent);
-			addNoticeMessage(session, "Components: '" + String.join("', '", mergeComponent.getComponentCode()) + "' has been merged.");
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
 		} catch (InformationException e) {
-			addErrorMessage(session, e.getMessage());
 			return new ModelAndView("redirect:/enterprise/pro_" + projectCode + "/components");
 		}
 	}
