@@ -25,7 +25,7 @@ import mu.codeoffice.entity.User;
 import mu.codeoffice.entity.UserGroup;
 
 @Entity
-@Table(name = "settings_notification")
+@Table(name = "notification")
 public class Notification implements Serializable {
 
 	private static final long serialVersionUID = -6385522745961286741L;
@@ -62,7 +62,7 @@ public class Notification implements Serializable {
 	private Enterprise enterprise;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "notification_scheme_id")
+	@JoinColumn(name = "notificationscheme_id")
 	private NotificationScheme notificationScheme;
 
 	@Column(name = "notification_type")

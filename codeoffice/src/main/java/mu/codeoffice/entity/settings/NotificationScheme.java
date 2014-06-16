@@ -24,7 +24,7 @@ import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.User;
 
 @Entity
-@Table(name = "settings_notification_scheme", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
+@Table(name = "notificationscheme", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class NotificationScheme implements Serializable {
 
 	private static final long serialVersionUID = -5377717154325394662L;

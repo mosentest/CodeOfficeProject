@@ -24,7 +24,7 @@ import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.Project;
 
 @Entity
-@Table(name = "settings_issuetype_scheme", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
+@Table(name = "issuetype_scheme", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class IssueTypeScheme implements Serializable {
 
 	private static final long serialVersionUID = -5849149551116388296L;
@@ -49,7 +49,7 @@ public class IssueTypeScheme implements Serializable {
 	private List<Project> projects;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "issuetype_scheme_types", uniqueConstraints = @UniqueConstraint(columnNames = {"issuetype_scheme_id", "type_id"}),
+    @JoinTable(name = "issuetypescheme_types", uniqueConstraints = @UniqueConstraint(columnNames = {"issuetype_scheme_id", "type_id"}),
         joinColumns = @JoinColumn(name = "issuetype_scheme_id", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "type_id", referencedColumnName = "id"))
 	@OrderBy("name ASC")

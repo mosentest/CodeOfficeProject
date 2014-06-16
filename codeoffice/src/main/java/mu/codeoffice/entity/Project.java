@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,11 +25,12 @@ import mu.codeoffice.entity.settings.ProjectPermissionScheme;
 import mu.codeoffice.entity.settings.WorkFlow;
 
 @Entity
-@Table(name = "project", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
+@Table(name = "project", uniqueConstraints = @UniqueConstraint(columnNames = {
+		"p_key", "enterprise_id" }))
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1939535351112095185L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -43,15 +43,15 @@ public class Project implements Serializable {
 	@JoinColumn(name = "category_id")
 	private ProjectCategory category;
 
-	@Column(name = "code")
-	private String code;
+	@Column(name = "p_key")
+	private String key;
 
 	@Column(name = "name")
 	private String name;
 
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "icon_path")
 	private String iconPath;
 
@@ -69,30 +69,30 @@ public class Project implements Serializable {
 
 	@Column(name = "removed")
 	private boolean removed;
-	
+
 	@Column(name = "completed")
 	private boolean completed;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "lead_id")	
+	@JoinColumn(name = "lead_id")
 	private User lead;
-	
-	@Column(name = "total_users")
-	private int totalUsers;
 
-	@Column(name = "total_issues")
-	private int totalIssues;
+	@Column(name = "user_count")
+	private int userCount;
+
+	@Column(name = "issue_count")
+	private int issueCount;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "notification_scheme_id")
+	@JoinColumn(name = "notificationscheme_id")
 	private NotificationScheme notificationScheme;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "projectpermission_scheme_id")
+	@JoinColumn(name = "projectpermissionscheme_id")
 	private ProjectPermissionScheme projectPermissionScheme;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "issuetype_scheme_id")
+	@JoinColumn(name = "issuetypescheme_id")
 	private IssueTypeScheme issueTypeScheme;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -100,34 +100,13 @@ public class Project implements Serializable {
 	private WorkFlow workFlow;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
-	private List<Component> components;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
-	private List<Version> versions;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
-	private List<Label> labels;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
 	private List<Issue> issues;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectObject")
-	private List<ProjectHistory> histories;
+	public Project() {
+	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Attachment> attachment;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectObject")
-	private List<ProjectNote> notes;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "projectObject")
-	@OrderBy("create DESC")
-	private List<ProjectActivity> activities;
-	
-	public Project() {}
-	
 	public String getProjectHeader() {
-		return String.format("[%s] - %s", code, name);
+		return String.format("[%s] - %s", key, name);
 	}
 
 	public Long getId() {
@@ -138,12 +117,12 @@ public class Project implements Serializable {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public String getKey() {
+		return key;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	public String getName() {
@@ -194,38 +173,6 @@ public class Project implements Serializable {
 		this.issues = issues;
 	}
 
-	public List<ProjectHistory> getHistories() {
-		return histories;
-	}
-
-	public void setHistories(List<ProjectHistory> histories) {
-		this.histories = histories;
-	}
-
-	public List<Attachment> getAttachment() {
-		return attachment;
-	}
-
-	public void setAttachment(List<Attachment> attachment) {
-		this.attachment = attachment;
-	}
-
-	public List<ProjectNote> getNotes() {
-		return notes;
-	}
-
-	public void setNotes(List<ProjectNote> notes) {
-		this.notes = notes;
-	}
-
-	public List<ProjectActivity> getActivities() {
-		return activities;
-	}
-
-	public void setActivities(List<ProjectActivity> activities) {
-		this.activities = activities;
-	}
-
 	public boolean isCompleted() {
 		return completed;
 	}
@@ -240,46 +187,6 @@ public class Project implements Serializable {
 
 	public void setRemoved(boolean removed) {
 		this.removed = removed;
-	}
-
-	public int getTotalIssues() {
-		return totalIssues;
-	}
-
-	public void setTotalIssues(int totalIssues) {
-		this.totalIssues = totalIssues;
-	}
-
-	public int getTotalUsers() {
-		return totalUsers;
-	}
-
-	public void setTotalUsers(int totalUsers) {
-		this.totalUsers = totalUsers;
-	}
-
-	public List<Version> getVersions() {
-		return versions;
-	}
-
-	public void setVersions(List<Version> versions) {
-		this.versions = versions;
-	}
-
-	public List<Component> getComponents() {
-		return components;
-	}
-
-	public void setComponents(List<Component> components) {
-		this.components = components;
-	}
-
-	public List<Label> getLabels() {
-		return labels;
-	}
-
-	public void setLabels(List<Label> labels) {
-		this.labels = labels;
 	}
 
 	public String getIconPath() {
@@ -318,7 +225,8 @@ public class Project implements Serializable {
 		return projectPermissionScheme;
 	}
 
-	public void setProjectPermissionScheme(ProjectPermissionScheme projectPermissionScheme) {
+	public void setProjectPermissionScheme(
+			ProjectPermissionScheme projectPermissionScheme) {
 		this.projectPermissionScheme = projectPermissionScheme;
 	}
 
@@ -345,5 +253,21 @@ public class Project implements Serializable {
 	public void setNotificationScheme(NotificationScheme notificationScheme) {
 		this.notificationScheme = notificationScheme;
 	}
-	
+
+	public int getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(int userCount) {
+		this.userCount = userCount;
+	}
+
+	public int getIssueCount() {
+		return issueCount;
+	}
+
+	public void setIssueCount(int issueCount) {
+		this.issueCount = issueCount;
+	}
+
 }

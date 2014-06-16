@@ -7,30 +7,25 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import mu.codeoffice.enums.IssuePriority;
-import mu.codeoffice.enums.CaseResolution;
-import mu.codeoffice.enums.IssueStatus;
-import mu.codeoffice.enums.IssueType;
+import mu.codeoffice.entity.settings.IssuePriority;
+import mu.codeoffice.entity.settings.IssueResolution;
+import mu.codeoffice.entity.settings.IssueStatus;
+import mu.codeoffice.entity.settings.IssueType;
 
 @Entity
-@Table(name = "issue", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "enterprise_id"}))
+@Table(name = "issue", uniqueConstraints = @UniqueConstraint(columnNames = {"i_key", "enterprise_id"}))
 public class Issue implements Serializable {
 
 	private static final long serialVersionUID = 410952237049468161L;
@@ -49,8 +44,8 @@ public class Issue implements Serializable {
 	@JoinColumn(name = "enterprise_id")
 	private Enterprise enterprise;
 	
-	@Column(name = "code")
-	private String code;
+	@Column(name = "i_key")
+	private String key;
 
 	@Column(name = "summary")
 	private String summary;
@@ -73,29 +68,30 @@ public class Issue implements Serializable {
 	@Column(name = "in_progress")
 	private boolean inProgress;
 
-	@Column(name = "estimation")
-	private long estimation;
+	@Column(name = "resolved")
+	private boolean resolved;
 
-	@Column(name = "overtime")
-	private long overtime;
-
-	@Column(name = "time_spent")
-	private long timeSpent;
+	@Column(name = "closed")
+	private boolean closed;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_id")
 	private Project project;
 
-	@Column(length = 3)
-	@Enumerated(EnumType.STRING)
-	private CaseResolution resolution;
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "type_id")
+	private IssueType type;
 
-	@Column(length = 3)
-	@Enumerated(EnumType.STRING)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "resolution_id")
+	private IssueResolution resolution;
+
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "status_id")
 	private IssueStatus status;
 
-	@Column(length = 3)
-	@Enumerated(EnumType.STRING)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "priority_id")
 	private IssuePriority priority;
 
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
@@ -105,62 +101,9 @@ public class Issue implements Serializable {
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "issue_assignee_id")
 	private User assignee;
-
-	@Column(length = 3)
-	@Enumerated(EnumType.STRING)
-	private IssueType type;
-	
-	@Column(name = "edited")
-	private boolean edited;
 	
 	@Column(name = "removed")
 	private boolean removed;
-
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "project_release_version_id", nullable = true)
-	private Version releaseVersion;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "issue_version", uniqueConstraints = @UniqueConstraint(columnNames = {"issue_vid", "version_id"}),
-        joinColumns = @JoinColumn(name = "issue_vid", referencedColumnName = "id"), 
-        inverseJoinColumns = @JoinColumn(name = "version_id", referencedColumnName = "id"))
-	@OrderBy("id ASC")
-	private List<Version> versions;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "issue_component", uniqueConstraints = @UniqueConstraint(columnNames = {"issue_cid", "component_id"}),
-        joinColumns = @JoinColumn(name = "issue_cid", referencedColumnName = "id"), 
-        inverseJoinColumns = @JoinColumn(name = "component_id", referencedColumnName = "id"))
-	@OrderBy("name ASC")
-	private List<Component> components;
-
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(name = "issue_label", uniqueConstraints = @UniqueConstraint(columnNames = {"issue_lid", "label_id"}),
-        	joinColumns = @JoinColumn(name = "issue_lid", referencedColumnName = "id"), 
-        	inverseJoinColumns = @JoinColumn(name = "label_id", referencedColumnName = "id"))
-	@OrderBy("label ASC")
-	private List<Label> labels;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Attachment> attachments;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
-	@OrderBy("create DESC")
-	private List<IssueNote> notes;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
-	@OrderBy("create DESC")
-	private List<IssueHistory> histories;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
-	private List<IssueLinking> issueLinks;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
-	@OrderBy("create DESC")
-	private List<IssueActivity> activities;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "issueObject")
-	private List<WorkLog> workLogs;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<User> participants;
@@ -180,7 +123,7 @@ public class Issue implements Serializable {
 	}
 	
 	public String getCaseHeader() {
-		return String.format("[%s] - %s", code, summary);
+		return String.format("[%s] - %s", key, summary);
 	}
 
 	public Long getId() {
@@ -189,14 +132,6 @@ public class Issue implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public String getSummary() {
@@ -239,36 +174,12 @@ public class Issue implements Serializable {
 		this.close = close;
 	}
 
-	public long getEstimation() {
-		return estimation;
-	}
-
-	public void setEstimation(long estimation) {
-		this.estimation = estimation;
-	}
-
-	public long getTimeSpent() {
-		return timeSpent;
-	}
-
-	public void setTimeSpent(long timeSpent) {
-		this.timeSpent = timeSpent;
-	}
-
 	public Project getProject() {
 		return project;
 	}
 
 	public void setProject(Project project) {
 		this.project = project;
-	}
-
-	public CaseResolution getResolution() {
-		return resolution;
-	}
-
-	public void setResolution(CaseResolution resolution) {
-		this.resolution = resolution;
 	}
 
 	public IssueStatus getStatus() {
@@ -295,92 +206,12 @@ public class Issue implements Serializable {
 		this.type = type;
 	}
 
-	public List<Attachment> getAttachments() {
-		return attachments;
-	}
-
-	public void setAttachments(List<Attachment> attachments) {
-		this.attachments = attachments;
-	}
-
-	public List<IssueNote> getNotes() {
-		return notes;
-	}
-
-	public void setNotes(List<IssueNote> notes) {
-		this.notes = notes;
-	}
-
-	public List<IssueHistory> getHistories() {
-		return histories;
-	}
-
-	public void setHistories(List<IssueHistory> histories) {
-		this.histories = histories;
-	}
-
-	public List<IssueActivity> getActivities() {
-		return activities;
-	}
-
-	public void setActivities(List<IssueActivity> activities) {
-		this.activities = activities;
-	}
-	
-	public List<Version> getVersions() {
-		return versions;
-	}
-
-	public void setVersions(List<Version> versions) {
-		this.versions = versions;
-	}
-
 	public List<User> getParticipants() {
 		return participants;
 	}
 
 	public void setParticipants(List<User> participants) {
 		this.participants = participants;
-	}
-
-	public List<Label> getLabels() {
-		return labels;
-	}
-
-	public void setLabels(List<Label> labels) {
-		this.labels = labels;
-	}
-
-	public List<Component> getComponents() {
-		return components;
-	}
-
-	public void setComponents(List<Component> components) {
-		this.components = components;
-	}
-
-	public long getOvertime() {
-		return overtime;
-	}
-
-	public void setOvertime(long overtime) {
-		this.overtime = overtime;
-	}
-
-	public List<WorkLog> getWorkLogs() {
-		return workLogs;
-	}
-
-	public void setWorkLogs(List<WorkLog> workLogs) {
-		this.workLogs = workLogs;
-	}
-
-	public boolean isEdited() {
-		return edited;
-	}
-
-	public void setEdited(boolean edited) {
-		this.edited = edited;
 	}
 
 	public List<User> getWatchers() {
@@ -397,22 +228,6 @@ public class Issue implements Serializable {
 
 	public void setRemoved(boolean removed) {
 		this.removed = removed;
-	}
-
-	public Version getReleaseVersion() {
-		return releaseVersion;
-	}
-
-	public void setReleaseVersion(Version releaseVersion) {
-		this.releaseVersion = releaseVersion;
-	}
-
-	public List<IssueLinking> getIssueLinks() {
-		return issueLinks;
-	}
-
-	public void setIssueLinks(List<IssueLinking> issueLinks) {
-		this.issueLinks = issueLinks;
 	}
 
 	public Enterprise getEnterprise() {
@@ -445,6 +260,38 @@ public class Issue implements Serializable {
 
 	public void setInProgress(boolean inProgress) {
 		this.inProgress = inProgress;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
+	}
+
+	public boolean isResolved() {
+		return resolved;
+	}
+
+	public void setResolved(boolean resolved) {
+		this.resolved = resolved;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public IssueResolution getResolution() {
+		return resolution;
+	}
+
+	public void setResolution(IssueResolution resolution) {
+		this.resolution = resolution;
 	}
 	
 }

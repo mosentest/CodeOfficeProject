@@ -30,14 +30,11 @@ import mu.codeoffice.entity.settings.ProjectRole;
 import mu.codeoffice.entity.settings.TimeTrackingSettings;
 import mu.codeoffice.entity.settings.WorkFlow;
 import mu.codeoffice.entity.settings.WorkFlowTransition;
-import mu.codeoffice.repository.ComponentRepository;
 import mu.codeoffice.repository.EnterpriseRepository;
 import mu.codeoffice.repository.IssueRepository;
-import mu.codeoffice.repository.LabelRepository;
 import mu.codeoffice.repository.ProjectCategoryRepository;
 import mu.codeoffice.repository.ProjectRepository;
 import mu.codeoffice.repository.UserRepository;
-import mu.codeoffice.repository.VersionRepository;
 import mu.codeoffice.repository.settings.AdvancedGlobalSettingsRepository;
 import mu.codeoffice.repository.settings.AnnouncementRepository;
 import mu.codeoffice.repository.settings.AttachmentSettingsRepository;
@@ -72,15 +69,6 @@ public class TestService {
 	
 	@Resource
 	private ProjectRepository projectRepository;
-
-	@Resource
-	private VersionRepository versionRepository;
-
-	@Resource
-	private ComponentRepository componentRepository;
-	
-	@Resource
-	private LabelRepository labelRepository;
 	
 	@Resource
 	private UserRepository userRepository;
@@ -170,10 +158,28 @@ public class TestService {
 		e3.setCode("MIZ");
 		e3.setDescription("Enterprise 3");
 		e3.setName("Enterprise 3");
+		
+		Enterprise e4 = new Enterprise();
+		e4.setCode("ZMI");
+		e4.setDescription("Enterprise 4");
+		e4.setName("Enterprise 4");
+
+		Enterprise e5 = new Enterprise();
+		e5.setCode("IMZ");
+		e5.setDescription("Enterprise 5");
+		e5.setName("Enterprise 5");
+
+		Enterprise e6 = new Enterprise();
+		e6.setCode("IMU");
+		e6.setDescription("Enterprise 6");
+		e6.setName("Enterprise 6");
 
 		enterpriseRepository.save(e1);
 		enterpriseRepository.save(e2);
 		enterpriseRepository.save(e3);
+		enterpriseRepository.save(e4);
+		enterpriseRepository.save(e4);
+		enterpriseRepository.save(e6);
 	}
 
 	@Transactional
@@ -244,7 +250,6 @@ public class TestService {
 			main.setEmail("admin" + j + "@admin.com");
 			main.setFirstName("Admin");
 			main.setLastName("Admin");
-			main.setProfilePath("male.jpg");
 			main.setLogin(new Date());
 			main.setPhone("");
 			main.setGlobalPermissionValue(-1);
@@ -252,16 +257,15 @@ public class TestService {
 			userRepository.save(main);
 			group.getUsers().add(main);
 			
-			for (int i = 1; i <= 6; i++, j++) {
+			for (int i = 1; i <= 200; i++, j++) {
 				User u = new User();
 				u.setEnterprise(enterprise);
-				u.setAccount("user" + i);
+				u.setAccount("user" + j);
 				u.setAddress("address" + i);
 				u.setCreate(new Date());
 				u.setEmail(j + "_" + i + "@" + i + ".com");
 				u.setFirstName("First" + i);
 				u.setLastName("Last" + i);
-				u.setProfilePath(i % 2 == 0 ? "male.jpg" : "female.jpg");
 				u.setLogin(new Date());
 				u.setPhone("");
 				u.setGlobalPermissionValue(1);
@@ -299,10 +303,12 @@ public class TestService {
 	@Transactional
 	public void _5_AddProjectPermissionScheme() {
 		Enterprise enterprise = enterpriseRepository.getOne(1l);
-		User user = userRepository.getOne(30l);
+		User user = userRepository.getOne(1l);
 		
 		ProjectPermissionScheme s1 = new ProjectPermissionScheme();
 		s1.setCreator(user);
+		s1.setDescription("description 1");
+		s1.setModified(new Date());
 		s1.setEnterprise(enterprise);
 		s1.setName("Scheme 1");
 		projectPermissionSchemeRepository.save(s1);
@@ -605,7 +611,7 @@ public class TestService {
 	@Transactional
 	public void _8_CreateWorkFlows() {
 		Enterprise enterprise = enterpriseRepository.getOne(1l);
-		User user = userRepository.getOne(30l);
+		User user = userRepository.getOne(1l);
 		List<IssueStatus> issueStatus = issueStatusRepository.findAll();
 
 		WorkFlow w1 = new WorkFlow();
@@ -615,6 +621,8 @@ public class TestService {
 		w1.setName("Work Flow 1");
 		w1.setDescription("Description work flow 1");
 		w1.setDefaultStatus(issueStatus.get(3));
+		w1.setResolvedStatus(issueStatus.get(1));
+		w1.setClosedStatus(issueStatus.get(2));
 		w1.setIssueStatus(issueStatus);
 		WorkFlow w2 = new WorkFlow();
 		w2.setEnterprise(enterprise);
@@ -622,6 +630,8 @@ public class TestService {
 		w2.setModified(null);
 		w2.setName("Work Flow 2");
 		w2.setDefaultStatus(issueStatus.get(2));
+		w2.setResolvedStatus(issueStatus.get(1));
+		w2.setClosedStatus(issueStatus.get(3));
 		w2.setIssueStatus(issueStatus);
 		WorkFlow w3 = new WorkFlow();
 		w3.setEnterprise(enterprise);
@@ -630,6 +640,8 @@ public class TestService {
 		w3.setName("Work Flow 3");
 		w3.setDescription("Description work flow 3");
 		w3.setDefaultStatus(issueStatus.get(5));
+		w3.setResolvedStatus(issueStatus.get(2));
+		w3.setClosedStatus(issueStatus.get(3));
 		w3.setIssueStatus(issueStatus);
 
 		workFlowRepository.save(w1);

@@ -29,7 +29,7 @@ import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.User;
 
 @Entity
-@Table(name = "settings_workflow", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
+@Table(name = "workflow", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class WorkFlow implements Serializable {
 	
 	private static final long serialVersionUID = -1574987429237936201L;

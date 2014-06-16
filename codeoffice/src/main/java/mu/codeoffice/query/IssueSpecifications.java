@@ -1,25 +1,8 @@
 package mu.codeoffice.query;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import mu.codeoffice.entity.Issue;
-import mu.codeoffice.entity.Issue_;
-import mu.codeoffice.enums.IssuePriority;
-import mu.codeoffice.enums.IssueStatus;
-import mu.codeoffice.enums.IssueType;
-
-import org.springframework.data.jpa.domain.Specification;
 
 public class IssueSpecifications {
-
+/*
 	public static Specification<Issue> all(Date date, Long project, Long version, Long releaseVersion, Long component, Long label, 
 			Long assignee, Long reporter, IssueStatus status, IssueType type, IssuePriority priority) {
 		return new Specification<Issue>() {
@@ -110,19 +93,19 @@ public class IssueSpecifications {
 			IssueStatus status, IssueType type, IssuePriority priority) {
 		List<Predicate> predicates = new ArrayList<>();
 		if (version != null) {
-			predicates.add(builder.equal(root.join(Issue_.versions, JoinType.LEFT).<Long>get("id"), version));
+		//	predicates.add(builder.equal(root.join(Issue_.versions, JoinType.LEFT).<Long>get("id"), version));
 		}
 		if (component != null) {
-			predicates.add(builder.equal(root.join(Issue_.components, JoinType.LEFT).<Long>get("id"), component));
+		//	predicates.add(builder.equal(root.join(Issue_.components, JoinType.LEFT).<Long>get("id"), component));
 		}
 		if (label != null) {
-			predicates.add(builder.equal(root.join(Issue_.labels, JoinType.LEFT).<Long>get("id"), label));
+		//	predicates.add(builder.equal(root.join(Issue_.labels, JoinType.LEFT).<Long>get("id"), label));
 		}
 		if (project != null) {
 			predicates.add(builder.equal(root.get(Issue_.project).<Long>get("id"), project));
 		}
 		if (releaseVersion != null) {
-			predicates.add(builder.equal(root.get(Issue_.releaseVersion).<Long>get("id"), releaseVersion));
+		//	predicates.add(builder.equal(root.get(Issue_.releaseVersion).<Long>get("id"), releaseVersion));
 		}
 		if (assignee != null) {
 			predicates.add(builder.equal(root.get(Issue_.assignee).<Long>get("id"), assignee));
@@ -143,6 +126,6 @@ public class IssueSpecifications {
 			predicates.add(builder.lessThanOrEqualTo(root.get(Issue_.create), date));
 		}
 		return predicates;
-	}
+	}*/
 	
 }

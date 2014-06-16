@@ -23,7 +23,7 @@ import mu.codeoffice.entity.Enterprise;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "settings_issuetype", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
+@Table(name = "issuetype", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class IssueType implements Serializable {
 
 	private static final long serialVersionUID = -8322633157968172805L;

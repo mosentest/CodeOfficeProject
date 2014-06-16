@@ -23,7 +23,7 @@ import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.entity.User;
 
 @Entity
-@Table(name = "settings_projectrole", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
+@Table(name = "projectrole", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
 public class ProjectRole implements Serializable {
 
 	private static final long serialVersionUID = 5484556658802063500L;
@@ -46,7 +46,7 @@ public class ProjectRole implements Serializable {
 	private String description;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "settings_projectrole_user", uniqueConstraints = @UniqueConstraint(columnNames = {"projectrole_id", "user_id"}),
+    @JoinTable(name = "projectrole_user", uniqueConstraints = @UniqueConstraint(columnNames = {"projectrole_id", "user_id"}),
         joinColumns = @JoinColumn(name = "projectrole_id", referencedColumnName = "id"), 
         inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private List<User> defaultMembers;

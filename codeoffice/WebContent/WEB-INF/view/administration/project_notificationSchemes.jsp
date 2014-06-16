@@ -63,7 +63,7 @@
 							<c:if test="${not empty scheme.description}"><br />
 							<span class="description-info">${scheme.description}</span></c:if>
 						</td>
-						<td><code:user user="${scheme.creator}" width="20" height="20"></td>
+						<td><code:user user="${scheme.creator}" width="20" height="20"/></td>
 						<td><fmt:formatDate value="${scheme.modified}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td>
 							<ul class="info-ul-list">

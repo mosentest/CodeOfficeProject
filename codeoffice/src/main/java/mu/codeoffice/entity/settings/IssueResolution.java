@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import mu.codeoffice.entity.Enterprise;
@@ -20,7 +19,7 @@ import mu.codeoffice.entity.Enterprise;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
-@Table(name = "settings_issueresolution", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
+@Table(name = "issueresolution", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class IssueResolution implements Serializable {
 
 	private static final long serialVersionUID = -8322633157968172805L;
@@ -33,7 +32,6 @@ public class IssueResolution implements Serializable {
 	private Enterprise enterprise;
 	
 	@Column(name = "name")
-	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
 	@Size(max = 20)
 	private String name;
 

@@ -20,7 +20,7 @@ import javax.persistence.UniqueConstraint;
 import mu.codeoffice.entity.Enterprise;
 
 @Entity
-@Table(name = "settings_issuenavigation", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
+@Table(name = "issuenavigation", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class IssueNavigationSettings implements SettingsEntity, Serializable {
 	
 	public static enum IssueColumn {

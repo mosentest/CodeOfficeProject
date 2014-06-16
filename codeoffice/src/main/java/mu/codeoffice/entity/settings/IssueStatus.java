@@ -14,7 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import mu.codeoffice.common.InformationException;
@@ -24,7 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
-@Table(name = "settings_issuestatus", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
+@Table(name = "issuestatus", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "enterprise_id"}))
 public class IssueStatus implements Serializable {
 	
 	public static final String[] ICONS = {
@@ -42,7 +41,6 @@ public class IssueStatus implements Serializable {
 	private Enterprise enterprise;
 	
 	@Column(name = "name")
-	@Pattern(regexp = "[a-zA-Z]+(( )?[a-zA-Z])+")
 	@Size(max = 20)
 	private String name;
 

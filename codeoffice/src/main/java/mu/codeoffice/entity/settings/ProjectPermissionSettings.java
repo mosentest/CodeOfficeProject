@@ -38,7 +38,7 @@ public class ProjectPermissionSettings implements Serializable {
 	private Enterprise enterprise;
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "projectpermission_scheme_id")
+	@JoinColumn(name = "projectpermissionscheme_id")
 	private ProjectPermissionScheme projectPermissionScheme;
 
 	@Column(name = "project_permission")

@@ -25,7 +25,7 @@ import mu.codeoffice.entity.Project;
 import mu.codeoffice.entity.User;
 
 @Entity
-@Table(name = "projectpermission_scheme", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
+@Table(name = "projectpermissionscheme", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
 public class ProjectPermissionScheme implements Serializable {
 
 	private static final long serialVersionUID = -4340120129502238222L;

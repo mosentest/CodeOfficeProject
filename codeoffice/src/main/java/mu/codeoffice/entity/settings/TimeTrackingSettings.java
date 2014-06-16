@@ -17,7 +17,7 @@ import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.Enterprise;
 
 @Entity
-@Table(name = "settings_time_tracking")
+@Table(name = "settings_timetracking")
 public class TimeTrackingSettings implements SettingsEntity, Serializable {
 	
 	private static final long serialVersionUID = -6441299912952667018L;

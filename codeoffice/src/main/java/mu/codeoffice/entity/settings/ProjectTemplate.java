@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 import mu.codeoffice.entity.Enterprise;
 
 @Entity
-@Table(name = "settings_projecttemplate", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
+@Table(name = "projecttemplate", uniqueConstraints = @UniqueConstraint(columnNames = { "name", "enterprise_id" }))
 public class ProjectTemplate implements Serializable {
 
 	private static final long serialVersionUID = -5180697553803867204L;
@@ -47,7 +47,7 @@ public class ProjectTemplate implements Serializable {
 	private WorkFlow workFlow;
 
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
-	@JoinColumn(name = "notification_scheme_id")
+	@JoinColumn(name = "notificationscheme_id")
 	private NotificationScheme notificationScheme;
 	
 	public ProjectTemplate() {}

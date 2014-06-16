@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import mu.codeoffice.entity.Enterprise;
 
 @Entity
-@Table(name = "settings_advanced_global")
+@Table(name = "settings_advancedglobal")
 public class AdvancedGlobalSettings implements SettingsEntity, Serializable {
 	
 	private static final long serialVersionUID = 727855077877535985L;

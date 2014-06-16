@@ -21,7 +21,7 @@ import mu.codeoffice.entity.Enterprise;
 import mu.codeoffice.security.ProjectPermission;
 
 @Entity
-@Table(name = "settings_workflow_transition", 
+@Table(name = "workflow_transition", 
 	uniqueConstraints = @UniqueConstraint(columnNames = {"transition", "from_status_id", "to_status_id", "workflow_id"}))
 public class WorkFlowTransition implements Serializable {
 
@@ -54,7 +54,7 @@ public class WorkFlowTransition implements Serializable {
 	@NotNull
 	private IssueStatus to;
 
-	@Column(name = "permission_value")
+	@Column(name = "required_permission_value")
 	private int requiredPermissionValue;
 	
 	@Transient
