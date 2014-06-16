@@ -24,7 +24,7 @@ public interface ProjectPermissionSchemeRepository extends JpaRepository<Project
 	@Query("SELECT s FROM ProjectPermissionScheme s WHERE s.enterprise = :enterprise AND s.name = :schemeName")
 	public ProjectPermissionScheme getProjectPermissionScheme(@Param("enterprise") Enterprise enterprise, @Param("schemeName") String schemeName);
 	
-	@Query("SELECT COUNT(s) > 0 FROM ProjectPermissionScheme s JOIN s.projectPermissionSettings se WHERE s.enterprise = :enterprise AND :projectRole IN se.projectRoles")
+	@Query("SELECT COUNT(s) > 0 FROM ProjectPermissionScheme s JOIN s.projectPermissionSettings se JOIN se.projectRoles r WHERE s.enterprise = :enterprise AND r = :projectRole")
 	public boolean isProjectRoleInUse(@Param("enterprise") Enterprise enterprise, @Param("projectRole") ProjectRole projectRole);
 	
 }

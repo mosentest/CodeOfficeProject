@@ -60,7 +60,7 @@ public class ProjectRoleController implements GenericController {
 	}
 
 	@RequestMapping(value = "administration/projectRole/delete", method = RequestMethod.POST)
-	public String deleteProjectRole(@AuthenticationPrincipal EnterpriseAuthentication auth,
+	public String delete(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("role") String role, RedirectAttributes redirectAttributes) {
 		try {
 			role = Function.unmaskURL(role);
@@ -73,7 +73,7 @@ public class ProjectRoleController implements GenericController {
 	}
 	
 	@RequestMapping(value = "administration/projectRole/edit", method = RequestMethod.POST)
-	public String projectRoleEdit(@AuthenticationPrincipal EnterpriseAuthentication auth,
+	public String edit(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("role") String role,
 			@ModelAttribute("projectRole") @Valid ProjectRoleDTO projectRoleDTO, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
@@ -94,14 +94,14 @@ public class ProjectRoleController implements GenericController {
 	}
 
 	@RequestMapping(value = "administration/projectRoles.html", method = RequestMethod.GET)
-	public ModelAndView projectRoles(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+	public ModelAndView get(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		model.put("projectRoles", projectRoleService.getProjectRoles(auth, true));
 		model.put("projectRole", new ProjectRole());
 		return new ModelAndView("administration/project_projectRoles", model);
 	}
 
 	@RequestMapping(value = "administration/projectRole/edit.html", method = RequestMethod.GET)
-	public ModelAndView projectRole(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+	public ModelAndView get(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam(value = "role", required = true) String role, 
 			@RequestParam(value = "query", required = false) String query, 
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
