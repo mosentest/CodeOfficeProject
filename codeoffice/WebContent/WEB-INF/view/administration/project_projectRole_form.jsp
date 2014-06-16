@@ -3,6 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
@@ -125,7 +126,7 @@
 							</tr>
 						</table>
 					</div>
-					<c:if test="${userPage.totalElements eq 0}"><code:info type="info" message="no user"/></c:if>
+					<c:if test="${userPage.totalElements eq 0}"><code:info type="info" title="application.noItemsFound"/></c:if>
 					<c:if test="${userPage.totalElements gt 0}">
 					<div>Select users to delete</div>
 					<table class="list-table">

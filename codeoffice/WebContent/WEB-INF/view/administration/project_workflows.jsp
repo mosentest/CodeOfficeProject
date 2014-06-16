@@ -6,6 +6,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -31,6 +32,8 @@
 				<a class="link" href="administration/workFlow/create.html"><spring:message code="entity.workFlow.create"/></a>
 			</div>
 			<div class="sub-element-content">
+				<c:if test="${fn:length(workFlows) eq 0}"><code:info type="info" title="application.noItemsFound"/></c:if>
+				<c:if test="${fn:length(workFlows) gt 0}">
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="entity.workFlow.name"/></td>
@@ -79,6 +82,7 @@
 					</tr>
 					</c:forEach>
 				</table>
+				</c:if>
 			</div>
 		</div>
 	</div>

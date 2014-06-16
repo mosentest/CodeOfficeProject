@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
 <div id="title"><spring:message code="administration.title"/></div>
 <div id="sub-menu">
@@ -29,6 +30,8 @@
 				<a class="link" href="administration/typeScheme/create.html"><spring:message code="entity.issueTypeScheme.create"/></a>
 			</div>
 			<div class="sub-element-content">
+				<c:if test="${fn:length(issueTypeSchemes) eq 0}"><code:info type="info" title="application.noItemsFound"/></c:if>
+				<c:if test="${fn:length(issueTypeSchemes) gt 0}">
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="entity.issueTypeScheme.name"/></td>
@@ -72,6 +75,7 @@
 					</tr>
 					</c:forEach>
 				</table>
+				</c:if>
 			</div>
 		</div>
 	</div>

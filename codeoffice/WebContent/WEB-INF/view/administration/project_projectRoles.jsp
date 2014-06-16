@@ -3,6 +3,7 @@
 <%@ taglib prefix="code" uri="http://www.codeoffice.com/codelib"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="codefunction" uri="http://www.codeoffice.com/codefunction" %>
 <jsp:include page="/WEB-INF/view/header.jsp"/>
@@ -47,6 +48,8 @@
 						</table>
 					</form:form>
 				</div>
+				<c:if test="${fn:length(projectRoles) eq 0}"><code:info type="info" title="application.noItemsFound"/></c:if>
+				<c:if test="${fn:length(projectRoles) gt 0}">
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="entity.projectRole.name"/></td>
@@ -65,6 +68,7 @@
 					</tr>
 					</c:forEach>
 				</table>
+				</c:if>
 			</div>
 		</div>
 	</div>

@@ -126,7 +126,7 @@
 						<td><spring:message code="entity.projectPermissionSettings.userGroups"/></td>
 						<td><spring:message code="entity.projectPermissionSettings.projectRoles"/></td>
 						<td><spring:message code="entity.projectPermissionSettings.users"/></td>
-								<td><spring:message code="application.operations"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${permissionScheme.projectPermissionSettings}" var="settings">
 					<tr class="list-table-item">

@@ -48,6 +48,8 @@
 						</table>
 					</form:form>
 				</div>
+				<c:if test="${fn:length(permissionSchemes) eq 0}"><code:info type="info" title="application.noItemsFound"/></c:if>
+				<c:if test="${fn:length(permissionSchemes) gt 0}">
 				<table class="list-table">
 					<tr class="list-table-header">
 						<td><spring:message code="entity.projectPermissionScheme.name"/></td>
@@ -79,6 +81,7 @@
 					</tr>
 					</c:forEach>
 				</table>
+				</c:if>
 			</div>
 		</div>
 	</div>

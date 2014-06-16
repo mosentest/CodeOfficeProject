@@ -122,7 +122,7 @@
 						</tr>
 					</table>
 				</div>
-				<c:if test="${userPage.totalElements eq 0}">no user</c:if>
+				<c:if test="${userPage.totalElements eq 0}"><code:info type="info" title="application.noItemsFound"/></c:if>
 				<c:if test="${userPage.totalElements gt 0}">
 				<div>Select users to delete</div>
 				<table class="list-table">
