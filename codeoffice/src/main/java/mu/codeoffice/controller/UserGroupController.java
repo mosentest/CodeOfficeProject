@@ -42,7 +42,7 @@ public class UserGroupController implements GenericController {
 	};
 
 	@RequestMapping(value = "administration/userGroups.html", method = RequestMethod.GET)
-	public ModelAndView userGroupView(@AuthenticationPrincipal EnterpriseAuthentication auth,
+	public ModelAndView get(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
 			@RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize,
 			@RequestParam(value = "name", required = false) String name,
@@ -61,7 +61,7 @@ public class UserGroupController implements GenericController {
 	}
 
 	@RequestMapping(value = "administration/userGroup.html", method = RequestMethod.GET)
-	public ModelAndView userGroup(@AuthenticationPrincipal EnterpriseAuthentication auth,
+	public ModelAndView get(@AuthenticationPrincipal EnterpriseAuthentication auth,
 			@RequestParam("group") String group,
 			@RequestParam(value = "query", required = false) String query, 
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
@@ -84,7 +84,7 @@ public class UserGroupController implements GenericController {
 	}
 
 	@RequestMapping(value = "administration/userGroup/create", method = RequestMethod.POST)
-	public String userGroupCreate(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+	public String create(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@ModelAttribute("usergroup") UserGroup userGroup, 
 			RedirectAttributes redirectAttributes) throws AuthenticationException {
 		try {
@@ -97,7 +97,7 @@ public class UserGroupController implements GenericController {
 	}
 
 	@RequestMapping(value = "administration/userGroup/delete", method = RequestMethod.POST)
-	public String userGroupDelete(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+	public String delete(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("group") String group, RedirectAttributes redirectAttributes) throws AuthenticationException {
 		try {
 			group = Function.unmaskURL(group);
@@ -110,7 +110,7 @@ public class UserGroupController implements GenericController {
 	}
 
 	@RequestMapping(value = "administration/userGroup/manage.html", method = RequestMethod.GET)
-	public ModelAndView userGroupMemberRequest(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+	public ModelAndView manage(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("group") String group,
 			@RequestParam(value = "query", required = false) String query, 
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex, 
@@ -133,7 +133,7 @@ public class UserGroupController implements GenericController {
 	}
 
 	@RequestMapping(value = "administration/userGroup/manage", method = RequestMethod.POST)
-	public String userGroupMember(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+	public String manage(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("group") String group,
 			@ModelAttribute("userGroupDTO") UserGroupDTO userGroupDTO,
 			RedirectAttributes redirectAttributes, ModelMap model) throws AuthenticationException {

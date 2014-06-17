@@ -28,13 +28,13 @@ public class ProjectCategoryController {
 	private ProjectCategoryService projectCategoryService;
 	
 	@RequestMapping(value = "category", method = RequestMethod.GET)
-	public ModelAndView projectCategories(ModelMap model, @AuthenticationPrincipal EnterpriseAuthentication auth) {
+	public ModelAndView get(ModelMap model, @AuthenticationPrincipal EnterpriseAuthentication auth) {
 		loadInformations(auth, model);
 		return new ModelAndView("enterprise/project/projectcategory", model);
 	}
 	
 	@RequestMapping(value = "category/{id}", method = RequestMethod.GET)
-	public ModelAndView projectCategory(@PathVariable("id") Long id, @AuthenticationPrincipal EnterpriseAuthentication auth,
+	public ModelAndView get(@PathVariable("id") Long id, @AuthenticationPrincipal EnterpriseAuthentication auth,
 			HttpSession session, ModelMap model) {
 		ProjectCategory category = projectCategoryService.getProjectCategory(id, auth);
 		if (category == null) {
@@ -45,7 +45,7 @@ public class ProjectCategoryController {
 	}
 
 	@RequestMapping(value = "category/create", method = RequestMethod.GET) 
-	public ModelAndView categoryReqeust(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+	public ModelAndView create(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		model.put("projectCategory", new ProjectCategory());
 		model.put("edit", false);
 		model.put("projectCategoryNames", projectCategoryService.getProjectCategoryNames(auth));
@@ -53,7 +53,7 @@ public class ProjectCategoryController {
 	}
 
 	@RequestMapping(value = "category/create", method = RequestMethod.POST) 
-	public ModelAndView categoryCreate(@ModelAttribute ProjectCategory projectCategory, @AuthenticationPrincipal EnterpriseAuthentication auth,
+	public ModelAndView create(@ModelAttribute ProjectCategory projectCategory, @AuthenticationPrincipal EnterpriseAuthentication auth,
 			HttpSession session, ModelMap model) {
 		projectCategory.setId(null);
 		try {
@@ -68,7 +68,7 @@ public class ProjectCategoryController {
 	}
 
 	@RequestMapping(value = "category/{id}/edit", method = RequestMethod.GET) 
-	public ModelAndView categoryEditRequest(@PathVariable("id") Long id, @AuthenticationPrincipal EnterpriseAuthentication auth,
+	public ModelAndView edit(@PathVariable("id") Long id, @AuthenticationPrincipal EnterpriseAuthentication auth,
 			HttpSession session, ModelMap model) {
 		ProjectCategory category = projectCategoryService.getProjectCategory(id, auth);
 		if (category == null) {
@@ -83,7 +83,7 @@ public class ProjectCategoryController {
 	}
 
 	@RequestMapping(value = "category/{id}/edit", method = RequestMethod.POST) 
-	public ModelAndView categoryEdit(@PathVariable("id") Long id, @ModelAttribute ProjectCategory category,
+	public ModelAndView edit(@PathVariable("id") Long id, @ModelAttribute ProjectCategory category,
 			@AuthenticationPrincipal EnterpriseAuthentication auth, HttpSession session, ModelMap model) {
 		if (projectCategoryService.getProjectCategory(id, auth) == null) {
 			return new ModelAndView("redirect:/enterprise/category");
@@ -102,7 +102,7 @@ public class ProjectCategoryController {
 	}
 
 	@RequestMapping(value = "category/{id}/delete", method = RequestMethod.GET) 
-	public ModelAndView categoryRemove(@PathVariable("id") Long id, @AuthenticationPrincipal EnterpriseAuthentication auth, 
+	public ModelAndView delete(@PathVariable("id") Long id, @AuthenticationPrincipal EnterpriseAuthentication auth, 
 			HttpSession session, ModelMap model) {
 		try {
 			projectCategoryService.remove(id, auth);
