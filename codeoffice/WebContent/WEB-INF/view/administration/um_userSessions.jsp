@@ -12,6 +12,7 @@
 		<jsp:param name="menu" value="user"/>
 	</jsp:include>
 </div>
+<spring:message var="text_invalidate" code="administration.um.usersession.invalidate"/>
 <div id="content">
 	<jsp:include page="/WEB-INF/view/administration/um_menu.jsp">
 		<jsp:param name="menu" value="usersessions"/>
@@ -34,15 +35,17 @@
 						<td><spring:message code="entity.userSession.requests"/></td>
 						<td><spring:message code="entity.userSession.lastRequest"/></td>
 						<td><spring:message code="entity.userSession.sessionCreation"/></td>
+						<td><spring:message code="application.operations"/></td>
 					</tr>
 					<c:forEach items="${userSessions}" var="userSession">
 					<tr class="list-table-item">
 						<td>${userSession.sessionID}</td>
-						<td><code:user user="${userSession.user}"/></td>
+						<td><code:user user="${userSession.auth.user}"/></td>
 						<td>${userSession.ip}</td>
 						<td>${userSession.requests}</td>
 						<td><fmt:formatDate value="${userSession.access}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td><fmt:formatDate value="${userSession.create}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><a class="link" href="javascript:remoteSubmit(event, 'administration/userSession/invalidate?user=${userSession.auth.user.id}', 'Invalidate?');">${text_invalidate}</a></td>
 					</tr>
 					</c:forEach>
 				</table>
@@ -50,5 +53,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
+	<form id="remoteForm" method="POST"></form>
 </div>
 <jsp:include page="/WEB-INF/view/footer.jsp" />

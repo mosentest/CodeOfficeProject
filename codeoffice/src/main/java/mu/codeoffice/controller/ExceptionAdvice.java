@@ -1,6 +1,7 @@
 package mu.codeoffice.controller;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -11,9 +12,14 @@ public class ExceptionAdvice {
 
 	@ExceptionHandler(Exception.class)
 	public String handle(Exception e) {
-		logger.debug(e.getMessage());
+		logger.debug(e.getClass() + ":" + e.getMessage());
 		return "redirect:/notfound.html";
 	}
-	
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public String handle(AccessDeniedException e) {
+		logger.debug(e.getClass() + ":" + e.getMessage());
+		return "redirect:/accessdenied.html";
+	}
 	
 }

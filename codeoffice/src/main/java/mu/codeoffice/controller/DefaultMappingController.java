@@ -1,8 +1,10 @@
 package mu.codeoffice.controller;
 
+import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.TestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +32,10 @@ public class DefaultMappingController {
 	}
 	
 	@RequestMapping(value = "/accessdenied.html", method = RequestMethod.GET)
-	public String accessdenied(ModelMap model) {
+	public String accessdenied(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+		if (auth.isExpired()) {
+			return "redirect:logout.html";
+		}
 		model.addAttribute("error", true);
 		return "error/403";
 	}

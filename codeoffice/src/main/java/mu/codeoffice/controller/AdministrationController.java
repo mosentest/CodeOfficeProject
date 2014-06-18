@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/administration/")
 public class AdministrationController implements GenericController {
 	
-	
 	@RequestMapping(value = "system.html", method = RequestMethod.GET)
 	public ModelAndView system(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		return new ModelAndView("administration/system_home", model);

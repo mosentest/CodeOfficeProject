@@ -14,6 +14,8 @@ public class EnterpriseAuthentication extends org.springframework.security.core.
 	private Enterprise enterprise;
 	
 	private User user;
+	
+	private boolean expired;
 
 	public EnterpriseAuthentication(Enterprise enterprise, User user, String username, String password,
 			boolean enabled, boolean accountNonExpired,
@@ -23,6 +25,11 @@ public class EnterpriseAuthentication extends org.springframework.security.core.
 				accountNonLocked, authorities);
 		this.enterprise = enterprise;
 		this.user = user;
+		this.expired = false;
+	}
+	
+	public void invalidate() {
+		expired = true;
 	}
 	
 	public Enterprise getEnterprise() {
@@ -39,6 +46,10 @@ public class EnterpriseAuthentication extends org.springframework.security.core.
 	
 	public boolean authorized(GrantedAuthority authority) {
 		return getAuthorities().contains(authority);
+	}
+	
+	public boolean isExpired() {
+		return expired;
 	}
 
 }

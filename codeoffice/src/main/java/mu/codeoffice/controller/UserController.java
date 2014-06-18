@@ -56,13 +56,4 @@ public class UserController implements GenericController {
 		if (pageSize != DEFAULT_LIST_SIZE) { model.put("pageSize", pageSize); }
 		return new ModelAndView("administration/um_users", model);
 	}
-
-	@RequestMapping(value = "administration/userSessions.html", method = RequestMethod.GET)
-	public ModelAndView userSessionView(@AuthenticationPrincipal EnterpriseAuthentication auth, 
-			@RequestParam(value = "pageIndex", required = false, defaultValue = "0") Integer pageIndex,
-			@RequestParam(value = "pageSize", required = false, defaultValue = "30") Integer pageSize, 
-			@RequestParam(value = "name", required = false) String name, 
-			ModelMap model) {
-		return new ModelAndView("administration/um_userSessions", model);
-	}
 }

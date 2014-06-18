@@ -2,8 +2,6 @@ package mu.codeoffice.security;
 
 import java.util.Date;
 
-import mu.codeoffice.entity.User;
-
 public class SessionObject {
 	
 	private String sessionID;
@@ -16,12 +14,12 @@ public class SessionObject {
 	
 	private String ip;
 	
-	private User user;
+	private EnterpriseAuthentication auth;
 	
-	public SessionObject(String sessionID, String ip, User user) {
+	public SessionObject(String sessionID, String ip, EnterpriseAuthentication auth) {
 		this.sessionID = sessionID;
 		this.ip = ip;
-		this.user = user;
+		this.auth = auth;
 		create = new Date();
 		access = new Date();
 		requests = 0;
@@ -52,8 +50,8 @@ public class SessionObject {
 		return ip;
 	}
 
-	public User getUser() {
-		return user;
+	public EnterpriseAuthentication getAuth() {
+		return auth;
 	}
 	
 }

@@ -26,7 +26,6 @@
 <script src="assets/js/jquery-ui-1.10.3.custom.js"></script>
 </head>
 <body>
-<spring:message var="text_logout" code="application.logout"/>
 <spring:message var="text_settings" code="application.settings"/>
 <spring:message var="text_logout" code="application.logout"/>
 <security:authorize access="isAuthenticated()">

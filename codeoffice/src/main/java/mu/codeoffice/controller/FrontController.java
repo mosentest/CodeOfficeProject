@@ -32,6 +32,9 @@ public class FrontController {
 		if (auth == null) {
 			return new ModelAndView("redirect:/login.html");
 		}
+		if (auth.isExpired()) {
+			return new ModelAndView("redirect:/logout.html");
+		}
 		return new ModelAndView("dashboard", model);
 	}
 	
