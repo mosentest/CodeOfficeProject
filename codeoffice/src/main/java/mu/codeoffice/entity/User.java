@@ -24,6 +24,7 @@ import mu.codeoffice.entity.settings.GlobalPermissionSettings;
 import mu.codeoffice.entity.settings.ProjectRole;
 import mu.codeoffice.json.JSONSerializable;
 import mu.codeoffice.json.UserJSON;
+import mu.codeoffice.security.GlobalPermission;
 
 @Entity
 @Table(name = "enterprise_user")
@@ -76,12 +77,9 @@ public class User implements Serializable, JSONSerializable<User> {
 
     @Column(name = "address")
 	private String address;
-    
-    @Column(name = "global_permission_value")
-    private int globalPermissionValue;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	private List<GlobalPermissionSettings> globalPermissions;
+	private List<GlobalPermissionSettings> globalPermissionSettings;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private List<UserGroup> userGroups;
@@ -94,6 +92,9 @@ public class User implements Serializable, JSONSerializable<User> {
  			joinColumns = @JoinColumn(name = "user_wid", referencedColumnName = "id"), 
  			inverseJoinColumns = @JoinColumn(name = "issue_id", referencedColumnName = "id"))
 	private List<Issue> watching;
+	
+	@Transient
+	private List<GlobalPermission> globalPermissions;
     
     public User() {}
 
@@ -115,20 +116,15 @@ public class User implements Serializable, JSONSerializable<User> {
 		}
 		return DEFAULT_COLUMN;
 	}
+	
+	public void setGlobalPermissions(List<GlobalPermission> globalPermissions) {
+		this.globalPermissions = globalPermissions;
+	}
     
-    @Transient
-    public List<mu.codeoffice.security.GlobalPermission> getGlobalPermissions() {
-    	return mu.codeoffice.security.GlobalPermission.getPermissions(globalPermissionValue);
+    public List<GlobalPermission> getGlobalPermissions() {
+    	return globalPermissions;
     }
 	
-	public int getGlobalPermissionValue() {
-		return globalPermissionValue;
-	}
-
-	public void setGlobalPermissionValue(int globalPermissionValue) {
-		this.globalPermissionValue = globalPermissionValue;
-	}
-
 	public List<UserGroup> getUserGroups() {
 		return userGroups;
 	}
@@ -137,8 +133,8 @@ public class User implements Serializable, JSONSerializable<User> {
 		this.userGroups = userGroups;
 	}
 
-	public void setGlobalPermissions(List<GlobalPermissionSettings> globalPermissions) {
-		this.globalPermissions = globalPermissions;
+	public void setGlobalPermissionSettings(List<GlobalPermissionSettings> globalPermissionSettings) {
+		this.globalPermissionSettings = globalPermissionSettings;
 	}
 
 	@Override
@@ -269,6 +265,10 @@ public class User implements Serializable, JSONSerializable<User> {
 
 	public void setProjectRoles(List<ProjectRole> projectRoles) {
 		this.projectRoles = projectRoles;
+	}
+
+	public List<GlobalPermissionSettings> getGlobalPermissionSettings() {
+		return globalPermissionSettings;
 	}
 	
 }

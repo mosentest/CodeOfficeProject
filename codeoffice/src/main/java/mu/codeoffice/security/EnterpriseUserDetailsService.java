@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import mu.codeoffice.entity.User;
 import mu.codeoffice.repository.UserRepository;
+import mu.codeoffice.service.UserService;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +22,9 @@ public class EnterpriseUserDetailsService implements UserDetailsService {
 
 	@Resource
 	private UserRepository userRepository;
+	
+	@Resource
+	private UserService userService;
 	
 	@Override
 	public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
@@ -44,12 +48,13 @@ public class EnterpriseUserDetailsService implements UserDetailsService {
 	}
 	
 	private List<GrantedAuthority> grantAuthorities(User user) {
-		List<GrantedAuthority> globalAuthorities = EnterpriseAuthority.getGrantedAuthorities(GlobalPermission.getPermissions(user.getGlobalPermissionValue()));
-		logger.debug(user.getAccount() + " granted global authorities: ");
-		for (GrantedAuthority grantedAuthority: globalAuthorities) {
+		List<GlobalPermission> globalPermissions = userService.getAuthorities(user.getEnterprise(), user.getId());
+		user.setGlobalPermissions(globalPermissions);
+		List<GrantedAuthority> authorities = EnterpriseAuthority.getGrantedAuthorities(globalPermissions);
+		for (GrantedAuthority grantedAuthority: authorities) {
 			logger.debug("Global: " + grantedAuthority.getAuthority());
 		}
-		return globalAuthorities;
+		return authorities;
 	}
 
 }

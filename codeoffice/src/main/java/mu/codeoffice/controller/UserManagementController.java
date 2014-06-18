@@ -8,10 +8,10 @@ import javax.servlet.ServletContext;
 
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.SessionObject;
+import mu.codeoffice.tag.AuthenticationUtils;
 import mu.codeoffice.utility.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -63,24 +63,13 @@ public class UserManagementController implements GenericController {
 		return new ModelAndView("administration/um_userSessions", model);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "userSession/invalidate", method = RequestMethod.POST)
 	public String invalidate(@AuthenticationPrincipal EnterpriseAuthentication auth, 
 			@RequestParam("user") Long user, RedirectAttributes redirectAttributes) {
-		Map<Long, SessionObject> sessionMap = (Map<Long, SessionObject>) servletContext.getAttribute(auth.getEnterprise().getCode() + "_SESSIONS");
-		SessionObject sessionObject = sessionMap.remove(user);
-		if (sessionObject == null) {
-			redirectAttributes.addFlashAttribute(ERROR, "User not found.");
-		} else {
-			sessionObject.getAuth().eraseCredentials();
-			sessionObject.getAuth().invalidate();
-			List<SessionInformation> sessionInformations = sessionRegistry.getAllSessions(
-					sessionObject.getAuth(), false);  
-			for (SessionInformation sessionInformation : sessionInformations) {  
-	        	sessionInformation.expireNow();  
-	            sessionRegistry.removeSessionInformation(sessionInformation.getSessionId()); 
-	        }
+		if (AuthenticationUtils.invalidateUser(auth.getEnterprise(), user, servletContext, sessionRegistry, true)) {
 			redirectAttributes.addFlashAttribute(TIP, "User has been forced to logout.");
+		} else {
+			redirectAttributes.addFlashAttribute(ERROR, "User not found.");
 		}
 		return "redirect:/administration/userSessions.html";
 	}

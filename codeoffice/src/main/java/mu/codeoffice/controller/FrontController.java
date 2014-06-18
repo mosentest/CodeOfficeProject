@@ -1,5 +1,7 @@
 package mu.codeoffice.controller;
 
+import javax.servlet.http.HttpSession;
+
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.TestService;
 
@@ -28,12 +30,13 @@ public class FrontController {
 	}
 
 	@RequestMapping(value = "/dashboard.html", method = RequestMethod.GET)
-	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+	public ModelAndView home(@AuthenticationPrincipal EnterpriseAuthentication auth, 
+			HttpSession session, ModelMap model) {
 		if (auth == null) {
 			return new ModelAndView("redirect:/login.html");
 		}
 		if (auth.isExpired()) {
-			return new ModelAndView("redirect:/logout.html");
+			return new ModelAndView("redirect:logout.html");
 		}
 		return new ModelAndView("dashboard", model);
 	}

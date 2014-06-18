@@ -13,6 +13,7 @@ import mu.codeoffice.enums.CommentVisibility;
 import mu.codeoffice.enums.EmailVisibility;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.GlobalPermission;
+import mu.codeoffice.security.GlobalPermissionScheme;
 import mu.codeoffice.service.SystemSettingsService;
 import mu.codeoffice.service.UserGroupService;
 import mu.codeoffice.utility.GlobalPermissionEditor;
@@ -186,6 +187,7 @@ public class SystemAdministrationController implements GenericController {
 	@RequestMapping(value = "globalPermission/scheme.html", method = RequestMethod.GET)
 	public ModelAndView globalPermissionScheme(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
 		model.put("globalPermissions", GlobalPermission.values());
+		model.put("globalPermissionSchemes", GlobalPermissionScheme.values());
 		return new ModelAndView("administration/system_globalPermission_scheme", model);
 	}
 	

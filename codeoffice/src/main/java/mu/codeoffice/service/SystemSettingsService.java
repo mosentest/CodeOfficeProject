@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.entity.User;
@@ -29,10 +30,13 @@ import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
 import mu.codeoffice.security.GlobalPermission;
+import mu.codeoffice.tag.AuthenticationUtils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +68,12 @@ public class SystemSettingsService {
 	
 	@Resource
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ServletContext servletContext;
+	
+	@Autowired
+	private SessionRegistry sessionRegistry;
 
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_GLOBAL_ADMIN')")
@@ -89,10 +99,17 @@ public class SystemSettingsService {
 	@PreAuthorize("hasRole('ROLE_GLOBAL_SYSTEM_ADMIN')")
 	public void reset(EnterpriseAuthentication auth, GlobalPermission globalPermission) throws InformationException {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
+		for (UserGroup userGroup : settings.getUserGroups()) {
+			for (User user : userGroup.getUsers()) {
+				AuthenticationUtils.invalidateUser(auth.getEnterprise(), user.getId(), servletContext, sessionRegistry, false);
+			}
+		}
+		for (User user : settings.getUsers()) {
+			AuthenticationUtils.invalidateUser(auth.getEnterprise(), user.getId(), servletContext, sessionRegistry, false);
+		}
 		settings.getUserGroups().clear();
 		settings.getUsers().clear();
 		globalPermissionRepository.save(settings);
-		userRepository.clearGlobalPermission(auth.getEnterprise(), ~globalPermission.getAuthority());
 	}
 	
 	@Transactional
@@ -101,8 +118,9 @@ public class SystemSettingsService {
 		GlobalPermissionSettings settings = globalPermissionRepository.getGlobalPermissionSettings(auth.getEnterprise(), globalPermission);
 		UserGroup userGroup = userGroupRepository.getUserGroup(auth.getEnterprise(), userGroupName);
 		if (settings.getUserGroups().remove(userGroup)) {
-			userRepository.clearGlobalPermission(auth.getEnterprise(), ~globalPermission.getAuthority(), userGroup);
-			userRepository.grantGlobalPermission(auth.getEnterprise(), globalPermission.getAuthority(), settings);
+			for (User user : userGroup.getUsers()) {
+				AuthenticationUtils.invalidateUser(auth.getEnterprise(), user.getId(), servletContext, sessionRegistry, false);
+			}
 		} else {
 			throw new InformationException("Invalid User Group");
 		}
@@ -120,8 +138,10 @@ public class SystemSettingsService {
 		if (settings.getUserGroups().contains(userGroup)) {
 			throw new InformationException("User Group already included.");
 		}
+		for (User user : userGroup.getUsers()) {
+			AuthenticationUtils.invalidateUser(auth.getEnterprise(), user.getId(), servletContext, sessionRegistry, false);
+		}
 		settings.getUserGroups().add(userGroup);
-		userRepository.grantGlobalPermission(auth.getEnterprise(), globalPermission.getAuthority(), userGroup);
 		globalPermissionRepository.save(settings);
 	}
 	
@@ -132,7 +152,7 @@ public class SystemSettingsService {
 		User user = userRepository.getUser(auth.getEnterprise(), userId);
 		if (settings.getUsers().remove(user)) {
 			if (!globalPermissionRepository.isUserInGroup(auth.getEnterprise(), globalPermission, userId)) {
-				user.setGlobalPermissionValue(user.getGlobalPermissionValue() & (~globalPermission.getAuthority()));
+				AuthenticationUtils.invalidateUser(auth.getEnterprise(), user.getId(), servletContext, sessionRegistry, false);
 				userRepository.save(user);
 			}
 		} else {
@@ -152,7 +172,7 @@ public class SystemSettingsService {
 		if (user == null) {
 			throw new InformationException("Invalid User");
 		}
-		user.setGlobalPermissionValue(user.getGlobalPermissionValue() | globalPermission.getAuthority());
+		AuthenticationUtils.invalidateUser(auth.getEnterprise(), user.getId(), servletContext, sessionRegistry, false);
 		userRepository.save(user);
 		settings.getUsers().add(user);
 		globalPermissionRepository.save(settings);

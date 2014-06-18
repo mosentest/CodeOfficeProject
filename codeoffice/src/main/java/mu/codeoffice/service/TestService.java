@@ -252,7 +252,6 @@ public class TestService {
 			main.setLastName("Admin");
 			main.setLogin(new Date());
 			main.setPhone("");
-			main.setGlobalPermissionValue(-1);
 			main.setPassword("e10adc3949ba59abbe56e057f20f883e");
 			userRepository.save(main);
 			group.getUsers().add(main);
@@ -268,7 +267,6 @@ public class TestService {
 				u.setLastName("Last" + i);
 				u.setLogin(new Date());
 				u.setPhone("");
-				u.setGlobalPermissionValue(1);
 				u.setPassword("e10adc3949ba59abbe56e057f20f883e");
 				userRepository.save(u);
 				group.getUsers().add(u);
@@ -293,7 +291,6 @@ public class TestService {
 			u.setProfilePath(i % 2 == 0 ? "male.jpg" : "femaile.jpg");
 			u.setLogin(new Date());
 			u.setPhone("");
-			u.setGlobalPermissionValue(1);
 			u.setPassword("e10adc3949ba59abbe56e057f20f883e");
 			u.setUserGroups(Arrays.asList(group));
 			userRepository.save(u);

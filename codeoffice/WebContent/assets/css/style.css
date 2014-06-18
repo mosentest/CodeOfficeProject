@@ -501,6 +501,11 @@
 	width: 150px;
 	padding: 5px 5px;
 }
+.permission-table-row-title {
+	width: 200px !important;
+	text-align: left !important;
+	padding: 5px 5px;
+}
 .filter-content {
 	padding: 10px 10px;
 	-webkit-box-sizing: border-box;

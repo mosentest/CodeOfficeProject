@@ -138,9 +138,10 @@
 					</c:set>
 					<c:set var="url" value="administration/userGroup/manage.html"/>
 					<tr class="list-table-page">
-						<td colspan="5"><code:formPage page="${userPage}" url="${url}" params="${pageParams}"/></td>
+						<td colspan="6"><code:formPage page="${userPage}" url="${url}" params="${pageParams}"/></td>
 					</tr>
 					<tr class="list-table-header">
+						<td class="center"><input type="checkbox" id="select-all"/></td>
 						<td>${text_fullName}</td>
 						<td><code:sortableColumn columnName="${text_account}" sortColumn="account"/></td>
 						<td><code:sortableColumn columnName="${text_login}" sortColumn="login"/></td>
@@ -149,6 +150,7 @@
 					</tr>
 					<c:forEach items="${userPage.content}" var="user">
 					<tr class="list-table-item">
+						<td class="center"><input type="checkbox" name="removedUsers" value="${user.id}"/></td>
 						<td><code:user user="${user}" width="20" height="20"/></td>
 						<td>${user.account}</td>
 						<td><span class="description-info"><fmt:formatDate value="${user.login}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></span></td>

@@ -1,5 +1,7 @@
 package mu.codeoffice.controller;
 
+import javax.servlet.http.HttpSession;
+
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.service.TestService;
 
@@ -32,7 +34,8 @@ public class DefaultMappingController {
 	}
 	
 	@RequestMapping(value = "/accessdenied.html", method = RequestMethod.GET)
-	public String accessdenied(@AuthenticationPrincipal EnterpriseAuthentication auth, ModelMap model) {
+	public String accessdenied(@AuthenticationPrincipal EnterpriseAuthentication auth,
+			HttpSession session, ModelMap model) {
 		if (auth.isExpired()) {
 			return "redirect:logout.html";
 		}

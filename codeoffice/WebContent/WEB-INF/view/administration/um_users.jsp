@@ -22,7 +22,7 @@
 <spring:message var="text_account" code="entity.user.account"/>
 <spring:message var="text_login" code="entity.user.login"/>
 <spring:message var="text_email" code="entity.user.email"/>
-<spring:message var="text_groups" code="entity.user.userGroups"/>
+<spring:message var="text_userGroups" code="entity.user.userGroups"/>
 <spring:message var="text_globalPermissions" code="entity.user.globalPermissions"/>
 <spring:message var="text_operations" code="application.operations"/>
 <div id="content">
@@ -96,7 +96,6 @@
 								<td><code:sortableColumn columnName="${text_account}" sortColumn="account"/></td>
 								<td><code:sortableColumn columnName="${text_email}" sortColumn="email"/></td>
 								<td>${text_userGroups}</td>
-								<td>${text_globalPermissions}</td>
 								<td>${text_operations}</td>
 							</tr>
 							<c:forEach items="${userPage.content}" var="user">
@@ -107,27 +106,21 @@
 								<td><span class="description-info"><fmt:formatDate value="${user.login}" type="both" pattern="yyyy-MM-dd HH:mm:ss" /></span></td>
 								<td>${user.account}</td>
 								<td><a class="link" href="mailto:${user.email}">${user.email}</a></td>
-								<td><ul class="info-ul-list">
+								<td>
+									<ul class="info-ul-list">
 									<c:forEach items="${user.userGroups}" var="userGroup">
 										<li><a class="link" href="administration/userGroup.html?group=${userGroup.name}">${userGroup.name}</a></li>
 									</c:forEach>
 									</ul>
 								</td>
-								<td><ul class="info-ul-list">
-									<c:forEach items="${user.globalPermissions}" var="permission">
-										<li><spring:message code="${permission.key}"/></li>
-									</c:forEach>
-									</ul>
-								</td>
 								<td>
+									<a class="link" href="#">${text_globalPermissions}</a><span class="minorspace">&#183;</span>
 									<a class="link" href="#"><spring:message code="entity.user.projectRoles"/></a>
-									<security:authorize access="hasRole('ROLE_GLOBAL_ADMIN')">
 									<c:if test="${not userGroup.defaultGroup}">
 										<span class="minorspace">&#183;</span>
 										<a class="link" href="#">${text_edit}</a><span class="minorspace">&#183;</span>
 										<a class="link" href="#">${text_delete}</a>
 									</c:if>
-									</security:authorize>
 								</td>
 							</tr>
 							</c:forEach>

@@ -16,6 +16,8 @@ public class EnterpriseAuthentication extends org.springframework.security.core.
 	private User user;
 	
 	private boolean expired;
+	
+	private String latestMessage;
 
 	public EnterpriseAuthentication(Enterprise enterprise, User user, String username, String password,
 			boolean enabled, boolean accountNonExpired,
@@ -50,6 +52,14 @@ public class EnterpriseAuthentication extends org.springframework.security.core.
 	
 	public boolean isExpired() {
 		return expired;
+	}
+
+	public String getLatestMessage() {
+		return latestMessage;
+	}
+
+	public void setLatestMessage(String latestMessage) {
+		this.latestMessage = latestMessage;
 	}
 
 }

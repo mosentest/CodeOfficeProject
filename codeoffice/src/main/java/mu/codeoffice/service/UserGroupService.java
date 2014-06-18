@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 
 import mu.codeoffice.common.InformationException;
 import mu.codeoffice.dto.UserGroupDTO;
@@ -17,13 +18,16 @@ import mu.codeoffice.repository.UserRepository;
 import mu.codeoffice.repository.settings.UserGroupRepository;
 import mu.codeoffice.security.EnterpriseAuthentication;
 import mu.codeoffice.security.EnterpriseAuthenticationException;
+import mu.codeoffice.tag.AuthenticationUtils;
 import mu.codeoffice.utility.CodeUtil;
 import mu.codeoffice.utility.StringUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +39,12 @@ public class UserGroupService {
 
 	@Resource
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ServletContext servletContext;
+	
+	@Autowired
+	private SessionRegistry sessionRegistry;
 	
 	@Transactional(readOnly = true)
 	public List<UserGroup> getGroups(EnterpriseAuthentication auth, boolean initialize) {
@@ -86,10 +96,18 @@ public class UserGroupService {
 			userGroup.setUsers(new ArrayList<>());
 		}
 		if (userGroupDTO.getRemovedUsers() != null) {
-			userGroup.getUsers().removeAll(userRepository.getUsers(auth.getEnterprise(), CodeUtil.toSet(userGroupDTO.getRemovedUsers())));
+			List<User> userList = userRepository.getUsers(auth.getEnterprise(), CodeUtil.toSet(userGroupDTO.getRemovedUsers()));
+			userGroup.getUsers().removeAll(userList);
+			for (User user : userList) {
+				AuthenticationUtils.invalidateUser(auth.getEnterprise(), user.getId(), servletContext, sessionRegistry, false);
+			}
 		}
 		if (userGroupDTO.getNewUsers() != null) {
-			userGroup.getUsers().addAll(userRepository.getUsers(auth.getEnterprise(), CodeUtil.toSet(userGroupDTO.getNewUsers())));
+			List<User> userList = userRepository.getUsers(auth.getEnterprise(), CodeUtil.toSet(userGroupDTO.getNewUsers()));
+			userGroup.getUsers().addAll(userList);
+			for (User user : userList) {
+				AuthenticationUtils.invalidateUser(auth.getEnterprise(), user.getId(), servletContext, sessionRegistry, false);
+			}
 		}
 		userGroup.setUserCount(userGroup.getUsers().size());
 		userGroupRepository.save(userGroup);

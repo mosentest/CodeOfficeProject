@@ -29,12 +29,16 @@
 						<td class="permission-table-title"><spring:message code="${permission.key}"/></td>
 						</c:forEach>
 					</tr>
-					<c:forEach items="${globalPermissions}" var="permission">
+					<c:forEach items="${globalPermissionSchemes}" var="scheme">
 					<tr>
-						<td class="permission-table-title"><spring:message code="${permission.key}"/></td>
+						<td class="permission-table-row-title">
+							<span class="title-info"><spring:message code="${scheme.key}"/></span><br />
+							<c:set var="description">${scheme.key}.description</c:set>
+							<span class="description-info"><spring:message code="${description}"/></span>
+						</td>
 						<c:forEach items="${globalPermissions}" var="inner">
 						<td>
-							<c:set var="on" value="${codefunction:bitOn(permission.fullAuthority, inner.authority)}"/>
+							<c:set var="on" value="${codefunction:bitOn(inner.fullAuthority, scheme.value)}"/>
 							<c:if test="${on}"><span class="iconfont-large iconfont-approve" style="color: green;"></span></c:if>
 							<c:if test="${not on}"><span class="iconfont-large iconfont-remove" style="color: red;"></span></c:if>
 						</td>
